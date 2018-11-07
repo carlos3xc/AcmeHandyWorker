@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -41,7 +42,7 @@ public class Complaint extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	// @Pattern(regexp = "^\d{6}-[a-zA-z0-9]{6}$")
+	@Pattern(regexp = "^([0]{1}[0-9]{1}|[1]{1}[0-8]{1})([0]{1}[1-9]{1}|[1]{1}[0-2]{1})([0-2]{1}[1-9]{1}|[3]{1}[0-1]{1})[-][A-Z0-9]{6}$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -71,7 +72,7 @@ public class Complaint extends DomainEntity {
 		this.description = description;
 	}
 
-	@URL
+	@ElementCollection
 	public Collection<String> getAttachments() {
 		return this.attachments;
 	}

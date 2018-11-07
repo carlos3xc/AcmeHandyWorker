@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class MiscellaneousRecord extends Curricula {
+public class MiscellaneousRecord extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 

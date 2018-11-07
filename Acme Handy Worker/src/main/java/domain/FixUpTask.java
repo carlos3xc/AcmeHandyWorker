@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,7 +42,7 @@ public class FixUpTask extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	@DateTimeFormat(pattern = "YYMMDD-WWWW")
+	@Pattern(regexp ="^([0]{1}[0-9]{1}|[1]{1}[0-8]{1})([0]{1}[1-9]{1}|[1]{1}[0-2]{1})([0-2]{1}[1-9]{1}|[3]{1}[0-1]{1})[-][A-Z0-9]{6}$")
 	public String getTicker() {
 		return this.ticker;
 	}

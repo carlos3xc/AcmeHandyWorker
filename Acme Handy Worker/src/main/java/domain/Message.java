@@ -82,6 +82,7 @@ public class Message extends DomainEntity {
 		this.priority = priority;
 	}
 
+	@ElementCollection
 	public Collection<String> getTags() {
 		return this.tags;
 	}
@@ -102,7 +103,6 @@ public class Message extends DomainEntity {
 
 	private Actor sender;
 	private Actor recipient;
-	private Collection<Box> boxes;
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -122,18 +122,6 @@ public class Message extends DomainEntity {
 
 	public void setReceiver(final Actor receiver) {
 		this.recipient = receiver;
-	}
-
-	@Valid
-	@ElementCollection
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH })
-	public Collection<Box> getBoxes() {
-		return boxes;
-	}
-
-	public void setBoxes(Collection<Box> boxes) {
-		this.boxes = boxes;
 	}
 
 }

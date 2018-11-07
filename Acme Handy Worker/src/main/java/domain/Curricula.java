@@ -33,7 +33,7 @@ public class Curricula extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	// @Pattern(^\d{6}-[a-zA-z0-9]{6}$)
+	@Pattern(regexp="^([0]{1}[0-9]{1}|[1]{1}[0-8]{1})([0]{1}[1-9]{1}|[1]{1}[0-2]{1})([0-2]{1}[1-9]{1}|[3]{1}[0-1]{1})[-][A-Z0-9]{6}$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -46,7 +46,7 @@ public class Curricula extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private PersonalRecord personalRecord;
-	private Collection<EducationRecord> educationalRecords;
+	private Collection<EducationRecord> educationRecords;
 	private Collection<MiscellaneousRecord> miscellaneousRecords;
 	private Collection<ProfessionalRecord> professionalRecords;
 	private Collection<EndorserRecord> endorserRecords;
@@ -66,13 +66,13 @@ public class Curricula extends DomainEntity {
 	@Valid
 	@ElementCollection
 	@OneToMany(cascade = CascadeType.ALL)
-	public Collection<EducationRecord> getEducationalRecords() {
-		return this.educationalRecords;
+	public Collection<EducationRecord> getEducationRecords() {
+		return this.educationRecords;
 	}
 
-	public void setEducationalRecords(
-			final Collection<EducationRecord> educationalRecords) {
-		this.educationalRecords = educationalRecords;
+	public void setEducationRecords(
+			final Collection<EducationRecord> educationRecords) {
+		this.educationRecords = educationRecords;
 	}
 
 	@Valid

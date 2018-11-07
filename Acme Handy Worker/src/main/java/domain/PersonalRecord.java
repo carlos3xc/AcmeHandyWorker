@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class PersonalRecord {
+public class PersonalRecord extends DomainEntity {
 
 	// Attributes --------------------------------------------------------------
 

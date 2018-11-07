@@ -29,7 +29,7 @@ public class Note extends DomainEntity {
 	private Date moment;
 	private String refereeComment;
 	private String customerComment;
-	private String handyWokerComment;
+	private String handyWorkerComment;
 
 	// Constructors -----------------------------------------------------------
 
@@ -67,12 +67,12 @@ public class Note extends DomainEntity {
 		this.customerComment = customerComment;
 	}
 
-	public String getHandyWokerComment() {
-		return handyWokerComment;
+	public String getHandyWorkerComment() {
+		return handyWorkerComment;
 	}
 
-	public void setHandyWokerComment(String handyWokerComment) {
-		this.handyWokerComment = handyWokerComment;
+	public void setHandyWorkerComment(String handyWorkerComment) {
+		this.handyWorkerComment = handyWorkerComment;
 	}
 
 	// Relationships ----------------------------------------------------------

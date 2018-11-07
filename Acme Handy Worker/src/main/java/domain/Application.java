@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class FixUpTaskApplication extends DomainEntity {
+public class Application extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 
@@ -31,7 +31,7 @@ public class FixUpTaskApplication extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
 
-	public FixUpTaskApplication() {
+	public Application() {
 		super();
 	}
 

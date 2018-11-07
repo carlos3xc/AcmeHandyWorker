@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class EducationRecord extends Curricula {
+public class EducationRecord extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 

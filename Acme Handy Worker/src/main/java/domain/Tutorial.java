@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -67,7 +68,7 @@ public class Tutorial extends DomainEntity {
 		this.summary = summary;
 	}
 
-	@URL
+	@ElementCollection
 	public Collection<String> getPictures() {
 		return this.pictures;
 	}
