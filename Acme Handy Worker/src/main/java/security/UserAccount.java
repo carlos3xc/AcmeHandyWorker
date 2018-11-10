@@ -45,6 +45,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 
 
 	// Attributes -------------------------------------------------------------
+	
 
 	// UserDetails interface --------------------------------------------------
 

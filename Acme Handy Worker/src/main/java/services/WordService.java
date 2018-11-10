@@ -36,6 +36,8 @@ public class WordService {
 		//Metodo general para todas los servicios, es probable 
 		//que sea necesario añadir atributos consistentes con la entity.
 		Word res = new Word();
+		res.setWord("");
+		res.setType("SPAM");
 		return res;
 	}
 	
@@ -72,6 +74,16 @@ public class WordService {
 	}
 	
 	//Other business methods -----
+	public void createSpamWord(String s){
+		Word w = this.create();
+		w.setType("SPAM");
+		w.setWord(s);
+		this.save(w);
+		
+	}
 	
+	public Collection<Word> findSpamWords(){
+		return wordRepository.findSpamWords();
+	}
 	
 }

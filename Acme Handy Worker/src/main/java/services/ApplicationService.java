@@ -7,60 +7,60 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.FixUpTaskApplicationRepository;
+import repositories.ApplicationRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.FixUpTaskApplication;
+import domain.Application;
 
 
 @Service
 @Transactional
-public class FixUpTaskApplicationService {
+public class ApplicationService {
 
 	//Managed Repository -----
 	@Autowired
-	private FixUpTaskApplicationRepository fixUpTaskApplicationRepository;
+	private ApplicationRepository applicationRepository;
 	
 	//Supporting Services -----
 	
 	//@Autowired
-	//private SomeService serviceName 
+	private MessageService messageService; 
 	
 	//Constructors -----
-	public FixUpTaskApplicationService(){
+	public ApplicationService(){
 		super();
 	}
 	
 	//Simple CRUD methods -----
-	public FixUpTaskApplication create(){
+	public Application create(){
 		//Metodo general para todas los servicios, es probable 
 		//que sea necesario añadir atributos consistentes con la entity.
-		FixUpTaskApplication res = new FixUpTaskApplication();
+		Application res = new Application();
 		return res;
 	}
 	
-	public Collection<FixUpTaskApplication> findAll(){
-		return fixUpTaskApplicationRepository.findAll();
+	public Collection<Application> findAll(){
+		return applicationRepository.findAll();
 	}
 	
-	public FixUpTaskApplication findOne(int Id){
-		return fixUpTaskApplicationRepository.findOne(Id);
+	public Application findOne(int Id){
+		return applicationRepository.findOne(Id);
 	}
 	
-	public FixUpTaskApplication save(FixUpTaskApplication a){
+	public Application save(Application a){
 		//puede necesitarse control de versiones por concurrencia del objeto.
 		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
+		Assert.isTrue(true);//TODO:modificar para condiciones especificas
 		
 		UserAccount userAccount = LoginService.getPrincipal();
 		// modificar para aplicarlo a la entidad correspondiente.
 		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
-		fixUpTaskApplicationRepository.save(a);
+		applicationRepository.save(a);
 		return a;
 	}
 	
-	public void delete(FixUpTaskApplication a){
+	public void delete(Application a){
 		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
 		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
@@ -68,10 +68,15 @@ public class FixUpTaskApplicationService {
 		// modificar para aplicarlo a la entidad correspondiente.
 		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
-		fixUpTaskApplicationRepository.delete(a);
+		applicationRepository.delete(a);
 	}
 	
 	//Other business methods -----
 	
-	
+	public void changeStatus(Application a, String status){
+		a.setStatus(status);
+		messageService.sendSystemMessages(a);
+		
+		this.save(a);
+	}
 }
