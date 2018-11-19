@@ -13,7 +13,10 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 import domain.Box;
+import domain.Customer;
+import domain.HandyWorker;
 import domain.SocialProfile;
+import domain.Sponsor;
 
 
 @Service
@@ -35,7 +38,7 @@ public class ActorService {
 	}
 	
 	//Simple CRUD methods -----
-	public Actor create(/*UserAccount ua*/){
+	public Actor create(UserAccount ua){
 		//Metodo general para todas los servicios, es probable 
 		//que sea necesario añadir atributos consistentes con la entity.
 		Actor res = new Actor();
@@ -50,8 +53,8 @@ public class ActorService {
 		res.setIsBanned(false);
 		res.setSocialProfiles(new ArrayList<SocialProfile>());
 		//TODO: puede que no sea valido por no tener username y password en el constructor de userAccount
-		//res.setUserAccount(ua);
-		createSystemBoxes(res);
+		res.setUserAccount(ua);
+		this.createSystemBoxes(res);
 		
 		return res;
 	}
@@ -95,26 +98,20 @@ public class ActorService {
 	
 	private void createSystemBoxes(Actor a){
 		Box inbox, outbox, spambox, trashbox;
-		inbox = boxService.create();
-		outbox = boxService.create();
-		spambox = boxService.create();
-		trashbox = boxService.create();
+		inbox = boxService.create(a);
+		outbox = boxService.create(a);
+		spambox = boxService.create(a);
+		trashbox = boxService.create(a);
 		
 		inbox.setName("inbox");
 		outbox.setName("outbox");
 		spambox.setName("spambox");
 		trashbox.setName("trashbox");
 		
-		inbox.setActor(a);
-		outbox.setActor(a);
-		spambox.setActor(a);
-		trashbox.setActor(a);
-		
 		inbox.setSystemBox(true);
 		outbox.setSystemBox(true);
 		spambox.setSystemBox(true);
 		trashbox.setSystemBox(true);
-		
 		
 		boxService.save(inbox);
 		boxService.save(outbox);
@@ -125,6 +122,26 @@ public class ActorService {
 	
 	public Collection<Actor> findAdministrators(){
 		return actorRepository.findAdministrators();
+	}
+	
+	public void register(String type,UserAccount ua){
+		//Solo pueden registrarse nuevos actores como customer o como HandyWorker.
+		Actor nuevo = this.create(ua);
+		
+		if (type.equals("CUSTOMER")){
+			
+			Customer aux = new Customer();
+			aux = (Customer) nuevo;
+		}
+		if (type.equals("HANDYWORKER")){
+			HandyWorker aux = new HandyWorker();
+			aux =(HandyWorker) nuevo;
+		}
+		if (type.equals("SPONSOR")){
+			Sponsor aux = new Sponsor();
+			aux =(Sponsor) nuevo;
+		}
+		this.save(nuevo);
 	}
 	
 	

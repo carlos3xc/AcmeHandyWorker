@@ -10,6 +10,9 @@
 
 package security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,31 @@ public class LoginController extends AbstractController {
 		result = new ModelAndView("redirect:login.do?showError=true");
 
 		return result;
+	}
+	
+	// Register -----------------------------------------------------------
+	
+	@RequestMapping("/register")
+	public ModelAndView register() {
+		ModelAndView res;
+//TODO:terminar esto.
+		List<Authority> types = new ArrayList<>();
+		Authority cust = new Authority();
+		Authority hw = new Authority();
+		Authority sp = new Authority();
+		cust.setAuthority("CUSTOMER");
+		hw.setAuthority("HANDYWORKER");
+		sp.setAuthority("SPONSOR");
+		
+		types.add(cust);
+		types.add(hw);
+		types.add(sp);
+		
+		
+		res = new ModelAndView("security/register");
+		res.addObject("types", types);
+
+		return res;
 	}
 
 }
