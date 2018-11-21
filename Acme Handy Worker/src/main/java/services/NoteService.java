@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.NoteRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Note;
@@ -33,9 +35,14 @@ public class NoteService {
 	
 	//Simple CRUD methods -----
 	public Note create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Note res = new Note();
+		
+		UserAccount userAccount = LoginService.getPrincipal();
+
+		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
+				userAccount.getAuthorities().contains(Authority.CUSTOMER)|
+				userAccount.getAuthorities().contains(Authority.HANDYWORKER));	
+		Note res;
+		res = new Note();
 		return res;
 	}
 	
@@ -49,24 +56,37 @@ public class NoteService {
 	
 	public Note save(Note a){
 		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		
+		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
+					userAccount.getAuthorities().contains(Authority.CUSTOMER)|
+					userAccount.getAuthorities().contains(Authority.HANDYWORKER));
+		
+		if(userAccount.getAuthorities().contains(Authority.REFEREE)){
+			Assert.isTrue(!(a.getRefereeComment() == ""));
+		}else if(userAccount.getAuthorities().contains(Authority.CUSTOMER)){
+			Assert.isTrue(!(a.getCustomerComment() == ""));
+		}else if(userAccount.getAuthorities().contains(Authority.HANDYWORKER)){
+			Assert.isTrue(!(a.getHandyWorkerComment() == ""));
+		}
+		Date current = new Date();
+		a.setMoment(current);
+
 		
 		noteRepository.save(a);
 		return a;
 	}
 	
 	public void delete(Note a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+
+		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
+				userAccount.getAuthorities().contains(Authority.CUSTOMER)|
+				userAccount.getAuthorities().contains(Authority.HANDYWORKER));
+		
+		//  BIDIRECCIONALIDAD, revisar si hay que borrarlo también de la lista de reports
 		
 		noteRepository.delete(a);
 	}

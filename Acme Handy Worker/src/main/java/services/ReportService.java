@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ReportRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Report;
@@ -33,8 +34,8 @@ public class ReportService {
 	
 	//Simple CRUD methods -----
 	public Report create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE));
 		Report res = new Report();
 		return res;
 	}
@@ -48,14 +49,9 @@ public class ReportService {
 	}
 	
 	public Report save(Report a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+		//a.getVersion()?	
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
+		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE));			
 		reportRepository.save(a);
 		return a;
 	}

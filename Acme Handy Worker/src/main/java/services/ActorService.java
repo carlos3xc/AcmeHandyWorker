@@ -92,9 +92,9 @@ public class ActorService {
 	}
 	
 	//Other business methods -----
-	public Actor getByUserAccountId(Integer uaId){
-		return actorRepository.findByUserAccountId(uaId);
-	}
+	/*public Actor getByUserAccountId(UserAccount ua){
+		return actorRepository.findByUserAccountId(ua);
+	}*/
 	
 	private void createSystemBoxes(Actor a){
 		Box inbox, outbox, spambox, trashbox;
