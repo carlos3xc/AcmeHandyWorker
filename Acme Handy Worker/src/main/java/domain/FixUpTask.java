@@ -1,12 +1,15 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -117,6 +120,8 @@ public class FixUpTask extends DomainEntity {
 	private Warranty warranty;
 	private Category category;
 	private Customer customer;
+	private Collection<Application> applications;
+	private Collection<Complaint> complaints;
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -147,5 +152,28 @@ public class FixUpTask extends DomainEntity {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+	
+	@Valid
+	@ElementCollection
+	@OneToMany(mappedBy="fixUpTask")
+	public Collection<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(Collection<Application> applications) {
+		this.applications = applications;
+	}
+
+	@Valid
+	@ElementCollection
+	@OneToMany(mappedBy="fixUpTask")
+	public Collection<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(Collection<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+	
 
 }

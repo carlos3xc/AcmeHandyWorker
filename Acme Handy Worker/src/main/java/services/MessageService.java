@@ -40,7 +40,7 @@ public class MessageService {
 	}
 	
 	//Simple CRUD methods -----
-	public Message create(Actor sender, Actor reciever){
+	public Message create(Actor sender, Actor recipient){
 		//Metodo general para todas los servicios, es probable 
 		//que sea necesario añadir atributos consistentes con la entity.
 		
@@ -52,7 +52,7 @@ public class MessageService {
 		res.setFlagSpam(false);
 		res.setMoment(d);
 		res.setPriority("NEUTRAL");
-		res.setReceiver(reciever);
+		res.setRecipient(recipient);
 		res.setSender(sender);
 		res.setSubject("");
 		res.setTags(new ArrayList<String>());
@@ -86,7 +86,7 @@ public class MessageService {
 		//El mensaje se movera a la trashbox, si el mensaje ya estaba en la trashbox se elimina del sistema.
 		Assert.isTrue(true);
 		UserAccount userAccount = LoginService.getPrincipal();
-		Actor r  = m.getReceiver();
+		Actor r  = m.getRecipient();
 		Actor s = m.getSender();
 		Actor logged = null;
 		if (r.getUserAccount().equals(userAccount)){
@@ -189,7 +189,7 @@ public class MessageService {
 		// cuando el mensaje este completamente escrito para evitar
 		// guardar un mensaje diferente en la Box que lo que se queria mandar.
 		
-		Actor r = m.getReceiver();
+		Actor r = m.getRecipient();
 		Actor s = m.getSender();
 		
 		Collection<Box> recieverBoxes = boxService.findByActorId(r.getId());

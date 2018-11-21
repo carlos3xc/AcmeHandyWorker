@@ -2,13 +2,13 @@ package domain;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -80,6 +79,7 @@ public class Report extends DomainEntity {
 
 	private Referee referee;
 	private Complaint complaint;
+	private Collection<Note> notes;
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -99,6 +99,17 @@ public class Report extends DomainEntity {
 
 	public void setComplaint(Complaint complaint) {
 		this.complaint = complaint;
+	}
+	
+	@Valid
+	@ElementCollection
+	@OneToMany(mappedBy="report")
+	public Collection<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(Collection<Note> notes) {
+		this.notes = notes;
 	}
 
 }

@@ -116,12 +116,12 @@ public class Message extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = false)
-	public Actor getReceiver() {
+	public Actor getRecipient() {
 		return this.recipient;
 	}
 
-	public void setReceiver(final Actor receiver) {
-		this.recipient = receiver;
+	public void setRecipient(final Actor recipient) {
+		this.recipient = recipient;
 	}
 
 }
