@@ -34,8 +34,6 @@ public class ReportService {
 	
 	//Simple CRUD methods -----
 	public Report create(){
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE));
 		Report res = new Report();
 		return res;
 	}
@@ -49,12 +47,20 @@ public class ReportService {
 	}
 	
 	public Report save(Report a){
-		//a.getVersion()?	
+		Authority e = new Authority();
+		e.setAuthority("REFEREE");
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE));			
+		Assert.isTrue(userAccount.getAuthorities().contains(e));			
 		reportRepository.save(a);
 		return a;
 	}
+	
+	public Report saveAut(Report a){	
+		reportRepository.save(a);
+		reportRepository.flush();
+		return a;
+	}
+	
 	
 	public void delete(Report a){
 		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño

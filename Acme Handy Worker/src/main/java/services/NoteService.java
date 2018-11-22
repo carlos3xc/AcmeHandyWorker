@@ -2,6 +2,8 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +37,6 @@ public class NoteService {
 	
 	//Simple CRUD methods -----
 	public Note create(){
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
-				userAccount.getAuthorities().contains(Authority.CUSTOMER)|
-				userAccount.getAuthorities().contains(Authority.HANDYWORKER));	
 		Note res;
 		res = new Note();
 		return res;
@@ -54,41 +50,55 @@ public class NoteService {
 		return noteRepository.findOne(Id);
 	}
 	
-	public Note save(Note a){
+	public Note save(Note n){
 		//puede necesitarse control de versiones por concurrencia del objeto.
-		
+		Note saved;
+		Authority a= new Authority();
+		Authority b= new Authority();
+		Authority c= new Authority();
+		a.setAuthority("REFEREE");
+		b.setAuthority("HANDYWORKER");
+		c.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
+
+		Assert.isTrue(userAccount.getAuthorities().contains(a)|
+				userAccount.getAuthorities().contains(b)|
+				userAccount.getAuthorities().contains(c));	
 		
-		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
-					userAccount.getAuthorities().contains(Authority.CUSTOMER)|
-					userAccount.getAuthorities().contains(Authority.HANDYWORKER));
-		
-		if(userAccount.getAuthorities().contains(Authority.REFEREE)){
-			Assert.isTrue(!(a.getRefereeComment() == ""));
-		}else if(userAccount.getAuthorities().contains(Authority.CUSTOMER)){
-			Assert.isTrue(!(a.getCustomerComment() == ""));
-		}else if(userAccount.getAuthorities().contains(Authority.HANDYWORKER)){
-			Assert.isTrue(!(a.getHandyWorkerComment() == ""));
+		if(userAccount.getAuthorities().contains(a)){
+			Assert.isTrue(!(n.getRefereeComment() == ""));
+		}else if(userAccount.getAuthorities().contains(c)){
+			Assert.isTrue(!(n.getCustomerComment() == ""));
+		}else if(userAccount.getAuthorities().contains(b)){
+			Assert.isTrue(!(n.getHandyWorkerComment() == ""));
 		}
 		Date current = new Date();
-		a.setMoment(current);
-
+		long millis;
+		millis = System.currentTimeMillis() - 1000;
+		current = new Date(millis);
 		
-		noteRepository.save(a);
-		return a;
+		n.setMoment(current);
+
+		saved = noteRepository.save(n);
+		return saved;
 	}
 	
-	public void delete(Note a){
+	public void delete(Note n){
 		
+		Authority a= new Authority();
+		Authority b= new Authority();
+		Authority c= new Authority();
+		a.setAuthority("REFEREE");
+		b.setAuthority("HANDYWORKER");
+		c.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
 
-		Assert.isTrue(userAccount.getAuthorities().contains(Authority.REFEREE)|
-				userAccount.getAuthorities().contains(Authority.CUSTOMER)|
-				userAccount.getAuthorities().contains(Authority.HANDYWORKER));
-		
-		//  BIDIRECCIONALIDAD, revisar si hay que borrarlo también de la lista de reports
-		
-		noteRepository.delete(a);
+		Assert.isTrue(userAccount.getAuthorities().contains(a)|
+				userAccount.getAuthorities().contains(b)|
+				userAccount.getAuthorities().contains(c));	
+
+			
+		noteRepository.delete(n);
 	}
 	
 	//Other business methods -----
