@@ -2465,6 +2465,7 @@
 		<property name="actor" ref="customer2" />
 		<property name="messages">
 			<list>
+				<ref bean="message2"/>
 			</list>
 		</property>
 	</bean>
@@ -2507,6 +2508,7 @@
 		<property name="actor" ref="customer3" />
 		<property name="messages">
 			<list>
+				<ref bean="message3"/>
 			</list>
 		</property>
 	</bean>
@@ -3039,6 +3041,34 @@
 		<property name="flagSpam" value="false" />
 		<property name="sender" ref="customer1" />
 		<property name="recipient" ref="customer2" />
+	</bean>
+	
+		<bean id="message2" class="domain.Message">
+		<property name="moment" value="2018/05/01 11:00" />
+		<property name="body" value="Body 2" />
+		<property name="subject" value="Subject 2" />
+		<property name="priority" value="HIGH" />
+		<property name="tags">
+			<list>
+			</list>
+		</property>
+		<property name="flagSpam" value="false" />
+		<property name="sender" ref="customer2" />
+		<property name="recipient" ref="customer1" />
+	</bean>
+	
+	<bean id="message3" class="domain.Message">
+		<property name="moment" value="2018/06/01 11:00" />
+		<property name="body" value="Body 3" />
+		<property name="subject" value="Subject 3" />
+		<property name="priority" value="LOW" />
+		<property name="tags">
+			<list>
+			</list>
+		</property>
+		<property name="flagSpam" value="false" />
+		<property name="sender" ref="customer3" />
+		<property name="recipient" ref="handyWorker1" />
 	</bean>
 
 

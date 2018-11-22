@@ -137,5 +137,6 @@ public class NoteServiceTest extends AbstractTest {
 		
 		super.authenticate(null);
 	}
+	
 
 }
