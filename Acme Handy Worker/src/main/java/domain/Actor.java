@@ -20,7 +20,7 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Actor extends DomainEntity {
+public abstract class Actor extends DomainEntity {
 
 	// Attributes -----------------------------------------------------------
 
