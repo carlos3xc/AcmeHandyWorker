@@ -310,6 +310,8 @@
 		    <artifactId>aspectjweaver</artifactId>
 		    <version>1.7.4</version>
 		</dependency>
+
+		<!-- This comment was added in developD04 branch -->
 		
 	</dependencies>
 
