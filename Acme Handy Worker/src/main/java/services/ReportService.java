@@ -22,16 +22,6 @@ public class ReportService {
 	@Autowired
 	private ReportRepository reportRepository;
 	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public ReportService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Report create(){
 		Report res = new Report();

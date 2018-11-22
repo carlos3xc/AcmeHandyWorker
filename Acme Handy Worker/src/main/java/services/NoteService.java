@@ -25,16 +25,6 @@ public class NoteService {
 	@Autowired
 	private NoteRepository noteRepository;
 	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public NoteService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Note create(){
 		Note res;

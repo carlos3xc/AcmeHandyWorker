@@ -1268,7 +1268,7 @@
 
 	<bean id="note1" class="domain.Note">
 		<property name="moment" value="2018/02/12 18:10" />
-		<property name="refereeComment" value="" />
+		<property name="refereeComment" value="Hello" />
 		<property name="customerComment" value="" />
 		<property name="handyWorkerComment" value="" />
 		<property name="report" ref="report1" />
@@ -1317,7 +1317,7 @@
 	<bean id="note7" class="domain.Note">
 		<property name="moment" value="2018/10/01 14:45" />
 		<property name="refereeComment" value="" />
-		<property name="customerComment" value="" />
+		<property name="customerComment" value="Hello" />
 		<property name="handyWorkerComment" value="" />
 		<property name="report" ref="report2" />
 	</bean>
