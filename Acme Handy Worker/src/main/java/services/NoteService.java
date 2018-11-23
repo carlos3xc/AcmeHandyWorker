@@ -1,9 +1,8 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Note;
+import domain.Report;
 
 
 @Service
@@ -24,6 +24,9 @@ public class NoteService {
 	//Managed Repository -----
 	@Autowired
 	private NoteRepository noteRepository;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	//Simple CRUD methods -----
 	public Note create(){
@@ -87,11 +90,18 @@ public class NoteService {
 				userAccount.getAuthorities().contains(b)|
 				userAccount.getAuthorities().contains(c));	
 
-			
+		Report r = n.getReport();
+		Report saved;
+		
+		r.getNotes().remove(n);
+		saved = reportService.saveAut(r);	
 		noteRepository.delete(n);
+		
+		Assert.isTrue(!saved.getNotes().contains(n));			// Comprobamos que la nota se ha borrado de la lista 
 	}
 	
 	//Other business methods -----
 	
+
 	
 }

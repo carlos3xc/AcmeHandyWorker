@@ -1,6 +1,10 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,9 @@ import org.springframework.util.Assert;
 import repositories.FixUpTaskRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Application;
+import domain.Complaint;
+import domain.Customer;
 import domain.FixUpTask;
 
 
@@ -23,19 +30,22 @@ public class FixUpTaskService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CustomerService customerService;
 	
-	//Constructors -----
-	public FixUpTaskService(){
-		super();
-	}
+	@Autowired
+	private ComplaintService complaintService;
+	
+	@Autowired
+	private ApplicationService applicationService;
 	
 	//Simple CRUD methods -----
 	public FixUpTask create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+		// SIN PROBAR
 		FixUpTask res = new FixUpTask();
+		res.setApplications(new ArrayList<Application>());
+		res.setComplaints(new ArrayList<Complaint>());
+		
 		return res;
 	}
 	
@@ -47,31 +57,66 @@ public class FixUpTaskService {
 		return fixUpTaskRepository.findOne(Id);
 	}
 	
-	public FixUpTask save(FixUpTask a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
+	public FixUpTask save(FixUpTask fx){
+		// SIN PROBAR
+		FixUpTask saved;
+		Collection<FixUpTask> fixUpTasks;
+		Assert.isTrue(fx.getId() != 0  ||
+				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		if(fx.getId()==0){
+			fx.setCustomer(customerService.findByUserAccountId(LoginService.getPrincipal().getId()));
+			fx.setMoment(current);
+			fx.setTicker(generateTicker());
+		}
 		
-		fixUpTaskRepository.save(a);
-		return a;
+		fixUpTasks = fixUpTaskRepository.findAll();
+		saved = fixUpTaskRepository.save(fx);
+		Assert.isTrue(fixUpTasks.contains(saved));
+		return saved;
 	}
 	
-	public void delete(FixUpTask a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
+	public void delete(FixUpTask fx){
+		// SIN PROBAR
+		Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	
+		Collection<Complaint> complaints = fx.getComplaints();
+		Collection<Application> applications = fx.getApplications();
+		Customer c = fx.getCustomer();
+		for(Complaint co: complaints) complaintService.delete(co);
+		for(Application a: applications) applicationService.delete(a);
+		c.getFixUpTasks().remove(fx);
+		customerService.save(c);
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		fixUpTaskRepository.delete(a);
+		fixUpTaskRepository.delete(fx);
 	}
 	
 	//Other business methods -----
+	
+	private String generateTicker(){
+		Date date = new Date(); // your date
+		Calendar n = Calendar.getInstance();
+		n.setTime(date);
+		String t = "";
+		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
+				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ randomWordAndNumber();
+
+		return t;
+	}
+	
+	private String randomWordAndNumber(){
+		 String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < 6) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        String saltStr = salt.toString();
+	        return saltStr;
+	}
 	
 	
 }
