@@ -39,6 +39,9 @@ public class ComplaintService {
 	@Autowired
 	private FixUpTaskService fixUpTaskService;
 	
+	@Autowired
+	private ReportService reportService;
+	
 	//Constructors -----
 	public ComplaintService(){
 		super();
@@ -46,7 +49,6 @@ public class ComplaintService {
 	
 	//Simple CRUD methods -----
 	public Complaint create(){
-		// SIN PROBAR
 		Complaint res = new Complaint();
 		res.setAttachments(new ArrayList<String>());
 		return res;
@@ -61,10 +63,10 @@ public class ComplaintService {
 	}
 	
 	public Complaint save(Complaint c){
-		// SIN PROBAR
 		Complaint saved;
 		Collection<Complaint> complaints;
-		Assert.isTrue(c.getId() != 0  ||
+		FixUpTask fx;
+		Assert.isTrue(c.getId()==0 || c.getId() != 0  &&
 				c.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		Customer customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
@@ -76,9 +78,17 @@ public class ComplaintService {
 			c.setTicker(generateTicker());
 		}
 		
-		complaints = complaintRepository.findAll();
-		saved = complaintRepository.save(c);
+		saved = complaintRepository.save(c);	
+		complaintRepository.flush();
+		
+		fx = saved.getFixUpTask();	
+		fx.getComplaints().add(saved); 
+		fixUpTaskService.save(fx);
+		
+		complaints = complaintRepository.findAll();					// Comprobamos que el reporte se ha guardado correctamente en el archivo de reportes
+
 		Assert.isTrue(complaints.contains(saved));
+
 		return saved;
 	}
 	
@@ -86,15 +96,23 @@ public class ComplaintService {
 		// SIN PROBAR
 		Assert.isTrue(c.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		Collection<Complaint> complaints;
+		Collection<Report> reports;
+		
 		FixUpTask fx= c.getFixUpTask();
 		FixUpTask saved;
 		
+		reports = reportService.getReportsByComplaint(c.getId());
+		
+		for(Report r: reports){
+			reportService.deleteAut(r);
+		}
+		
 		fx.getComplaints().remove(c);
 		saved = fixUpTaskService.save(fx);
+				
+		complaintRepository.delete(c);
 		
 		complaints = complaintRepository.findAll();
-		
-		complaintRepository.delete(c);
 		
 		Assert.isTrue(!(saved.getComplaints().contains(c)));
 		Assert.isTrue(!(complaints.contains(c)));
@@ -110,7 +128,7 @@ public class ComplaintService {
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
 				+ Integer.toString(n.get(Calendar.MONTH) +1)
 				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
-				+ randomWordAndNumber();
+				+ "-"+ randomWordAndNumber();
 
 		return t;
 	}
