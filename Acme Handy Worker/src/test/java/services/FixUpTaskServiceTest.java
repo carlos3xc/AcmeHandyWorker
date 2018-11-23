@@ -1,6 +1,7 @@
 package services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -11,9 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import security.LoginService;
 import utilities.AbstractTest;
+import domain.Application;
 import domain.Category;
 import domain.FixUpTask;
+import domain.HandyWorker;
 import domain.Warranty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,6 +35,12 @@ public class FixUpTaskServiceTest extends AbstractTest {
 	
 	@Autowired
 	private WarrantyService warrantyService;
+	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private ApplicationService applicationService;
 		
 	// Tests ----------------------------------------------------------------------
 	
@@ -93,38 +103,59 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		super.authenticate(null);
 	}
 	
-/*
+
 	// UPDATE ---------------------------------------------------------------------
 	
 	@Test 
-	public void testUpdateComplaints(){
-		Complaint complaint,saved;
+	public void testUpdateFixUpTasks(){
+		FixUpTask fixUpTask,saved;
 		super.authenticate("customer1");						// Nos autenticamos como referee
-		complaint = complaintService.findOne(14823);			// Recuperamos el reporte
-		complaint.getAttachments().add("Attachment test 2");	// Modificamos algunos atributos
-		complaint.setDescription("Description test");
-		saved = complaintService.save(complaint);				// Guardamos el reporte	
+		fixUpTask = fixUpTaskService.findOne(14796);			// Recuperamos el reporte
+		fixUpTask.setDescription("Oh no");						// Modificamos algunos atributos
+		fixUpTask.setEndMoment(Date.valueOf("2019-02-03"));
 
-		Assert.isTrue(saved.getAttachments().contains("Attachment test 2"));
-		Assert.isTrue(saved.getDescription().equals("Description test"));
+		saved = fixUpTaskService.save(fixUpTask);				// Guardamos el reporte	
+
+		Assert.isTrue(saved.getEndMoment().equals(Date.valueOf("2019-02-03")));
+		Assert.isTrue(saved.getDescription().equals("Oh no"));
 		super.authenticate(null);
 	}
 	
 	// DELETE ---------------------------------------------------------------------
 
 	@Test 
-	public void testDeleteComplaints(){
-		Complaint complaint;
-		Collection<Complaint> complaints;
+	public void testDeleteFixUpTask(){
+		FixUpTask fixUpTask;
+		Collection<FixUpTask> fixUpTasks;
 		super.authenticate("customer1");								// Nos autenticamos como referee
 
-		complaint = complaintService.findOne(14823);						// Recuperamos el report al que queremos eliminar la nota
+		fixUpTask = fixUpTaskService.findOne(14796);						// Recuperamos el report al que queremos eliminar la nota
 		
-		complaintService.delete(complaint);									// Eliminamos la nota	
-		complaints = complaintService.findAll();						
-		Assert.isTrue(!complaints.contains(complaint));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
+		fixUpTaskService.delete(fixUpTask);									// Eliminamos la nota	
+		fixUpTasks = fixUpTaskService.findAll();						
+		Assert.isTrue(!fixUpTasks.contains(fixUpTask));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
 		
 		super.authenticate(null);
+	}
+	
+	// OTHERS ---------------------------------------------------------------------
+/*	
+	@Test
+	public void FixUpTasksHandyWorker(){
+		super.authenticate("handyworker1");
+		Collection<FixUpTask> fixUpTasks;
+		Collection<FixUpTask> tasksM = new ArrayList<FixUpTask>();
+		Collection<Application> apps = applicationService.findAll();
+		HandyWorker hw;
+//		hw= handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		fixUpTasks = fixUpTaskService.getFixUpTasksHandyWorker(hw.getId());
+		for(Application a: apps){
+			if(a.getHandyWorker().equals(hw))
+				tasksM.add(a.getFixUpTask());
+		}
+		
+		Assert.isTrue(fixUpTasks.equals(tasksM));
+		
 	}*/
 	
 }
