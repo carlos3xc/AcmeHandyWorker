@@ -1,7 +1,10 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +50,7 @@ public class CurriculaService {
 		UserAccount ua = LoginService.getPrincipal();
 		Curricula c = new Curricula();
 		
-		//Solo le asignamos un handyWorker si 
+		
 		
 		if (LoginService.hasRole("HANDYWORKER")) {
 			HandyWorker hw  = (HandyWorker) actorService.getByUserAccountId(ua);
@@ -58,6 +61,7 @@ public class CurriculaService {
 		c.setEndorserRecords(new ArrayList<EndorserRecord>());
 		c.setMiscellaneousRecords(new ArrayList<MiscellaneousRecord>());
 		c.setProfessionalRecords(new ArrayList<ProfessionalRecord>());
+		c.setTicker(this.generateTicker());
 		
 		return c;
 	}
@@ -91,5 +95,29 @@ public class CurriculaService {
 	
 	//Other business methods -----
 	
+	private String generateTicker(){
+		Date date = new Date(); // your date
+		Calendar n = Calendar.getInstance();
+		n.setTime(date);
+		String t = "";
+		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
+				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ "-"+ randomWordAndNumber();
+
+		return t;
+	}
+	
+	private String randomWordAndNumber(){
+		 String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < 6) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        String saltStr = salt.toString();
+	        return saltStr;
+	}
 	
 }

@@ -11,17 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-
 import repositories.ComplaintRepository;
-import security.Authority;
 import security.LoginService;
-import security.UserAccount;
 import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
-import domain.Referee;
 import domain.Report;
 
+import services.CustomerService;
+import services.FixUpTaskService;
+import services.ReportService;
 
 @Service
 @Transactional
