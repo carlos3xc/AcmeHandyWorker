@@ -1,6 +1,8 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +30,9 @@ public class NoteServiceTest extends AbstractTest {
 	@Autowired
 	private ReportService reportService;
 	
+	@Autowired
+	private ComplaintService complaintService;
+	
 	// Tests ----------------------------------------------------------------------
 	
 	// CREATE ---------------------------------------------------------------------
@@ -41,6 +46,7 @@ public class NoteServiceTest extends AbstractTest {
 		Assert.isNull(note.getHandyWorkerComment());
 		Assert.isNull(note.getRefereeComment());
 		Assert.isNull(note.getMoment());
+						
 		super.authenticate(null);
 	}
 	
@@ -166,22 +172,20 @@ public class NoteServiceTest extends AbstractTest {
 	@Test 
 	public void testRefereeDeleteNotes(){
 		Note note;
-		Report report, saved;
+		int rId;
+		Report rDatabase;
 		Collection<Note> notes;
 		super.authenticate("referee1");								// Nos autenticamos como referee
 
-		report = reportService.findOne(14829);						// Recuperamos el report al que queremos eliminar la nota
 		note = noteService.findOne(14833);							// Recuperamos la nota a eliminar
-		
+		rId = note.getReport().getId();
 		Assert.isTrue(!(note.getRefereeComment().equals("")));		// Comprobamos que el comentario referee no sea vacío, es decir, que lo creó un referee
-		
-		report.getNotes().remove(note);								// Eliminamos la nota de la colección de notas del reporte
-		saved = reportService.saveAut(report);						// y guardamos el reporte
-		
+				
 		noteService.delete(note);									// Eliminamos la nota	
 		
-		notes = noteService.findAll();						
-		Assert.isTrue(!saved.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
+		notes = noteService.findAll();	
+		rDatabase = reportService.findOne(rId);
+		Assert.isTrue(!rDatabase.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
 		Assert.isTrue(!notes.contains(note));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
 		
 		super.authenticate(null);
@@ -190,22 +194,20 @@ public class NoteServiceTest extends AbstractTest {
 	@Test 
 	public void testCustomerDeleteNotes(){
 		Note note;
-		Report report, saved;
+		int rId;
+		Report rDatabase;
 		Collection<Note> notes;
 		super.authenticate("customer1");							// Nos autenticamos como customer
 
-		report = reportService.findOne(14830);						// Recuperamos el report al que queremos eliminar la nota
 		note = noteService.findOne(14834);							// Recuperamos la nota a eliminar
-		
+		rId = note.getReport().getId();
 		Assert.isTrue(!(note.getCustomerComment().equals("")));		// Comprobamos que el comentario customer no sea vacío, es decir, que lo creó un customer
 		
-		report.getNotes().remove(note);								// Eliminamos la nota de la colección de notas del reporte
-		saved = reportService.saveAut(report);						// y guardamos el reporte
-			
+		rDatabase = reportService.findOne(rId);			
 		noteService.delete(note);									// Eliminamos la nota	
 		
 		notes = noteService.findAll();						
-		Assert.isTrue(!saved.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
+		Assert.isTrue(!rDatabase.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
 		Assert.isTrue(!notes.contains(note));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
 		
 		super.authenticate(null);
@@ -214,22 +216,21 @@ public class NoteServiceTest extends AbstractTest {
 	@Test 
 	public void testHandyWorkerDeleteNotes(){
 		Note note;
-		Report report, saved;
+		int rId;
+		Report rDatabase;
 		Collection<Note> notes;
 		super.authenticate("handyworker1");							// Nos autenticamos como handy worker
 
-		report = reportService.findOne(14832);						// Recuperamos el report al que queremos eliminar la nota
 		note = noteService.findOne(14836);							// Recuperamos la nota a eliminar
-		
+		rId = note.getReport().getId();
+
 		Assert.isTrue(!(note.getHandyWorkerComment().equals("")));  // Comprobamos que el comentario handyworker no sea vacío, es decir, que lo creó un handy worker
 		
-		report.getNotes().remove(note);								// Eliminamos la nota de la colección de notas del reporte
-		saved = reportService.saveAut(report);						// y guardamos el reporte
-		
+		rDatabase = reportService.findOne(rId);			
 		noteService.delete(note);									// Eliminamos la nota	
 		
 		notes = noteService.findAll();						
-		Assert.isTrue(!saved.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
+		Assert.isTrue(!rDatabase.getNotes().contains(note));			// Comprobamos que la nota se ha borrado de la lista 
 		Assert.isTrue(!notes.contains(note));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
 			
 		super.authenticate(null);
