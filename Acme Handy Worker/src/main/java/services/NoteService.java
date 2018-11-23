@@ -90,14 +90,8 @@ public class NoteService {
 				userAccount.getAuthorities().contains(b)|
 				userAccount.getAuthorities().contains(c));	
 
-		Report r = n.getReport();
-		Report saved;
-		
-		r.getNotes().remove(n);
-		saved = reportService.saveAut(r);	
 		noteRepository.delete(n);
 		
-		Assert.isTrue(!saved.getNotes().contains(n));			// Comprobamos que la nota se ha borrado de la lista 
 	}
 	
 	//Other business methods -----
