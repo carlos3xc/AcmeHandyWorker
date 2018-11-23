@@ -32,12 +32,6 @@ public class Complaint extends DomainEntity {
 	private String description;
 	private Collection<String> attachments;
 
-	// Constructors -----------------------------------------------------------
-
-	public Complaint() {
-		super();
-	}
-
 	// Getters and Setters ---------------------------------------------------
 
 	@NotBlank
