@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.util.Assert;
 import repositories.EducationRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.EducationRecord;
 
 
@@ -23,8 +25,8 @@ public class EducationRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
 	
 	//Constructors -----
 	public EducationRecordService(){
@@ -33,9 +35,12 @@ public class EducationRecordService {
 	
 	//Simple CRUD methods -----
 	public EducationRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		EducationRecord res = new EducationRecord();
+		
+		Date start = new Date();
+		start.setTime(start.getTime()-1000);
+		res.setStartDate(start);
+		
 		return res;
 	}
 	
@@ -48,30 +53,37 @@ public class EducationRecordService {
 	}
 	
 	public EducationRecord save(EducationRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
+		
 		
 		educationRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(EducationRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		educationRecordRepository.delete(a);
 	}
 	
 	//Other business methods -----
-	
+	private UserAccount findowner(EducationRecord a){
+		
+		Collection<Curricula> todas = curriculaService.findAll();
+		UserAccount owner = null;
+		for (Curricula c : todas) {
+			for (EducationRecord e : c.getEducationRecords()) {
+				if(e.equals(a)){
+					owner = c.getHandyWorker().getUserAccount();
+				}
+			}
+		}
+		return owner;
+	}
 	
 }

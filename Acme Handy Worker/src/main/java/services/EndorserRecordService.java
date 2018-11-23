@@ -10,7 +10,9 @@ import org.springframework.util.Assert;
 import repositories.EndorserRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.EndorserRecord;
+import domain.MiscellaneousRecord;
 
 
 @Service
@@ -23,8 +25,8 @@ public class EndorserRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
 	
 	//Constructors -----
 	public EndorserRecordService(){
@@ -33,8 +35,7 @@ public class EndorserRecordService {
 	
 	//Simple CRUD methods -----
 	public EndorserRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+	
 		EndorserRecord res = new EndorserRecord();
 		return res;
 	}
@@ -48,30 +49,37 @@ public class EndorserRecordService {
 	}
 	
 	public EndorserRecord save(EndorserRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		endorserRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(EndorserRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		endorserRecordRepository.delete(a);
 	}
 	
 	//Other business methods -----
-	
+	private UserAccount findowner(EndorserRecord a){
+		
+		Collection<Curricula> todas = curriculaService.findAll();
+		UserAccount owner = null;
+		for (Curricula c : todas) {
+			for (EndorserRecord m : c.getEndorserRecords()) {
+				if(m.equals(a)){
+					owner = c.getHandyWorker().getUserAccount();
+				}
+			}
+		}
+		return owner;
+	}
 	
 }

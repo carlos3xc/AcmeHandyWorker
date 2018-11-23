@@ -10,7 +10,9 @@ import org.springframework.util.Assert;
 import repositories.PersonalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.PersonalRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -23,8 +25,8 @@ public class PersonalRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
 	
 	//Constructors -----
 	public PersonalRecordService(){
@@ -33,8 +35,7 @@ public class PersonalRecordService {
 	
 	//Simple CRUD methods -----
 	public PersonalRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+
 		PersonalRecord res = new PersonalRecord();
 		return res;
 	}
@@ -48,30 +49,35 @@ public class PersonalRecordService {
 	}
 	
 	public PersonalRecord save(PersonalRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		personalRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(PersonalRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		personalRecordRepository.delete(a);
 	}
 	
 	//Other business methods -----
-	
+	private UserAccount findowner(PersonalRecord a){
+		
+		Collection<Curricula> todas = curriculaService.findAll();
+		UserAccount owner = null;
+		for (Curricula c : todas) {
+				if(c.getPersonalRecord().equals(a)){
+					owner = c.getHandyWorker().getUserAccount();
+				}
+			}
+		return owner;
+	}
 	
 }

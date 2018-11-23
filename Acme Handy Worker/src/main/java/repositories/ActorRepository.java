@@ -18,9 +18,8 @@ public interface ActorRepository extends JpaRepository<Actor, Integer>{
 	Actor findOne(Integer Id);
 	
 	// bussines methods -----
-	/*@Query("select a from Actor where a.userAccount =?1")
-	Actor findByUserAccountId(UserAccount ua);*/
+	@Query("select a from Actor a where a.userAccount =?1")
+	Actor findByUserAccountId(UserAccount ua);
 	
-	@Query("select a from Actor a join a.userAccount.authorities au where au.authority = 'ADMIN' ")
-	Collection<Actor> findAdministrators();
+	
 }
