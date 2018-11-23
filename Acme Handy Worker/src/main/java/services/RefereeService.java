@@ -21,20 +21,8 @@ public class RefereeService {
 	@Autowired
 	private RefereeRepository refereeRepository;
 	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public RefereeService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Referee create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Referee res = new Referee();
 		return res;
 	}
@@ -48,14 +36,8 @@ public class RefereeService {
 	}
 	
 	public Referee save(Referee a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
 		refereeRepository.save(a);
 		return a;
 	}
@@ -73,5 +55,10 @@ public class RefereeService {
 	
 	//Other business methods -----
 	
+	public Referee findByUserAccountId(Integer Id){
+		Referee r;
+		r = refereeRepository.findByUserAccountId(Id);
+		return r;
+	}
 	
 }

@@ -11,6 +11,7 @@ import repositories.CustomerRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
+import domain.Referee;
 
 
 @Service
@@ -73,5 +74,10 @@ public class CustomerService {
 	
 	//Other business methods -----
 	
+	public Customer findByUserAccountId(Integer Id){
+		Customer c;
+		c = customerRepository.findByUserAccountId(Id);
+		return c;
+	}
 	
 }
