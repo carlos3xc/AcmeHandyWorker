@@ -73,5 +73,39 @@ public class LoginService implements UserDetailsService {
 
 		return result;
 	}
+	
+	//----------- Metodos para comprobar los roles. ---------------
+    private static UserAccount getAuthenticated() {
+        try {
+            UserAccount result;
+            SecurityContext context;
+            Authentication authentication;
+            Object principal;
+
+            context = SecurityContextHolder.getContext();
+            authentication = context.getAuthentication();
+            principal = authentication.getPrincipal();
+            result = (UserAccount) principal;
+
+            return result;
+        } catch (final Throwable t) {
+            return null;
+        }
+    }
+    
+    public static boolean hasRole(final String role) {
+        final UserAccount account = LoginService.getAuthenticated();
+
+        if (account == null)
+            return false;
+
+        for (final Authority e : account.getAuthorities())
+            if (e.getAuthority().equalsIgnoreCase(role))
+                return true;
+
+        return false;
+    }
+    
+    //-----------------------------------------
 
 }

@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.util.Assert;
 import repositories.ProfessionalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
+import domain.MiscellaneousRecord;
 import domain.ProfessionalRecord;
 
 
@@ -23,8 +26,8 @@ public class ProfessionalRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
 	
 	//Constructors -----
 	public ProfessionalRecordService(){
@@ -33,9 +36,12 @@ public class ProfessionalRecordService {
 	
 	//Simple CRUD methods -----
 	public ProfessionalRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		ProfessionalRecord res = new ProfessionalRecord();
+		
+		Date start = new Date();
+		start.setTime(start.getTime()-1000);
+		res.setStartDate(start);
+		
 		return res;
 	}
 	
@@ -48,30 +54,37 @@ public class ProfessionalRecordService {
 	}
 	
 	public ProfessionalRecord save(ProfessionalRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		professionalRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(ProfessionalRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		professionalRecordRepository.delete(a);
 	}
 	
 	//Other business methods -----
-	
+	private UserAccount findowner(ProfessionalRecord a){
+		
+		Collection<Curricula> todas = curriculaService.findAll();
+		UserAccount owner = null;
+		for (Curricula c : todas) {
+			for (ProfessionalRecord m : c.getProfessionalRecords()) {
+				if(m.equals(a)){
+					owner = c.getHandyWorker().getUserAccount();
+				}
+			}
+		}
+		return owner;
+	}
 	
 }
