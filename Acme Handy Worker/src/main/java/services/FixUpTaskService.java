@@ -61,7 +61,7 @@ public class FixUpTaskService {
 		// SIN PROBAR
 		FixUpTask saved;
 		Collection<FixUpTask> fixUpTasks;
-		Assert.isTrue(fx.getId() != 0  ||
+		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
@@ -70,9 +70,8 @@ public class FixUpTaskService {
 			fx.setMoment(current);
 			fx.setTicker(generateTicker());
 		}
-		
-		fixUpTasks = fixUpTaskRepository.findAll();
 		saved = fixUpTaskRepository.save(fx);
+		fixUpTasks = fixUpTaskRepository.findAll();
 		Assert.isTrue(fixUpTasks.contains(saved));
 		return saved;
 	}
@@ -101,7 +100,7 @@ public class FixUpTaskService {
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
 				+ Integer.toString(n.get(Calendar.MONTH) +1)
 				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
-				+ randomWordAndNumber();
+				+ "-"+randomWordAndNumber();
 
 		return t;
 	}
