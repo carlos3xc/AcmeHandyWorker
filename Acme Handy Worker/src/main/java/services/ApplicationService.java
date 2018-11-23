@@ -57,6 +57,10 @@ public class ApplicationService {
 
 		applicationRepository.delete(a);
 	}
+	
+	public void deleteAut(Application a) {
+		applicationRepository.delete(a);
+	}
 
 	public Collection<Application> findAll() {
 		return applicationRepository.findAll();
