@@ -12,4 +12,7 @@ public interface WorkPlanPhaseRepository extends JpaRepository<WorkPlanPhase, In
 	// no es necesario viene por defecto esta como referencia
 	@Query("select a from WorkPlanPhase a where a.id = ?1") 
 	WorkPlanPhase findOne(Integer Id);
+	
+	@Query("select wp from WorkPlanPhase wp where wp.fixUpTask.id = ?1") 
+	WorkPlanPhase findByFixUpTaskId(Integer Id);
 }
