@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,72 +12,77 @@ import repositories.ApplicationRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Application;
-
+import domain.HandyWorker;
 
 @Service
 @Transactional
 public class ApplicationService {
 
-	//Managed Repository -----
+	// Managed Repository -----
 	@Autowired
 	private ApplicationRepository applicationRepository;
-	
-	//Supporting Services -----
-	
-	//@Autowired
-	private MessageService messageService; 
-	
-	//Constructors -----
-	public ApplicationService(){
+
+	// Supporting Services -----
+
+	// @Autowired
+	private MessageService messageService;
+
+	// Constructors -----
+	public ApplicationService() {
 		super();
 	}
-	
-	//Simple CRUD methods -----
-	public Application create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Application res = new Application();
-		return res;
+
+	// Simple CRUD methods -----
+
+	public Application create() {
+
+		Application result = new Application();
+		return result;
 	}
-	
-	public Collection<Application> findAll(){
-		return applicationRepository.findAll();
-	}
-	
-	public Application findOne(int Id){
-		return applicationRepository.findOne(Id);
-	}
-	
-	public Application save(Application a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//TODO:modificar para condiciones especificas
-		
+
+	public Application save(Application a) {
+
+		Application result;
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		applicationRepository.save(a);
-		return a;
+		Assert.isTrue(a.getHandyWorker().getUserAccount().equals(userAccount));
+
+		result = applicationRepository.save(a);
+		return result;
 	}
-	
-	public void delete(Application a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+
+	public void delete(Application a) {
+
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
+		Assert.isTrue(a.getHandyWorker().getUserAccount().equals(userAccount));
+
 		applicationRepository.delete(a);
 	}
-	
-	//Other business methods -----
-	
-	public void changeStatus(Application a, String status){
+
+	public Collection<Application> findAll() {
+		return applicationRepository.findAll();
+	}
+
+	public Application findOne(int Id) {
+		return applicationRepository.findOne(Id);
+	}
+
+	public Collection<Application> applicationByHandyWorker(
+			HandyWorker handyWorker) {
+		Collection<Application> res = new ArrayList<Application>();
+		for (Application a : applicationRepository.findAll()) {
+			if (a.getHandyWorker().equals(handyWorker)) {
+				res.add(a);
+			}
+		}
+		return res;
+	}
+
+	// Other business methods -----
+
+	public void changeStatus(Application a, String status) {
 		a.setStatus(status);
 		messageService.sendSystemMessages(a);
-		
+
 		this.save(a);
 	}
 }
