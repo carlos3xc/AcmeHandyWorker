@@ -1,6 +1,10 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +15,8 @@ import repositories.CustomerRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
-import domain.Referee;
+import domain.FixUpTask;
+import domain.SocialProfile;
 
 
 @Service
@@ -24,19 +29,11 @@ public class CustomerService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public CustomerService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Customer create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Customer res = new Customer();
+		res.setFixUpTasks(new ArrayList<FixUpTask>());
+		res.setSocialProfiles(new ArrayList<SocialProfile>());
 		return res;
 	}
 	
@@ -48,19 +45,16 @@ public class CustomerService {
 		return customerRepository.findOne(Id);
 	}
 	
-	public Customer save(Customer a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		customerRepository.save(a);
-		return a;
+	public Customer save(Customer c){
+		Customer saved;
+		Collection<Customer> customers;
+		if(c.getId()==0){ c.setIsBanned(false); c.setIsSuspicious(false);  }
+		saved = customerRepository.save(c);
+		customers = customerRepository.findAll();
+		Assert.isTrue(customers.contains(saved));
+		return saved;
 	}
-	
+/*	
 	public void delete(Customer a){
 		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
 		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
@@ -70,7 +64,7 @@ public class CustomerService {
 		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
 		customerRepository.delete(a);
-	}
+	}*/
 	
 	//Other business methods -----
 	
@@ -78,6 +72,19 @@ public class CustomerService {
 		Customer c;
 		c = customerRepository.findByUserAccountId(Id);
 		return c;
+	}
+	
+	public Map<Customer,Integer> TopThreeInComplaints(){
+		List<Object> top;
+	//	List<Customer> customers = new ArrayList<Customer>();
+//		Collection<Integer> complaintsNumber = new ArrayList<Integer>();
+		Map<Customer,Integer> n = new HashMap<Customer,Integer>();
+		top = (List<Object>) customerRepository.TopThreeInComplaints();
+		for(int i=0;i<=top.size();i=i+2){
+			n.put((Customer)top.get(i),(Integer)top.get(i+1));
+		}
+		System.out.println(n);
+		return n;
 	}
 	
 }
