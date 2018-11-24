@@ -1,5 +1,6 @@
 package repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	Customer findOne(Integer Id);
 	
 	@Query("select com.customer, count(com) from Complaint com group by com.customer order by count(com) desc")
-	List<Customer> TopThreeInComplaints();
+	Collection<Object> TopThreeInComplaints();
 	
 	@Query("select c from Customer c where c.userAccount.id = ?1") 
 	Customer findByUserAccountId(Integer Id);
