@@ -23,14 +23,6 @@ public class HandyWorkerService {
 	
 	//Supporting Services -----
 	
-	@Autowired
-	private HandyWorkerService handyWorkerService;
-	
-	//Constructors -----
-	public HandyWorkerService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public HandyWorker create(){
 		//Metodo general para todas los servicios, es probable 
