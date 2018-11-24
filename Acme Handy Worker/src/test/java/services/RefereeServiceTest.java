@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import security.Authority;
+import security.LoginService;
 import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Note;
@@ -35,6 +36,7 @@ public class RefereeServiceTest extends AbstractTest {
 	private RefereeService refereeService;
 	
 	@Autowired
+	private SocialProfileService socialProfileService;
 		
 	// Tests ----------------------------------------------------------------------
 
@@ -79,11 +81,13 @@ public class RefereeServiceTest extends AbstractTest {
 		referee.setMiddleName("Parra");
 		referee.setPhoto("http://www.linkedIn.com");
 
-		SocialProfile socialProfile = new SocialProfile();
+		SocialProfile savedpr;
+		SocialProfile socialProfile = socialProfileService.create();
 		socialProfile.setLink("http://www.twitter.com/Juan");
 		socialProfile.setNick("juaparser");
 		socialProfile.setSocialNetwork("Twitter");
-		referee.getSocialProfiles().add(socialProfile);
+		savedpr = socialProfileService.save(socialProfile);
+		referee.getSocialProfiles().add(savedpr);
 
 		UserAccount userAccount = referee.getUserAccount();
 		userAccount.setUsername("referee12");
@@ -92,7 +96,6 @@ public class RefereeServiceTest extends AbstractTest {
 
 		saved = refereeService.save(referee);
 		
-		System.out.println(saved.getSocialProfiles() + " " + saved.getUserAccount().getAuthorities() + " " + saved.getUserAccount().getPassword());
 		referees = refereeService.findAll();
 		Assert.isTrue(referees.contains(saved));
 		
@@ -102,23 +105,22 @@ public class RefereeServiceTest extends AbstractTest {
 	
 
 	// UPDATE ---------------------------------------------------------------------
-/*
+
 	@Test 
 	public void testUpdateReferee(){
-		Note note,saved;
-		Collection<Note> notes;
-		super.authenticate("handyworker1");					// Nos autenticamos como handy worker
-		note = noteService.findOne(14833);					// Recuperamos la nota
-
-		note.setHandyWorkerComment("Hello");
+		Referee referee,saved;
+		Collection<Referee> referees;
+		super.authenticate("referee1");						
+		referee = refereeService.findOne(14581);
+		referee.setName("Lucas");
 		
-		saved = noteService.save(note);						// Guardamos la nota	
+		saved = refereeService.save(referee);
 		
-		notes = noteService.findAll();						// Comprobamos que la nota se ha guardado correctamente en el archivo de notas
-		Assert.isTrue(notes.contains(saved));
+		referees = refereeService.findAll();						// Comprobamos que la nota se ha guardado correctamente en el archivo de notas
+		Assert.isTrue(referees.contains(saved));
 
 		super.authenticate(null);
-	}*/
+	}
 	
 	// DELETE ---------------------------------------------------------------------
 

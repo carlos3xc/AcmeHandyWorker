@@ -48,25 +48,25 @@ public class RefereeService {
 	public Referee save(Referee r){
 		Authority e = new Authority();
 		Authority p = new Authority();
+		UserAccount ua;
 		UserAccount savedUa;
 		e.setAuthority("ADMIN");
 		Collection<Referee> referees;
 
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		if(r.getId()==0)Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		if(r.getId()!=0)Assert.isTrue(userAccount.equals(r.getUserAccount()));
 
 		Referee saved;
 		if(r.getId()==0){
 			r.setIsBanned(false);
 			r.setIsSuspicious(false);
+			p.setAuthority("REFEREE");
+			ua = r.getUserAccount();
+			ua.getAuthorities().add(p);
+			savedUa = userAccountService.save(ua);
+			r.setUserAccount(savedUa);
 		}
-		
-		p.setAuthority("REFEREE");
-		
-		UserAccount ua = r.getUserAccount();
-		ua.getAuthorities().add(p);
-		savedUa = userAccountService.save(ua);
-		r.setUserAccount(savedUa);
 		saved = refereeRepository.saveAndFlush(r);
 		referees = refereeRepository.findAll();
 		Assert.isTrue(referees.contains(saved));
