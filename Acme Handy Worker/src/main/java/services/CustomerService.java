@@ -12,10 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CustomerRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import domain.Customer;
 import domain.FixUpTask;
+import domain.Referee;
 import domain.SocialProfile;
 
 
@@ -27,6 +30,9 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	//Supporting Services -----
 	
 	//Simple CRUD methods -----
@@ -34,6 +40,8 @@ public class CustomerService {
 		Customer res = new Customer();
 		res.setFixUpTasks(new ArrayList<FixUpTask>());
 		res.setSocialProfiles(new ArrayList<SocialProfile>());
+		UserAccount ua = userAccountService.create();
+		res.setUserAccount(ua);
 		return res;
 	}
 	
@@ -46,10 +54,26 @@ public class CustomerService {
 	}
 	
 	public Customer save(Customer c){
-		Customer saved;
+		Authority p = new Authority();
+		UserAccount ua;
+		UserAccount savedUa;
 		Collection<Customer> customers;
-		if(c.getId()==0){ c.setIsBanned(false); c.setIsSuspicious(false);  }
-		saved = customerRepository.save(c);
+		
+		if(c.getId()!=0){
+			UserAccount userAccount = LoginService.getPrincipal();
+			Assert.isTrue(userAccount.equals(c.getUserAccount()));
+		}
+		Customer saved;
+		if(c.getId()==0){
+			c.setIsBanned(false);
+			c.setIsSuspicious(false);
+			p.setAuthority("CUSTOMER");
+			ua = c.getUserAccount();
+			ua.getAuthorities().add(p);
+			savedUa = userAccountService.save(ua);
+			c.setUserAccount(savedUa);
+		}
+		saved = customerRepository.saveAndFlush(c);
 		customers = customerRepository.findAll();
 		Assert.isTrue(customers.contains(saved));
 		return saved;
