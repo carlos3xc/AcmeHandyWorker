@@ -54,10 +54,10 @@ public class ActorService {
 	}
 
 	// Other business methods -----
-	/*
-	 * public Actor getByUserAccountId(UserAccount ua){ return
-	 * actorRepository.findByUserAccountId(ua); }
-	 */
+	
+	  public Actor getByUserAccountId(UserAccount ua){ return
+	  actorRepository.findByUserAccountId(ua); }
+	 
 
 	private void createSystemBoxes(Actor a) {
 		Box inbox, outbox, spambox, trashbox;
@@ -81,10 +81,6 @@ public class ActorService {
 		boxService.save(spambox);
 		boxService.save(trashbox);
 
-	}
-
-	public Collection<Actor> findAdministrators() {
-		return actorRepository.findAdministrators();
 	}
 
 //	public void register(String type, UserAccount ua) {

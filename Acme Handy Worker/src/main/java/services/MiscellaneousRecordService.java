@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import repositories.MiscellaneousRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.MiscellaneousRecord;
 
 
@@ -23,8 +24,8 @@ public class MiscellaneousRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
 	
 	//Constructors -----
 	public MiscellaneousRecordService(){
@@ -33,8 +34,6 @@ public class MiscellaneousRecordService {
 	
 	//Simple CRUD methods -----
 	public MiscellaneousRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		MiscellaneousRecord res = new MiscellaneousRecord();
 		return res;
 	}
@@ -48,30 +47,41 @@ public class MiscellaneousRecordService {
 	}
 	
 	public MiscellaneousRecord save(MiscellaneousRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
+		//Find the owner of the record:
+
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		miscellaneousRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(MiscellaneousRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
 		
+		UserAccount owner = findowner(a);
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(owner.equals(userAccount));
 		
 		miscellaneousRecordRepository.delete(a);
 	}
 	
 	//Other business methods -----
+	
+	private UserAccount findowner(MiscellaneousRecord a){
+		
+		Collection<Curricula> todas = curriculaService.findAll();
+		UserAccount owner = null;
+		for (Curricula c : todas) {
+			for (MiscellaneousRecord m : c.getMiscellaneousRecords()) {
+				if(m.equals(a)){
+					owner = c.getHandyWorker().getUserAccount();
+				}
+			}
+		}
+		return owner;
+	}
 	
 	
 }

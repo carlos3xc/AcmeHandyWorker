@@ -43,9 +43,11 @@ public class NoteService {
 		return noteRepository.findOne(Id);
 	}
 	
+	// LOS ACTORES NO PUEDEN ACTUALIZAR LAS NOTAS UNA VEZ GUARDADAS EN LA BASE DE DATOS
 	public Note save(Note n){
 		//puede necesitarse control de versiones por concurrencia del objeto.
 		Note saved;
+		Report report;
 		Authority a= new Authority();
 		Authority b= new Authority();
 		Authority c= new Authority();
@@ -71,11 +73,16 @@ public class NoteService {
 		current = new Date(millis);
 		
 		n.setMoment(current);
-
+		
 		saved = noteRepository.save(n);
+		
+		report = saved.getReport();
+		report.getNotes().add(saved);
+		reportService.saveAut(report);
 		return saved;
 	}
 	
+	// LOS ACTORES NO PUEDEN ELIMINAR LAS NOTAS UNA VEZ GUARDADAS EN LA BASE DE DATOS
 	public void delete(Note n){
 		
 		Authority a= new Authority();
@@ -90,14 +97,8 @@ public class NoteService {
 				userAccount.getAuthorities().contains(b)|
 				userAccount.getAuthorities().contains(c));	
 
-		Report r = n.getReport();
-		Report saved;
-		
-		r.getNotes().remove(n);
-		saved = reportService.saveAut(r);	
 		noteRepository.delete(n);
 		
-		Assert.isTrue(!saved.getNotes().contains(n));			// Comprobamos que la nota se ha borrado de la lista 
 	}
 	
 	//Other business methods -----

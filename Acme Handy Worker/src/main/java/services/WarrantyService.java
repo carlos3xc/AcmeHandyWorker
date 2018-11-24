@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,10 @@ public class WarrantyService {
 	//@Autowired
 	//private SomeService serviceName 
 	
-	//Constructors -----
-	public WarrantyService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Warranty create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Warranty res = new Warranty();
+		res.setLaws(new ArrayList<String>());
 		return res;
 	}
 	
@@ -47,17 +42,10 @@ public class WarrantyService {
 		return warrantyRepository.findOne(Id);
 	}
 	
-	public Warranty save(Warranty a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		warrantyRepository.save(a);
-		return a;
+	public Warranty save(Warranty w){
+		Warranty saved;
+		saved = warrantyRepository.save(w);
+		return saved;
 	}
 	
 	public void delete(Warranty a){

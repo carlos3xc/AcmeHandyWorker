@@ -18,6 +18,7 @@ import domain.Application;
 import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
+import domain.WorkPlanPhase;
 
 
 @Service
@@ -39,9 +40,11 @@ public class FixUpTaskService {
 	@Autowired
 	private ApplicationService applicationService;
 	
+	@Autowired
+	private WorkPlanPhaseService workPlanPhaseService;
+	
 	//Simple CRUD methods -----
 	public FixUpTask create(){
-		// SIN PROBAR
 		FixUpTask res = new FixUpTask();
 		res.setApplications(new ArrayList<Application>());
 		res.setComplaints(new ArrayList<Complaint>());
@@ -58,10 +61,9 @@ public class FixUpTaskService {
 	}
 	
 	public FixUpTask save(FixUpTask fx){
-		// SIN PROBAR
 		FixUpTask saved;
 		Collection<FixUpTask> fixUpTasks;
-		Assert.isTrue(fx.getId() != 0  ||
+		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
@@ -70,28 +72,39 @@ public class FixUpTaskService {
 			fx.setMoment(current);
 			fx.setTicker(generateTicker());
 		}
-		
-		fixUpTasks = fixUpTaskRepository.findAll();
 		saved = fixUpTaskRepository.save(fx);
+		fixUpTasks = fixUpTaskRepository.findAll();
 		Assert.isTrue(fixUpTasks.contains(saved));
 		return saved;
 	}
 	
 	public void delete(FixUpTask fx){
-		// SIN PROBAR
-		Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	
+				Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	
 		Collection<Complaint> complaints = fx.getComplaints();
 		Collection<Application> applications = fx.getApplications();
 		Customer c = fx.getCustomer();
-		for(Complaint co: complaints) complaintService.delete(co);
-		for(Application a: applications) applicationService.delete(a);
+		WorkPlanPhase wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
+		for(Complaint co: complaints){
+			co.setFixUpTask(null);
+			complaintService.delete(co);
+		}
+		for(Application a: applications) applicationService.deleteAut(a);
 		c.getFixUpTasks().remove(fx);
+		workPlanPhaseService.delete(wp);
+		
 		customerService.save(c);
 		
 		fixUpTaskRepository.delete(fx);
 	}
 	
 	//Other business methods -----
+	
+	//C-RF 11.1
+	public Collection<FixUpTask> getFixUpTasksHandyWorker(int handyWorkerId){
+		Collection<FixUpTask> res;
+		res = fixUpTaskRepository.getFixUpTasksHandyWorker(handyWorkerId);
+		return res;
+	}
 	
 	private String generateTicker(){
 		Date date = new Date(); // your date
@@ -101,7 +114,7 @@ public class FixUpTaskService {
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
 				+ Integer.toString(n.get(Calendar.MONTH) +1)
 				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
-				+ randomWordAndNumber();
+				+ "-"+randomWordAndNumber();
 
 		return t;
 	}

@@ -99,9 +99,7 @@ public class ReportServiceTest extends AbstractTest {
 
 		report = reportService.findOne(14831);						// Recuperamos el report al que queremos eliminar la nota
 		
-		for(Note n: report.getNotes()){
-			noteService.delete(n);
-		}
+
 		reportService.delete(report);									// Eliminamos la nota	
 		reports = reportService.findAll();						
 		Assert.isTrue(!reports.contains(report));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas

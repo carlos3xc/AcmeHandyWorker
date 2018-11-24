@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,7 +31,10 @@ public class ReportService {
 	// Support repositories -------
 	
 	@Autowired
-	private RefereeRepository refereeRepository;
+	private RefereeService refereeService;
+	
+	@Autowired
+	private NoteService noteService;
 	
 	//Simple CRUD methods -----
 	public Report create(){
@@ -54,7 +58,7 @@ public class ReportService {
 		Authority e = new Authority();
 		e.setAuthority("REFEREE");
 		UserAccount userAccount = LoginService.getPrincipal();
-		Referee rf = refereeRepository.findByUserAccountId(userAccount.getId());
+		Referee rf = refereeService.findByUserAccountId(userAccount.getId());
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
@@ -77,16 +81,35 @@ public class ReportService {
 	}
 	
 	
-	public void delete(Report a){
+	public void delete(Report r){
 		Authority e = new Authority();
 		e.setAuthority("REFEREE");
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
-		reportRepository.delete(a);
+		for(Note n: r.getNotes()){
+			noteService.delete(n);
+		}
+		
+		reportRepository.delete(r);
+	}
+	
+	public void deleteAut(Report r){   // Usado al borrar complaints
+		
+		for(Note n: r.getNotes()){
+			noteService.delete(n);
+		}
+		reportRepository.delete(r);
 	}
 	
 	//Other business methods -----
+	
+	public Collection<Report> getReportsByComplaint(int complaintId){
+		Collection<Report> reports;
+		reports = reportRepository.getReportsByComplaint(complaintId);
+		return reports;
+		
+	}
 	
 	
 }

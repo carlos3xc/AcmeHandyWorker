@@ -26,11 +26,6 @@ public class WorkPlanPhaseService {
 	//@Autowired
 	//private SomeService serviceName 
 	
-	//Constructors -----
-	public WorkPlanPhaseService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public WorkPlanPhase create(){
 		//Metodo general para todas los servicios, es probable 
@@ -60,18 +55,18 @@ public class WorkPlanPhaseService {
 		return a;
 	}
 	
-	public void delete(WorkPlanPhase a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
+	public void delete(WorkPlanPhase wp){
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		workPlanPhaseRepository.delete(a);
+		workPlanPhaseRepository.delete(wp);
 	}
 	
 	//Other business methods -----
+	
+	public WorkPlanPhase findByFixUpTaskId(Integer Id){
+		WorkPlanPhase res;
+		res = workPlanPhaseRepository.findByFixUpTaskId(Id);
+		return res;
+	}
 	
 	
 }
