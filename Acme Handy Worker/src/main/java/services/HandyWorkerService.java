@@ -23,8 +23,8 @@ public class HandyWorkerService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private HandyWorkerService handyWorkerService;
 	
 	//Constructors -----
 	public HandyWorkerService(){
@@ -72,6 +72,15 @@ public class HandyWorkerService {
 	}
 	
 	//Other business methods -----
+	
+	public HandyWorker findByPrincipal() {
+		HandyWorker hw;
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+		hw = handyWorkerRepository.findByPrincipal(userAccount.getId());
+		return hw;
+	}
 	
 	
 }
