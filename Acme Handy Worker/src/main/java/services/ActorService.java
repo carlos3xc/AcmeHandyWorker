@@ -58,13 +58,13 @@ public class ActorService {
 	
 	  public Actor getByUserAccountId(UserAccount ua){ return
 	  actorRepository.findByUserAccountId(ua); }
-	  
+	/*  
 	  public Actor findByFinderId(final int finderId) {
 		Assert.notNull(finderId);
 		Actor result;
 		result = this.actorRepository.findByFinderId(finderId);
 		return result;
-	} 
+	} */
 
 	private void createSystemBoxes(Actor a) {
 		Box inbox, outbox, spambox, trashbox;
