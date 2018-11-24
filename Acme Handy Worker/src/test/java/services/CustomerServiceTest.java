@@ -20,7 +20,7 @@ import security.LoginService;
 import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Note;
-import domain.Referee;
+import domain.Customer;
 import domain.Report;
 import domain.SocialProfile;
 
@@ -28,37 +28,36 @@ import domain.SocialProfile;
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",
 										"classpath:spring/config/packages.xml"})
 @Transactional
-public class RefereeServiceTest extends AbstractTest {
+public class CustomerServiceTest extends AbstractTest {
 	
 	// Service under test ---------------------------------------------------------
 
 	@Autowired
-	private RefereeService refereeService;
+	private CustomerService customerService;
 	
 	@Autowired
 	private SocialProfileService socialProfileService;
-		
 	// Tests ----------------------------------------------------------------------
 
 	
 	// CREATE ---------------------------------------------------------------------
 	
 	@Test
-	public void testCreateReferee(){
-		Referee referee;
-		super.authenticate("admin1");
-		referee = refereeService.create();	
-		Assert.isNull(referee.getAddress());
-		Assert.isNull(referee.getEmail());
-		Assert.isNull(referee.getIsBanned());
-		Assert.isNull(referee.getIsSuspicious());
-		Assert.isNull(referee.getMiddleName());
-		Assert.isNull(referee.getName());
-		Assert.isNull(referee.getPhone());
-		Assert.isNull(referee.getPhoto());
-		Assert.isNull(referee.getSurname());
-		Assert.isTrue(referee.getSocialProfiles().isEmpty());
-		Assert.notNull(referee.getUserAccount());
+	public void testCreateCustomer(){
+		Customer customer;
+		customer = customerService.create();	
+		Assert.isNull(customer.getAddress());
+		Assert.isNull(customer.getEmail());
+		Assert.isNull(customer.getIsBanned());
+		Assert.isNull(customer.getIsSuspicious());
+		Assert.isNull(customer.getMiddleName());
+		Assert.isNull(customer.getName());
+		Assert.isNull(customer.getPhone());
+		Assert.isNull(customer.getPhoto());
+		Assert.isNull(customer.getSurname());
+		Assert.isTrue(customer.getSocialProfiles().isEmpty());
+		Assert.isTrue(customer.getFixUpTasks().isEmpty());
+		Assert.notNull(customer.getUserAccount());
 							
 		super.authenticate(null);
 	}
@@ -67,19 +66,18 @@ public class RefereeServiceTest extends AbstractTest {
 	// SAVE -----------------------------------------------------------------------
 	
 	@Test 
-	public void testSaveReferee(){
-		Referee referee,saved;
-		Collection<Referee> referees;
-		super.authenticate("admin1");						// Nos autenticamos como Referee
-		referee = refereeService.create();						// Creamos la nota
+	public void testSaveCustomer(){
+		Customer customer,saved;
+		Collection<Customer> customers;
+		customer = customerService.create();						
 		
-		referee.setName("Juan");
-		referee.setSurname("Serna");
-		referee.setEmail("juaparser@gmail.com");
-		referee.setPhone("678534953");
-		referee.setAddress("Calle de la Chincheta nº10");
-		referee.setMiddleName("Parra");
-		referee.setPhoto("http://www.linkedIn.com");
+		customer.setName("Juan");
+		customer.setSurname("Serna");
+		customer.setEmail("juaparser@gmail.com");
+		customer.setPhone("678534953");
+		customer.setAddress("Calle de la Chincheta nº10");
+		customer.setMiddleName("Parra");
+		customer.setPhoto("http://www.linkedIn.com");
 
 		SocialProfile savedpr;
 		SocialProfile socialProfile = socialProfileService.create();
@@ -87,17 +85,17 @@ public class RefereeServiceTest extends AbstractTest {
 		socialProfile.setNick("juaparser");
 		socialProfile.setSocialNetwork("Twitter");
 		savedpr = socialProfileService.save(socialProfile);
-		referee.getSocialProfiles().add(savedpr);
+		customer.getSocialProfiles().add(savedpr);
 
-		UserAccount userAccount = referee.getUserAccount();
-		userAccount.setUsername("referee12");
-		userAccount.setPassword("referee12");
-		referee.setUserAccount(userAccount);
+		UserAccount userAccount = customer.getUserAccount();
+		userAccount.setUsername("customer12");
+		userAccount.setPassword("customer12");
+		customer.setUserAccount(userAccount);
 
-		saved = refereeService.save(referee);
+		saved = customerService.save(customer);
 		
-		referees = refereeService.findAll();
-		Assert.isTrue(referees.contains(saved));
+		customers = customerService.findAll();
+		Assert.isTrue(customers.contains(saved));
 		
 		
 		super.authenticate(null);
@@ -107,17 +105,17 @@ public class RefereeServiceTest extends AbstractTest {
 	// UPDATE ---------------------------------------------------------------------
 
 	@Test 
-	public void testUpdateReferee(){
-		Referee referee,saved;
-		Collection<Referee> referees;
-		super.authenticate("referee1");						
-		referee = refereeService.findOne(14581);
-		referee.setName("Lucas");
+	public void testUpdateCustomer(){
+		Customer customer,saved;
+		Collection<Customer> customers;
+		super.authenticate("customer1");						
+		customer = customerService.findOne(14571);
+		customer.setName("Lucas");
 		
-		saved = refereeService.save(referee);
+		saved = customerService.save(customer);
 		
-		referees = refereeService.findAll();						// Comprobamos que la nota se ha guardado correctamente en el archivo de notas
-		Assert.isTrue(referees.contains(saved));
+		customers = customerService.findAll();						// Comprobamos que la nota se ha guardado correctamente en el archivo de notas
+		Assert.isTrue(customers.contains(saved));
 
 		super.authenticate(null);
 	}

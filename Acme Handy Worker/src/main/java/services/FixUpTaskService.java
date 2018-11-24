@@ -106,6 +106,12 @@ public class FixUpTaskService {
 		return res;
 	}
 	
+	public Collection<FixUpTask> getTasksAccepted(){
+		Collection<FixUpTask> res;
+		res = fixUpTaskRepository.getTasksAccepted();
+		return res;
+	}
+	
 	private String generateTicker(){
 		Date date = new Date(); // your date
 		Calendar n = Calendar.getInstance();

@@ -26,6 +26,7 @@ public class HandyWorkerService {
 	
 	//Supporting Services -----
 	
+<<<<<<< HEAD
 	@Autowired
 	private UserAccountService userAccountService;
 	
@@ -37,6 +38,8 @@ public class HandyWorkerService {
 		super();
 	}
 	
+=======
+>>>>>>> acb9093fd20eea3c9e20bceb266cb707161bff0d
 	//Simple CRUD methods -----
 	public HandyWorker create(){	
 		HandyWorker res = new HandyWorker();
