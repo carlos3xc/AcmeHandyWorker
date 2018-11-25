@@ -12,7 +12,9 @@ import repositories.ProfessionalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.HandyWorker;
 import domain.MiscellaneousRecord;
+import domain.PersonalRecord;
 import domain.ProfessionalRecord;
 
 
@@ -28,6 +30,9 @@ public class ProfessionalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public ProfessionalRecordService(){
@@ -55,17 +60,16 @@ public class ProfessionalRecordService {
 	
 	public ProfessionalRecord save(ProfessionalRecord a){
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		professionalRecordRepository.save(a);
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.
+
 		return a;
 	}
 	
 	public void delete(ProfessionalRecord a){
 		
 		UserAccount owner = findowner(a);
+		Assert.notNull(owner);
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(owner.equals(userAccount));
 		
@@ -86,5 +90,18 @@ public class ProfessionalRecordService {
 		}
 		return owner;
 	}
-	
+	private void linkCurricula(ProfessionalRecord a){
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
+		System.out.println(hw.getUserAccount().getAuthorities());
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
+				Collection<ProfessionalRecord> aux = c.getProfessionalRecords();
+				aux.add(a);
+				c.setProfessionalRecords(aux);
+				this.save(a);
+				curriculaService.save(c);
+			}
+		}
+	}
 }

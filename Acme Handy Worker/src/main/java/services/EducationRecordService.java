@@ -13,6 +13,8 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.EducationRecord;
+import domain.HandyWorker;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -27,6 +29,9 @@ public class EducationRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public EducationRecordService(){
@@ -53,18 +58,15 @@ public class EducationRecordService {
 	}
 	
 	public EducationRecord save(EducationRecord a){
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		
-		educationRecordRepository.save(a);
 		return a;
 	}
 	
 	public void delete(EducationRecord a){
 		UserAccount owner = findowner(a);
+		Assert.notNull(owner);
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(owner.equals(userAccount));
 		
@@ -84,6 +86,21 @@ public class EducationRecordService {
 			}
 		}
 		return owner;
+	}
+	
+	private void linkCurricula(EducationRecord a){
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
+		System.out.println(hw.getUserAccount().getAuthorities());
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
+				Collection<EducationRecord> aux = c.getEducationRecords();
+				aux.add(a);
+				c.setEducationRecords(aux);
+				this.save(a);
+				curriculaService.save(c);
+			}
+		}
 	}
 	
 }

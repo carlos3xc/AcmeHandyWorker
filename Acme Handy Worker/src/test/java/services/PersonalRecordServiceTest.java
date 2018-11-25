@@ -22,7 +22,7 @@ import domain.Report;
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",
 										"classpath:spring/config/packages.xml"})
 @Transactional
-public class CurriculaServiceTest extends AbstractTest {
+public class PersonalRecordServiceTest extends AbstractTest {
 	
 	// Service under test ---------------------------------------------------------
 
@@ -39,19 +39,15 @@ public class CurriculaServiceTest extends AbstractTest {
 	
 	@Test
 	public void testHandyWorkerCreate(){
-		Curricula curricula;
+		PersonalRecord pR;
 		super.authenticate("handyWorker1");
-		curricula = curriculaService.create();
-		Authority au = new Authority();
-		au.setAuthority("HANDYWORKER");
+		pR = personalRecordService.create();
 
-		Assert.isTrue(curricula.getEducationRecords().isEmpty());
-		Assert.isTrue(curricula.getEndorserRecords().isEmpty());
-		Assert.isTrue(curricula.getProfessionalRecords().isEmpty());
-		Assert.isTrue(curricula.getMiscellaneousRecords().isEmpty());
-		Assert.isTrue(curricula.getHandyWorker().getUserAccount().getAuthorities().contains(au) || curricula.getHandyWorker().equals(null));
-		Assert.isNull(curricula.getPersonalRecord());
-		Assert.notNull(curricula.getTicker());
+		Assert.isNull(pR.getEmail());
+		Assert.isNull(pR.getFullName());
+		Assert.isNull(pR.getLinkedInUrl());
+		Assert.isNull(pR.getPhone());
+		Assert.isNull(pR.getPhoto());
 		
 		super.authenticate(null);
 	}
@@ -78,9 +74,10 @@ public class CurriculaServiceTest extends AbstractTest {
 		p.setPhoto("http://photostock.com/photo");
 		
 		personalRecordService.save(p); 
-		//al ejecutar el save de personalRecord ya se guarda pero lo hacemos de nuevo para comprobar que funcion
 		
-		saved = curriculaService.save(curricula);		
+		curricula.setPersonalRecord(p);
+		
+		saved = curriculaService.save(curricula);			
 
 		Collection<Curricula> curriculas = curriculaService.findAll();						
 		Assert.isTrue(curriculas.contains(saved));
@@ -98,14 +95,8 @@ public class CurriculaServiceTest extends AbstractTest {
 		super.authenticate("handyworker1");					
 		curricula = curriculaService.findOne(14730);	
 		PersonalRecord p = personalRecordService.create();
-		
-		p.setEmail("email@dominio.com");
-		p.setFullName("pepito grillo");
-		p.setLinkedInUrl("http://linkedin.com/user");
-		p.setPhone("672190514");
-		p.setPhoto("http://photostock.com/photo");
 
-		personalRecordService.save(p);
+		curricula.setPersonalRecord(p);
 		
 		saved = curriculaService.save(curricula);						
 		

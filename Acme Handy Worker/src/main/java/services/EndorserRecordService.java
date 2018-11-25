@@ -12,7 +12,9 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.EndorserRecord;
+import domain.HandyWorker;
 import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -27,6 +29,9 @@ public class EndorserRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public EndorserRecordService(){
@@ -50,17 +55,16 @@ public class EndorserRecordService {
 	
 	public EndorserRecord save(EndorserRecord a){
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		endorserRecordRepository.save(a);
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.
+
 		return a;
 	}
 	
 	public void delete(EndorserRecord a){
 		
 		UserAccount owner = findowner(a);
+		Assert.notNull(owner);
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(owner.equals(userAccount));
 		
@@ -80,6 +84,20 @@ public class EndorserRecordService {
 			}
 		}
 		return owner;
+	}
+	private void linkCurricula(EndorserRecord a){
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
+		System.out.println(hw.getUserAccount().getAuthorities());
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
+				Collection<EndorserRecord> aux = c.getEndorserRecords();
+				aux.add(a);
+				c.setEndorserRecords(aux);
+				this.save(a);
+				curriculaService.save(c);
+			}
+		}
 	}
 	
 }

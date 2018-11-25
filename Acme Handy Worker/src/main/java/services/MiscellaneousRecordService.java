@@ -11,7 +11,9 @@ import repositories.MiscellaneousRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.HandyWorker;
 import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -26,6 +28,9 @@ public class MiscellaneousRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public MiscellaneousRecordService(){
@@ -48,19 +53,17 @@ public class MiscellaneousRecordService {
 	
 	public MiscellaneousRecord save(MiscellaneousRecord a){
 		
-		//Find the owner of the record:
-
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		miscellaneousRecordRepository.save(a);
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.
+		 
 		return a;
 	}
 	
 	public void delete(MiscellaneousRecord a){
 		
+		
 		UserAccount owner = findowner(a);
+		Assert.notNull(owner);
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(owner.equals(userAccount));
 		
@@ -81,6 +84,20 @@ public class MiscellaneousRecordService {
 			}
 		}
 		return owner;
+	}
+	private void linkCurricula(MiscellaneousRecord a){
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
+		System.out.println(hw.getUserAccount().getAuthorities());
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
+				Collection<MiscellaneousRecord> aux = c.getMiscellaneousRecords();
+				aux.add(a);
+				c.setMiscellaneousRecords(aux);
+				this.save(a);
+				curriculaService.save(c);
+			}
+		}
 	}
 	
 	

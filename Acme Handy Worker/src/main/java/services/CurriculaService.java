@@ -75,10 +75,18 @@ public class CurriculaService {
 	}
 	
 	public Curricula save(Curricula c){
+		boolean hasCurricula = false;
 		
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
+		for (Curricula cu : this.findAll()) {
+			if (cu.getHandyWorker().getUserAccount().equals(userAccount)) {
+				hasCurricula=true; // un Handyworker solo puede tener un curriculo.
+			}
+		}
+		Assert.isTrue(!hasCurricula);
+		
 		
 		curriculaRepository.save(c);
 		return c;

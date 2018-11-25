@@ -11,6 +11,7 @@ import repositories.PersonalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.HandyWorker;
 import domain.PersonalRecord;
 import domain.ProfessionalRecord;
 
@@ -27,6 +28,9 @@ public class PersonalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public PersonalRecordService(){
@@ -50,17 +54,16 @@ public class PersonalRecordService {
 	
 	public PersonalRecord save(PersonalRecord a){
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		personalRecordRepository.save(a);
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.		
+
 		return a;
 	}
 	
 	public void delete(PersonalRecord a){
 		
 		UserAccount owner = findowner(a);
+		Assert.notNull(owner);
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(owner.equals(userAccount));
 		
@@ -75,9 +78,22 @@ public class PersonalRecordService {
 		for (Curricula c : todas) {
 				if(c.getPersonalRecord().equals(a)){
 					owner = c.getHandyWorker().getUserAccount();
+					System.out.println("se encuentra al dueño del pesonal Record.");
 				}
 			}
 		return owner;
 	}
 	
+	private void linkCurricula(PersonalRecord a){
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
+		System.out.println(hw.getUserAccount().getAuthorities());
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
+				c.setPersonalRecord(a);
+				this.save(a);
+				curriculaService.save(c);
+			}
+		}
+	}
 }
