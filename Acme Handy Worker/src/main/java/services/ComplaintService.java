@@ -17,6 +17,7 @@ import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.Report;
+import domain.WorkPlanPhase;
 
 import services.CustomerService;
 import services.FixUpTaskService;
@@ -41,6 +42,7 @@ public class ComplaintService {
 	@Autowired
 	private ReportService reportService;
 	
+	
 	//Constructors -----
 	public ComplaintService(){
 		super();
@@ -61,6 +63,34 @@ public class ComplaintService {
 		return complaintRepository.findOne(Id);
 	}
 	
+	// LOS ACTORES NO PUEDEN ACTUALIZAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
+	public Complaint save(Complaint c){
+		Complaint saved;
+		Collection<Complaint> complaints;
+		FixUpTask fx;
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		Customer customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		c.setMoment(current);
+
+		c.setCustomer(customer);
+		c.setMoment(current);
+		c.setTicker(generateTicker());
+		
+		saved = complaintRepository.save(c);	
+		complaintRepository.flush();
+		
+		fx = saved.getFixUpTask();	
+		fx.getComplaints().add(saved); 
+		fixUpTaskService.save(fx);
+		
+		complaints = complaintRepository.findAll();					// Comprobamos que el reporte se ha guardado correctamente en el archivo de reportes
+
+		Assert.isTrue(complaints.contains(saved));
+
+		return saved;
+	}
+	
+	/*	// LOS ACTORES NO PUEDEN ACTUALIZAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
 	public Complaint save(Complaint c){
 		Complaint saved;
 		Collection<Complaint> complaints;
@@ -89,10 +119,10 @@ public class ComplaintService {
 		Assert.isTrue(complaints.contains(saved));
 
 		return saved;
-	}
+	}*/
 	
+	// LOS ACTORES NO PUEDEN ELIMINAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
 	public void delete(Complaint c){
-		// SIN PROBAR
 		Assert.isTrue(c.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
 		Collection<Complaint> complaints;
 		Collection<Report> reports;
@@ -106,18 +136,39 @@ public class ComplaintService {
 			reportService.deleteAut(r);
 		}
 		
-		fx.getComplaints().remove(c);
-		saved = fixUpTaskService.save(fx);
-				
+		if(fx!=null){
+			fx.getComplaints().remove(c);
+			saved = fixUpTaskService.save(fx);
+		}
 		complaintRepository.delete(c);
 		
 		complaints = complaintRepository.findAll();
 		
-		Assert.isTrue(!(saved.getComplaints().contains(c)));
 		Assert.isTrue(!(complaints.contains(c)));
 	}
 	
 	//Other business methods -----
+	
+	// B-RF 36.1
+	public Collection<Complaint> getComplaintsWithNoReports(){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsWithNoReports();
+		return res;
+	}
+	
+	// B-RF 36.2
+	public Collection<Complaint> getComplaintsReferee(int refereeId){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsReferee(refereeId);
+		return res;
+	}
+	
+	// B-RF 37.3
+	public Collection<Complaint> getComplaintsHandyWorker(int handyWorkerId){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsHandyWorker(handyWorkerId);
+		return res;
+	}
 	
 	private String generateTicker(){
 		Date date = new Date(); // your date
@@ -143,6 +194,8 @@ public class ComplaintService {
 	        String saltStr = salt.toString();
 	        return saltStr;
 	}
+	
+	
 	
 	
 	

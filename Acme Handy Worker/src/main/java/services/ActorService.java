@@ -14,6 +14,7 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Box;
 import domain.Customer;
+import domain.Finder;
 import domain.HandyWorker;
 import domain.SocialProfile;
 import domain.Sponsor;
@@ -57,7 +58,13 @@ public class ActorService {
 	
 	  public Actor getByUserAccountId(UserAccount ua){ return
 	  actorRepository.findByUserAccountId(ua); }
-	 
+	/*  
+	  public Actor findByFinderId(final int finderId) {
+		Assert.notNull(finderId);
+		Actor result;
+		result = this.actorRepository.findByFinderId(finderId);
+		return result;
+	} */
 
 	private void createSystemBoxes(Actor a) {
 		Box inbox, outbox, spambox, trashbox;

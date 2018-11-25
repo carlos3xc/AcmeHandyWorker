@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -10,11 +11,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import security.LoginService;
 import utilities.AbstractTest;
+import domain.Application;
 import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
+import domain.HandyWorker;
 import domain.Note;
+import domain.Referee;
 import domain.Report;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,6 +38,12 @@ public class ComplaintServiceTest extends AbstractTest {
 	@Autowired
 	private FixUpTaskService fixUpTaskService;
 		
+	@Autowired
+	private RefereeService refereeService;
+	
+	@Autowired
+	private ApplicationService applicationService;
+	
 	// Tests ----------------------------------------------------------------------
 	
 	// CREATE ---------------------------------------------------------------------
@@ -78,7 +89,7 @@ public class ComplaintServiceTest extends AbstractTest {
 	
 
 	// UPDATE ---------------------------------------------------------------------
-	
+	/*
 	@Test 
 	public void testUpdateComplaints(){
 		Complaint complaint,saved;
@@ -91,10 +102,10 @@ public class ComplaintServiceTest extends AbstractTest {
 		Assert.isTrue(saved.getAttachments().contains("Attachment test 2"));
 		Assert.isTrue(saved.getDescription().equals("Description test"));
 		super.authenticate(null);
-	}
+	}*/
 	
 	// DELETE ---------------------------------------------------------------------
-
+/*
 	@Test 
 	public void testDeleteComplaints(){
 		Complaint complaint;
@@ -108,6 +119,50 @@ public class ComplaintServiceTest extends AbstractTest {
 		Assert.isTrue(!complaints.contains(complaint));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
 		
 		super.authenticate(null);
+	}*/
+	
+	@Test 
+	public void testComplaintsWithNoReports(){
+		Collection<Complaint> complaints;
+		Collection<Complaint> allComps = new ArrayList<Complaint>();
+		Collection<Report> reports = reportService.findAll();
+		complaints = complaintService.getComplaintsWithNoReports();			
+		for(Report r : reports){
+			allComps.add(r.getComplaint());
+		}
+		Assert.isTrue(!allComps.contains(complaints));						
+		
 	}
+	
+	@Test 
+	public void testComplaintsReferee(){
+		super.authenticate("referee1");
+		Collection<Complaint> complaints;
+		Collection<Complaint> compManual = new ArrayList<Complaint>();
+		Collection<Report> reports = reportService.findAll();
+		Referee r = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+		complaints = complaintService.getComplaintsReferee(r.getId());			
+		for(Report rep : reports){
+			if(rep.getReferee().equals(r))
+				compManual.add(rep.getComplaint());
+		}
+		Assert.isTrue(compManual.equals(complaints));		
+	}
+/*	
+	@Test
+	public void testComplaintsHandyWorker(int handyWorkerId){
+		super.authenticate("handyWorker1");
+		Collection<Complaint> complaints;
+		Collection<Complaint> compManual = new ArrayList<Complaint>();
+		Collection<Application> applications = applicationService.findAll();
+//		HandyWorker hw = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		complaints = complaintService.getComplaintsHandyWorker(hw.getId());			
+		for(Application a : applications){
+			for(Complaint com: a.getFixUpTask().getComplaints())
+				if(a.getHandyWorker().equals(hw))
+				compManual.add(com);
+		}
+		Assert.isTrue(compManual.equals(complaints));
+	}*/
 	
 }

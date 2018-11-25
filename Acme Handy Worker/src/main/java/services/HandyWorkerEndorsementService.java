@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.HandyWorkerEndorsementRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.HandyWorkerEndorsement;
 
 
@@ -33,8 +31,6 @@ public class HandyWorkerEndorsementService {
 	
 	//Simple CRUD methods -----
 	public HandyWorkerEndorsement create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		HandyWorkerEndorsement res = new HandyWorkerEndorsement();
 		return res;
 	}
@@ -43,32 +39,21 @@ public class HandyWorkerEndorsementService {
 		return handyWorkerEndorsementRepository.findAll();
 	}
 	
-	public HandyWorkerEndorsement findOne(int Id){
-		return handyWorkerEndorsementRepository.findOne(Id);
+	public HandyWorkerEndorsement findOne(int HandyWorkerEndorsementId){
+		return handyWorkerEndorsementRepository.findOne(HandyWorkerEndorsementId);
 	}
 	
-	public HandyWorkerEndorsement save(HandyWorkerEndorsement a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		handyWorkerEndorsementRepository.save(a);
-		return a;
+	public HandyWorkerEndorsement save(HandyWorkerEndorsement handyWorkerEndorsement){
+		Assert.notNull(handyWorkerEndorsement);	
+		HandyWorkerEndorsement res;
+		res = handyWorkerEndorsementRepository.save(handyWorkerEndorsement);
+		return res;
 	}
 	
-	public void delete(HandyWorkerEndorsement a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		handyWorkerEndorsementRepository.delete(a);
+	public void delete(HandyWorkerEndorsement handyWorkerEndorsement){
+		Assert.notNull(handyWorkerEndorsement);
+		Assert.isTrue(handyWorkerEndorsement.getId() != 0);
+		this.handyWorkerEndorsementRepository.delete(handyWorkerEndorsement);	
 	}
 	
 	//Other business methods -----

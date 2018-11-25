@@ -11,6 +11,7 @@ import repositories.CustomerEndorsementRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.CustomerEndorsement;
+import domain.Tutorial;
 
 
 @Service
@@ -23,9 +24,6 @@ public class CustomerEndorsementService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
 	//Constructors -----
 	public CustomerEndorsementService(){
 		super();
@@ -33,8 +31,6 @@ public class CustomerEndorsementService {
 	
 	//Simple CRUD methods -----
 	public CustomerEndorsement create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		CustomerEndorsement res = new CustomerEndorsement();
 		return res;
 	}
@@ -43,32 +39,21 @@ public class CustomerEndorsementService {
 		return customerEndorsementRepository.findAll();
 	}
 	
-	public CustomerEndorsement findOne(int Id){
-		return customerEndorsementRepository.findOne(Id);
+	public CustomerEndorsement findOne(int customerEndorsementId){
+		return customerEndorsementRepository.findOne(customerEndorsementId);
 	}
 	
-	public CustomerEndorsement save(CustomerEndorsement a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		customerEndorsementRepository.save(a);
-		return a;
+	public CustomerEndorsement save(CustomerEndorsement customerEndorsement){
+		Assert.notNull(customerEndorsement);	
+		CustomerEndorsement res;
+		res = customerEndorsementRepository.save(customerEndorsement);
+		return res;
 	}
 	
-	public void delete(CustomerEndorsement a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		customerEndorsementRepository.delete(a);
+	public void delete(CustomerEndorsement customerEndorsement){
+		Assert.notNull(customerEndorsement);
+		Assert.isTrue(customerEndorsement.getId() != 0);
+		this.customerEndorsementRepository.delete(customerEndorsement);	
 	}
 	
 	//Other business methods -----

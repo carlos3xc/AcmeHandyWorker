@@ -12,6 +12,8 @@ import repositories.ApplicationRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Application;
+import domain.Customer;
+import domain.FixUpTask;
 import domain.HandyWorker;
 
 @Service
@@ -57,6 +59,10 @@ public class ApplicationService {
 
 		applicationRepository.delete(a);
 	}
+	
+	public void deleteAut(Application a) {
+		applicationRepository.delete(a);
+	}
 
 	public Collection<Application> findAll() {
 		return applicationRepository.findAll();
@@ -64,17 +70,6 @@ public class ApplicationService {
 
 	public Application findOne(int Id) {
 		return applicationRepository.findOne(Id);
-	}
-
-	public Collection<Application> applicationByHandyWorker(
-			HandyWorker handyWorker) {
-		Collection<Application> res = new ArrayList<Application>();
-		for (Application a : applicationRepository.findAll()) {
-			if (a.getHandyWorker().equals(handyWorker)) {
-				res.add(a);
-			}
-		}
-		return res;
 	}
 
 	// Other business methods -----
@@ -85,4 +80,32 @@ public class ApplicationService {
 
 		this.save(a);
 	}
+
+//	public Collection<Application> applicationByHandyWorker(
+//			HandyWorker handyWorker) {
+//		Collection<Application> res = new ArrayList<Application>();
+//		for (Application a : applicationRepository.findAll()) {
+//			if (a.getHandyWorker().equals(handyWorker)) {
+//				res.add(a);
+//			}
+//		}
+//		return res;
+//	}
+	
+//	public Collection<Application> applicationByHandyWorker(
+//			int handyWorkerId) {
+//		Collection<Application> res = new ArrayList<Application>();
+//		applicationRepository.applicationByHandyWorker(handyWorker);
+//	}
+
+	// public Collection<Application> applicationByCustomer(Customer customer) {
+	// Collection<Application> res = new ArrayList<Application>();
+	// for (Application a : applicationRepository.findAll()) {
+	// for (FixUpTask f : customer.getFixUpTasks()) {
+	// if (f.getCustomer()) {
+	//
+	// }
+	// }
+	// }
+	// }
 }
