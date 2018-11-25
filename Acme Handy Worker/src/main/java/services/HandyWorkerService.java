@@ -26,7 +26,6 @@ public class HandyWorkerService {
 	
 	//Supporting Services -----
 	
-<<<<<<< HEAD
 	@Autowired
 	private UserAccountService userAccountService;
 	
@@ -38,8 +37,6 @@ public class HandyWorkerService {
 		super();
 	}
 	
-=======
->>>>>>> acb9093fd20eea3c9e20bceb266cb707161bff0d
 	//Simple CRUD methods -----
 	public HandyWorker create(){	
 		HandyWorker res = new HandyWorker();
@@ -92,6 +89,13 @@ public class HandyWorkerService {
 		Assert.notNull(userAccount);
 		hw = handyWorkerRepository.findByPrincipal(userAccount.getId());
 		return hw;
+	}
+	
+	public HandyWorker findByFinderId(final int finderId) {
+		Assert.notNull(finderId);
+		HandyWorker result;
+		result = this.handyWorkerRepository.findByFinderId(finderId);
+		return result;
 	}
 	
 	

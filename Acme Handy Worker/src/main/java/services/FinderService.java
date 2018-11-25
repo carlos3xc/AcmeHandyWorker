@@ -27,9 +27,6 @@ public class FinderService {
 	
 	@Autowired
 	private HandyWorkerService		handyWorkerService;
-
-	@Autowired
-	private ActorService		actorService;
 	
 	//Constructors -----
 	public FinderService(){
@@ -81,9 +78,9 @@ public class FinderService {
 	
 	private Boolean esDeActorActual(final Finder finder) {
 		Boolean result = false;
-		final HandyWorker handyWorker = this.handyWorkerService.findByPrincipal();
-		final Actor actor = this.actorService.findByFinderId(finder.getId());
-		if (handyWorker.equals(actor))
+		final HandyWorker principal = this.handyWorkerService.findByPrincipal();
+		final HandyWorker handyWorker = this.handyWorkerService.findByFinderId(finder.getId());
+		if (principal.equals(handyWorker))
 			result = true;
 		return result;
 	}
