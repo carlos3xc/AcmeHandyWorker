@@ -60,7 +60,7 @@ public class FinderServiceTest extends AbstractTest {
 	@Test
 	public void testSave() {
 		this.authenticate("handyworker3");
-		final Finder finderPrueba = this.finderService.findOne(3042);
+		final Finder finderPrueba = this.finderService.findOne(14633);
 		finderPrueba.setMaxPrice(150.0);
 		Finder saved = this.finderService.save(finderPrueba);
 		Collection<Finder> finders = this.finderService.findAll();
@@ -69,14 +69,14 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Test
 	public void testFindOne() {
-		Finder f = this.finderService.findOne(3043);
+		Finder f = this.finderService.findOne(14634);
 		Assert.isTrue(!f.equals(null), "----- Fallo metodo findOne -----");
 	}
 
 	@Test
 	public void testDelete() {
 		this.authenticate("handyworker3");
-		final Finder finder = this.finderService.findOne(3044);
+		final Finder finder = this.finderService.findOne(14635);
 		this.finderService.delete(finder);
 	}
 
