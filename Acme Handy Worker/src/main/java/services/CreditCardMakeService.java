@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CreditCardMakeRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.CreditCardMake;
@@ -23,9 +24,6 @@ public class CreditCardMakeService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
 	//Constructors -----
 	public CreditCardMakeService(){
 		super();
@@ -33,8 +31,6 @@ public class CreditCardMakeService {
 	
 	//Simple CRUD methods -----
 	public CreditCardMake create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		CreditCardMake res = new CreditCardMake();
 		return res;
 	}
@@ -47,27 +43,21 @@ public class CreditCardMakeService {
 		return creditCardMakeRepository.findOne(Id);
 	}
 	
-	public CreditCardMake save(CreditCardMake a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+	public CreditCardMake save(CreditCardMake a){		
+		CreditCardMake saved;
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		creditCardMakeRepository.save(a);
-		return a;
+		Authority n = new Authority();
+		n.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(n));
+		saved = creditCardMakeRepository.save(a);
+		return saved;
 	}
 	
 	public void delete(CreditCardMake a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
+		Authority n = new Authority();
+		n.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(n));
 		creditCardMakeRepository.delete(a);
 	}
 	
