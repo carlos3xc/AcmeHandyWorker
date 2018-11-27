@@ -25,9 +25,9 @@ public class BoxService {
 
 	public Box create(Actor actor) {
 
-		UserAccount userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(actor.getUserAccount().equals(userAccount));
+//		UserAccount userAccount = LoginService.getPrincipal();
+//
+//		Assert.isTrue(actor.getUserAccount().equals(userAccount));
 
 		Box box = new Box();
 
@@ -46,12 +46,16 @@ public class BoxService {
 		return boxRepository.findOne(Id);
 	}
 
+	public Collection<Box> findByActorId(int actorId) {
+		return boxRepository.findByActorId(actorId);
+	}
+
 	public Box save(Box box) {
 
 		Box result;
 
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
+//		UserAccount userAccount = LoginService.getPrincipal();
+//		Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
 
 		result = boxRepository.save(box);
 		return result;
@@ -75,9 +79,9 @@ public class BoxService {
 	}
 
 	public Box createUserBox(Actor actor) {
-		
+
 		Box box = this.create(actor);
-		
+
 		box.setName(box.getActor().getName());
 		this.save(box);
 
