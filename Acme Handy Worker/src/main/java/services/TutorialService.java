@@ -12,7 +12,9 @@ import repositories.TutorialRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.HandyWorker;
 import domain.Note;
+import domain.Referee;
 import domain.Report;
 import domain.Section;
 import domain.Tutorial;
@@ -28,8 +30,8 @@ public class TutorialService {
 	
 	//Supporting Services -----
 	
-//	@Autowired
-//	private SectionService sectionService; 
+	@Autowired
+	private HandyWorkerService handyWorkerService; 
 	
 	//Constructors -----
 	public TutorialService(){
@@ -55,17 +57,31 @@ public class TutorialService {
 		return tutorialRepository.findOne(tutorialId);
 	}
 	
-	public Tutorial save(Tutorial tutorial){
-		Assert.notNull(tutorial);
-		Tutorial result;
-		result = this.tutorialRepository.save(tutorial);
-		return result;
+	public Tutorial save(Tutorial tutorial){	
+		Tutorial saved;
+		Authority e = new Authority();
+		e.setAuthority("HANDYWORKER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		tutorial.setMoment(current);
+		tutorial.setTitle("Tutorial 1");
+		tutorial.setSummary("Summary 1");
+		tutorial.setPictures(null);
+		
+		saved = tutorialRepository.save(tutorial);
+		return saved;
 	}
 	
 	public void delete(Tutorial tutorial){
-		Assert.notNull(tutorial);
-		Assert.isTrue(tutorial.getId() != 0);
-		this.tutorialRepository.delete(tutorial);
+		Authority e = new Authority();
+		e.setAuthority("HANDYWORKER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(e));
+		
+		tutorialRepository.delete(tutorial);
 	}
 	
 	//Other business methods -----

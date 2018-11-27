@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SectionRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Box;
@@ -27,6 +28,8 @@ public class SectionService {
 	
 //Supporting Services -----
 	
+	//@Autowired
+	//private TutorialService tutorialService; 
 	
 	//Constructors -----
 	public SectionService(){
@@ -34,37 +37,38 @@ public class SectionService {
 	}
 	
 	//Simple CRUD methods -----
-	public Section create(Tutorial tutorial){
+	public Section create(){
 		Section res = new Section();
-		res.setTutorial(tutorial);
+		res.setPictures(new ArrayList<String>());
+		res.setTutorial(new Tutorial());
 		return res;
 	}
 	
 	public Collection<Section> findAll(){
-		Collection<Section> result;
-		result = this.sectionRepository.findAll();
-		Assert.notNull(result);
-		return result;
+		return sectionRepository.findAll();
 	}
 	
 	public Section findOne(int Id){
-		Section result;
-		result = this.sectionRepository.findOne(Id);
-		return result;
+		return sectionRepository.findOne(Id);
 	}
 	
-	public Section save(Section section){			
-		Assert.notNull(section);
-		Section result;
-		result = this.sectionRepository.save(section);
-		return result;
+	public Section save(Section section){		
+		UserAccount userAccount = LoginService.getPrincipal();
+		Authority au = new Authority();
+		au.setAuthority("HANDYWORKER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		
+		return sectionRepository.save(section);
 	}
 	
 //	private TutorialService tutorialService;
 	public void delete(Section section){		
-		Assert.notNull(section);
-		Assert.isTrue(section.getId() != 0);
-		this.sectionRepository.delete(section);
+		UserAccount userAccount = LoginService.getPrincipal();
+		Authority au = new Authority();
+		au.setAuthority("HANDYWORKER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		
+		sectionRepository.delete(section);	
 	}
 	
 	//Other business methods -----
