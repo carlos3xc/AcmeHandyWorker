@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SponsorshipRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Sponsor;
 import domain.Sponsorship;
 
 
@@ -22,9 +24,9 @@ public class SponsorshipService {
 	private SponsorshipRepository sponsorshipRepository;
 	
 	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
+
+	@Autowired
+	private SponsorService sponsorService; 
 	
 	//Constructors -----
 	public SponsorshipService(){
@@ -33,9 +35,8 @@ public class SponsorshipService {
 	
 	//Simple CRUD methods -----
 	public Sponsorship create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Sponsorship res = new Sponsorship();
+	
 		return res;
 	}
 	
@@ -48,25 +49,22 @@ public class SponsorshipService {
 	}
 	
 	public Sponsorship save(Sponsorship a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("SPONSOR");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		sponsorshipRepository.save(a);
-		return a;
+		Sponsor sponsor = sponsorService.findSponsorByUserAccount(userAccount);
+		a.setSponsor(sponsor);
+		
+		return sponsorshipRepository.save(a);
 	}
 	
 	public void delete(Sponsorship a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("SPONSOR");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
 		sponsorshipRepository.delete(a);
 	}

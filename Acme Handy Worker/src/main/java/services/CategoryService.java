@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CategoryRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Category;
+import domain.FixUpTask;
 
 
 @Service
@@ -23,19 +25,14 @@ public class CategoryService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public CategoryService(){
-		super();
-	}
+	@Autowired
+	private FixUpTaskService taskService;
 	
 	//Simple CRUD methods -----
+	
 	public Category create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Category res = new Category();
+		
 		return res;
 	}
 	
@@ -48,25 +45,24 @@ public class CategoryService {
 	}
 	
 	public Category save(Category a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		categoryRepository.save(a);
-		return a;
+		return categoryRepository.save(a);
 	}
 	
 	public void delete(Category a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		
+		for(FixUpTask f:categoryRepository.listTaskByCategory(a.getId())){ //Hacerlo mejor con una query
+			f.setCategory(a.getParentCategory());
+			FixUpTask fx = taskService.saveAdmin(f);
+		}
 		
 		categoryRepository.delete(a);
 	}
