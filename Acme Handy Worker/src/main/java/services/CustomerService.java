@@ -28,7 +28,7 @@ public class CustomerService {
 
 	//Managed Repository -----
 	@Autowired
-	private CustomerRepository customerRepository;
+	private static CustomerRepository customerRepository;
 	
 	@Autowired
 	private UserAccountService userAccountService;

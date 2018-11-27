@@ -1,6 +1,8 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CustomerEndorsementRepository;
+import repositories.CustomerRepository;
+import repositories.HandyWorkerRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Customer;
 import domain.CustomerEndorsement;
-import domain.Tutorial;
+import domain.HandyWorker;
+import domain.Note;
+import domain.Referee;
+import domain.Report;
 
 
 @Service
@@ -24,6 +33,12 @@ public class CustomerEndorsementService {
 	
 	//Supporting Services -----
 	
+	@Autowired
+	private CustomerService customerService;
+	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
 	//Constructors -----
 	public CustomerEndorsementService(){
 		super();
@@ -32,6 +47,8 @@ public class CustomerEndorsementService {
 	//Simple CRUD methods -----
 	public CustomerEndorsement create(){
 		CustomerEndorsement res = new CustomerEndorsement();
+		res.setCustomer(new Customer());
+		res.setHandyWorker(new HandyWorker());
 		return res;
 	}
 	
@@ -44,19 +61,36 @@ public class CustomerEndorsementService {
 	}
 	
 	public CustomerEndorsement save(CustomerEndorsement customerEndorsement){
-		Assert.notNull(customerEndorsement);	
-		CustomerEndorsement res;
-		res = customerEndorsementRepository.save(customerEndorsement);
-		return res;
+		CustomerEndorsement saved;
+		Authority e = new Authority();
+		e.setAuthority("CUSTOMER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Customer c = customerService.findByUserAccountId(userAccount.getId());
+		HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
+		Assert.isTrue(userAccount.getAuthorities().contains(e));
+		
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		customerEndorsement.setMoment(current);
+		customerEndorsement.setText("hduhsid");
+		customerEndorsement.setCustomer(c);
+		customerEndorsement.setHandyWorker(hw);
+		saved = customerEndorsementRepository.save(customerEndorsement);
+		return saved;
 	}
 	
+	
+
 	public void delete(CustomerEndorsement customerEndorsement){
-		Assert.notNull(customerEndorsement);
-		Assert.isTrue(customerEndorsement.getId() != 0);
+		Authority e = new Authority();
+		e.setAuthority("CUSTOMER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		
 		this.customerEndorsementRepository.delete(customerEndorsement);	
+		
 	}
 	
 	//Other business methods -----
-	
 	
 }

@@ -34,7 +34,7 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Test
 	public void testCreate() {
-		this.authenticate("handyworker3");
+		this.authenticate("Francisco Pozo Nevado");
 		Finder finder;
 		finder = this.finderService.create();
 		finder.setKeyword("xxx");
@@ -59,7 +59,7 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Test
 	public void testSave() {
-		this.authenticate("handyworker3");
+		this.authenticate("Francisco Pozo Nevado");
 		final Finder finderPrueba = this.finderService.findOne(14633);
 		finderPrueba.setMaxPrice(150.0);
 		Finder saved = this.finderService.save(finderPrueba);
