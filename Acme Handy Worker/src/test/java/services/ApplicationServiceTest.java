@@ -24,6 +24,7 @@ import utilities.AbstractTest;
 		"classpath:spring/config/packages.xml" })
 @Transactional
 public class ApplicationServiceTest extends AbstractTest {
+
 	@Autowired
 	private ApplicationService applicationService;
 
@@ -53,6 +54,7 @@ public class ApplicationServiceTest extends AbstractTest {
 		// https://codechi.com/dev-tools/date-to-millisecond-calculators/
 		// Añadir una f al final para indicar que es un long
 		fecha.setTime(1608591600000l);
+
 		application.setMoment(current);
 		application.setPrice(68.5);
 		application.setStatus("PENDING");
@@ -80,12 +82,27 @@ public class ApplicationServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void testUpdate() {
+	public void testUpdateHandyWorker() {
 		authenticate("handyWorker1");
 		Application application = applicationService.findOne(14811);
 		Application result;
-		
+
 		application.setHandyWorkerComment("Comentario trabajador modificado");
+
+		result = applicationService.save(application);
+		Assert.isTrue(applicationService.findAll().contains(result));
+		unauthenticate();
+	}
+
+	@Test
+	public void testUpdateCustomer() {
+		authenticate("customer1");
+		Application application = applicationService.findOne(14822);
+		Application result;
+		// Customer 1 -> 14571
+		// FixUpTask 8 -> 14803
+		// Application 12 -> 14822
+		application.setCustomerComment("Comentario cliente modificado");
 
 		result = applicationService.save(application);
 		Assert.isTrue(applicationService.findAll().contains(result));
@@ -101,12 +118,26 @@ public class ApplicationServiceTest extends AbstractTest {
 		unauthenticate();
 	}
 
-//	@Test
-//	public void testApplicationByHandyWorker() {
-//		Collection<Application> res = new ArrayList<Application>();
-//		HandyWorker handyWorker = handyWorkerService.findOne(14670);
-//		res = applicationService.applicationByHandyWorker(handyWorker);
-//		Assert.isTrue(res.size() == 4);
-//	}
+	@Test
+	public void testApplicationByHandyWorker() {
+		Collection<Application> res = new ArrayList<Application>();
+		// HandyWorker handyWorker = handyWorkerService.findOne(14670);
+		res = applicationService.applicationByHandyWorker(14578);
+		Assert.isTrue(res.size() == 4);
+	}
+
+	@Test
+	public void testChangeStatus() {
+		authenticate("customer1"); // 14578
+
+		// String a = "PENDING";
+		// String b = "ACCEPTED";
+		String c = "REJECTED";
+
+		Application application = applicationService.findOne(14822);
+		applicationService.changeStatus(application, c);
+
+		unauthenticate();
+	}
 
 }

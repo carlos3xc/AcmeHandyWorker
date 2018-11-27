@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Application;
-import domain.Customer;
-import domain.HandyWorker;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer>{
@@ -17,8 +15,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	Application findOne(Integer Id);
 	
 	@Query("select a from Application a where a.handyWorker.id = ?1")
-	Collection<Application> applicationByHandyWorker(HandyWorker hw);
+	Collection<Application> applicationByHandyWorker(Integer Id);
 	
-	@Query("select a from Application a")
-	Collection<Application> applicationByCustomer(Customer c);
+//	@Query("select a from Customer c where c.fixUpTasks.id = ?1 join f.applications a")
+//	Collection<Application> applicationByCustomer(Customer c);
 }

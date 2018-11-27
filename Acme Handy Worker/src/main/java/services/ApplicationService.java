@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,57 +10,68 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Application;
-import domain.Customer;
-import domain.FixUpTask;
-import domain.HandyWorker;
 
 @Service
 @Transactional
 public class ApplicationService {
 
-	// Managed Repository -----
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
-	// Supporting Services -----
-
-	// @Autowired
+	@Autowired
 	private MessageService messageService;
-
-	// Constructors -----
-	public ApplicationService() {
-		super();
-	}
 
 	// Simple CRUD methods -----
 
 	public Application create() {
 
+		// Authority authority = new Authority();
+		// authority.setAuthority("HANDYWORKER");
+		//
+		// UserAccount userAccount = LoginService.getPrincipal();
+		//
+		// Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
 		Application result = new Application();
+
+		Date moment = new Date(System.currentTimeMillis() - 1000);
+		result.setMoment(moment);
 		return result;
 	}
 
-	public Application save(Application a) {
+	public Application save(Application application) {
 
 		Application result;
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(a.getHandyWorker().getUserAccount().equals(userAccount));
 
-		result = applicationRepository.save(a);
+		Authority handyWorker = new Authority();
+		Authority customer = new Authority();
+
+		handyWorker.setAuthority("HANDYWORKER");
+		customer.setAuthority("CUSTOMER");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+
+		Assert.isTrue(userAccount.getAuthorities().contains(handyWorker)
+				|| userAccount.getAuthorities().contains(customer));
+		// Assert.isTrue(application.getHandyWorker().getUserAccount().equals(userAccount));
+
+		result = applicationRepository.save(application);
 		return result;
 	}
 
-	public void delete(Application a) {
+	public void delete(Application application) {
 
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(a.getHandyWorker().getUserAccount().equals(userAccount));
+		Assert.isTrue(application.getHandyWorker().getUserAccount()
+				.equals(userAccount));
 
-		applicationRepository.delete(a);
+		applicationRepository.delete(application);
 	}
-	
+
 	public void deleteAut(Application a) {
 		applicationRepository.delete(a);
 	}
@@ -74,38 +86,35 @@ public class ApplicationService {
 
 	// Other business methods -----
 
-	public void changeStatus(Application a, String status) {
-		a.setStatus(status);
-		messageService.sendSystemMessages(a);
+	public void changeStatus(Application application, String status) {
 
-		this.save(a);
+		// String a = "PENDING";
+		// String b = "ACCEPTED";
+		// String c = "REJECTED";
+
+		Authority authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		application.setStatus(status);
+
+		Assert.isTrue((application.getStatus().equals("ACCEPTED") && application
+				.getCreditCard() != null)
+				|| (application.getStatus().equals("REJECTED") && application
+						.getCustomerComment() != ""));
+
+		// messageService.sendSystemMessages(application);
+
+		this.save(application);
 	}
 
-//	public Collection<Application> applicationByHandyWorker(
-//			HandyWorker handyWorker) {
-//		Collection<Application> res = new ArrayList<Application>();
-//		for (Application a : applicationRepository.findAll()) {
-//			if (a.getHandyWorker().equals(handyWorker)) {
-//				res.add(a);
-//			}
-//		}
-//		return res;
-//	}
-	
-//	public Collection<Application> applicationByHandyWorker(
-//			int handyWorkerId) {
-//		Collection<Application> res = new ArrayList<Application>();
-//		applicationRepository.applicationByHandyWorker(handyWorker);
-//	}
+	public Collection<Application> applicationByHandyWorker(int handyWorkerId) {
+		Collection<Application> res = new ArrayList<Application>();
+		res = applicationRepository.applicationByHandyWorker(handyWorkerId);
+		return res;
+	}
 
-	// public Collection<Application> applicationByCustomer(Customer customer) {
-	// Collection<Application> res = new ArrayList<Application>();
-	// for (Application a : applicationRepository.findAll()) {
-	// for (FixUpTask f : customer.getFixUpTasks()) {
-	// if (f.getCustomer()) {
-	//
-	// }
-	// }
-	// }
-	// }
 }
