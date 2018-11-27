@@ -89,7 +89,7 @@ public class AdministratorServiceTest extends AbstractTest {
 		
 		authenticate("admin1");
 		
-		Actor actor = actorService.findOne(14574);
+		Actor actor = actorService.findOne(15724); // Customer 4
 		
 		administratorService.ban(actor);
 		
@@ -102,7 +102,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	public void testUnbanActor(){
 		authenticate("admin1");
 		
-		Actor actor = actorService.findOne(14573);
+		Actor actor = actorService.findOne(15723); // Customer 3
 		
 		administratorService.unBan(actor);
 		
