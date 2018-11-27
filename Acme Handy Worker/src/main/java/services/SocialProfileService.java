@@ -23,13 +23,6 @@ public class SocialProfileService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public SocialProfileService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public SocialProfile create(){
@@ -52,12 +45,6 @@ public class SocialProfileService {
 	}
 	
 	public void delete(SocialProfile a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
 		socialProfileRepository.delete(a);
 	}
