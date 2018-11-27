@@ -11,9 +11,7 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.SocialProfile;
 
-import security.UserAccount;
 import security.UserAccountService;
-
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,9 +29,9 @@ public class ActorServiceTest extends AbstractTest {
 	@Test
 	public void testUpdate() {
 
-		authenticate("handyworker3");
+		authenticate("handyworker5");
 
-		Actor actor = actorService.findOne(14578);
+		Actor actor = actorService.findOne(15730);
 		Actor result;
 
 		actor.setName("Nombre modificado");
@@ -42,8 +40,8 @@ public class ActorServiceTest extends AbstractTest {
 		actor.setAddress("Direccion modificada");
 		actor.setEmail("correomodificado@gmail.com");
 		actor.setPhone("666444333");
-		actor.setIsBanned(false);
-		actor.setIsSuspicious(false);
+		// actor.setIsBanned(false);
+		// actor.setIsSuspicious(false);
 
 		SocialProfile socialProfile = new SocialProfile();
 		socialProfile.setNick("nick");
@@ -52,27 +50,41 @@ public class ActorServiceTest extends AbstractTest {
 
 		actor.getSocialProfiles().add(socialProfile);
 
-		UserAccount userAccount = userAccountService.findOne(14561);
-		actor.setUserAccount(userAccount);
+		// UserAccount userAccount = userAccountService.findOne(14561);
+		// actor.setUserAccount(userAccount);
 
 		result = actorService.save(actor);
 		Assert.isTrue(actorService.findAll().contains(result));
-		
+
 		unauthenticate();
 	}
-	
-	@Test
-	public void testRegisterHandyWorker(){
-		actorService.registerHandyWorker();
-	}
-	
-	@Test
-	public void testRegisterCutomer(){
-		actorService.registerCustomer();
-	}
-	
-	@Test
-	public void testRegisterSponsor(){
-		actorService.registerSponsor();
-	}
+
+	// @Test
+	// public void testDelete() {
+	// authenticate("handyworker5");
+	//
+	// Actor actor = actorService.findOne(15730);
+	// actorService.delete(actor);
+	//
+	// Assert.isTrue(!actorService.findAll().contains(actor));
+	// Assert.isTrue(!userAccountService.findAll().contains(
+	// actor.getUserAccount()));
+	//
+	// unauthenticate();
+	// }
+
+	// @Test
+	// public void testRegisterHandyWorker() {
+	// actorService.registerHandyWorker();
+	// }
+	//
+	// @Test
+	// public void testRegisterCutomer() {
+	// actorService.registerCustomer();
+	// }
+	//
+	// @Test
+	// public void testRegisterSponsor() {
+	// actorService.registerSponsor();
+	// }
 }

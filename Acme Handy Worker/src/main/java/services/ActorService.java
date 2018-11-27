@@ -11,10 +11,10 @@ import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import domain.Actor;
 import domain.Box;
 import domain.Customer;
-import domain.Finder;
 import domain.HandyWorker;
 import domain.Sponsor;
 
@@ -33,6 +33,9 @@ public class ActorService {
 
 	@Autowired
 	private SponsorService sponsorService;
+	
+	@Autowired
+	private UserAccountService userAccountService;
 
 	@Autowired
 	private BoxService boxService;
@@ -57,6 +60,8 @@ public class ActorService {
 		UserAccount user = new UserAccount();
 		user.addAuthority(authority);
 
+		// Actor oldActor = findOne(actor.getId());
+
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(actor.getUserAccount().equals(userAccount)
 				|| userAccount.getAuthorities().contains(authority));
@@ -69,8 +74,10 @@ public class ActorService {
 
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(actor.getUserAccount().equals(userAccount));
-
+		
 		actorRepository.delete(actor);
+		
+		userAccountService.delete(userAccount);
 	}
 
 	// Other business methods -----
@@ -143,26 +150,5 @@ public class ActorService {
 
 		customer.setUserAccount(userAccount);
 	}
-
-	// public void register(String type, UserAccount ua) {
-	// // Solo pueden registrarse nuevos actores como customer o como
-	// // HandyWorker.
-	// Actor nuevo = this.create(ua);
-	//
-	// if (type.equals("CUSTOMER")) {
-	//
-	// Customer aux = new Customer();
-	// aux = (Customer) nuevo;
-	// }
-	// if (type.equals("HANDYWORKER")) {
-	// HandyWorker aux = new HandyWorker();
-	// aux = (HandyWorker) nuevo;
-	// }
-	// if (type.equals("SPONSOR")) {
-	// Sponsor aux = new Sponsor();
-	// aux = (Sponsor) nuevo;
-	// }
-	// this.save(nuevo);
-	// }
 
 }
