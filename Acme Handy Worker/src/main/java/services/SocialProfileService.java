@@ -23,18 +23,9 @@ public class SocialProfileService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public SocialProfileService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public SocialProfile create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		SocialProfile res = new SocialProfile();
 		return res;
 	}
@@ -48,25 +39,12 @@ public class SocialProfileService {
 	}
 	
 	public SocialProfile save(SocialProfile a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		socialProfileRepository.save(a);
-		return a;
+		SocialProfile saved;
+		saved = socialProfileRepository.save(a);
+		return saved;
 	}
 	
 	public void delete(SocialProfile a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
 		socialProfileRepository.delete(a);
 	}

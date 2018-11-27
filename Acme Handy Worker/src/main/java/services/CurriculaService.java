@@ -1,7 +1,10 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +33,10 @@ public class CurriculaService {
 	//Supporting Services -----
 	
 	@Autowired
-	private HandyWorkerService hwService; 
+	private ActorService actorService;
 	
 	@Autowired
-	private ActorService actorService;
+	private PersonalRecordService personalRecordService;
 	
 	//Constructors -----
 	public CurriculaService(){
@@ -47,8 +50,6 @@ public class CurriculaService {
 		UserAccount ua = LoginService.getPrincipal();
 		Curricula c = new Curricula();
 		
-		//Solo le asignamos un handyWorker si 
-		
 		if (LoginService.hasRole("HANDYWORKER")) {
 			HandyWorker hw  = (HandyWorker) actorService.getByUserAccountId(ua);
 			c.setHandyWorker(hw);
@@ -58,6 +59,7 @@ public class CurriculaService {
 		c.setEndorserRecords(new ArrayList<EndorserRecord>());
 		c.setMiscellaneousRecords(new ArrayList<MiscellaneousRecord>());
 		c.setProfessionalRecords(new ArrayList<ProfessionalRecord>());
+		c.setTicker(this.generateTicker());
 		
 		return c;
 	}
@@ -71,25 +73,52 @@ public class CurriculaService {
 	}
 	
 	public Curricula save(Curricula c){
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
+		UserAccount logged = LoginService.getPrincipal();
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+		//Assert.notNull(c.getPersonalRecord());
+		//sabemos que es un Handyworker y que es el dueño de la curricula que se quiere guardar.
+
+		Curricula res = curriculaRepository.saveAndFlush(c);
 		
-		curriculaRepository.save(c);
-		return c;
+		return res;
 	}
 	
 	public void delete(Curricula c){
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
+		UserAccount logged = LoginService.getPrincipal();
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+	
 		curriculaRepository.delete(c);
+		personalRecordService.delete(c.getPersonalRecord());
 	}
 	
 	//Other business methods -----
 	
+	private String generateTicker(){
+		Date date = new Date(); // your date
+		Calendar n = Calendar.getInstance();
+		n.setTime(date);
+		String t = "";
+		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
+				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ "-"+ randomWordAndNumber();
+
+		return t;
+	}
+	
+	private String randomWordAndNumber(){
+		 String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < 6) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        String saltStr = salt.toString();
+	        return saltStr;
+	}
 	
 }

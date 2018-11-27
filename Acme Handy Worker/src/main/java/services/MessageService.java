@@ -13,6 +13,7 @@ import repositories.MessageRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.Administrator;
 import domain.Application;
 import domain.Box;
 import domain.Message;
@@ -29,7 +30,7 @@ public class MessageService {
 	//Supporting Services -----
 	
 	@Autowired
-	private ActorService actorService;
+	private AdministratorService adminService;
 	
 	@Autowired
 	private BoxService boxService;
@@ -135,7 +136,7 @@ public class MessageService {
 	//Other business methods -----
 	
 	public void sendSystemMessages(Application a){
-		Actor sender = (Actor) actorService.findAdministrators().toArray()[0];
+		Administrator sender = (Administrator) adminService.findAll().toArray()[0];
 		Actor hw = a.getHandyWorker();
 		Actor  customer =  a.getFixUpTask().getCustomer();
 		Message m1 = this.create(sender,hw);

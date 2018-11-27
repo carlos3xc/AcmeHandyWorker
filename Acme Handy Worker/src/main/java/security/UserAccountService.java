@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -46,6 +47,15 @@ public class UserAccountService {
 		return res;
 	}
 	
+	public UserAccount create(){
+		//Metodo general para todas los servicios, es probable 
+		//que sea necesario añadir atributos consistentes con la entity.		
+		UserAccount res = new UserAccount();
+		res.setAuthorities(new ArrayList<Authority>());
+
+		return res;
+	}
+	
 	public Collection<UserAccount> findAll(){
 		return userAccountRepository.findAll();
 	}
@@ -55,16 +65,14 @@ public class UserAccountService {
 	}
 	
 	public UserAccount save(UserAccount a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		userAccountRepository.save(a);
-		return a;
+		UserAccount saved;
+		String pass = a.getPassword();
+		String hashedPass;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		hashedPass = encoder.encodePassword(pass, null);
+		a.setPassword(hashedPass);
+		saved = userAccountRepository.save(a);
+		return saved;
 	}
 	
 	public void delete(UserAccount a){

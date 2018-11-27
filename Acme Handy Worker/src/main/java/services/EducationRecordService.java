@@ -13,6 +13,8 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.EducationRecord;
+import domain.HandyWorker;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -27,6 +29,9 @@ public class EducationRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public EducationRecordService(){
@@ -54,36 +59,47 @@ public class EducationRecordService {
 	
 	public EducationRecord save(EducationRecord a){
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el ER, si no simplemente se guarda ER sin vincular.
+		boolean hasCurricula = false;
+		EducationRecord res = null;
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
 		
-		
-		educationRecordRepository.save(a);
-		return a;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getEducationRecords().contains(a)){
+				//ya existe en un education record
+				res = educationRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = educationRecordRepository.saveAndFlush(a);
+				Collection<EducationRecord> aux = c.getEducationRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = educationRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(EducationRecord a){
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		educationRecordRepository.delete(a);
+		//probar si necesita borrarse de la lista de curricula manualmente.
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getEducationRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+				educationRecordRepository.delete(a);
+				System.out.println("se borra el educationrecord");
+			}
+		}
 	}
 	
 	//Other business methods -----
-	private UserAccount findowner(EducationRecord a){
-		
-		Collection<Curricula> todas = curriculaService.findAll();
-		UserAccount owner = null;
-		for (Curricula c : todas) {
-			for (EducationRecord e : c.getEducationRecords()) {
-				if(e.equals(a)){
-					owner = c.getHandyWorker().getUserAccount();
-				}
-			}
-		}
-		return owner;
-	}
 	
 }

@@ -28,7 +28,7 @@
 hs_err_pid*
 
 # Map of entities in the Database #
-src/main/resources/Entities.map
+/src/main/resources/Entities.map
 
 # Files generated for by the IDE
 /.metadata/

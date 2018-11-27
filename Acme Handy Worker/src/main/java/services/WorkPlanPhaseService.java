@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.WorkPlanPhaseRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.FixUpTask;
 import domain.WorkPlanPhase;
 
 
@@ -23,14 +25,16 @@ public class WorkPlanPhaseService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private FixUpTaskService fixUpTaskService;
 	
 	//Simple CRUD methods -----
 	public WorkPlanPhase create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		WorkPlanPhase res = new WorkPlanPhase();
+		WorkPlanPhase res;
+		res = new WorkPlanPhase();
 		return res;
 	}
 	
@@ -42,20 +46,28 @@ public class WorkPlanPhaseService {
 		return workPlanPhaseRepository.findOne(Id);
 	}
 	
-	public WorkPlanPhase save(WorkPlanPhase a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+	public WorkPlanPhase save(WorkPlanPhase w){
+		WorkPlanPhase saved;
+		Collection<FixUpTask> tasks;
+		Authority a= new Authority();
+		a.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(a));
 		
-		workPlanPhaseRepository.save(a);
-		return a;
+		tasks = fixUpTaskService.getTasksAccepted();
+		Assert.isTrue(tasks.contains(w.getFixUpTask()), "The fix-up task must have at least one accepted application");
+
+		w.setHandyWorker(handyWorkerService.findByPrincipal());
+
+		saved = workPlanPhaseRepository.save(w);
+		return saved;
 	}
 	
 	public void delete(WorkPlanPhase wp){
+		Authority a= new Authority();
+		a.setAuthority("HANDYWORKER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(a));
 		
 		workPlanPhaseRepository.delete(wp);
 	}

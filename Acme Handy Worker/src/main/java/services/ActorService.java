@@ -14,6 +14,7 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Box;
 import domain.Customer;
+import domain.Finder;
 import domain.HandyWorker;
 import domain.Sponsor;
 
@@ -73,6 +74,19 @@ public class ActorService {
 	}
 
 	// Other business methods -----
+<<<<<<< HEAD
+=======
+	
+	  public Actor getByUserAccountId(UserAccount ua){ return
+	  actorRepository.findByUserAccountId(ua); }
+	/*  
+	  public Actor findByFinderId(final int finderId) {
+		Assert.notNull(finderId);
+		Actor result;
+		result = this.actorRepository.findByFinderId(finderId);
+		return result;
+	} */
+>>>>>>> faa59a6d9c06abb7725d3fddc19f74285f821232
 
 	public Actor getByUserAccountId(UserAccount ua) {
 		return actorRepository.findByUserAccountId(ua);

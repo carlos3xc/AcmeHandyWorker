@@ -12,7 +12,10 @@ import repositories.ProfessionalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.ProfessionalRecord;
+import domain.HandyWorker;
 import domain.MiscellaneousRecord;
+import domain.PersonalRecord;
 import domain.ProfessionalRecord;
 
 
@@ -28,6 +31,9 @@ public class ProfessionalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public ProfessionalRecordService(){
@@ -54,37 +60,47 @@ public class ProfessionalRecordService {
 	}
 	
 	public ProfessionalRecord save(ProfessionalRecord a){
+
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el ER, si no simplemente se guarda ER sin vincular.
+		boolean hasCurricula = false;
+		ProfessionalRecord res = null;
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
 		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		professionalRecordRepository.save(a);
-		return a;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getProfessionalRecords().contains(a)){
+				//ya existe en un professional record
+				res = professionalRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = professionalRecordRepository.saveAndFlush(a);
+				Collection<ProfessionalRecord> aux = c.getProfessionalRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = professionalRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(ProfessionalRecord a){
-		
-		UserAccount owner = findowner(a);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		professionalRecordRepository.delete(a);
+		//probar si necesita borrarse de la lista de curricula manualmente.
+				Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+				UserAccount logged = LoginService.getPrincipal();
+				for (Curricula c : curriculaService.findAll()) {
+					if(c.getProfessionalRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+						professionalRecordRepository.delete(a);
+						System.out.println("se borra el professionalrecord");
+					}
+				}
 	}
 	
 	//Other business methods -----
-	private UserAccount findowner(ProfessionalRecord a){
-		
-		Collection<Curricula> todas = curriculaService.findAll();
-		UserAccount owner = null;
-		for (Curricula c : todas) {
-			for (ProfessionalRecord m : c.getProfessionalRecords()) {
-				if(m.equals(a)){
-					owner = c.getHandyWorker().getUserAccount();
-				}
-			}
-		}
-		return owner;
-	}
-	
 }

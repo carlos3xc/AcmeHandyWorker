@@ -10,7 +10,9 @@ import org.springframework.util.Assert;
 import repositories.FinderRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Actor;
 import domain.Finder;
+import domain.HandyWorker;
 
 
 @Service
@@ -23,8 +25,8 @@ public class FinderService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private HandyWorkerService		handyWorkerService;
 	
 	//Constructors -----
 	public FinderService(){
@@ -33,45 +35,55 @@ public class FinderService {
 	
 	//Simple CRUD methods -----
 	public Finder create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Finder res = new Finder();
-		return res;
+		Finder result;
+		result = new Finder();
+		return result;
 	}
 	
 	public Collection<Finder> findAll(){
-		return finderRepository.findAll();
+		Collection<Finder> result;
+		result = this.finderRepository.findAll();
+		Assert.notNull(result);
+		return result;
 	}
 	
-	public Finder findOne(int Id){
-		return finderRepository.findOne(Id);
+	public Finder findOne(int finderId){
+		Finder finder;
+		finder = this.finderRepository.findOne(finderId);
+		return finder;
 	}
 	
-	public Finder save(Finder a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		finderRepository.save(a);
-		return a;
+	public Finder save(Finder finder){
+		Assert.notNull(finder);
+		if (finder.getId() != 0)
+			Assert.isTrue(this.esDeActorActual(finder));
+		Finder result;
+		result = this.finderRepository.save(finder);
+		return result;
 	}
 	
-	public void delete(Finder a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		finderRepository.delete(a);
+	public Finder saveByFixUpTask(final Finder finder) {
+		Assert.notNull(finder);
+		final Finder result = this.finderRepository.save(finder);
+		return result;
+	}
+	
+	public void delete(Finder finder){
+		Assert.notNull(finder);
+		Assert.isTrue(finder.getId() != 0);
+		this.finderRepository.delete(finder);
 	}
 	
 	//Other business methods -----
+	
+	private Boolean esDeActorActual(final Finder finder) {
+		Boolean result = false;
+		final HandyWorker principal = this.handyWorkerService.findByPrincipal();
+		final HandyWorker handyWorker = this.handyWorkerService.findByFinderId(finder.getId());
+		if (principal.equals(handyWorker))
+			result = true;
+		return result;
+	}
 	
 	
 }

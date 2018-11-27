@@ -25,11 +25,6 @@ public class CreditCard {
 	private Date expirationDate;
 	private Integer CVV;
 
-	// Constructors -----------------------------------------------------------
-
-	public CreditCard() {
-		super();
-	}
 
 	// Getters and Setters ---------------------------------------------------
 

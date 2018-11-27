@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.RefereeRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import domain.Referee;
+import domain.SocialProfile;
 
 
 @Service
@@ -21,9 +25,15 @@ public class RefereeService {
 	@Autowired
 	private RefereeRepository refereeRepository;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	//Simple CRUD methods -----
 	public Referee create(){
 		Referee res = new Referee();
+		res.setSocialProfiles(new ArrayList<SocialProfile>());
+		UserAccount ua = userAccountService.create();
+		res.setUserAccount(ua);
 		return res;
 	}
 	
@@ -35,23 +45,41 @@ public class RefereeService {
 		return refereeRepository.findOne(Id);
 	}
 	
-	public Referee save(Referee a){
-		
+	public Referee save(Referee r){
+		Authority e = new Authority();
+		Authority p = new Authority();
+		UserAccount ua;
+		UserAccount savedUa;
+		e.setAuthority("ADMIN");
+		Collection<Referee> referees;
+
 		UserAccount userAccount = LoginService.getPrincipal();
-		refereeRepository.save(a);
-		return a;
+		if(r.getId()==0)Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		if(r.getId()!=0)Assert.isTrue(userAccount.equals(r.getUserAccount()));
+
+		Referee saved;
+		if(r.getId()==0){
+			r.setIsBanned(false);
+			r.setIsSuspicious(false);
+			p.setAuthority("REFEREE");
+			ua = r.getUserAccount();
+			ua.getAuthorities().add(p);
+			savedUa = userAccountService.save(ua);
+			r.setUserAccount(savedUa);
+		}
+		saved = refereeRepository.saveAndFlush(r);
+		referees = refereeRepository.findAll();
+		Assert.isTrue(referees.contains(saved));
+		return saved;
 	}
-	
+	/*
 	public void delete(Referee a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
 		// modificar para aplicarlo a la entidad correspondiente.
 		//Assert.isTrue(a.getUserAccount().equals(userAccount));
 		
 		refereeRepository.delete(a);
-	}
+	}*/
 	
 	//Other business methods -----
 	

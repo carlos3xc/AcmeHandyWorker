@@ -80,7 +80,7 @@ public class WorkPlanPhase extends DomainEntity {
 	private HandyWorker handyWorker;
 
 	@Valid
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	public FixUpTask getFixUpTask() {
 		return fixUpTask;
 	}

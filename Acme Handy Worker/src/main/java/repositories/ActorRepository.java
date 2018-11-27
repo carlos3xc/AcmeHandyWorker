@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import security.UserAccount;
 
 import domain.Actor;
+import domain.Finder;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Integer>{
@@ -21,5 +22,8 @@ public interface ActorRepository extends JpaRepository<Actor, Integer>{
 	@Query("select a from Actor a where a.userAccount =?1")
 	Actor findByUserAccountId(UserAccount ua);
 	
-	
+	/* LOS ACTORES NO TIENEN FINDER
+	@Query("select a from Actor a join a.finder f where f.id=?1")
+	Actor findByFinderId(int finderId);
+*/	
 }
