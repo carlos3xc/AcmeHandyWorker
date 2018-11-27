@@ -29,17 +29,8 @@ public class ApplicationService {
 
 	public Application create() {
 
-		// Authority authority = new Authority();
-		// authority.setAuthority("HANDYWORKER");
-		//
-		// UserAccount userAccount = LoginService.getPrincipal();
-		//
-		// Assert.isTrue(userAccount.getAuthorities().contains(authority));
-
 		Application result = new Application();
 
-		Date moment = new Date(System.currentTimeMillis() - 1000);
-		result.setMoment(moment);
 		return result;
 	}
 
@@ -50,6 +41,8 @@ public class ApplicationService {
 		Authority handyWorker = new Authority();
 		Authority customer = new Authority();
 
+		Date moment = new Date(System.currentTimeMillis() - 1000);
+
 		handyWorker.setAuthority("HANDYWORKER");
 		customer.setAuthority("CUSTOMER");
 
@@ -58,6 +51,8 @@ public class ApplicationService {
 		Assert.isTrue(userAccount.getAuthorities().contains(handyWorker)
 				|| userAccount.getAuthorities().contains(customer));
 		// Assert.isTrue(application.getHandyWorker().getUserAccount().equals(userAccount));
+
+		application.setMoment(moment);
 
 		result = applicationRepository.save(application);
 		return result;
@@ -106,7 +101,7 @@ public class ApplicationService {
 				|| (application.getStatus().equals("REJECTED") && application
 						.getCustomerComment() != ""));
 
-		// messageService.sendSystemMessages(application);
+		messageService.sendSystemMessages(application);
 
 		this.save(application);
 	}

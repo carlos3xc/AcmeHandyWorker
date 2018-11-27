@@ -48,14 +48,14 @@ public class ApplicationServiceTest extends AbstractTest {
 		Application application, result;
 		application = applicationService.create();
 
-		Date current = new Date(System.currentTimeMillis() - 1000);
+		// Date current = new Date(System.currentTimeMillis() - 1000);
 		Date fecha = new Date();
 
 		// https://codechi.com/dev-tools/date-to-millisecond-calculators/
 		// Añadir una f al final para indicar que es un long
 		fecha.setTime(1608591600000l);
 
-		application.setMoment(current);
+		// application.setMoment(current);
 		application.setPrice(68.5);
 		application.setStatus("PENDING");
 		application.setHandyWorkerComment("");
@@ -70,10 +70,10 @@ public class ApplicationServiceTest extends AbstractTest {
 
 		application.setCreditCard(credit);
 
-		FixUpTask fixUpTask = fixUpTaskService.findOne(14796);
+		FixUpTask fixUpTask = fixUpTaskService.findOne(15949);
 		application.setFixUpTask(fixUpTask);
 
-		HandyWorker handyWorker = handyWorkerService.findOne(14576);
+		HandyWorker handyWorker = handyWorkerService.findOne(15726);
 		application.setHandyWorker(handyWorker);
 
 		result = applicationService.save(application);
@@ -83,61 +83,84 @@ public class ApplicationServiceTest extends AbstractTest {
 
 	@Test
 	public void testUpdateHandyWorker() {
+
 		authenticate("handyWorker1");
-		Application application = applicationService.findOne(14811);
+
+		Application application = applicationService.findOne(15974);
 		Application result;
+
+		// HandyWorker 1 -> 15726
+		// Application 4 -> 15974
 
 		application.setHandyWorkerComment("Comentario trabajador modificado");
 
 		result = applicationService.save(application);
+
 		Assert.isTrue(applicationService.findAll().contains(result));
+
 		unauthenticate();
 	}
 
 	@Test
 	public void testUpdateCustomer() {
+
 		authenticate("customer1");
-		Application application = applicationService.findOne(14822);
+
+		Application application = applicationService.findOne(15982);
 		Application result;
-		// Customer 1 -> 14571
-		// FixUpTask 8 -> 14803
-		// Application 12 -> 14822
+
+		// Customer 1 -> 15721
+		// FixUpTask 8 -> 15953
+		// Application 12 -> 15982
+
 		application.setCustomerComment("Comentario cliente modificado");
 
 		result = applicationService.save(application);
+
 		Assert.isTrue(applicationService.findAll().contains(result));
+
 		unauthenticate();
 	}
 
 	@Test
 	public void testDelete() {
+
 		authenticate("handyWorker2");
-		Application application = applicationService.findOne(14815);
+
+		// HandyWorker 2 -> 15727
+		// Application 5 -> 15975
+
+		Application application = applicationService.findOne(15975);
 		applicationService.delete(application);
+
 		Assert.isTrue(!applicationService.findAll().contains(application));
+
 		unauthenticate();
 	}
 
 	@Test
 	public void testApplicationByHandyWorker() {
+
 		Collection<Application> res = new ArrayList<Application>();
+
 		// HandyWorker handyWorker = handyWorkerService.findOne(14670);
-		res = applicationService.applicationByHandyWorker(14578);
+
+		res = applicationService.applicationByHandyWorker(15726);
+
 		Assert.isTrue(res.size() == 4);
 	}
 
 	@Test
 	public void testChangeStatus() {
-		authenticate("customer1"); // 14578
+		authenticate("customer1"); // 15721
 
 		// String a = "PENDING";
 		// String b = "ACCEPTED";
 		String c = "REJECTED";
 
-		Application application = applicationService.findOne(14822);
+		Application application = applicationService.findOne(15982);
 		applicationService.changeStatus(application, c);
 
 		unauthenticate();
 	}
-
 }
