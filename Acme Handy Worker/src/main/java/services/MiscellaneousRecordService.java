@@ -11,6 +11,7 @@ import repositories.MiscellaneousRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.MiscellaneousRecord;
 import domain.HandyWorker;
 import domain.MiscellaneousRecord;
 import domain.ProfessionalRecord;
@@ -53,52 +54,49 @@ public class MiscellaneousRecordService {
 	
 	public MiscellaneousRecord save(MiscellaneousRecord a){
 		
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el MR, si no simplemente se guarda MR sin vincular.
+		boolean hasCurricula = false;
+		MiscellaneousRecord res = null;
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.
-		 
-		return a;
+		UserAccount logged = LoginService.getPrincipal();
+		
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getMiscellaneousRecords().contains(a)){
+				//ya existe en un miscellaneous record
+				res = miscellaneousRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = miscellaneousRecordRepository.saveAndFlush(a);
+				Collection<MiscellaneousRecord> aux = c.getMiscellaneousRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = miscellaneousRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(MiscellaneousRecord a){
-		
-		
-		UserAccount owner = findowner(a);
-		Assert.notNull(owner);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		miscellaneousRecordRepository.delete(a);
-	}
-	
-	//Other business methods -----
-	
-	private UserAccount findowner(MiscellaneousRecord a){
-		
-		Collection<Curricula> todas = curriculaService.findAll();
-		UserAccount owner = null;
-		for (Curricula c : todas) {
-			for (MiscellaneousRecord m : c.getMiscellaneousRecords()) {
-				if(m.equals(a)){
-					owner = c.getHandyWorker().getUserAccount();
+		// probar si necesita borrarse de la lista de curricula manualmente.
+				Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+				UserAccount logged = LoginService.getPrincipal();
+				for (Curricula c : curriculaService.findAll()) {
+					if (c.getMiscellaneousRecords().contains(a)
+							&& c.getHandyWorker().getUserAccount().equals(logged)) {
+						miscellaneousRecordRepository.delete(a);
+						System.out.println("se borra el miscellaneousRecord");
+					}
 				}
 			}
-		}
-		return owner;
-	}
-	private void linkCurricula(MiscellaneousRecord a){
-		UserAccount ua = LoginService.getPrincipal();
-		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
-		System.out.println(hw.getUserAccount().getAuthorities());
-		for (Curricula c : curriculaService.findAll()) {
-			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
-				Collection<MiscellaneousRecord> aux = c.getMiscellaneousRecords();
-				aux.add(a);
-				c.setMiscellaneousRecords(aux);
-				this.save(a);
-				curriculaService.save(c);
-			}
-		}
-	}
+	
+	//Other business methods -----
 	
 	
 }

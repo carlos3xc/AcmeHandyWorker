@@ -1,6 +1,5 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
@@ -16,7 +16,6 @@ import domain.Box;
 import domain.Customer;
 import domain.Finder;
 import domain.HandyWorker;
-import domain.SocialProfile;
 import domain.Sponsor;
 
 @Service
@@ -25,6 +24,15 @@ public class ActorService {
 
 	@Autowired
 	private ActorRepository actorRepository;
+
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+
+	@Autowired
+	private CustomerService customerService;
+
+	@Autowired
+	private SponsorService sponsorService;
 
 	@Autowired
 	private BoxService boxService;
@@ -39,39 +47,46 @@ public class ActorService {
 		return actorRepository.findOne(Id);
 	}
 
-	public Actor save(Actor a) {
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(a.getUserAccount().equals(userAccount));
+	public Actor save(Actor actor) {
 
-		actorRepository.save(a);
-		return a;
+		Actor result;
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority);
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(actor.getUserAccount().equals(userAccount)
+				|| userAccount.getAuthorities().contains(authority));
+
+		result = actorRepository.save(actor);
+		return result;
 	}
 
-	public void delete(Actor a) {
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(a.getUserAccount().equals(userAccount));
+	public void delete(Actor actor) {
 
-		actorRepository.delete(a);
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(actor.getUserAccount().equals(userAccount));
+
+		actorRepository.delete(actor);
 	}
 
 	// Other business methods -----
-	
-	  public Actor getByUserAccountId(UserAccount ua){ return
-	  actorRepository.findByUserAccountId(ua); }
-	/*  
-	  public Actor findByFinderId(final int finderId) {
-		Assert.notNull(finderId);
-		Actor result;
-		result = this.actorRepository.findByFinderId(finderId);
-		return result;
-	} */
 
-	private void createSystemBoxes(Actor a) {
+	public Actor getByUserAccountId(UserAccount ua) {
+		return actorRepository.findByUserAccountId(ua);
+	}
+
+	private void createSystemBoxes(Actor actor) {
+
 		Box inbox, outbox, spambox, trashbox;
-		inbox = boxService.create(a);
-		outbox = boxService.create(a);
-		spambox = boxService.create(a);
-		trashbox = boxService.create(a);
+
+		inbox = boxService.create(actor);
+		outbox = boxService.create(actor);
+		spambox = boxService.create(actor);
+		trashbox = boxService.create(actor);
 
 		inbox.setName("inbox");
 		outbox.setName("outbox");
@@ -90,25 +105,64 @@ public class ActorService {
 
 	}
 
-//	public void register(String type, UserAccount ua) {
-//		// Solo pueden registrarse nuevos actores como customer o como
-//		// HandyWorker.
-//		Actor nuevo = this.create(ua);
-//
-//		if (type.equals("CUSTOMER")) {
-//
-//			Customer aux = new Customer();
-//			aux = (Customer) nuevo;
-//		}
-//		if (type.equals("HANDYWORKER")) {
-//			HandyWorker aux = new HandyWorker();
-//			aux = (HandyWorker) nuevo;
-//		}
-//		if (type.equals("SPONSOR")) {
-//			Sponsor aux = new Sponsor();
-//			aux = (Sponsor) nuevo;
-//		}
-//		this.save(nuevo);
-//	}
+	public void registerHandyWorker() {
+
+		HandyWorker handyWorker = handyWorkerService.create();
+
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.HANDYWORKER);
+
+		UserAccount userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+
+		handyWorker.setUserAccount(userAccount);
+	}
+
+	public void registerSponsor() {
+
+		Sponsor sponsor = sponsorService.create();
+
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+
+		UserAccount userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+
+		sponsor.setUserAccount(userAccount);
+	}
+
+	public void registerCustomer() {
+
+		Customer customer = customerService.create();
+
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.CUSTOMER);
+
+		UserAccount userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+
+		customer.setUserAccount(userAccount);
+	}
+
+	// public void register(String type, UserAccount ua) {
+	// // Solo pueden registrarse nuevos actores como customer o como
+	// // HandyWorker.
+	// Actor nuevo = this.create(ua);
+	//
+	// if (type.equals("CUSTOMER")) {
+	//
+	// Customer aux = new Customer();
+	// aux = (Customer) nuevo;
+	// }
+	// if (type.equals("HANDYWORKER")) {
+	// HandyWorker aux = new HandyWorker();
+	// aux = (HandyWorker) nuevo;
+	// }
+	// if (type.equals("SPONSOR")) {
+	// Sponsor aux = new Sponsor();
+	// aux = (Sponsor) nuevo;
+	// }
+	// this.save(nuevo);
+	// }
 
 }

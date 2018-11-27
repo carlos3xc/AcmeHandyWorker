@@ -58,29 +58,28 @@ public class PersonalRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerSave(){
-		Curricula curricula,saved;
+		PersonalRecord	pr, saved;
 		
 		super.authenticate("handyWorker1");						
-		curricula = curriculaService.create();	
+		pr = personalRecordService.create();			
 		
-		System.out.println(curricula.getHandyWorker().getUserAccount().getUsername()+"<-- username dueño");
+		pr.setEmail("email@dominio.com");
+		pr.setFullName("pepito grillo");
+		pr.setLinkedInUrl("http://linkedin.com/user");
+		pr.setPhone("672190514");
+		pr.setPhoto("http://photostock.com/photo");
 		
-		PersonalRecord p = personalRecordService.create();
-		
-		p.setEmail("email@dominio.com");
-		p.setFullName("pepito grillo");
-		p.setLinkedInUrl("http://linkedin.com/user");
-		p.setPhone("672190514");
-		p.setPhoto("http://photostock.com/photo");
-		
-		personalRecordService.save(p); 
-		
-		curricula.setPersonalRecord(p);
-		
-		saved = curriculaService.save(curricula);			
+		saved = personalRecordService.save(pr); 		
 
-		Collection<Curricula> curriculas = curriculaService.findAll();						
-		Assert.isTrue(curriculas.contains(saved));
+		Collection<PersonalRecord> personalRecords = personalRecordService.findAll();						
+		Assert.isTrue(personalRecords.contains(saved));
+		
+		boolean curriculaUpdated = false;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getPersonalRecord().equals(saved));
+			curriculaUpdated = true;
+		}
+		Assert.isTrue(curriculaUpdated);
 		
 		super.authenticate(null);
 	}
@@ -90,18 +89,26 @@ public class PersonalRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		Curricula curricula, saved;
-		Collection<Curricula> curriculas;
-		super.authenticate("handyworker1");					
-		curricula = curriculaService.findOne(14730);	
-		PersonalRecord p = personalRecordService.create();
+		PersonalRecord pr, saved;
+		Collection<PersonalRecord> personalRecords;
+		super.authenticate("handyworker1");		
+		Curricula curricula = curriculaService.findOne(14730);
+		
+		pr = curricula.getPersonalRecord();
 
-		curricula.setPersonalRecord(p);
+		pr.setFullName("this name now belongs to me.");
 		
-		saved = curriculaService.save(curricula);						
+		saved = personalRecordService.save(pr);		
 		
-		curriculas = curriculaService.findAll();						
-		Assert.isTrue(curriculas.contains(saved));
+		personalRecords = personalRecordService.findAll();						
+		Assert.isTrue(personalRecords.contains(saved));
+		
+		Collection<Curricula> curriculas = curriculaService.findAll();						
+		for (Curricula c : curriculas) {
+			if(c.getPersonalRecord().equals(saved)){
+				Assert.isTrue(c.getPersonalRecord().getFullName().equals("this name now belongs to me."));
+			}
+		}
 
 		super.authenticate(null);
 	}
@@ -110,16 +117,24 @@ public class PersonalRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerDelete(){
-		Curricula curricula;
-		Collection<Curricula> curriculas;
-		super.authenticate("handyworker1");							
-
-		curricula = curriculaService.findOne(14730);							  
+		PersonalRecord	pr, saved;
+		super.authenticate("handyworker1");		
 		
-		curriculaService.delete(curricula);							
-		curriculas = curriculaService.findAll();						
-		Assert.isTrue(!curriculas.contains(curricula));
-			
+		pr = personalRecordService.create();			
+		
+		pr.setEmail("email@dominio.com");
+		pr.setFullName("pepito grillo");
+		pr.setLinkedInUrl("http://linkedin.com/user");
+		pr.setPhone("672190514");
+		pr.setPhoto("http://photostock.com/photo");
+		
+		saved = personalRecordService.save(pr); 		
+		Assert.isTrue(personalRecordService.findAll().contains(saved));
+		personalRecordService.delete(saved);
+		
+
+		Assert.isTrue(!personalRecordService.findAll().contains(saved));
+	
 		super.authenticate(null);
 	}
 	

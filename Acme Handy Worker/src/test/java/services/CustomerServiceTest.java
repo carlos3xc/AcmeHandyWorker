@@ -96,8 +96,7 @@ public class CustomerServiceTest extends AbstractTest {
 		
 		customers = customerService.findAll();
 		Assert.isTrue(customers.contains(saved));
-		
-		
+				
 		super.authenticate(null);
 	}
 	

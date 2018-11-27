@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.WarrantyRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Warranty;
@@ -19,18 +20,22 @@ import domain.Warranty;
 public class WarrantyService {
 
 	//Managed Repository -----
+	
 	@Autowired
 	private WarrantyRepository warrantyRepository;
 	
 	//Supporting Services -----
+
 	
-	//@Autowired
-	//private SomeService serviceName 
 	
 	//Simple CRUD methods -----
+	
 	public Warranty create(){
 		Warranty res = new Warranty();
+		
 		res.setLaws(new ArrayList<String>());
+		res.setIsDraft(true);
+		
 		return res;
 	}
 	
@@ -42,19 +47,22 @@ public class WarrantyService {
 		return warrantyRepository.findOne(Id);
 	}
 	
-	public Warranty save(Warranty w){
-		Warranty saved;
-		saved = warrantyRepository.save(w);
-		return saved;
+	public Warranty save(Warranty a){
+		UserAccount userAccount = LoginService.getPrincipal();
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		Assert.isTrue(a.getIsDraft());
+		
+		return warrantyRepository.save(a);
 	}
 	
 	public void delete(Warranty a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		Assert.isTrue(a.getIsDraft());
 		
 		warrantyRepository.delete(a);
 	}

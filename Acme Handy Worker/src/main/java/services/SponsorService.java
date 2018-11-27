@@ -1,15 +1,17 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import repositories.SponsorRepository;
-import security.LoginService;
+import security.Authority;
 import security.UserAccount;
+import security.UserAccountService;
+import domain.SocialProfile;
 import domain.Sponsor;
 
 
@@ -18,24 +20,29 @@ import domain.Sponsor;
 public class SponsorService {
 
 	//Managed Repository -----
+	
 	@Autowired
 	private SponsorRepository sponsorRepository;
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public SponsorService(){
-		super();
-	}
+	@Autowired
+	private UserAccountService uaService;
 	
 	//Simple CRUD methods -----
 	public Sponsor create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Sponsor res = new Sponsor();
+		
+		res.setIsBanned(false);
+		res.setIsSuspicious(false);
+		res.setSocialProfiles(new ArrayList<SocialProfile>());
+		
+		UserAccount ua = new UserAccount();
+		Authority a = new Authority();
+		a.setAuthority("SPONSOR");
+		ua.getAuthorities().add(a);
+		res.setUserAccount(uaService.save(ua));
+		
 		return res;
 	}
 	
@@ -48,30 +55,18 @@ public class SponsorService {
 	}
 	
 	public Sponsor save(Sponsor a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		sponsorRepository.save(a);
-		return a;
+		return sponsorRepository.save(a);
 	}
 	
 	public void delete(Sponsor a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
+
 		sponsorRepository.delete(a);
 	}
 	
 	//Other business methods -----
 	
-	
+	public Sponsor findSponsorByUserAccount(UserAccount ua){
+		return sponsorRepository.findSponsorByUserAccount(ua.getId());
+	}
 }

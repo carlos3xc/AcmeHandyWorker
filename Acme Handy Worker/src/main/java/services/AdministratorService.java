@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,70 +9,121 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AdministratorRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Actor;
 import domain.Administrator;
-
+import domain.Referee;
+import domain.SocialProfile;
 
 @Service
 @Transactional
 public class AdministratorService {
 
-	//Managed Repository -----
 	@Autowired
 	private AdministratorRepository administratorRepository;
-	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public AdministratorService(){
-		super();
+
+	@Autowired
+	private ActorService actorService;
+
+	// Simple CRUD methods -----
+
+	public Administrator createAdministrator() {
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority);
+
+		Administrator administrator = new Administrator();
+		administrator.setUserAccount(user);
+		administrator.setSocialProfiles(new ArrayList<SocialProfile>());
+
+		return administrator;
 	}
-	
-	//Simple CRUD methods -----
-	public Administrator create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Administrator res = new Administrator();
-		return res;
+
+	public Referee createReferee() {
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		Authority authority2 = new Authority();
+		authority2.setAuthority("REFEREE");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority2);
+
+		Referee referee = new Referee();
+		referee.setUserAccount(user);
+		referee.setSocialProfiles(new ArrayList<SocialProfile>());
+
+		return referee;
 	}
-	
-	public Collection<Administrator> findAll(){
+
+	public Administrator save(Administrator administrator) {
+
+		Administrator result;
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		result = administratorRepository.save(administrator);
+		return result;
+	}
+
+	public void delete(Administrator administrator) {
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		administratorRepository.delete(administrator);
+	}
+
+	public Collection<Administrator> findAll() {
 		return administratorRepository.findAll();
 	}
-	
-	public Administrator findOne(int Id){
+
+	public Administrator findOne(int Id) {
 		return administratorRepository.findOne(Id);
 	}
-	
-	public Administrator save(Administrator a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		administratorRepository.save(a);
-		return a;
+
+	public Collection<Actor> findSuspicious() {
+		Collection<Actor> result = new ArrayList<Actor>();
+		result = administratorRepository.findSuspicious();
+		return result;
 	}
-	
-	public void delete(Administrator a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		administratorRepository.delete(a);
+
+	public Actor ban(Actor actor) {
+
+		Assert.isTrue(actor.getIsSuspicious().equals(true)
+				&& actor.getIsBanned().equals(false));
+
+		actor.setIsBanned(true);
+
+		return actorService.save(actor);
 	}
-	
-	//Other business methods -----
-	
-	
+
+	public Actor unBan(Actor actor) {
+
+		Assert.isTrue(actor.getIsBanned().equals(true));
+
+		actor.setIsBanned(false);
+
+		return actorService.save(actor);
+	}
+
 }
