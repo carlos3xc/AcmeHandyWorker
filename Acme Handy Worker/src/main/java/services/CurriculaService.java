@@ -33,10 +33,10 @@ public class CurriculaService {
 	//Supporting Services -----
 	
 	@Autowired
-	private HandyWorkerService hwService; 
+	private ActorService actorService;
 	
 	@Autowired
-	private ActorService actorService;
+	private PersonalRecordService personalRecordService;
 	
 	//Constructors -----
 	public CurriculaService(){
@@ -49,8 +49,6 @@ public class CurriculaService {
 		
 		UserAccount ua = LoginService.getPrincipal();
 		Curricula c = new Curricula();
-		
-		
 		
 		if (LoginService.hasRole("HANDYWORKER")) {
 			HandyWorker hw  = (HandyWorker) actorService.getByUserAccountId(ua);
@@ -75,30 +73,25 @@ public class CurriculaService {
 	}
 	
 	public Curricula save(Curricula c){
-		boolean hasCurricula = false;
-		
-		UserAccount userAccount = LoginService.getPrincipal();
+		UserAccount logged = LoginService.getPrincipal();
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
-		for (Curricula cu : this.findAll()) {
-			if (cu.getHandyWorker().getUserAccount().equals(userAccount)) {
-				hasCurricula=true; // un Handyworker solo puede tener un curriculo.
-			}
-		}
-		Assert.isTrue(!hasCurricula);
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+		//Assert.notNull(c.getPersonalRecord());
+		//sabemos que es un Handyworker y que es el dueño de la curricula que se quiere guardar.
+
+		Curricula res = curriculaRepository.saveAndFlush(c);
 		
-		
-		curriculaRepository.save(c);
-		return c;
+		return res;
 	}
 	
 	public void delete(Curricula c){
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(userAccount));
+		UserAccount logged = LoginService.getPrincipal();
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+	
 		curriculaRepository.delete(c);
+		personalRecordService.delete(c.getPersonalRecord());
 	}
 	
 	//Other business methods -----

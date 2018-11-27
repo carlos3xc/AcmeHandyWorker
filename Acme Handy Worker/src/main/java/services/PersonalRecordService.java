@@ -54,46 +54,59 @@ public class PersonalRecordService {
 	
 	public PersonalRecord save(PersonalRecord a){
 		
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el PR, si no simplemente se guarda PR sin vincular.
+		
+		PersonalRecord res = null;
+		boolean isInCurricula = false;
+		boolean hasCurricula = false;
 		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		linkCurricula(a); //COMPROBAR SIEMPRE EL ROL ANTES DE EJECUTAR.		
-
-		return a;
+		UserAccount logged = LoginService.getPrincipal();
+		
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getPersonalRecord().equals(a)){//vemos si esta dentro de alguna curricula
+				if(c.getHandyWorker().getUserAccount().equals(logged)){//y que el dueño es el logueado
+					res = personalRecordRepository.saveAndFlush(a);//actualizamos la curricula
+				}
+					isInCurricula=true;
+					System.out.println("Se ha encontrado una curricula que contiene al personalRecord, se actualiza ese record.");
+			}
+		}
+		if (!isInCurricula){// si no tiene curricula asignada
+			for (Curricula cu : curriculaService.findAll()) {
+				if(cu.getHandyWorker().getUserAccount().equals(logged)){
+					res = personalRecordRepository.saveAndFlush(a);
+					cu.setPersonalRecord(res);
+					curriculaService.save(cu);
+					hasCurricula = true;
+					System.out.println("se ha encontrado una curricula para el usuario logueado, se le asigna el personalrecord");
+				}
+			}
+		}
+			if(!hasCurricula){
+				res = personalRecordRepository.saveAndFlush(a);
+				System.out.println("no existe una curricula para el handyworker logueado, se guarda el personal record sin asignar.");
+			}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(PersonalRecord a){
 		
-		UserAccount owner = findowner(a);
-		Assert.notNull(owner);
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(owner.equals(userAccount));
-		
-		personalRecordRepository.delete(a);
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		boolean hasCurricula = false;
+		//vemos si existe la curricula, si, si llamamos al delete de curricula si no borramos el personalrecord
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getPersonalRecord().equals(a)){
+				curriculaService.delete(c);
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			personalRecordRepository.delete(a);
+		}
 	}
 	
 	//Other business methods -----
-	private UserAccount findowner(PersonalRecord a){
-		
-		Collection<Curricula> todas = curriculaService.findAll();
-		UserAccount owner = null;
-		for (Curricula c : todas) {
-				if(c.getPersonalRecord().equals(a)){
-					owner = c.getHandyWorker().getUserAccount();
-					System.out.println("se encuentra al dueño del pesonal Record.");
-				}
-			}
-		return owner;
-	}
 	
-	private void linkCurricula(PersonalRecord a){
-		UserAccount ua = LoginService.getPrincipal();
-		HandyWorker hw = (HandyWorker) actorService.getByUserAccountId(ua);
-		System.out.println(hw.getUserAccount().getAuthorities());
-		for (Curricula c : curriculaService.findAll()) {
-			if(c.getHandyWorker().equals(hw)){ // de manera intrinseca ya comprueba que es el dueño del PersonalRecord.
-				c.setPersonalRecord(a);
-				this.save(a);
-				curriculaService.save(c);
-			}
-		}
-	}
+	
 }

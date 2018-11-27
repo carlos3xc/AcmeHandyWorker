@@ -91,12 +91,12 @@ public class HandyWorkerService {
 		return hw;
 	}
 	
-	public HandyWorker findByFinderId(final int finderId) {
-		Assert.notNull(finderId);
-		HandyWorker result;
-		result = this.handyWorkerRepository.findByFinderId(finderId);
-		return result;
-	}
+//	public HandyWorker findByFinderId(final int finderId) {
+//		Assert.notNull(finderId);
+//		HandyWorker result;
+//		result = this.handyWorkerRepository.findByFinderId(finderId);
+//		return result;
+//	}
 	
 	
 }
