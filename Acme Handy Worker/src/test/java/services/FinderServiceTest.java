@@ -34,7 +34,7 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Test
 	public void testCreate() {
-		this.authenticate("Francisco Pozo Nevado");
+		this.authenticate("handyworker1");
 		Finder finder;
 		finder = this.finderService.create();
 		finder.setKeyword("xxx");
@@ -44,8 +44,8 @@ public class FinderServiceTest extends AbstractTest {
 		finder.setStartDate(fecha);
 		finder.setEndDate(fecha);
 		finder.setCategory(null);
-		final Collection<FixUpTask> fixUpTasks = new ArrayList<FixUpTask>();
-		finder.setFixUpTasks(fixUpTasks);
+//		final Collection<FixUpTask> fixUpTasks = new ArrayList<FixUpTask>();
+//		finder.setFixUpTasks(fixUpTasks);
 		Finder saved = finderService.save(finder);
 		Collection<Finder> finders = finderService.findAll();
 		Assert.isTrue(finders.contains(saved), "----- Fallo metodo create -----");

@@ -44,7 +44,6 @@ public class HandyWorkerEndosementTest extends AbstractTest{
 				HandyWorkerEndorsement handyWorkerEndorsement;
 				super.authenticate("handyworker1");
 				handyWorkerEndorsement = handyWorkerEndorsementService.create();
-				Assert.isNull(handyWorkerEndorsement.getMoment());
 				Assert.isNull(handyWorkerEndorsement.getText());
 				Assert.isNull(handyWorkerEndorsement.getCustomer());
 				Assert.isNull(handyWorkerEndorsement.getHandyWorker());
@@ -57,20 +56,20 @@ public class HandyWorkerEndosementTest extends AbstractTest{
 			@Test 
 			public void testSaveHandyWorkerEndorsement(){
 				HandyWorkerEndorsement handyWorkerEndorsement, saved;
-				HandyWorker hw;
-				Customer c;
+//				HandyWorker hw;
+//				Customer c;
 				Collection<HandyWorkerEndorsement> handyWorkerEndorsements;
-				super.authenticate("handyworker2");						
+				super.authenticate("handyworker1");						
 				handyWorkerEndorsement = handyWorkerEndorsementService.create();					
-				hw = handyWorkerService.findOne(15726);
-				c = customerService.findOne(15723);
-				
-				Date current = new Date(System.currentTimeMillis() - 1000);
-				
-				handyWorkerEndorsement.setMoment(current);
+//				hw = handyWorkerService.findOne(15726);
+//				c = customerService.findOne(15723);
+//				
+//				Date current = new Date(System.currentTimeMillis() - 1000);
+//				
+//				handyWorkerEndorsement.setMoment(current);
 				handyWorkerEndorsement.setText("Esto es un texto de prueba");
-				handyWorkerEndorsement.setHandyWorker(hw);
-				handyWorkerEndorsement.setCustomer(c);
+//				handyWorkerEndorsement.setHandyWorker(hw);
+//				handyWorkerEndorsement.setCustomer(c);
 				
 				saved = handyWorkerEndorsementService.save(handyWorkerEndorsement);					
 

@@ -14,8 +14,10 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
 import domain.CustomerEndorsement;
+import domain.FixUpTask;
 import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
+import domain.WorkPlanPhase;
 
 
 @Service
@@ -42,8 +44,8 @@ public class HandyWorkerEndorsementService {
 	//Simple CRUD methods -----
 	public HandyWorkerEndorsement create(){
 		HandyWorkerEndorsement res = new HandyWorkerEndorsement();
-		res.setCustomer(new Customer());
-		res.setHandyWorker(new HandyWorker());
+//		res.setCustomer(new Customer());
+//		res.setHandyWorker(new HandyWorker());
 		return res;
 	}
 	
@@ -62,13 +64,12 @@ public class HandyWorkerEndorsementService {
 		e.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
 		HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
-		Customer c = customerService.findByUserAccountId(userAccount.getId());
+		Customer c = new Customer();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		
 		handyWorkerEndorsement.setMoment(current);
-		handyWorkerEndorsement.setText("Texto de prueba 2");
 		handyWorkerEndorsement.setHandyWorker(hw);
 		handyWorkerEndorsement.setCustomer(c);
 		saved = handyWorkerEndorsementRepository.save(handyWorkerEndorsement);
