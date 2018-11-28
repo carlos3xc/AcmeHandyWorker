@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.SocialProfile;
 
-import security.UserAccountService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,8 +22,8 @@ public class ActorServiceTest extends AbstractTest {
 	@Autowired
 	private ActorService actorService;
 
-	@Autowired
-	private UserAccountService userAccountService;
+	// @Autowired
+	// private UserAccountService userAccountService;
 
 	@Test
 	public void testUpdate() {
@@ -73,18 +72,4 @@ public class ActorServiceTest extends AbstractTest {
 	// unauthenticate();
 	// }
 
-	// @Test
-	// public void testRegisterHandyWorker() {
-	// actorService.registerHandyWorker();
-	// }
-	//
-	// @Test
-	// public void testRegisterCutomer() {
-	// actorService.registerCustomer();
-	// }
-	//
-	// @Test
-	// public void testRegisterSponsor() {
-	// actorService.registerSponsor();
-	// }
 }
