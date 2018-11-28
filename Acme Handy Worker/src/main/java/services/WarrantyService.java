@@ -50,8 +50,10 @@ public class WarrantyService {
 	public Warranty save(Warranty a){
 		UserAccount userAccount = LoginService.getPrincipal();
 		Authority au = new Authority();
+		Authority b = new Authority();
 		au.setAuthority("ADMIN");
-		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		b.setAuthority("CUSTOMER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au) || userAccount.getAuthorities().contains(b));
 		Assert.isTrue(a.getIsDraft());
 		
 		return warrantyRepository.save(a);
