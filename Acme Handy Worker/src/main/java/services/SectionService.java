@@ -40,7 +40,6 @@ public class SectionService {
 	public Section create(){
 		Section res = new Section();
 		res.setPictures(new ArrayList<String>());
-		res.setTutorial(new Tutorial());
 		return res;
 	}
 	

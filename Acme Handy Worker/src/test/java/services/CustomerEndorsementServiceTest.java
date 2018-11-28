@@ -19,7 +19,7 @@ import domain.HandyWorker;
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",
 										"classpath:spring/config/packages.xml"})
 
-public class CustomerEndorsementTest extends AbstractTest{
+public class CustomerEndorsementServiceTest extends AbstractTest{
 	
 	// Service under test ---------------------------------------------------------	
 		@Autowired
@@ -67,7 +67,6 @@ public class CustomerEndorsementTest extends AbstractTest{
 			customerEndorsement.setText("Esto es un texto de prueba");
 			customerEndorsement.setHandyWorker(hw);
 			customerEndorsement.setCustomer(c);
-			
 			saved = customerEndorsementService.save(customerEndorsement);					
 
 			customerEndorsements = customerEndorsementService.findAll();				
@@ -99,8 +98,7 @@ public class CustomerEndorsementTest extends AbstractTest{
 			Collection<CustomerEndorsement> customerEndorsements;
 			super.authenticate("customer1");								
 
-			customerEndorsement = customerEndorsementService.findOne(15790);			
-
+			customerEndorsement = customerEndorsementService.findOne(15789);			
 			customerEndorsementService.delete(customerEndorsement);									
 			customerEndorsements = customerEndorsementService.findAll();						
 			Assert.isTrue(!customerEndorsements.contains(customerEndorsement));								

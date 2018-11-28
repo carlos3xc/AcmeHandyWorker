@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -12,7 +13,9 @@ import repositories.TutorialRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.HandyWorker;
 import domain.Section;
+import domain.Sponsorship;
 import domain.Tutorial;
 
 
@@ -29,6 +32,12 @@ public class TutorialService {
 	@Autowired
 	private SectionService sectionService; 
 	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private SponsorshipService sponsorshipService;
+	
 	//Constructors -----
 	public TutorialService(){
 		super();
@@ -42,6 +51,7 @@ public class TutorialService {
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(authority));
 		res = new Tutorial();
+		res.setPictures(new ArrayList<String>());
 		return res;
 	}
 	
@@ -60,13 +70,15 @@ public class TutorialService {
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
+		HandyWorker hw = handyWorkerService.findByPrincipal();
+		
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		
 		tutorial.setMoment(current);
 		tutorial.setTitle("Tutorial 1");
 		tutorial.setSummary("Summary 1");
 		tutorial.setPictures(null);
-		
+		tutorial.setHandyWorker(hw);
 		saved = tutorialRepository.save(tutorial);
 		return saved;
 	}
@@ -79,6 +91,15 @@ public class TutorialService {
 		
 		Collection<Section> sections;
 		sections = sectionService.findAll();
+		
+		Collection<Sponsorship> sponsorships;
+		sponsorships = sponsorshipService.findAll();
+		
+		for(Sponsorship sp: sponsorships){
+			if(sp.getTutorial().equals(tutorial)){
+				sponsorshipService.delete(sp);
+			}
+		}
 		
 		for(Section s: sections){
 			if(s.getTutorial().getId()== tutorial.getId()){

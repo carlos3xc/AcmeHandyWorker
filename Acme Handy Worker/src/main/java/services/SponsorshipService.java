@@ -63,8 +63,10 @@ public class SponsorshipService {
 	public void delete(Sponsorship a){
 		UserAccount userAccount = LoginService.getPrincipal();
 		Authority au = new Authority();
+		Authority n = new Authority();
 		au.setAuthority("SPONSOR");
-		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		n.setAuthority("HANDYWORKER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au) || userAccount.getAuthorities().contains(n));
 		
 		sponsorshipRepository.delete(a);
 	}

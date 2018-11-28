@@ -73,7 +73,7 @@ public class TutorialServiceTest extends AbstractTest{
 		@Test 
 		public void testUpdateTutorials(){
 			Tutorial tutorial,saved;
-			super.authenticate("referee2");						
+			super.authenticate("handyworker1");						
 			tutorial = tutorialService.findOne(15795);				
 			tutorial.setTitle("Este es el nuevo título");	
 

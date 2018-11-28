@@ -13,7 +13,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
-import domain.Customer;
 import domain.HandyWorker;
 import domain.SocialProfile;
 
@@ -29,9 +28,6 @@ public class HandyWorkerService {
 
 	@Autowired
 	private UserAccountService userAccountService;
-
-	@Autowired
-	private SocialProfileService socialProfileService;
 
 	// Constructors -----
 	public HandyWorkerService() {
@@ -76,6 +72,9 @@ public class HandyWorkerService {
 			ua.getAuthorities().add(p);
 			savedUa = userAccountService.save(ua);
 			hw.setUserAccount(savedUa);
+		}
+		if(hw.getMake()==null){
+			hw.setMake(hw.getName()+" " + hw.getMiddleName()+ " " + hw.getSurname());
 		}
 		saved = handyWorkerRepository.saveAndFlush(hw);
 		handyWorkers = handyWorkerRepository.findAll();

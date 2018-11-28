@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 import repositories.FinderRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.Actor;
 import domain.Finder;
 import domain.HandyWorker;
 
@@ -58,6 +57,8 @@ public class FinderService {
 		if (finder.getId() != 0)
 			Assert.isTrue(this.esDeActorActual(finder));
 		Finder result;
+		UserAccount userAccount = LoginService.getPrincipal();
+		if(finder.getId()==0)finder.setHandyWorker(handyWorkerService.findByUserAccountId(userAccount.getId()));
 		result = this.finderRepository.save(finder);
 		return result;
 	}

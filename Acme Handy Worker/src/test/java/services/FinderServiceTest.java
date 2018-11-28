@@ -1,6 +1,5 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -12,9 +11,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Finder;
-import domain.FixUpTask;
+import domain.HandyWorker;
+import domain.SocialProfile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -28,13 +29,47 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Autowired
 	private FinderService	finderService;
+	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private SocialProfileService socialProfileService;
 
 
 	// Tests --------------------
 
 	@Test
 	public void testCreate() {
-		this.authenticate("handyworker1");
+		HandyWorker handyWorker;
+		super.authenticate("admin1");
+		handyWorker = handyWorkerService.create();						
+		
+		handyWorker.setName("Francisco");
+		handyWorker.setSurname("Cordero");
+		handyWorker.setEmail("franky95@gmail.com");
+		handyWorker.setPhone("678534953");
+		handyWorker.setAddress("Calle San Jacinto Nº10");
+		handyWorker.setMiddleName("Fran");
+		handyWorker.setPhoto("http://www.linkedIn.com");
+
+		SocialProfile savedpr;
+		SocialProfile socialProfile = socialProfileService.create();
+		socialProfile.setLink("http://www.twitter.com/Fran");
+		socialProfile.setNick("FranC");
+		socialProfile.setSocialNetwork("Twitter");
+		savedpr = socialProfileService.save(socialProfile);
+		handyWorker.getSocialProfiles().add(savedpr);
+
+		UserAccount userAccount = handyWorker.getUserAccount();
+		userAccount.setUsername("handyWorker12");
+		userAccount.setPassword("handyWorker12");
+		handyWorker.setUserAccount(userAccount);
+
+		handyWorkerService.save(handyWorker);
+		this.authenticate(null);
+		
+		this.authenticate("handyworker12");
 		Finder finder;
 		finder = this.finderService.create();
 		finder.setKeyword("xxx");
@@ -46,9 +81,9 @@ public class FinderServiceTest extends AbstractTest {
 		finder.setCategory(null);
 //		final Collection<FixUpTask> fixUpTasks = new ArrayList<FixUpTask>();
 //		finder.setFixUpTasks(fixUpTasks);
-		Finder saved = finderService.save(finder);
+		Finder savedf = finderService.save(finder);
 		Collection<Finder> finders = finderService.findAll();
-		Assert.isTrue(finders.contains(saved), "----- Fallo metodo create -----");
+		Assert.isTrue(finders.contains(savedf), "----- Fallo metodo create -----");
 	}
 
 	@Test
@@ -59,7 +94,7 @@ public class FinderServiceTest extends AbstractTest {
 
 	@Test
 	public void testSave() {
-		this.authenticate("Francisco Pozo Nevado");
+		this.authenticate("handyworker2");
 		final Finder finderPrueba = this.finderService.findOne(15783);
 		finderPrueba.setMaxPrice(150.0);
 		Finder saved = this.finderService.save(finderPrueba);

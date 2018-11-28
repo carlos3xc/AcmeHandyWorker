@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Section;
+import domain.Tutorial;
 import domain.Warranty;
 import domain.WorkPlanPhase;
 
@@ -26,6 +27,9 @@ public class SectionServiceTest extends AbstractTest{
 	
 		@Autowired
 		private SectionService sectionService;
+		
+		@Autowired
+		private TutorialService tutorialService;
 		
 		// Test
 		
@@ -47,14 +51,15 @@ public class SectionServiceTest extends AbstractTest{
 		@Test
 		public void testSave(){
 			
-			super.authenticate("admin1");
-			
+			super.authenticate("handyworker1");
+			Tutorial tutorial = tutorialService.findOne(15795);
 			Section res = sectionService.create();
 			
 			res.setText("Texto de prueba");
 			res.setTitle("Título de prueba");
 			res.getPictures().add("www.picture.com");
 			
+			res.setTutorial(tutorial);
 			Section saved = sectionService.save(res);
 			
 			Assert.isTrue(sectionService.findAll().contains(saved));

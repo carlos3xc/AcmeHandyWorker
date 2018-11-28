@@ -64,14 +64,14 @@ public class CustomerEndorsementService {
 		e.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
 		Customer c = customerService.findByUserAccountId(userAccount.getId());
-		HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
+	//	HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		
 		customerEndorsement.setMoment(current);
 		customerEndorsement.setCustomer(c);
-		customerEndorsement.setHandyWorker(hw);
+	//	customerEndorsement.setHandyWorker(hw);
 		saved = customerEndorsementRepository.save(customerEndorsement);
 		return saved;
 	}

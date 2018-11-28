@@ -22,7 +22,7 @@ import domain.HandyWorkerEndorsement;
 										"classpath:spring/config/packages.xml"})
 
 @Transactional
-public class HandyWorkerEndosementTest extends AbstractTest{
+public class HandyWorkerEndosementServiceTest extends AbstractTest{
 	
 	// Service under test ---------------------------------------------------------	
 			@Autowired
@@ -57,19 +57,19 @@ public class HandyWorkerEndosementTest extends AbstractTest{
 			public void testSaveHandyWorkerEndorsement(){
 				HandyWorkerEndorsement handyWorkerEndorsement, saved;
 //				HandyWorker hw;
-//				Customer c;
+				Customer c;
 				Collection<HandyWorkerEndorsement> handyWorkerEndorsements;
 				super.authenticate("handyworker1");						
 				handyWorkerEndorsement = handyWorkerEndorsementService.create();					
 //				hw = handyWorkerService.findOne(15726);
-//				c = customerService.findOne(15723);
+				c = customerService.findOne(15723);
 //				
 //				Date current = new Date(System.currentTimeMillis() - 1000);
 //				
 //				handyWorkerEndorsement.setMoment(current);
 				handyWorkerEndorsement.setText("Esto es un texto de prueba");
 //				handyWorkerEndorsement.setHandyWorker(hw);
-//				handyWorkerEndorsement.setCustomer(c);
+				handyWorkerEndorsement.setCustomer(c);
 				
 				saved = handyWorkerEndorsementService.save(handyWorkerEndorsement);					
 

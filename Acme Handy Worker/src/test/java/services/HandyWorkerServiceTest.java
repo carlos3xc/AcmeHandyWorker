@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Customer;
 import domain.HandyWorker;
 import domain.SocialProfile;
 
@@ -22,7 +21,7 @@ import utilities.AbstractTest;
 										"classpath:spring/config/packages.xml"})
 
 @Transactional
-public class HandyWorkerTest extends AbstractTest{
+public class HandyWorkerServiceTest extends AbstractTest{
 	// Service under test ---------------------------------------------------------
 
 		@Autowired
@@ -101,7 +100,7 @@ public class HandyWorkerTest extends AbstractTest{
 		public void testUpdateHandyWorker(){
 			HandyWorker handyWorker, saved;
 			Collection<HandyWorker> handyWorkers;
-			super.authenticate("handyWorker1");						
+			super.authenticate("handyworker2");						
 			handyWorker = handyWorkerService.findOne(15727);
 			handyWorker.setName("Roberto");
 			
