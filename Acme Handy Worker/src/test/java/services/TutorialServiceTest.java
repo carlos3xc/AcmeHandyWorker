@@ -74,7 +74,7 @@ public class TutorialServiceTest extends AbstractTest{
 		public void testUpdateTutorials(){
 			Tutorial tutorial,saved;
 			super.authenticate("referee2");						
-			tutorial = tutorialService.findOne(14645);				
+			tutorial = tutorialService.findOne(15795);				
 			tutorial.setTitle("Este es el nuevo título");	
 
 			saved = tutorialService.save(tutorial);				
@@ -90,7 +90,7 @@ public class TutorialServiceTest extends AbstractTest{
 			Collection<Tutorial> tutorials;
 			super.authenticate("handyworker1");								
 
-			tutorial = tutorialService.findOne(14647);						
+			tutorial = tutorialService.findOne(15797);						
 
 			tutorialService.delete(tutorial);									
 			tutorials = tutorialService.findAll();						
