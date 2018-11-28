@@ -72,7 +72,6 @@ public class CurriculaServiceTest extends AbstractTest {
 		for (Curricula c : curriculaService.findAll()) {
 			if(c.getHandyWorker().getUserAccount().equals(LoginService.getPrincipal())){
 				curriculaService.delete(c);
-				System.out.println("se borra la curricula del Handyworker1"+ c.getId());
 			}
 		}	
 		
@@ -90,7 +89,6 @@ public class CurriculaServiceTest extends AbstractTest {
 		
 		PersonalRecord persave = personalRecordService.save(p); 
 		curricula.setPersonalRecord(persave);
-		System.out.println(curricula.getId());
 		saved = curriculaService.save(curricula);
 
 //		Collection<Curricula> curriculas = curriculaService.findAll();						
