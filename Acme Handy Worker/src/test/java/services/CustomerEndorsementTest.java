@@ -59,8 +59,8 @@ public class CustomerEndorsementTest extends AbstractTest{
 			Collection<CustomerEndorsement> customerEndorsements;
 			super.authenticate("customer1");						
 			customerEndorsement = customerEndorsementService.create();					
-			hw = handyWorkerService.findOne(14577);
-			c = customerService.findOne(14572);
+			hw = handyWorkerService.findOne(15728);
+			c = customerService.findOne(15722);
 			
 			Date current = new Date(System.currentTimeMillis() - 1000);
 			
@@ -84,7 +84,7 @@ public class CustomerEndorsementTest extends AbstractTest{
 		public void testUpdateCustomerEndorsement(){
 			CustomerEndorsement customerEndorsement, saved;
 			super.authenticate("customer2");						
-			customerEndorsement = customerEndorsementService.findOne(14637);				
+			customerEndorsement = customerEndorsementService.findOne(15789);				
 			customerEndorsement.setText("Texto de prueba 2");	
 
 			saved = customerEndorsementService.save(customerEndorsement);				
@@ -100,7 +100,7 @@ public class CustomerEndorsementTest extends AbstractTest{
 			Collection<CustomerEndorsement> customerEndorsements;
 			super.authenticate("customer1");								
 
-			customerEndorsement = customerEndorsementService.findOne(14638);			
+			customerEndorsement = customerEndorsementService.findOne(15790);			
 
 			customerEndorsementService.delete(customerEndorsement);									
 			customerEndorsements = customerEndorsementService.findAll();						

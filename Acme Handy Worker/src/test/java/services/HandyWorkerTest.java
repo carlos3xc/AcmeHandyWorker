@@ -61,14 +61,15 @@ public class HandyWorkerTest extends AbstractTest{
 		public void testSaveHandyWorker(){
 			HandyWorker handyWorker,saved;
 			Collection<HandyWorker> handyWorkers;
+			super.authenticate("admin1");
 			handyWorker = handyWorkerService.create();						
 			
 			handyWorker.setName("Francisco");
 			handyWorker.setSurname("Cordero");
-			handyWorker.setEmail("juaparser@gmail.com");
+			handyWorker.setEmail("franky95@gmail.com");
 			handyWorker.setPhone("678534953");
 			handyWorker.setAddress("Calle San Jacinto Nº10");
-			handyWorker.setMiddleName("Parra");
+			handyWorker.setMiddleName("Fran");
 			handyWorker.setPhoto("http://www.linkedIn.com");
 
 			SocialProfile savedpr;
@@ -87,7 +88,7 @@ public class HandyWorkerTest extends AbstractTest{
 			saved = handyWorkerService.save(handyWorker);
 			
 			handyWorkers = handyWorkerService.findAll();
-			//Assert.isTrue(handyWorkers.contains(saved));
+			Assert.isTrue(handyWorkers.contains(saved));
 			
 			
 			super.authenticate(null);
@@ -101,13 +102,13 @@ public class HandyWorkerTest extends AbstractTest{
 			HandyWorker handyWorker, saved;
 			Collection<HandyWorker> handyWorkers;
 			super.authenticate("handyWorker1");						
-			handyWorker = handyWorkerService.findOne(14577);
+			handyWorker = handyWorkerService.findOne(15727);
 			handyWorker.setName("Roberto");
 			
 			saved = handyWorkerService.save(handyWorker);
 			
-			handyWorkers = handyWorkerService.findAll();						// Comprobamos que la nota se ha guardado correctamente en el archivo de notas
-			//Assert.isTrue(handyWorkers.contains(saved));
+			handyWorkers = handyWorkerService.findAll();					
+			Assert.isTrue(handyWorkers.contains(saved));
 
 			super.authenticate(null);
 		}

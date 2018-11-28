@@ -57,14 +57,16 @@ public class HandyWorkerService {
 
 	public HandyWorker save(HandyWorker hw) {
 		Authority p = new Authority();
+		Authority e = new Authority();
 		UserAccount ua;
 		UserAccount savedUa;
+		e.setAuthority("ADMIN");
 		Collection<HandyWorker> handyWorkers;
 
-		if (hw.getId() != 0) {
-			UserAccount userAccount = LoginService.getPrincipal();
-			Assert.isTrue(userAccount.equals(hw.getUserAccount()));
-		}
+		UserAccount userAccount = LoginService.getPrincipal();
+		if(hw.getId()==0)Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
+		
 		HandyWorker saved;
 		if (hw.getId() == 0) {
 			hw.setIsBanned(false);
