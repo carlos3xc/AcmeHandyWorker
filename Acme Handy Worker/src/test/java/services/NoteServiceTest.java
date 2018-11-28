@@ -83,7 +83,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("referee1");						// Nos autenticamos como Referee
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(14829);				// Recuperamos el report al que queremos asociar la nota
+		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("Referee comment");			// Completamos los atributos de note
 		note.setCustomerComment("");
@@ -105,7 +105,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("customer1");					// Nos autenticamos como Customer
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(14829);				// Recuperamos el report al que queremos asociar la nota
+		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("");							// Completamos los atributos de note
 		note.setCustomerComment("Customer comment");
@@ -127,7 +127,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("handyworker1");					// Nos autenticamos como handy worker
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(14829);				// Recuperamos el report al que queremos asociar la nota
+		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("");							// Completamos los atributos de note
 		note.setCustomerComment("");

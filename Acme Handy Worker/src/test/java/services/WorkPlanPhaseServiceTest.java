@@ -65,7 +65,7 @@ public class WorkPlanPhaseServiceTest extends AbstractTest {
 		super.authenticate("handyworker1");
 		HandyWorker hw = handyWorkerService.findByPrincipal();
 		workPlanPhase = workPlanPhaseService.create();
-		fixUpTask = fixUpTaskService.findOne(14803);
+		fixUpTask = fixUpTaskService.findOne(15946);
 		
 		workPlanPhase.setDescription("Description test phase");
 		workPlanPhase.setStartMoment(Date.valueOf("2019-02-12"));
@@ -91,7 +91,7 @@ public class WorkPlanPhaseServiceTest extends AbstractTest {
 		WorkPlanPhase workPlanPhase,saved;
 		Collection<WorkPlanPhase> workPlanPhases;
 		super.authenticate("handyworker1");	
-		workPlanPhase = workPlanPhaseService.findOne(14804);
+		workPlanPhase = workPlanPhaseService.findOne(15954);
 
 		workPlanPhase.setDescription("Test");
 		
@@ -111,7 +111,7 @@ public class WorkPlanPhaseServiceTest extends AbstractTest {
 		Collection<WorkPlanPhase> workPlanPhases;
 		super.authenticate("handyworker1");
 
-		workPlanPhase = workPlanPhaseService.findOne(14804);
+		workPlanPhase = workPlanPhaseService.findOne(15954);
 		
 		workPlanPhaseService.delete(workPlanPhase);
 		

@@ -78,7 +78,7 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		super.authenticate("customer1");						// Nos autenticamos como Referee
 		fixUpTask = fixUpTaskService.create();					// Creamos el reporte
 		
-		category = categoryService.findOne(14666);
+		category = categoryService.findOne(15818);
 		fixUpTask.setDescription("Description fixuptask test");
 		fixUpTask.setAddress("Address test");
 		fixUpTask.setCategory(category);
@@ -95,9 +95,9 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		Wsaved = warrantyService.save(warranty);
 		
 		fixUpTask.setWarranty(Wsaved);
-		saved = fixUpTaskService.save(fixUpTask);					// Guardamos el reporte	
+		saved = fixUpTaskService.save(fixUpTask);
 		
-		fixUpTasks = fixUpTaskService.findAll();					// Comprobamos que el reporte se ha guardado correctamente en el archivo de reportes
+		fixUpTasks = fixUpTaskService.findAll();
 
 		Assert.isTrue(fixUpTasks.contains(saved));
 		super.authenticate(null);
@@ -109,12 +109,12 @@ public class FixUpTaskServiceTest extends AbstractTest {
 	@Test 
 	public void testUpdateFixUpTasks(){
 		FixUpTask fixUpTask,saved;
-		super.authenticate("customer1");						// Nos autenticamos como referee
-		fixUpTask = fixUpTaskService.findOne(14796);			// Recuperamos el reporte
-		fixUpTask.setDescription("Oh no");						// Modificamos algunos atributos
+		super.authenticate("customer1");
+		fixUpTask = fixUpTaskService.findOne(15946);
+		fixUpTask.setDescription("Oh no");
 		fixUpTask.setEndMoment(Date.valueOf("2019-02-03"));
 
-		saved = fixUpTaskService.save(fixUpTask);				// Guardamos el reporte	
+		saved = fixUpTaskService.save(fixUpTask);
 
 		Assert.isTrue(saved.getEndMoment().equals(Date.valueOf("2019-02-03")));
 		Assert.isTrue(saved.getDescription().equals("Oh no"));
@@ -129,7 +129,7 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		Collection<FixUpTask> fixUpTasks;
 		super.authenticate("customer1");								// Nos autenticamos como referee
 
-		fixUpTask = fixUpTaskService.findOne(14796);						// Recuperamos el report al que queremos eliminar la nota
+		fixUpTask = fixUpTaskService.findOne(15946);						// Recuperamos el report al que queremos eliminar la nota
 		
 		fixUpTaskService.delete(fixUpTask);									// Eliminamos la nota	
 		fixUpTasks = fixUpTaskService.findAll();						

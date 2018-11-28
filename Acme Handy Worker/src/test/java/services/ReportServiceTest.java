@@ -60,7 +60,7 @@ public class ReportServiceTest extends AbstractTest {
 		Collection<Report> reports;
 		super.authenticate("referee1");						// Nos autenticamos como Referee
 		report = reportService.create();					// Creamos el reporte
-		complaint = complaintService.findOne(14823);
+		complaint = complaintService.findOne(15983);
 		
 		report.setDescription("Description test");
 		report.getAttachments().add("Attachment test");
@@ -81,7 +81,7 @@ public class ReportServiceTest extends AbstractTest {
 	public void testUpdateReports(){
 		Report report,saved;
 		super.authenticate("referee2");						// Nos autenticamos como referee
-		report = reportService.findOne(14831);				// Recuperamos el reporte
+		report = reportService.findOne(15992);				// Recuperamos el reporte
 		report.getAttachments().add("Attachment test 2");	// Modificamos algunos atributos
 
 		saved = reportService.save(report);				// Guardamos el reporte	
@@ -97,7 +97,7 @@ public class ReportServiceTest extends AbstractTest {
 		Collection<Report> reports;
 		super.authenticate("referee1");								// Nos autenticamos como referee
 
-		report = reportService.findOne(14831);						// Recuperamos el report al que queremos eliminar la nota
+		report = reportService.findOne(15989);						// Recuperamos el report al que queremos eliminar la nota
 		
 
 		reportService.delete(report);									// Eliminamos la nota	

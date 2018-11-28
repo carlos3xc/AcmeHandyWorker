@@ -108,7 +108,7 @@ public class CustomerServiceTest extends AbstractTest {
 		Customer customer,saved;
 		Collection<Customer> customers;
 		super.authenticate("customer1");						
-		customer = customerService.findOne(14571);
+		customer = customerService.findOne(15721);
 		customer.setName("Lucas");
 		
 		saved = customerService.save(customer);
