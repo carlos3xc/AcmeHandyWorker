@@ -12,10 +12,6 @@ import repositories.TutorialRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.HandyWorker;
-import domain.Note;
-import domain.Referee;
-import domain.Report;
 import domain.Section;
 import domain.Tutorial;
 
@@ -31,7 +27,7 @@ public class TutorialService {
 	//Supporting Services -----
 	
 	@Autowired
-	private HandyWorkerService handyWorkerService; 
+	private SectionService sectionService; 
 	
 	//Constructors -----
 	public TutorialService(){
@@ -81,6 +77,14 @@ public class TutorialService {
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
+		Collection<Section> sections;
+		sections = sectionService.findAll();
+		
+		for(Section s: sections){
+			if(s.getTutorial().getId()== tutorial.getId()){
+				sectionService.delete(s);
+			}
+		}
 		tutorialRepository.delete(tutorial);
 	}
 	
