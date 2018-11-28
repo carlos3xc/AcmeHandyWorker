@@ -41,7 +41,6 @@ public class CustomerEndorsementTest extends AbstractTest{
 			CustomerEndorsement customerEndorsement;
 			super.authenticate("customer1");
 			customerEndorsement = customerEndorsementService.create();
-			Assert.isNull(customerEndorsement.getMoment());
 			Assert.isNull(customerEndorsement.getText());
 			Assert.isNull(customerEndorsement.getCustomer());
 			Assert.isNull(customerEndorsement.getHandyWorker());

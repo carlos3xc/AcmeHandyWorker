@@ -47,8 +47,6 @@ public class CustomerEndorsementService {
 	//Simple CRUD methods -----
 	public CustomerEndorsement create(){
 		CustomerEndorsement res = new CustomerEndorsement();
-		res.setCustomer(new Customer());
-		res.setHandyWorker(new HandyWorker());
 		return res;
 	}
 	
@@ -72,7 +70,6 @@ public class CustomerEndorsementService {
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		
 		customerEndorsement.setMoment(current);
-		customerEndorsement.setText("hduhsid");
 		customerEndorsement.setCustomer(c);
 		customerEndorsement.setHandyWorker(hw);
 		saved = customerEndorsementRepository.save(customerEndorsement);
