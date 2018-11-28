@@ -90,8 +90,10 @@ public class MiscellaneousRecordService {
 				for (Curricula c : curriculaService.findAll()) {
 					if (c.getMiscellaneousRecords().contains(a)
 							&& c.getHandyWorker().getUserAccount().equals(logged)) {
+						c.getMiscellaneousRecords().remove(a);
+						curriculaService.save(c);
 						miscellaneousRecordRepository.delete(a);
-						System.out.println("se borra el miscellaneousRecord");
+						//System.out.println("se borra el miscellaneousRecord");
 					}
 				}
 			}

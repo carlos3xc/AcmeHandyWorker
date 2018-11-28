@@ -121,6 +121,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 		EducationRecord	er;
 		super.authenticate("handyworker1");		
 		er = educationRecordService.findOne(15868);		
+
 		educationRecordService.delete(er);
 		
 		Assert.isTrue(!educationRecordService.findAll().contains(er));

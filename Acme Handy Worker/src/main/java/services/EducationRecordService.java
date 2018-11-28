@@ -94,8 +94,10 @@ public class EducationRecordService {
 		UserAccount logged = LoginService.getPrincipal();
 		for (Curricula c : curriculaService.findAll()) {
 			if(c.getEducationRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+				c.getEducationRecords().remove(a);
+				curriculaService.save(c);
 				educationRecordRepository.delete(a);
-				System.out.println("se borra el educationrecord");
+				//System.out.println("se borra el educationrecord");
 			}
 		}
 	}

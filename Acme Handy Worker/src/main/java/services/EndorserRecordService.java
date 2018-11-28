@@ -92,8 +92,10 @@ public class EndorserRecordService {
 		for (Curricula c : curriculaService.findAll()) {
 			if (c.getEndorserRecords().contains(a)
 					&& c.getHandyWorker().getUserAccount().equals(logged)) {
+				c.getEndorserRecords().remove(a);
+				curriculaService.save(c);
 				endorserRecordRepository.delete(a);
-				System.out.println("se borra el endorserRecord");
+				//System.out.println("se borra el endorserRecord");
 			}
 		}
 	}
