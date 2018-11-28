@@ -103,6 +103,30 @@ public class NoteService {
 	
 	//Other business methods -----
 	
+	public Double getAvgNotesPerReport(){
+		Double res;
+		res = noteRepository.getAvgNotesPerReport();
+		return res;
+	}
+	
+	public Integer getMinNotesPerReport(){
+		Integer res;
+		res = noteRepository.getMinNotesPerReport();
+		return res;
+	}
+	
+	public Integer getMaxNotesPerReport(){
+		Integer res;
+		res = noteRepository.getMaxNotesPerReport();
+		return res;
+	}
+	
+	public Double getStdevNotesPerReport(){
+		Double res;
+		res = noteRepository.getStdevNotesPerReport();
+		return res;
+	}
+	
 
 	
 }

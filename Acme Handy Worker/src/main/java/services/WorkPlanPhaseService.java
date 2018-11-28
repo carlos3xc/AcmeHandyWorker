@@ -65,17 +65,19 @@ public class WorkPlanPhaseService {
 	
 	public void delete(WorkPlanPhase wp){
 		Authority a= new Authority();
+		Authority b = new Authority();
 		a.setAuthority("HANDYWORKER");
+		b.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(a));
+		Assert.isTrue(userAccount.getAuthorities().contains(a) || userAccount.getAuthorities().contains(b));
 		
 		workPlanPhaseRepository.delete(wp);
 	}
 	
 	//Other business methods -----
 	
-	public WorkPlanPhase findByFixUpTaskId(Integer Id){
-		WorkPlanPhase res;
+	public Collection<WorkPlanPhase> findByFixUpTaskId(Integer Id){
+		Collection<WorkPlanPhase> res;
 		res = workPlanPhaseRepository.findByFixUpTaskId(Id);
 		return res;
 	}

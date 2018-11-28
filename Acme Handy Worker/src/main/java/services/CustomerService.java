@@ -28,7 +28,7 @@ public class CustomerService {
 
 	//Managed Repository -----
 	@Autowired
-	private static CustomerRepository customerRepository;
+	private CustomerRepository customerRepository;
 	
 	@Autowired
 	private UserAccountService userAccountService;
@@ -109,6 +109,12 @@ public class CustomerService {
 		}
 		System.out.println(n);
 		return n;
+	}
+	
+	public Collection<Customer> getCustomersWMoreTasksThanAvg(){
+		Collection<Customer> res;
+		res = customerRepository.getCustomersWMoreTasksThanAvg();
+		return res;
 	}
 	
 }

@@ -83,14 +83,14 @@ public class FixUpTaskService {
 		Collection<Complaint> complaints = fx.getComplaints();
 		Collection<Application> applications = fx.getApplications();
 		Customer c = fx.getCustomer();
-		WorkPlanPhase wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
+		Collection<WorkPlanPhase> wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
 		for(Complaint co: complaints){
 			co.setFixUpTask(null);
 			complaintService.delete(co);
 		}
 		for(Application a: applications) applicationService.deleteAut(a);
 		c.getFixUpTasks().remove(fx);
-		workPlanPhaseService.delete(wp);
+		for(WorkPlanPhase w: wp) workPlanPhaseService.delete(w);
 		
 		customerService.save(c);
 		
@@ -98,6 +98,12 @@ public class FixUpTaskService {
 	}
 	
 	//Other business methods -----
+	
+	public Double getRatioTasksWComplaints(){
+		Double res;
+		res = fixUpTaskRepository.getRatioTasksWComplaints();
+		return res;
+	}
 	
 	//C-RF 11.1
 	public Collection<FixUpTask> getFixUpTasksHandyWorker(int handyWorkerId){
@@ -109,6 +115,57 @@ public class FixUpTaskService {
 	public Collection<FixUpTask> getTasksAccepted(){
 		Collection<FixUpTask> res;
 		res = fixUpTaskRepository.getTasksAccepted();
+		return res;
+	}
+	
+	public Double getAvgTasksPerCustomer(){
+		Double res;
+		res = fixUpTaskRepository.getAvgTasksPerCustomer();
+		return res;
+	}
+	
+	public Integer getMinTasksPerCustomer(){
+		Integer res;
+		res = fixUpTaskRepository.getMinTasksPerCustomer();
+		return res;
+	}
+	
+	public Integer getMaxTasksPerCustomer(){
+		Integer res;
+		res = fixUpTaskRepository.getMaxTasksPerCustomer();
+		return res;
+	}
+	
+	public Double getStdevTasksPerCustomer(){
+		Double res;
+		res = fixUpTaskRepository.getStdevTasksPerCustomer();
+		return res;
+	}
+	//
+	
+	
+	
+	public Double getAvgMaxPriceTasks(){
+		Double res;
+		res = fixUpTaskRepository.getAvgMaxPriceTasks();
+		return res;
+	}
+	
+	public Integer getMaximumMaxPriceTasks(){
+		Integer res;
+		res = fixUpTaskRepository.getMaximumMaxPriceTasks();
+		return res;
+	}
+	
+	public Integer getMinimumMaxPriceTasks(){
+		Integer res;
+		res = fixUpTaskRepository.getMinimumMaxPriceTasks();
+		return res;
+	}
+	
+	public Double getStdevMaxPriceTasks(){
+		Double res;
+		res = fixUpTaskRepository.getStdevMaxPriceTasks();
 		return res;
 	}
 	

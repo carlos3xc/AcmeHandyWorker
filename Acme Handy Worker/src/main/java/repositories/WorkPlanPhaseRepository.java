@@ -1,5 +1,7 @@
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,5 +16,5 @@ public interface WorkPlanPhaseRepository extends JpaRepository<WorkPlanPhase, In
 	WorkPlanPhase findOne(Integer Id);
 	
 	@Query("select wp from WorkPlanPhase wp where wp.fixUpTask.id = ?1") 
-	WorkPlanPhase findByFixUpTaskId(Integer Id);
+	Collection<WorkPlanPhase> findByFixUpTaskId(Integer Id);
 }

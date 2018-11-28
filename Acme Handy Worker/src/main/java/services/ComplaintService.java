@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,7 +18,6 @@ import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.Report;
-import domain.WorkPlanPhase;
 
 import services.CustomerService;
 import services.FixUpTaskService;
@@ -42,11 +42,7 @@ public class ComplaintService {
 	@Autowired
 	private ReportService reportService;
 	
-	
-	//Constructors -----
-	public ComplaintService(){
-		super();
-	}
+
 	
 	//Simple CRUD methods -----
 	public Complaint create(){
@@ -128,7 +124,6 @@ public class ComplaintService {
 		Collection<Report> reports;
 		
 		FixUpTask fx= c.getFixUpTask();
-		FixUpTask saved;
 		
 		reports = reportService.getReportsByComplaint(c.getId());
 		
@@ -138,7 +133,7 @@ public class ComplaintService {
 		
 		if(fx!=null){
 			fx.getComplaints().remove(c);
-			saved = fixUpTaskService.save(fx);
+			fixUpTaskService.save(fx);
 		}
 		complaintRepository.delete(c);
 		
@@ -167,6 +162,30 @@ public class ComplaintService {
 	public Collection<Complaint> getComplaintsHandyWorker(int handyWorkerId){
 		Collection<Complaint> res;
 		res = complaintRepository.getComplaintsHandyWorker(handyWorkerId);
+		return res;
+	}
+	
+	public Double getAvgComplaintsPerTask(){
+		Double res;
+		res = complaintRepository.getAvgComplaintsPerTask();
+		return res;
+	}
+	
+	public Integer getMinComplaintsPerTask(){
+		Integer res;
+		res = complaintRepository.getMinComplaintsPerTask();
+		return res;
+	}
+	
+	public Integer getMaxComplaintsPerTask(){
+		Integer res;
+		res = complaintRepository.getMaxComplaintsPerTask();
+		return res;
+	}
+	
+	public Double getStdevComplaintsPerTask(){
+		Double res;
+		res = complaintRepository.getStdevComplaintsPerTask();
 		return res;
 	}
 	
