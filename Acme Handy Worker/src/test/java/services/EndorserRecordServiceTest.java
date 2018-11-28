@@ -89,7 +89,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 		EndorserRecord er, saved, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = endorserRecordService.findOne(14721);		
+		er = endorserRecordService.findOne(15871);		
 		
 		er.setComments("comments");
 		er.setEmail("email@domain.com");
@@ -99,7 +99,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	
 		saved = endorserRecordService.save(er);	
 				
-		recovered = endorserRecordService.findOne(14721);						
+		recovered = endorserRecordService.findOne(15871);						
 		Assert.isTrue(recovered.getPhone().equals("672190514"));
 	
 
@@ -112,7 +112,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		EndorserRecord	er;
 		super.authenticate("handyworker1");		
-		er = endorserRecordService.findOne(14721);		
+		er = endorserRecordService.findOne(15871);		
 		endorserRecordService.delete(er);
 		
 		Assert.isTrue(!endorserRecordService.findAll().contains(er));

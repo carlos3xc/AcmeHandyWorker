@@ -92,7 +92,7 @@ public class PersonalRecordServiceTest extends AbstractTest {
 		PersonalRecord pr, saved;
 		Collection<PersonalRecord> personalRecords;
 		super.authenticate("handyworker1");		
-		Curricula curricula = curriculaService.findOne(14730);
+		Curricula curricula = curriculaService.findOne(15865);
 		
 		pr = curricula.getPersonalRecord();
 

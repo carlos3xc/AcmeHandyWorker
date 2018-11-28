@@ -86,7 +86,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 		MiscellaneousRecord mr, saved, recovered;
 		
 		super.authenticate("handyworker1");		
-		mr = miscellaneousRecordService.findOne(14724);		
+		mr = miscellaneousRecordService.findOne(15874);		
 		
 		mr.setComments("comments1234");
 		mr.setAttachment("http://www.attachementlink.com/attachement");
@@ -94,7 +94,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 	
 		saved = miscellaneousRecordService.save(mr);	
 				
-		recovered = miscellaneousRecordService.findOne(14724);						
+		recovered = miscellaneousRecordService.findOne(15874);						
 		Assert.isTrue(recovered.getComments().equals("comments1234"));
 	
 
@@ -107,7 +107,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		MiscellaneousRecord	mr;
 		super.authenticate("handyworker1");		
-		mr = miscellaneousRecordService.findOne(14724);		
+		mr = miscellaneousRecordService.findOne(15874);		
 		miscellaneousRecordService.delete(mr);
 		
 		Assert.isTrue(!miscellaneousRecordService.findAll().contains(mr));

@@ -106,7 +106,7 @@ public class CurriculaServiceTest extends AbstractTest {
 		Curricula curricula, saved;
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");					
-		curricula = curriculaService.findOne(14730);	
+		curricula = curriculaService.findOne(15880);	
 		PersonalRecord p = personalRecordService.create();
 		
 		p.setEmail("email@dominio.com");
@@ -133,7 +133,7 @@ public class CurriculaServiceTest extends AbstractTest {
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");							
 
-		curricula = curriculaService.findOne(14730);							  
+		curricula = curriculaService.findOne(15880);							  
 		
 		curriculaService.delete(curricula);							
 		curriculas = curriculaService.findAll();						
