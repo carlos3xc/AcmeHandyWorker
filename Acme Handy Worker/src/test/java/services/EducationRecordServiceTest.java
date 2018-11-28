@@ -93,7 +93,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 		EducationRecord er, saved, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = educationRecordService.findOne(14718);		
+		er = educationRecordService.findOne(15868);		
 		
 		Date fecha = new Date();
 		
@@ -107,7 +107,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 		saved = educationRecordService.save(er);
 				
 		
-		recovered = educationRecordService.findOne(14718);						
+		recovered = educationRecordService.findOne(15868);						
 		Assert.isTrue(recovered.getDiplomaTitle().equals("diplomaTitle1234"));
 	
 
@@ -120,7 +120,8 @@ public class EducationRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		EducationRecord	er;
 		super.authenticate("handyworker1");		
-		er = educationRecordService.findOne(14718);		
+		er = educationRecordService.findOne(15868);		
+
 		educationRecordService.delete(er);
 		
 		Assert.isTrue(!educationRecordService.findAll().contains(er));

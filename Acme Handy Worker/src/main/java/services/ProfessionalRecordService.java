@@ -96,8 +96,10 @@ public class ProfessionalRecordService {
 				UserAccount logged = LoginService.getPrincipal();
 				for (Curricula c : curriculaService.findAll()) {
 					if(c.getProfessionalRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+						c.getProfessionalRecords().remove(a);
+						curriculaService.save(c);
 						professionalRecordRepository.delete(a);
-						System.out.println("se borra el professionalrecord");
+						//System.out.println("se borra el professionalrecord");
 					}
 				}
 	}

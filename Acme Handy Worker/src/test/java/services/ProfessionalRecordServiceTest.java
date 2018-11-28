@@ -93,7 +93,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 		ProfessionalRecord er, saved, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = professionalRecordService.findOne(14727);		
+		er = professionalRecordService.findOne(15877);		
 		
 		Date fecha = new Date();
 		
@@ -107,7 +107,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 		saved = professionalRecordService.save(er);
 				
 		
-		recovered = professionalRecordService.findOne(14727);						
+		recovered = professionalRecordService.findOne(15877);						
 		Assert.isTrue(recovered.getRole().equals("CEO"));
 	
 
@@ -120,7 +120,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		ProfessionalRecord	er;
 		super.authenticate("handyworker1");		
-		er = professionalRecordService.findOne(14727);		
+		er = professionalRecordService.findOne(15877);		
 		professionalRecordService.delete(er);
 		
 		Assert.isTrue(!professionalRecordService.findAll().contains(er));

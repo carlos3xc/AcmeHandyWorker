@@ -72,7 +72,6 @@ public class CurriculaServiceTest extends AbstractTest {
 		for (Curricula c : curriculaService.findAll()) {
 			if(c.getHandyWorker().getUserAccount().equals(LoginService.getPrincipal())){
 				curriculaService.delete(c);
-				System.out.println("se borra la curricula del Handyworker1"+ c.getId());
 			}
 		}	
 		
@@ -90,7 +89,6 @@ public class CurriculaServiceTest extends AbstractTest {
 		
 		PersonalRecord persave = personalRecordService.save(p); 
 		curricula.setPersonalRecord(persave);
-		System.out.println(curricula.getId());
 		saved = curriculaService.save(curricula);
 
 //		Collection<Curricula> curriculas = curriculaService.findAll();						
@@ -106,7 +104,7 @@ public class CurriculaServiceTest extends AbstractTest {
 		Curricula curricula, saved;
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");					
-		curricula = curriculaService.findOne(14730);	
+		curricula = curriculaService.findOne(15880);	
 		PersonalRecord p = personalRecordService.create();
 		
 		p.setEmail("email@dominio.com");
@@ -133,7 +131,7 @@ public class CurriculaServiceTest extends AbstractTest {
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");							
 
-		curricula = curriculaService.findOne(14730);							  
+		curricula = curriculaService.findOne(15880);							  
 		
 		curriculaService.delete(curricula);							
 		curriculas = curriculaService.findAll();						

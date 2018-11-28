@@ -68,7 +68,7 @@ public class PersonalRecordService {
 					res = personalRecordRepository.saveAndFlush(a);//actualizamos la curricula
 				}
 					isInCurricula=true;
-					System.out.println("Se ha encontrado una curricula que contiene al personalRecord, se actualiza ese record.");
+					//System.out.println("Se ha encontrado una curricula que contiene al personalRecord, se actualiza ese record.");
 			}
 		}
 		if (!isInCurricula){// si no tiene curricula asignada
@@ -78,13 +78,13 @@ public class PersonalRecordService {
 					cu.setPersonalRecord(res);
 					curriculaService.save(cu);
 					hasCurricula = true;
-					System.out.println("se ha encontrado una curricula para el usuario logueado, se le asigna el personalrecord");
+					//System.out.println("se ha encontrado una curricula para el usuario logueado, se le asigna el personalrecord");
 				}
 			}
 		}
 			if(!hasCurricula){
 				res = personalRecordRepository.saveAndFlush(a);
-				System.out.println("no existe una curricula para el handyworker logueado, se guarda el personal record sin asignar.");
+				//System.out.println("no existe una curricula para el handyworker logueado, se guarda el personal record sin asignar.");
 			}
 		Assert.notNull(res);
 		return res;

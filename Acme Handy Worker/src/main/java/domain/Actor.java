@@ -34,11 +34,6 @@ public abstract class Actor extends DomainEntity {
 	private Boolean isSuspicious;
 	private Boolean isBanned;
 
-	// Constructors -----------------------------------------------------------
-
-	public Actor() {
-		super();
-	}
 
 	// Getters and Setters ---------------------------------------------------
 
