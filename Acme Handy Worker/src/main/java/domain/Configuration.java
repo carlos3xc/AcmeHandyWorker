@@ -21,12 +21,6 @@ public class Configuration extends DomainEntity {
 	private String defaultPhoneCode;
 	private Integer finderQueryResults;
 
-	// Constructors -----------------------------------------------------------
-
-	public Configuration() {
-		super();
-	}
-
 	// Getters and Setters ---------------------------------------------------
 
 	@URL
