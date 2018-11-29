@@ -29,10 +29,19 @@ public class MessageServiceTest extends AbstractTest {
 	private ApplicationService applicationService;
 
 	@Autowired
-	private MessageService messageService;
+	private AdministratorService administratorService;
 
 	@Autowired
-	private ActorService actorService;
+	private HandyWorkerService handyWorkerService;
+
+	@Autowired
+	private CustomerService customerService;
+
+	@Autowired
+	private MessageService messageService;
+
+	// @Autowired
+	// private ActorService actorService;
 
 	@Autowired
 	private BoxService boxService;
@@ -40,8 +49,12 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void testCreate() {
 
-		Actor sender = actorService.findOne(15730); // HandyWorker5
-		Actor recipient = actorService.findOne(15720); // Admin1
+		// Actor sender = actorService.findOne(15730); // HandyWorker5
+		// Actor recipient = actorService.findOne(15720); // Admin1
+
+		Actor sender = (Actor) handyWorkerService.findAll().toArray()[4];
+
+		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
 
 		Message message = messageService.create(sender, recipient);
 
@@ -56,8 +69,13 @@ public class MessageServiceTest extends AbstractTest {
 
 	@Test
 	public void testSave() {
-		Actor sender = actorService.findOne(15730); // HandyWorker5
-		Actor recipient = actorService.findOne(15720); // Admin1
+
+		// Actor sender = actorService.findOne(15730); // HandyWorker5
+		// Actor recipient = actorService.findOne(15720); // Admin1
+
+		Actor sender = (Actor) handyWorkerService.findAll().toArray()[4];
+
+		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
 
 		Message message = messageService.create(sender, recipient);
 
@@ -96,25 +114,118 @@ public class MessageServiceTest extends AbstractTest {
 
 		// Actor actor = actorService.findOne(15726);
 
-		Box box = boxService.findOne(15907);
-		Box box2 = boxService.findOne(15908);
-		Box box3 = boxService.findOne(15909);
-		Box box4 = boxService.findOne(15910);
+		// Box box = boxService.findOne(15907);
+		// Box box2 = boxService.findOne(15908);
+		// Box box3 = boxService.findOne(15909);
+		// Box box4 = boxService.findOne(15910);
 
-		Collection<Box> boxes = boxService.findAll();
+		Box box = (Box) boxService.findAll().toArray()[24];
+		Box box2 = (Box) boxService.findAll().toArray()[25];
+		Box box3 = (Box) boxService.findAll().toArray()[26];
+		Box box4 = (Box) boxService.findAll().toArray()[27];
 
-		Message message = messageService.findOne(15945);
-		messageService.delete(message);
+		// Collection<Box> boxes = boxService.findAll();
 
-		Assert.isTrue(!boxes.contains(message));
-		Assert.isTrue((!box.getMessages().contains(message)
-				&& !box2.getMessages().contains(message)
-				&& !box3.getMessages().contains(message) && box4.getMessages()
-				.contains(message))
-				|| (!box.getMessages().contains(message)
-						&& !box2.getMessages().contains(message)
-						&& !box3.getMessages().contains(message) && !box4
-						.getMessages().contains(message)));
+		// Message message = messageService.findOne(15945); // Message 3
+		// Message message = (Message) messageService.findAll().toArray()[2];
+
+		Actor sender = (Actor) customerService.findAll().toArray()[2];
+
+		Actor recipient = (Actor) handyWorkerService.findAll().toArray()[0];
+
+		Message message = messageService.create(sender, recipient);
+
+		// Message result = messageService.save(message);
+
+		Message result;
+
+		message.setBody("Cuerpo del mensaje");
+		message.setSubject("Asunto del mensaje");
+		message.getTags().add("tag");
+
+		result = messageService.save(message);
+
+		Assert.isTrue(messageService.findAll().contains(result));
+
+		// messageService.addMesageToBoxes(result);
+
+		// Collection<Message> messages = box2.getMessages();
+		Collection<Message> messages = box4.getMessages();
+
+		messages.add(result);
+
+		// box2.setMessages(messages);
+		box4.setMessages(messages);
+
+		// box2.getMessages().add(result);
+		// box4.getMessages().add(result);
+
+		// Assert.isTrue(box2.getMessages().contains(result));
+		Assert.isTrue(box4.getMessages().contains(result));
+
+		messageService.delete(result);
+
+		Assert.isTrue((!box.getMessages().contains(result)
+				&& !box2.getMessages().contains(result)
+				&& !box3.getMessages().contains(result) && box4.getMessages()
+				.contains(result))
+				|| (!box.getMessages().contains(result)
+						&& !box2.getMessages().contains(result)
+						&& !box3.getMessages().contains(result) && !box4
+						.getMessages().contains(result)));
+
+		// Assert.isTrue(box4.getMessages().contains(result));
+		Assert.isTrue(!box4.getMessages().contains(result));
+
+		unauthenticate();
+	}
+
+	@Test
+	public void testDeleteOfSystemBox() {
+
+		authenticate("handyWorker1");
+
+		Box box = (Box) boxService.findAll().toArray()[24];
+		Box box2 = (Box) boxService.findAll().toArray()[25];
+		Box box3 = (Box) boxService.findAll().toArray()[26];
+		Box box4 = (Box) boxService.findAll().toArray()[27];
+
+		Actor sender = (Actor) customerService.findAll().toArray()[2];
+
+		Actor recipient = (Actor) handyWorkerService.findAll().toArray()[0];
+
+		Message message = messageService.create(sender, recipient);
+
+		Message result;
+
+		message.setBody("Cuerpo del mensaje");
+		message.setSubject("Asunto del mensaje");
+		message.getTags().add("tag");
+
+		result = messageService.save(message);
+
+		Assert.isTrue(messageService.findAll().contains(result));
+
+		Collection<Message> messages = box2.getMessages();
+
+		messages.add(result);
+
+		box2.setMessages(messages);
+
+		Assert.isTrue(box2.getMessages().contains(result));
+
+		messageService.delete(result);
+
+		Assert.isTrue((!box.getMessages().contains(result)
+				&& !box2.getMessages().contains(result)
+				&& !box3.getMessages().contains(result) && box4.getMessages()
+				.contains(result))
+				|| (!box.getMessages().contains(result)
+						&& !box2.getMessages().contains(result)
+						&& !box3.getMessages().contains(result) && !box4
+						.getMessages().contains(result)));
+
+		Assert.isTrue(box4.getMessages().contains(result));
 
 		unauthenticate();
 	}
@@ -135,19 +246,32 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void testSystemMessage() {
 
-		Application application = applicationService.findOne(15975);
+		// Application application = applicationService.findOne(15975);
+		Application application = (Application) applicationService.findAll()
+				.toArray()[4];
 
-		Customer customer = application.getFixUpTask().getCustomer();
-		HandyWorker handyWorker = application.getHandyWorker();
+		Customer customer = application.getFixUpTask().getCustomer(); // Customer4
+		HandyWorker handyWorker = application.getHandyWorker(); // HandyWorker 2
 
-		Assert.isTrue(customer.getId() == 15724);
-		Assert.isTrue(handyWorker.getId() == 15727);
+		Customer customer2 = (Customer) customerService.findAll().toArray()[3];
+		HandyWorker handyWorker2 = (HandyWorker) handyWorkerService.findAll()
+				.toArray()[1];
+
+		// Assert.isTrue(customer.getId() == 15724);
+		// Assert.isTrue(handyWorker.getId() == 15727);
+
+		Assert.isTrue(customer.equals(customer2));
+		Assert.isTrue(handyWorker.equals(handyWorker2));
 
 		messageService.sendSystemMessages(application);
 
-		Box customerBox = boxService.findOne(15896);
-		Box handyWorkerBox = boxService.findOne(15912);
-		Box administratorBox = boxService.findOne(15905);
+		Box customerBox = boxService.findOne(15896); // Box 14
+		Box handyWorkerBox = boxService.findOne(15912); // Box 30
+		Box administratorBox = boxService.findOne(15905); // Box 23
+
+		// Box customerBox = (Box) boxService.findAll().toArray()[13];
+		// Box handyWorkerBox = (Box) boxService.findAll().toArray()[29];
+		// Box administratorBox = (Box) boxService.findAll().toArray()[22];
 
 		Assert.isTrue(customerBox.getMessages().size() == 1);
 		Assert.isTrue(handyWorkerBox.getMessages().size() == 1);
@@ -170,11 +294,19 @@ public class MessageServiceTest extends AbstractTest {
 		// authenticate("admin1");
 		// authenticate("customer5");
 
-		Actor sender = actorService.findOne(15725); // Customer5
-		Actor recipient = actorService.findOne(15720); // Admin1
+		// Actor sender = actorService.findOne(15725); // Customer5
+		// Actor recipient = actorService.findOne(15720); // Admin1
 
-		Box senderBox = boxService.findOne(15901);
-		Box recipientBox = boxService.findOne(15904);
+		Actor sender = (Actor) customerService.findAll().toArray()[4];
+
+		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
+
+		// Box senderBox = boxService.findOne(15901); // Box 19
+		// Box recipientBox = boxService.findOne(15904); // Box 22
+
+		Box senderBox = (Box) boxService.findAll().toArray()[18];
+
+		Box recipientBox = (Box) boxService.findAll().toArray()[21];
 
 		Message message = messageService.create(sender, recipient);
 

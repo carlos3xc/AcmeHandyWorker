@@ -22,16 +22,20 @@ public class ActorServiceTest extends AbstractTest {
 	@Autowired
 	private ActorService actorService;
 
-	// @Autowired
-	// private UserAccountService userAccountService;
+	@Autowired
+	private HandyWorkerService handyWorkerService;
 
 	@Test
 	public void testUpdate() {
 
 		authenticate("handyworker5");
 
-		Actor actor = actorService.findOne(15730);
+		// Actor actor = actorService.findOne(15730);
+		
+		Actor actor = (Actor) handyWorkerService.findAll().toArray()[4];
 		Actor result;
+
+		// System.out.println("Actor" + actor);
 
 		actor.setName("Nombre modificado");
 		actor.setSurname("Primer apellido modificado");
@@ -57,19 +61,5 @@ public class ActorServiceTest extends AbstractTest {
 
 		unauthenticate();
 	}
-
-	// @Test
-	// public void testDelete() {
-	// authenticate("handyworker5");
-	//
-	// Actor actor = actorService.findOne(15730);
-	// actorService.delete(actor);
-	//
-	// Assert.isTrue(!actorService.findAll().contains(actor));
-	// Assert.isTrue(!userAccountService.findAll().contains(
-	// actor.getUserAccount()));
-	//
-	// unauthenticate();
-	// }
 
 }

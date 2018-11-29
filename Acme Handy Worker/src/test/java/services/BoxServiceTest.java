@@ -23,9 +23,15 @@ public class BoxServiceTest extends AbstractTest {
 	@Autowired
 	private BoxService boxService;
 
+	// @Autowired
+	// private ActorService actorService;
+
 	@Autowired
-	private ActorService actorService;
-	
+	private AdministratorService administratorService;
+
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+
 	@Autowired
 	private MessageService messageService;
 
@@ -34,7 +40,11 @@ public class BoxServiceTest extends AbstractTest {
 
 		authenticate("admin1"); // 15720
 
-		Actor actor = actorService.findOne(15720);
+		// Actor actor = actorService.findOne(15720);
+
+		// Actor actor = (Actor) actorService.findAll().toArray()[0];
+
+		Actor actor = (Actor) administratorService.findAll().toArray()[0];
 
 		Box box = boxService.create(actor);
 
@@ -51,7 +61,11 @@ public class BoxServiceTest extends AbstractTest {
 
 		authenticate("admin1"); // 15720
 
-		Actor actor = actorService.findOne(15720);
+		// Actor actor = actorService.findOne(15720);
+
+		// Actor actor = (Actor) actorService.findAll().toArray()[0];
+
+		Actor actor = (Actor) administratorService.findAll().toArray()[0];
 
 		Box result;
 		Box box = boxService.create(actor);
@@ -68,7 +82,11 @@ public class BoxServiceTest extends AbstractTest {
 	public void testDelete() {
 		authenticate("admin1"); // 15720
 
-		Actor actor = actorService.findOne(15720);
+		// Actor actor = actorService.findOne(15720);
+
+		// Actor actor = (Actor) actorService.findAll().toArray()[0];
+
+		Actor actor = (Actor) administratorService.findAll().toArray()[0];
 
 		Box result;
 		Box box = boxService.create(actor);
@@ -91,32 +109,40 @@ public class BoxServiceTest extends AbstractTest {
 
 		authenticate("admin1"); // 15720
 
-		Actor actor = actorService.findOne(15720);
+		// Actor actor = actorService.findOne(15720);
+
+		// Actor actor = (Actor) actorService.findAll().toArray()[0];
+
+		Actor actor = (Actor) administratorService.findAll().toArray()[0];
 
 		Box box = boxService.createUserBox(actor);
 
 		Assert.isTrue(box.getName().equals(actor.getName()));
-		
+
 		unauthenticate();
 
 	}
-	
+
 	@Test
-	public void testMessageToBox(){
-		
+	public void testMessageToBox() {
+
 		authenticate("admin1");
-		
-		Actor sender = actorService.findOne(15730); // HandyWorker5
-		Actor recipient = actorService.findOne(15720); // Admin1
-		
+
+		// Actor sender = actorService.findOne(15730); // HandyWorker5
+		// Actor recipient = actorService.findOne(15720); // Admin1
+
+		Actor sender = (Actor) handyWorkerService.findAll().toArray()[4];
+
+		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
+
 		Box box = boxService.create(recipient);
-		
+
 		Message message = messageService.create(sender, recipient);
-		
+
 		boxService.addMessageToBox(box, message);
-		
+
 		Assert.isTrue(box.getMessages().contains(message));
-		
+
 		unauthenticate();
 	}
 }

@@ -8,70 +8,55 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.WelcomeMessageRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.WelcomeMessage;
-
 
 @Service
 @Transactional
 public class WelcomeMessageService {
 
-	//Managed Repository -----
 	@Autowired
 	private WelcomeMessageRepository welcomeMessageRepository;
-	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public WelcomeMessageService(){
-		super();
-	}
-	
-	//Simple CRUD methods -----
-	public WelcomeMessage create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+
+	public WelcomeMessage create() {
+
 		WelcomeMessage res = new WelcomeMessage();
 		return res;
 	}
-	
-	public Collection<WelcomeMessage> findAll(){
+
+	public Collection<WelcomeMessage> findAll() {
 		return welcomeMessageRepository.findAll();
 	}
-	
-	public WelcomeMessage findOne(int Id){
+
+	public WelcomeMessage findOne(int Id) {
 		return welcomeMessageRepository.findOne(Id);
 	}
-	
-	public WelcomeMessage save(WelcomeMessage a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+
+	public WelcomeMessage save(WelcomeMessage welcomeMessage) {
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
+		WelcomeMessage result;
+
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		welcomeMessageRepository.save(a);
-		return a;
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		result = welcomeMessageRepository.save(welcomeMessage);
+		return result;
 	}
-	
-	public void delete(WelcomeMessage a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+
+	public void delete(WelcomeMessage welcomeMessage) {
+
+		Authority authority = new Authority();
+		authority.setAuthority("ADMIN");
+
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		welcomeMessageRepository.delete(a);
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+
+		welcomeMessageRepository.delete(welcomeMessage);
 	}
-	
-	//Other business methods -----
-	
-	
+
 }

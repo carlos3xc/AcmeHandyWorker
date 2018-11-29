@@ -26,9 +26,12 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	@Autowired
 	private AdministratorService administratorService;
-	
+
 	@Autowired
-	private ActorService actorService;
+	private CustomerService customerService;
+
+	// @Autowired
+	// private ActorService actorService;
 
 	@Test
 	public void testCreateAdministrator() {
@@ -73,41 +76,49 @@ public class AdministratorServiceTest extends AbstractTest {
 
 		unauthenticate();
 	}
-	
+
 	@Test
-	public void testFindSuspicious(){
-		
+	public void testFindSuspicious() {
+
 		Collection<Actor> result = new ArrayList<Actor>();
-		
+
 		result = administratorService.findSuspicious();
-		
+
 		Assert.isTrue(result.size() == 2);
 	}
-	
+
 	@Test
-	public void testBanActor(){
-		
+	public void testBanActor() {
+
 		authenticate("admin1");
-		
-		Actor actor = actorService.findOne(15724); // Customer 4
-		
+
+		// Actor actor = actorService.findOne(15724); // Customer 4
+
+		Actor actor = (Actor) customerService.findAll().toArray()[3];
+
+		// System.out.println("Actor" + actor);
+
 		administratorService.ban(actor);
-		
+
 		Assert.isTrue(actor.getIsBanned().equals(true));
-		
+
 		unauthenticate();
 	}
-	
+
 	@Test
-	public void testUnbanActor(){
+	public void testUnbanActor() {
 		authenticate("admin1");
-		
-		Actor actor = actorService.findOne(15723); // Customer 3
-		
+
+		// Actor actor = actorService.findOne(15723); // Customer 3
+
+		Actor actor = (Actor) customerService.findAll().toArray()[2];
+
+		// System.out.println("Actor" + actor);
+
 		administratorService.unBan(actor);
-		
+
 		Assert.isTrue(actor.getIsBanned().equals(false));
-		
+
 		unauthenticate();
 	}
 }

@@ -70,10 +70,13 @@ public class ApplicationServiceTest extends AbstractTest {
 
 		application.setCreditCard(credit);
 
-		FixUpTask fixUpTask = fixUpTaskService.findOne(15949);
+		// FixUpTask fixUpTask = fixUpTaskService.findOne(15949);
+		FixUpTask fixUpTask = (FixUpTask) fixUpTaskService.findAll().toArray()[3];
 		application.setFixUpTask(fixUpTask);
 
-		HandyWorker handyWorker = handyWorkerService.findOne(15726);
+		// HandyWorker handyWorker = handyWorkerService.findOne(15726);
+		HandyWorker handyWorker = (HandyWorker) handyWorkerService.findAll()
+				.toArray()[0];
 		application.setHandyWorker(handyWorker);
 
 		result = applicationService.save(application);
@@ -86,7 +89,9 @@ public class ApplicationServiceTest extends AbstractTest {
 
 		authenticate("handyWorker1");
 
-		Application application = applicationService.findOne(15974);
+		// Application application = applicationService.findOne(15974);
+		Application application = (Application) applicationService.findAll()
+				.toArray()[3];
 		Application result;
 
 		// HandyWorker 1 -> 15726
@@ -106,7 +111,9 @@ public class ApplicationServiceTest extends AbstractTest {
 
 		authenticate("customer1");
 
-		Application application = applicationService.findOne(15982);
+		// Application application = applicationService.findOne(15982);
+		Application application = (Application) applicationService.findAll()
+				.toArray()[11];
 		Application result;
 
 		// Customer 1 -> 15721
@@ -130,7 +137,9 @@ public class ApplicationServiceTest extends AbstractTest {
 		// HandyWorker 2 -> 15727
 		// Application 5 -> 15975
 
-		Application application = applicationService.findOne(15975);
+		// Application application = applicationService.findOne(15975);
+		Application application = (Application) applicationService.findAll()
+				.toArray()[4];
 		applicationService.delete(application);
 
 		Assert.isTrue(!applicationService.findAll().contains(application));
@@ -143,9 +152,12 @@ public class ApplicationServiceTest extends AbstractTest {
 
 		Collection<Application> res = new ArrayList<Application>();
 
-		// HandyWorker handyWorker = handyWorkerService.findOne(14670);
+		// HandyWorker handyWorker = handyWorkerService.findOne(15726);
 
-		res = applicationService.applicationByHandyWorker(15726);
+		HandyWorker handyWorker = (HandyWorker) handyWorkerService.findAll()
+				.toArray()[0];
+
+		res = applicationService.applicationByHandyWorker(handyWorker.getId());
 
 		Assert.isTrue(res.size() == 4);
 	}
@@ -158,7 +170,9 @@ public class ApplicationServiceTest extends AbstractTest {
 		// String b = "ACCEPTED";
 		String c = "REJECTED";
 
-		Application application = applicationService.findOne(15982);
+		// Application application = applicationService.findOne(15982);
+		Application application = (Application) applicationService.findAll()
+				.toArray()[11];
 		applicationService.changeStatus(application, c);
 
 		unauthenticate();
