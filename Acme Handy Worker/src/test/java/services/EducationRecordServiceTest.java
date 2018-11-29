@@ -90,7 +90,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		EducationRecord er, saved, recovered;
+		EducationRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
 		er = educationRecordService.findOne(15868);		
@@ -104,7 +104,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 		er.setInstitution("institution");
 		er.setStartDate(new Date(fecha.getTime()-1000000));
 		
-		saved = educationRecordService.save(er);
+		educationRecordService.save(er);
 				
 		
 		recovered = educationRecordService.findOne(15868);						

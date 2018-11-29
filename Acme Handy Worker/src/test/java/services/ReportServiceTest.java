@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Complaint;
-import domain.Note;
 import domain.Report;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,9 +26,6 @@ public class ReportServiceTest extends AbstractTest {
 	
 	@Autowired
 	private ComplaintService complaintService;
-	
-	@Autowired
-	private NoteService noteService;
 	
 	// Tests ----------------------------------------------------------------------
 	
@@ -79,12 +75,12 @@ public class ReportServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testUpdateReports(){
-		Report report,saved;
+		Report report;
 		super.authenticate("referee2");						// Nos autenticamos como referee
 		report = reportService.findOne(15992);				// Recuperamos el reporte
 		report.getAttachments().add("Attachment test 2");	// Modificamos algunos atributos
 
-		saved = reportService.save(report);				// Guardamos el reporte	
+		reportService.save(report);				// Guardamos el reporte	
 
 		super.authenticate(null);
 	}

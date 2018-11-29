@@ -12,8 +12,6 @@ import org.springframework.util.Assert;
 
 import domain.Section;
 import domain.Tutorial;
-import domain.Warranty;
-import domain.WorkPlanPhase;
 
 import utilities.AbstractTest;
 

@@ -1,6 +1,6 @@
 package services;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +58,7 @@ public class SponsorshipServiceTest extends AbstractTest{
 		CreditCard creditCard = new CreditCard();
 		creditCard.setBrand("afiabfcabf");
 		creditCard.setCVV(876);
-		creditCard.setExpirationDate(new Date(2021,3,3));
+		creditCard.setExpirationDate(Date.valueOf("2021-03-03"));
 		creditCard.setHolder("dwcfbakwcnbf");
 		creditCard.setNumber("1234567891234567");
 		

@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Complaint;
-import domain.Note;
-import domain.Report;
 import domain.SocialProfile;
 
 @RunWith(SpringJUnit4ClassRunner.class)

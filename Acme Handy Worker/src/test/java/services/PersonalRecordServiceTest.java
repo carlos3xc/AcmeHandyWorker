@@ -10,13 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import security.Authority;
-import security.LoginService;
 import utilities.AbstractTest;
 import domain.Curricula;
-import domain.Note;
 import domain.PersonalRecord;
-import domain.Report;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",

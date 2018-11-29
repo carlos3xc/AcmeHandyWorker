@@ -1,7 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,7 +85,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		EndorserRecord er, saved, recovered;
+		EndorserRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
 		er = endorserRecordService.findOne(15871);		
@@ -97,7 +96,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 		er.setLinkedInProfile("http://www.linkedin.com/user");
 		er.setPhone("672190514");	
 	
-		saved = endorserRecordService.save(er);	
+		endorserRecordService.save(er);	
 				
 		recovered = endorserRecordService.findOne(15871);						
 		Assert.isTrue(recovered.getPhone().equals("672190514"));

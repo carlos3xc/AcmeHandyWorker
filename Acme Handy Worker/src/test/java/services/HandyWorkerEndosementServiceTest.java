@@ -1,7 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +12,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Customer;
-import domain.CustomerEndorsement;
-import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,11 +26,7 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 			private HandyWorkerEndorsementService handyWorkerEndorsementService;
 			
 			@Autowired
-			private CustomerService customerService;
-			
-			@Autowired
-			private HandyWorkerService handyWorkerService;
-			
+			private CustomerService customerService;			
 			
 			// Tests ----------------------------------------------------------------------
 			
@@ -84,12 +77,12 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 			
 			@Test 
 			public void testUpdateHandyWorkerEndorsement(){
-				HandyWorkerEndorsement handyWorkerEndorsement, saved;
+				HandyWorkerEndorsement handyWorkerEndorsement;
 				super.authenticate("handyworker2");						
 				handyWorkerEndorsement = handyWorkerEndorsementService.findOne(15791);				
 				handyWorkerEndorsement.setText("Texto de prueba 2");	
 
-				saved = handyWorkerEndorsementService.save(handyWorkerEndorsement);				
+				handyWorkerEndorsementService.save(handyWorkerEndorsement);				
 
 				super.authenticate(null);
 			}

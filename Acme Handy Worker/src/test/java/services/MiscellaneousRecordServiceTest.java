@@ -1,7 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,7 +82,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		MiscellaneousRecord mr, saved, recovered;
+		MiscellaneousRecord mr, recovered;
 		
 		super.authenticate("handyworker1");		
 		mr = miscellaneousRecordService.findOne(15874);		
@@ -92,7 +91,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 		mr.setAttachment("http://www.attachementlink.com/attachement");
 		mr.setTitle("title");	
 	
-		saved = miscellaneousRecordService.save(mr);	
+		miscellaneousRecordService.save(mr);	
 				
 		recovered = miscellaneousRecordService.findOne(15874);						
 		Assert.isTrue(recovered.getComments().equals("comments1234"));

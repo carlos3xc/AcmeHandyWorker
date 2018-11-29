@@ -90,7 +90,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		ProfessionalRecord er, saved, recovered;
+		ProfessionalRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
 		er = professionalRecordService.findOne(15877);		
@@ -104,7 +104,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 		er.setEndDate(new Date(fecha.getTime()-100000));
 		er.setStartDate(new Date(fecha.getTime()-1000000));
 		
-		saved = professionalRecordService.save(er);
+		professionalRecordService.save(er);
 				
 		
 		recovered = professionalRecordService.findOne(15877);						

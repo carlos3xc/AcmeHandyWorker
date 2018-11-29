@@ -1,7 +1,6 @@
 package services;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -12,12 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import security.LoginService;
 import utilities.AbstractTest;
-import domain.Application;
 import domain.Category;
 import domain.FixUpTask;
-import domain.HandyWorker;
 import domain.Warranty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,12 +31,6 @@ public class FixUpTaskServiceTest extends AbstractTest {
 	
 	@Autowired
 	private WarrantyService warrantyService;
-	
-	@Autowired
-	private HandyWorkerService handyWorkerService;
-	
-	@Autowired
-	private ApplicationService applicationService;
 		
 	// Tests ----------------------------------------------------------------------
 	

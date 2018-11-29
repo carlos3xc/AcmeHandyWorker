@@ -1,27 +1,18 @@
 package services;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import security.Authority;
-import security.LoginService;
 import security.UserAccount;
 import utilities.AbstractTest;
-import domain.Note;
 import domain.Customer;
-import domain.Report;
 import domain.SocialProfile;
 
 @RunWith(SpringJUnit4ClassRunner.class)

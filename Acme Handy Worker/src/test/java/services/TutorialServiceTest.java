@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Complaint;
-import domain.Report;
 import domain.Tutorial;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,9 +23,6 @@ public class TutorialServiceTest extends AbstractTest{
 	// Service under test ---------------------------------------------------------	
 		@Autowired
 		private TutorialService tutorialService;
-		
-		@Autowired
-		private SectionService sectionService;
 		
 		// Tests ----------------------------------------------------------------------
 		
@@ -72,12 +67,12 @@ public class TutorialServiceTest extends AbstractTest{
 		
 		@Test 
 		public void testUpdateTutorials(){
-			Tutorial tutorial,saved;
+			Tutorial tutorial;
 			super.authenticate("handyworker1");						
 			tutorial = tutorialService.findOne(15795);				
 			tutorial.setTitle("Este es el nuevo título");	
 
-			saved = tutorialService.save(tutorial);				
+			tutorialService.save(tutorial);				
 
 			super.authenticate(null);
 		}

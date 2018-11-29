@@ -80,12 +80,25 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 		
 		@Test 
 		public void testUpdateCustomerEndorsement(){
-			CustomerEndorsement customerEndorsement, saved;
+			CustomerEndorsement customerEndorsement = new CustomerEndorsement();
 			super.authenticate("customer2");						
-			customerEndorsement = customerEndorsementService.findOne(15789);				
+			Collection<CustomerEndorsement> all;
+			Collection<HandyWorker> workers;
+			HandyWorker haw = new HandyWorker();
+
+			all = customerEndorsementService.findAll();
+			for(CustomerEndorsement ca: all){
+				if(ca.getText().equals("Es muy puntual")) customerEndorsement=ca;
+			}
+			workers = handyWorkerService.findAll();
+			for(HandyWorker w: workers){
+				if(w.getMake().equals("Juan Parra")) haw=w;
+				break;
+			}
+			customerEndorsement.setHandyWorker(haw);
 			customerEndorsement.setText("Texto de prueba 2");	
 
-			saved = customerEndorsementService.save(customerEndorsement);				
+			customerEndorsementService.save(customerEndorsement);				
 
 			super.authenticate(null);
 		}
@@ -94,11 +107,21 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 
 		@Test 
 		public void testDeleteCustomerEndorsements(){
-			CustomerEndorsement customerEndorsement;
+			CustomerEndorsement customerEndorsement; //= new CustomerEndorsement();
 			Collection<CustomerEndorsement> customerEndorsements;
+		//	Collection<CustomerEndorsement> all;
 			super.authenticate("customer1");								
 
-			customerEndorsement = customerEndorsementService.findOne(15789);			
+		/*	all = customerEndorsementService.findAll();
+			for(CustomerEndorsement ca: all){
+				if(ca.getText().equals("Es muy perfeccionista")){
+					customerEndorsement=ca;
+					break;
+				}
+	
+			}
+			System.out.println(customerEndorsement);*/
+			customerEndorsement = customerEndorsementService.findOne(15788);
 			customerEndorsementService.delete(customerEndorsement);									
 			customerEndorsements = customerEndorsementService.findAll();						
 			Assert.isTrue(!customerEndorsements.contains(customerEndorsement));								

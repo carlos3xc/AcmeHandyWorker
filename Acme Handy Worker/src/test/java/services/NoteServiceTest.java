@@ -1,8 +1,6 @@
 package services;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +27,7 @@ public class NoteServiceTest extends AbstractTest {
 	
 	@Autowired
 	private ReportService reportService;
-	
-	@Autowired
-	private ComplaintService complaintService;
-	
+
 	// Tests ----------------------------------------------------------------------
 	
 	// CREATE ---------------------------------------------------------------------

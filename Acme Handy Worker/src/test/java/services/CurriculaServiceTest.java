@@ -14,9 +14,7 @@ import security.Authority;
 import security.LoginService;
 import utilities.AbstractTest;
 import domain.Curricula;
-import domain.Note;
 import domain.PersonalRecord;
-import domain.Report;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",
@@ -62,7 +60,7 @@ public class CurriculaServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerSave(){
-		Curricula curricula,saved;
+		Curricula curricula;
 		
 		super.authenticate("handyWorker1");		
 				
@@ -89,7 +87,7 @@ public class CurriculaServiceTest extends AbstractTest {
 		
 		PersonalRecord persave = personalRecordService.save(p); 
 		curricula.setPersonalRecord(persave);
-		saved = curriculaService.save(curricula);
+		curriculaService.save(curricula);
 
 //		Collection<Curricula> curriculas = curriculaService.findAll();						
 

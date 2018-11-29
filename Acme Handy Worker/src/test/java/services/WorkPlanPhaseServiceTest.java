@@ -14,8 +14,6 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.FixUpTask;
 import domain.HandyWorker;
-import domain.Note;
-import domain.Report;
 import domain.WorkPlanPhase;
 
 @RunWith(SpringJUnit4ClassRunner.class)

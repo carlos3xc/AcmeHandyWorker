@@ -13,12 +13,8 @@ import org.springframework.util.Assert;
 
 import security.LoginService;
 import utilities.AbstractTest;
-import domain.Application;
 import domain.Complaint;
-import domain.Customer;
 import domain.FixUpTask;
-import domain.HandyWorker;
-import domain.Note;
 import domain.Referee;
 import domain.Report;
 
@@ -40,9 +36,6 @@ public class ComplaintServiceTest extends AbstractTest {
 		
 	@Autowired
 	private RefereeService refereeService;
-	
-	@Autowired
-	private ApplicationService applicationService;
 	
 	// Tests ----------------------------------------------------------------------
 	

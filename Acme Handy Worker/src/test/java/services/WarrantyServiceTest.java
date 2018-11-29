@@ -73,7 +73,6 @@ public class WarrantyServiceTest extends AbstractTest{
 				break;
 			}
 		}
-		
 		warrantyService.delete(res);
 		Assert.isTrue(!warrantyService.findAll().contains(res));
 		
