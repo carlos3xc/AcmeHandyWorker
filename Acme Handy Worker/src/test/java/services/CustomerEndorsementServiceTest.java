@@ -54,19 +54,16 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 		public void testSaveCustomerEndorsement(){
 			CustomerEndorsement customerEndorsement, saved;
 			HandyWorker hw;
-			Customer c;
 			Collection<CustomerEndorsement> customerEndorsements;
 			super.authenticate("customer1");						
 			customerEndorsement = customerEndorsementService.create();					
 			hw = handyWorkerService.findOne(15728);
-			c = customerService.findOne(15722);
 			
 			Date current = new Date(System.currentTimeMillis() - 1000);
 			
 			customerEndorsement.setMoment(current);
 			customerEndorsement.setText("Esto es un texto de prueba");
 			customerEndorsement.setHandyWorker(hw);
-			customerEndorsement.setCustomer(c);
 			saved = customerEndorsementService.save(customerEndorsement);					
 
 			customerEndorsements = customerEndorsementService.findAll();				
@@ -80,16 +77,12 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 		
 		@Test 
 		public void testUpdateCustomerEndorsement(){
-			CustomerEndorsement customerEndorsement = new CustomerEndorsement();
+			CustomerEndorsement customerEndorsement;
 			super.authenticate("customer2");						
-			Collection<CustomerEndorsement> all;
 			Collection<HandyWorker> workers;
 			HandyWorker haw = new HandyWorker();
 
-			all = customerEndorsementService.findAll();
-			for(CustomerEndorsement ca: all){
-				if(ca.getText().equals("Es muy puntual")) customerEndorsement=ca;
-			}
+			customerEndorsement = (CustomerEndorsement) customerEndorsementService.findAll().toArray()[0];
 			workers = handyWorkerService.findAll();
 			for(HandyWorker w: workers){
 				if(w.getMake().equals("Juan Parra")) haw=w;
@@ -107,21 +100,12 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 
 		@Test 
 		public void testDeleteCustomerEndorsements(){
-			CustomerEndorsement customerEndorsement; //= new CustomerEndorsement();
+			CustomerEndorsement customerEndorsement;
 			Collection<CustomerEndorsement> customerEndorsements;
-		//	Collection<CustomerEndorsement> all;
 			super.authenticate("customer1");								
 
-		/*	all = customerEndorsementService.findAll();
-			for(CustomerEndorsement ca: all){
-				if(ca.getText().equals("Es muy perfeccionista")){
-					customerEndorsement=ca;
-					break;
-				}
-	
-			}
-			System.out.println(customerEndorsement);*/
-			customerEndorsement = customerEndorsementService.findOne(15788);
+			customerEndorsement = (CustomerEndorsement) customerEndorsementService.findAll().toArray()[0];
+
 			customerEndorsementService.delete(customerEndorsement);									
 			customerEndorsements = customerEndorsementService.findAll();						
 			Assert.isTrue(!customerEndorsements.contains(customerEndorsement));								
