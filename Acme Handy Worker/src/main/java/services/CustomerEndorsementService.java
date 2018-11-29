@@ -3,6 +3,8 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,17 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CustomerEndorsementRepository;
-import repositories.CustomerRepository;
-import repositories.HandyWorkerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
 import domain.CustomerEndorsement;
-import domain.HandyWorker;
-import domain.Note;
-import domain.Referee;
-import domain.Report;
+import domain.Word;
 
 
 @Service
@@ -37,7 +34,7 @@ public class CustomerEndorsementService {
 	private CustomerService customerService;
 	
 	@Autowired
-	private HandyWorkerService handyWorkerService;
+	private WordService wordService;
 	
 	//Constructors -----
 	public CustomerEndorsementService(){
@@ -89,5 +86,44 @@ public class CustomerEndorsementService {
 	}
 	
 	//Other business methods -----
+	
+	public Map<Customer,Double> getScoreCustomerEndorsement(){
+		Map<Customer,Double> res = new HashMap<Customer,Double>();
+		Collection<Customer> customers = customerService.findAll();
+		Collection<CustomerEndorsement> endorsements = customerEndorsementRepository.findAll();
+		Double p=0d,n = 0d;
+		Collection<Word> words = wordService.findAll();
+		Collection<String> positives = new ArrayList<String>();
+		Collection<String> negatives = new ArrayList<String>();
+
+		for(Word w: words){
+			if(w.getType().equals("POSITIVE")){
+				positives.add(w.getWord());
+			}else if(w.getType().equals("NEGATIVE")){
+				negatives.add(w.getWord());
+			}
+		}
+		
+		for(CustomerEndorsement ce: endorsements){
+			for(Customer c: customers){
+				if(ce.getCustomer().equals(c)){
+					String text = ce.getText();
+					String[] part = text.split( "[\\ \\.\\,\\. \\, ]");		
+					for(int i=0;i<part.length;i++){
+						if(positives.contains(part[i])){
+							p =p + 1d;
+						}else if(negatives.contains(part[i])){
+							n = n - 1d;
+						}
+					}
+					Double score = 0d;
+					if((n+p)!=0) score = (p/n+p)-(n/n+p);
+					res.put(ce.getCustomer(), score);
+				}
+			}
+		}
+		
+		return res;
+	}
 	
 }

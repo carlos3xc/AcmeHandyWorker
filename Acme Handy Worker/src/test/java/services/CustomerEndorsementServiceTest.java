@@ -2,6 +2,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -111,4 +112,16 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 			Assert.isTrue(!customerEndorsements.contains(customerEndorsement));								
 			super.authenticate(null);
 		}
+		
+		
+		@Test
+		public void testWordsCustomerEndorsements(){
+			Map<Customer,Double> res = customerEndorsementService.getScoreCustomerEndorsement();
+			Assert.notNull(res);
+			//System.out.println(res);
+		}
+		
+		
+		
+		
 }

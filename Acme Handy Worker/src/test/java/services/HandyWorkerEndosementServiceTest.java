@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Customer;
+import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -101,6 +103,13 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 				handyWorkerEndorsements = handyWorkerEndorsementService.findAll();						
 				Assert.isTrue(!handyWorkerEndorsements.contains(handyWorkerEndorsement));								
 				super.authenticate(null);
+			}
+			
+			@Test
+			public void testScoreHandyWorkerEndorsements(){
+				Map<HandyWorker,Double> res = handyWorkerEndorsementService.getScoreHandyWorkerEndorsement();
+				Assert.notNull(res);
+				//System.out.println(res);
 			}
 
 }

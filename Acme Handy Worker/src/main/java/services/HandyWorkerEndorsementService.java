@@ -1,7 +1,10 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import domain.CustomerEndorsement;
 import domain.FixUpTask;
 import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
+import domain.Word;
 import domain.WorkPlanPhase;
 
 
@@ -29,12 +33,11 @@ public class HandyWorkerEndorsementService {
 	private HandyWorkerEndorsementRepository handyWorkerEndorsementRepository;
 	
 	//Supporting Services -----
-	
-	@Autowired
-	private CustomerService customerService;
-	
 	@Autowired
 	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private WordService wordService;
 	
 	//Constructors -----
 	public HandyWorkerEndorsementService(){
@@ -88,6 +91,45 @@ public class HandyWorkerEndorsementService {
 	}
 	
 	//Other business methods -----
+	
+	public Map<HandyWorker,Double> getScoreHandyWorkerEndorsement(){
+		Map<HandyWorker,Double> res = new HashMap<HandyWorker,Double>();
+		Collection<HandyWorker> workers = handyWorkerService.findAll();
+		Collection<HandyWorkerEndorsement> endorsements = handyWorkerEndorsementRepository.findAll();
+		Double p=0d,n = 0d;
+		Collection<Word> words = wordService.findAll();
+		Collection<String> positives = new ArrayList<String>();
+		Collection<String> negatives = new ArrayList<String>();
+
+		for(Word w: words){
+			if(w.getType().equals("POSITIVE")){
+				positives.add(w.getWord());
+			}else if(w.getType().equals("NEGATIVE")){
+				negatives.add(w.getWord());
+			}
+		}
+		
+		for(HandyWorkerEndorsement ce: endorsements){
+			for(HandyWorker c: workers){
+				if(ce.getHandyWorker().equals(c)){
+					String text = ce.getText();
+					String[] part = text.split( "[\\ \\.\\,\\. \\, ]");		
+					for(int i=0;i<part.length;i++){
+						if(positives.contains(part[i])){
+							p =p + 1d;
+						}else if(negatives.contains(part[i])){
+							n = n - 1d;
+						}
+					}
+					Double score = 0d;
+					if((n+p)!=0) score = (p/n+p)-(n/n+p);
+					res.put(ce.getHandyWorker(), score);
+				}
+			}
+		}
+		
+		return res;
+	}
 	
 	
 }
