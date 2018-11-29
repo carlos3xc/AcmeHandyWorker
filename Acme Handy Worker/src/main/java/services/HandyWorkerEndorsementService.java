@@ -92,6 +92,7 @@ public class HandyWorkerEndorsementService {
 	
 	//Other business methods -----
 	
+	//A - RF 50.1
 	public Map<HandyWorker,Double> getScoreHandyWorkerEndorsement(){
 		Map<HandyWorker,Double> res = new HashMap<HandyWorker,Double>();
 		Collection<HandyWorker> workers = handyWorkerService.findAll();

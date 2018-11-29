@@ -87,6 +87,7 @@ public class CustomerEndorsementService {
 	
 	//Other business methods -----
 	
+	//A - RF 50.1
 	public Map<Customer,Double> getScoreCustomerEndorsement(){
 		Map<Customer,Double> res = new HashMap<Customer,Double>();
 		Collection<Customer> customers = customerService.findAll();
