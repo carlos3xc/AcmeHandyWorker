@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.FixUpTaskRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Application;
@@ -192,6 +193,15 @@ public class FixUpTaskService {
 	        }
 	        String saltStr = salt.toString();
 	        return saltStr;
+	}
+	
+	public FixUpTask saveAdmin(FixUpTask fx){
+		UserAccount userAccount = LoginService.getPrincipal();
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		
+		return fixUpTaskRepository.save(fx);
 	}
 	
 	

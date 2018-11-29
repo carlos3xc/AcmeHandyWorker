@@ -61,7 +61,7 @@ public class CategoryService {
 		
 		for(FixUpTask f:categoryRepository.listTaskByCategory(a.getId())){ //Hacerlo mejor con una query
 			f.setCategory(a.getParentCategory());
-			FixUpTask fx = taskService.saveAdmin(f);
+			taskService.saveAdmin(f);
 		}
 		
 		categoryRepository.delete(a);

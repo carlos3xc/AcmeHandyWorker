@@ -1635,7 +1635,7 @@
 		<property name="maxPrice" value="748.14" />
 		<property name="startMoment" value="2018/10/13 15:00" />
 		<property name="endMoment" value="2018/10/25 19:00" />
-		<property name="warranty" ref="warranty4" />
+		<property name="warranty" ref="warranty1" />
 		<property name="category" ref="category4" />
 		<property name="customer" ref="customer4" />
 		<property name="applications">
@@ -1682,7 +1682,7 @@
 		<property name="maxPrice" value="389.36" />
 		<property name="startMoment" value="2017/05/20 14:00" />
 		<property name="endMoment" value="2017/05/22 15:00" />
-		<property name="warranty" ref="warranty6" />
+		<property name="warranty" ref="warranty2" />
 		<property name="category" ref="category6" />
 		<property name="customer" ref="customer1" />
 		<property name="applications">
@@ -1706,7 +1706,7 @@
 		<property name="maxPrice" value="65.70" />
 		<property name="startMoment" value="2018/04/20 12:00" />
 		<property name="endMoment" value="2018/04/25 13:00" />
-		<property name="warranty" ref="warranty7" />
+		<property name="warranty" ref="warranty3" />
 		<property name="category" ref="category8" />
 		<property name="customer" ref="customer2" />
 		<property name="applications">
