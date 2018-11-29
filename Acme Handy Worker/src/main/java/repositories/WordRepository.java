@@ -15,6 +15,12 @@ public interface WordRepository extends JpaRepository<Word, Integer>{
 	@Query("select a from Word a where a.id = ?1") 
 	Word findOne(Integer Id);
 	
-	@Query("select w from Word w where w.type = SPAM")
+	@Query("select w from Word w where w.type = 'SPAM'")
 	Collection<Word> findSpamWords();
+	
+	@Query("select w from Word w where w.type = 'POSITIVE'")
+	Collection<Word> findPositiveWords();
+	
+	@Query("select w from Word w where w.type = 'NEGATIVE'")
+	Collection<Word> findNegativeWords();
 }
