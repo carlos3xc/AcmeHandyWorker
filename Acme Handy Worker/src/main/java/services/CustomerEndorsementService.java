@@ -93,18 +93,12 @@ public class CustomerEndorsementService {
 		Collection<Customer> customers = customerService.findAll();
 		Collection<CustomerEndorsement> endorsements = customerEndorsementRepository.findAll();
 		Double p=0d,n = 0d;
-		Collection<Word> words = wordService.findAll();
 		Collection<String> positives = new ArrayList<String>();
 		Collection<String> negatives = new ArrayList<String>();
 
-		for(Word w: words){
-			if(w.getType().equals("POSITIVE")){
-				positives.add(w.getWord());
-			}else if(w.getType().equals("NEGATIVE")){
-				negatives.add(w.getWord());
-			}
-		}
-		
+		for(Word w: wordService.findPositiveWords()) positives.add(w.getWord());
+		for(Word w: wordService.findNegativeWords()) negatives.add(w.getWord());
+
 		for(CustomerEndorsement ce: endorsements){
 			for(Customer c: customers){
 				if(ce.getCustomer().equals(c)){
