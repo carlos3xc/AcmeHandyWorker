@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Curricula;
 import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",
@@ -85,7 +86,14 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 		MiscellaneousRecord mr, recovered;
 		
 		super.authenticate("handyworker1");		
-		mr = miscellaneousRecordService.findOne(15874);		
+		mr = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				mr = (MiscellaneousRecord) c.getMiscellaneousRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(mr);		
 		
 		mr.setComments("comments1234");
 		mr.setAttachment("http://www.attachementlink.com/attachement");
@@ -93,7 +101,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 	
 		miscellaneousRecordService.save(mr);	
 				
-		recovered = miscellaneousRecordService.findOne(15874);						
+		recovered = miscellaneousRecordService.findOne(mr.getId());						
 		Assert.isTrue(recovered.getComments().equals("comments1234"));
 	
 
@@ -106,7 +114,14 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		MiscellaneousRecord	mr;
 		super.authenticate("handyworker1");		
-		mr = miscellaneousRecordService.findOne(15874);		
+		mr = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				mr = (MiscellaneousRecord) c.getMiscellaneousRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(mr);	
 		miscellaneousRecordService.delete(mr);
 		
 		Assert.isTrue(!miscellaneousRecordService.findAll().contains(mr));

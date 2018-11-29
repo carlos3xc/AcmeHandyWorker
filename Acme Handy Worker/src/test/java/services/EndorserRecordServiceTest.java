@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
+import domain.EducationRecord;
 import domain.EndorserRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -88,7 +89,15 @@ public class EndorserRecordServiceTest extends AbstractTest {
 		EndorserRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = endorserRecordService.findOne(15871);		
+				
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (EndorserRecord) c.getEndorserRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);		
 		
 		er.setComments("comments");
 		er.setEmail("email@domain.com");
@@ -98,7 +107,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	
 		endorserRecordService.save(er);	
 				
-		recovered = endorserRecordService.findOne(15871);						
+		recovered = endorserRecordService.findOne(er.getId());						
 		Assert.isTrue(recovered.getPhone().equals("672190514"));
 	
 
@@ -111,7 +120,14 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		EndorserRecord	er;
 		super.authenticate("handyworker1");		
-		er = endorserRecordService.findOne(15871);		
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (EndorserRecord) c.getEndorserRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);			
 		endorserRecordService.delete(er);
 		
 		Assert.isTrue(!endorserRecordService.findAll().contains(er));

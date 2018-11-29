@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
+import domain.EndorserRecord;
 import domain.PersonalRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -88,9 +89,14 @@ public class PersonalRecordServiceTest extends AbstractTest {
 		PersonalRecord pr, saved;
 		Collection<PersonalRecord> personalRecords;
 		super.authenticate("handyworker1");		
-		Curricula curricula = curriculaService.findOne(15880);
-		
-		pr = curricula.getPersonalRecord();
+		pr = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				pr = (PersonalRecord) c.getPersonalRecord();
+				break;
+			}
+		}
+		Assert.notNull(pr);	
 
 		pr.setFullName("this name now belongs to me.");
 		

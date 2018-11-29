@@ -102,7 +102,15 @@ public class CurriculaServiceTest extends AbstractTest {
 		Curricula curricula, saved;
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");					
-		curricula = curriculaService.findOne(15880);	
+		curricula = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				curricula = c;
+				break;
+			}
+		}
+		Assert.notNull(curricula);
+		
 		PersonalRecord p = personalRecordService.create();
 		
 		p.setEmail("email@dominio.com");
@@ -129,7 +137,14 @@ public class CurriculaServiceTest extends AbstractTest {
 		Collection<Curricula> curriculas;
 		super.authenticate("handyworker1");							
 
-		curricula = curriculaService.findOne(15880);							  
+		curricula = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				curricula = c;
+				break;
+			}
+		}
+		Assert.notNull(curricula);							  
 		
 		curriculaService.delete(curricula);							
 		curriculas = curriculaService.findAll();						

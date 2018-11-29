@@ -93,7 +93,14 @@ public class EducationRecordServiceTest extends AbstractTest {
 		EducationRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = educationRecordService.findOne(15868);		
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (EducationRecord) c.getEducationRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);		
 		
 		Date fecha = new Date();
 		
@@ -107,7 +114,7 @@ public class EducationRecordServiceTest extends AbstractTest {
 		educationRecordService.save(er);
 				
 		
-		recovered = educationRecordService.findOne(15868);						
+		recovered = educationRecordService.findOne(er.getId());						
 		Assert.isTrue(recovered.getDiplomaTitle().equals("diplomaTitle1234"));
 	
 
@@ -120,7 +127,14 @@ public class EducationRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		EducationRecord	er;
 		super.authenticate("handyworker1");		
-		er = educationRecordService.findOne(15868);		
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (EducationRecord) c.getEducationRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);		
 
 		educationRecordService.delete(er);
 		

@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
+import domain.EndorserRecord;
 import domain.ProfessionalRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -93,7 +94,14 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 		ProfessionalRecord er, recovered;
 		
 		super.authenticate("handyworker1");		
-		er = professionalRecordService.findOne(15877);		
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (ProfessionalRecord) c.getProfessionalRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);			
 		
 		Date fecha = new Date();
 		
@@ -107,7 +115,7 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 		professionalRecordService.save(er);
 				
 		
-		recovered = professionalRecordService.findOne(15877);						
+		recovered = professionalRecordService.findOne(er.getId());						
 		Assert.isTrue(recovered.getRole().equals("CEO"));
 	
 
@@ -120,7 +128,14 @@ public class ProfessionalRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerDelete(){
 		ProfessionalRecord	er;
 		super.authenticate("handyworker1");		
-		er = professionalRecordService.findOne(15877);		
+		er = null;	
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
+				er = (ProfessionalRecord) c.getProfessionalRecords().toArray()[0];
+				break;
+			}
+		}
+		Assert.notNull(er);			
 		professionalRecordService.delete(er);
 		
 		Assert.isTrue(!professionalRecordService.findAll().contains(er));
