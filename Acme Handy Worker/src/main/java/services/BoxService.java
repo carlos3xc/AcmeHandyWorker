@@ -25,9 +25,9 @@ public class BoxService {
 
 	public Box create(Actor actor) {
 
-//		UserAccount userAccount = LoginService.getPrincipal();
-//
-//		Assert.isTrue(actor.getUserAccount().equals(userAccount));
+		UserAccount userAccount = LoginService.getPrincipal();
+
+		Assert.isTrue(actor.getUserAccount().equals(userAccount));
 
 		Box box = new Box();
 
@@ -54,8 +54,19 @@ public class BoxService {
 
 		Box result;
 
-//		UserAccount userAccount = LoginService.getPrincipal();
-//		Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
+		// UserAccount userAccount = LoginService.getPrincipal();
+		// Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
+
+		result = boxRepository.save(box);
+		return result;
+	}
+
+	public Box saveBox(Box box) {
+		
+		Box result;
+
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
 
 		result = boxRepository.save(box);
 		return result;

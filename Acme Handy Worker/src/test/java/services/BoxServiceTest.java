@@ -58,7 +58,7 @@ public class BoxServiceTest extends AbstractTest {
 
 		box.setName("Name box");
 
-		result = boxService.save(box);
+		result = boxService.saveBox(box);
 
 		Assert.isTrue(boxService.findByActorId(15720).contains(result));
 		Assert.isTrue(boxService.findAll().contains(result));
@@ -104,6 +104,8 @@ public class BoxServiceTest extends AbstractTest {
 	@Test
 	public void testMessageToBox(){
 		
+		authenticate("admin1");
+		
 		Actor sender = actorService.findOne(15730); // HandyWorker5
 		Actor recipient = actorService.findOne(15720); // Admin1
 		
@@ -114,5 +116,7 @@ public class BoxServiceTest extends AbstractTest {
 		boxService.addMessageToBox(box, message);
 		
 		Assert.isTrue(box.getMessages().contains(message));
+		
+		unauthenticate();
 	}
 }
