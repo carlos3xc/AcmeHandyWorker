@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import security.LoginService;
 import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Finder;
@@ -95,16 +96,20 @@ public class FinderServiceTest extends AbstractTest {
 	@Test
 	public void testSave() {
 		this.authenticate("handyworker2");
-		final Finder finderPrueba = this.finderService.findOne(15783);
+		Finder finderPrueba = new Finder();
+		Collection<Finder> finders = finderService.findAll();
+		for(Finder fa: finders){
+			if(fa.getHandyWorker().getUserAccount().equals(LoginService.getPrincipal())) finderPrueba=fa;
+		}
 		finderPrueba.setMaxPrice(150.0);
 		Finder saved = this.finderService.save(finderPrueba);
-		Collection<Finder> finders = this.finderService.findAll();
+		finders = this.finderService.findAll();
 		Assert.isTrue(finders.contains(saved), "----- Fallo metodo save -----");
 	}
 
 	@Test
 	public void testFindOne() {
-		Finder f = this.finderService.findOne(15784);
+		Finder f = (Finder) this.finderService.findAll().toArray()[0];
 		Assert.isTrue(!f.equals(null), "----- Fallo metodo findOne -----");
 	}
 

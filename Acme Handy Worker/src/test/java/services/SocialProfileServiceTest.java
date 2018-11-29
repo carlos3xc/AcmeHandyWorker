@@ -77,7 +77,7 @@ public class SocialProfileServiceTest extends AbstractTest {
 		SocialProfile socialProfile;
 		Collection<SocialProfile> socialProfiles;
 		
-		socialProfile = socialProfileService.findOne(15737);
+		socialProfile = (SocialProfile) socialProfileService.findAll().toArray()[0];
 
 		socialProfileService.delete(socialProfile);									// Eliminamos la nota	
 		socialProfiles = socialProfileService.findAll();						

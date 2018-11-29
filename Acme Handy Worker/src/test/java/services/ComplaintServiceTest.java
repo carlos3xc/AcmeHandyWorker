@@ -87,7 +87,7 @@ public class ComplaintServiceTest extends AbstractTest {
 	public void testUpdateComplaints(){
 		Complaint complaint,saved;
 		super.authenticate("customer1");						// Nos autenticamos como referee
-		complaint = complaintService.findOne(14823);			// Recuperamos el reporte
+		complaint = (Complaint) complaintService.findAll().toArray()[0];			// Recuperamos el reporte
 		complaint.getAttachments().add("Attachment test 2");	// Modificamos algunos atributos
 		complaint.setDescription("Description test");
 		saved = complaintService.save(complaint);				// Guardamos el reporte	
@@ -105,7 +105,7 @@ public class ComplaintServiceTest extends AbstractTest {
 		Collection<Complaint> complaints;
 		super.authenticate("customer1");								// Nos autenticamos como referee
 
-		complaint = complaintService.findOne(14823);						// Recuperamos el report al que queremos eliminar la nota
+		complaint = (Complaint) complaintService.findAll().toArray()[0];						// Recuperamos el report al que queremos eliminar la nota
 		
 		complaintService.delete(complaint);									// Eliminamos la nota	
 		complaints = complaintService.findAll();						

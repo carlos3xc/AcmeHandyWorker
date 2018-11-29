@@ -102,7 +102,7 @@ public class RefereeServiceTest extends AbstractTest {
 		Referee referee,saved;
 		Collection<Referee> referees;
 		super.authenticate("referee1");						
-		referee = refereeService.findOne(15731);
+		referee = (Referee) refereeService.findAll().toArray()[0];
 		referee.setName("Lucas");
 		
 		saved = refereeService.save(referee);

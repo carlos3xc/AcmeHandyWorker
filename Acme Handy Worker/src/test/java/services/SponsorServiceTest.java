@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import security.Authority;
+import security.LoginService;
 import utilities.AbstractTest;
+import domain.Sponsor;
 import domain.Sponsor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,6 +63,31 @@ public class SponsorServiceTest extends AbstractTest{
 		
 		Sponsor saved = sponsorService.save(res);
 		Assert.isTrue(sponsorService.findAll().contains(saved));
+	}
+	
+	// UPDATE ---------------------------------------------------------------------
+
+	@Test 
+	public void testUpdateSponsor(){
+		Sponsor saved;
+		Sponsor sponsor = new Sponsor();
+		Collection<Sponsor> sponsors;
+		super.authenticate("sponsor1");		
+		sponsors = sponsorService.findAll();	
+		for(Sponsor hw: sponsors){
+			if(hw.getUserAccount().equals(LoginService.getPrincipal())){
+				sponsor = hw;
+				break;
+			}
+		}
+		sponsor.setName("Roberto");
+		
+		saved = sponsorService.save(sponsor);
+		
+		sponsors = sponsorService.findAll();					
+		Assert.isTrue(sponsors.contains(saved));
+
+		super.authenticate(null);
 	}
 	
 	@Test

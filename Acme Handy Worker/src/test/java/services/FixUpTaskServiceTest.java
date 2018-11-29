@@ -68,7 +68,8 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		super.authenticate("customer1");						// Nos autenticamos como Referee
 		fixUpTask = fixUpTaskService.create();					// Creamos el reporte
 		
-		category = categoryService.findOne(15818);
+		category = (Category) categoryService.findAll().toArray()[0];
+		
 		fixUpTask.setDescription("Description fixuptask test");
 		fixUpTask.setAddress("Address test");
 		fixUpTask.setCategory(category);
@@ -100,7 +101,7 @@ public class FixUpTaskServiceTest extends AbstractTest {
 	public void testUpdateFixUpTasks(){
 		FixUpTask fixUpTask,saved;
 		super.authenticate("customer1");
-		fixUpTask = fixUpTaskService.findOne(15946);
+		fixUpTask = (FixUpTask) fixUpTaskService.findAll().toArray()[0];
 		fixUpTask.setDescription("Oh no");
 		fixUpTask.setEndMoment(Date.valueOf("2019-02-03"));
 
@@ -117,13 +118,13 @@ public class FixUpTaskServiceTest extends AbstractTest {
 	public void testDeleteFixUpTask(){
 		FixUpTask fixUpTask;
 		Collection<FixUpTask> fixUpTasks;
-		super.authenticate("customer1");								// Nos autenticamos como referee
+		super.authenticate("customer1");				
 
-		fixUpTask = fixUpTaskService.findOne(15946);						// Recuperamos el report al que queremos eliminar la nota
+		fixUpTask = (FixUpTask) fixUpTaskService.findAll().toArray()[0];
 		
-		fixUpTaskService.delete(fixUpTask);									// Eliminamos la nota	
+		fixUpTaskService.delete(fixUpTask);	
 		fixUpTasks = fixUpTaskService.findAll();						
-		Assert.isTrue(!fixUpTasks.contains(fixUpTask));						// Comprobamos que la nota se ha eliminado correctamente en el archivo de notas
+		Assert.isTrue(!fixUpTasks.contains(fixUpTask));	
 		
 		super.authenticate(null);
 	}

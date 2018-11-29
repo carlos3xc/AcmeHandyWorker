@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import domain.HandyWorker;
 import domain.SocialProfile;
 
+import security.LoginService;
 import security.UserAccount;
 import utilities.AbstractTest;
 
@@ -98,10 +99,17 @@ public class HandyWorkerServiceTest extends AbstractTest{
 
 		@Test 
 		public void testUpdateHandyWorker(){
-			HandyWorker handyWorker, saved;
+			HandyWorker saved;
+			HandyWorker handyWorker = new HandyWorker();
 			Collection<HandyWorker> handyWorkers;
-			super.authenticate("handyworker2");						
-			handyWorker = handyWorkerService.findOne(15727);
+			super.authenticate("handyworker2");		
+			handyWorkers = handyWorkerService.findAll();	
+			for(HandyWorker hw: handyWorkers){
+				if(hw.getUserAccount().equals(LoginService.getPrincipal())){
+					handyWorker = hw;
+					break;
+				}
+			}
 			handyWorker.setName("Roberto");
 			
 			saved = handyWorkerService.save(handyWorker);

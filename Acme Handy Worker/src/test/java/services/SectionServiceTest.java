@@ -50,7 +50,7 @@ public class SectionServiceTest extends AbstractTest{
 		public void testSave(){
 			
 			super.authenticate("handyworker1");
-			Tutorial tutorial = tutorialService.findOne(15795);
+			Tutorial tutorial = (Tutorial) tutorialService.findAll().toArray()[0];;
 			Section res = sectionService.create();
 			
 			res.setText("Texto de prueba");
@@ -72,7 +72,7 @@ public class SectionServiceTest extends AbstractTest{
 			Collection<Section> sections;
 			super.authenticate("handyworker1");
 
-			section = sectionService.findOne(15802);
+			section = (Section) sectionService.findAll().toArray()[0];;
 			
 			sectionService.delete(section);
 			

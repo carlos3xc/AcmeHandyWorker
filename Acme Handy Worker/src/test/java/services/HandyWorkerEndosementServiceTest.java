@@ -55,7 +55,7 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 				super.authenticate("handyworker1");						
 				handyWorkerEndorsement = handyWorkerEndorsementService.create();					
 //				hw = handyWorkerService.findOne(15726);
-				c = customerService.findOne(15723);
+				c = (Customer) customerService.findAll().toArray()[0];
 //				
 //				Date current = new Date(System.currentTimeMillis() - 1000);
 //				
@@ -79,7 +79,7 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 			public void testUpdateHandyWorkerEndorsement(){
 				HandyWorkerEndorsement handyWorkerEndorsement;
 				super.authenticate("handyworker2");						
-				handyWorkerEndorsement = handyWorkerEndorsementService.findOne(15791);				
+				handyWorkerEndorsement = (HandyWorkerEndorsement) handyWorkerEndorsementService.findAll().toArray()[0];				
 				handyWorkerEndorsement.setText("Texto de prueba 2");	
 
 				handyWorkerEndorsementService.save(handyWorkerEndorsement);				
@@ -95,7 +95,7 @@ public class HandyWorkerEndosementServiceTest extends AbstractTest{
 				Collection<HandyWorkerEndorsement> handyWorkerEndorsements;
 				super.authenticate("handyworker3");								
 
-				handyWorkerEndorsement = handyWorkerEndorsementService.findOne(15794);			
+				handyWorkerEndorsement = (HandyWorkerEndorsement) handyWorkerEndorsementService.findAll().toArray()[0];			
 
 				handyWorkerEndorsementService.delete(handyWorkerEndorsement);									
 				handyWorkerEndorsements = handyWorkerEndorsementService.findAll();						

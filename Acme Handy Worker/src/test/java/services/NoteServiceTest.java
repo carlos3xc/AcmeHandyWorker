@@ -78,7 +78,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("referee1");						// Nos autenticamos como Referee
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
+		report = (Report) reportService.findAll().toArray()[0];				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("Referee comment");			// Completamos los atributos de note
 		note.setCustomerComment("");
@@ -100,7 +100,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("customer1");					// Nos autenticamos como Customer
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
+		report = (Report) reportService.findAll().toArray()[0];				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("");							// Completamos los atributos de note
 		note.setCustomerComment("Customer comment");
@@ -122,7 +122,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("handyworker1");					// Nos autenticamos como handy worker
 		note = noteService.create();						// Creamos la nota
-		report = reportService.findOne(15989);				// Recuperamos el report al que queremos asociar la nota
+		report = (Report) reportService.findAll().toArray()[0];				// Recuperamos el report al que queremos asociar la nota
 		
 		note.setRefereeComment("");							// Completamos los atributos de note
 		note.setCustomerComment("");
@@ -144,7 +144,7 @@ public class NoteServiceTest extends AbstractTest {
 		Note note,saved;
 		Collection<Note> notes;
 		super.authenticate("handyworker1");					// Nos autenticamos como handy worker
-		note = noteService.findOne(14833);					// Recuperamos la nota
+		note = (Note) noteService.findAll().toArray()[0];					// Recuperamos la nota
 
 		note.setHandyWorkerComment("Hello");
 		
@@ -166,7 +166,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("referee1");								// Nos autenticamos como referee
 
-		note = noteService.findOne(14833);							// Recuperamos la nota a eliminar
+		note = (Note) noteService.findAll().toArray()[0];							// Recuperamos la nota a eliminar
 		rId = note.getReport().getId();
 		Assert.isTrue(!(note.getRefereeComment().equals("")));		// Comprobamos que el comentario referee no sea vacío, es decir, que lo creó un referee
 				
@@ -188,7 +188,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("customer1");							// Nos autenticamos como customer
 
-		note = noteService.findOne(14834);							// Recuperamos la nota a eliminar
+		note = (Note) noteService.findAll().toArray()[0];							// Recuperamos la nota a eliminar
 		rId = note.getReport().getId();
 		Assert.isTrue(!(note.getCustomerComment().equals("")));		// Comprobamos que el comentario customer no sea vacío, es decir, que lo creó un customer
 		
@@ -210,7 +210,7 @@ public class NoteServiceTest extends AbstractTest {
 		Collection<Note> notes;
 		super.authenticate("handyworker1");							// Nos autenticamos como handy worker
 
-		note = noteService.findOne(14836);							// Recuperamos la nota a eliminar
+		note = (Note) noteService.findAll().toArray()[0];							// Recuperamos la nota a eliminar
 		rId = note.getReport().getId();
 
 		Assert.isTrue(!(note.getHandyWorkerComment().equals("")));  // Comprobamos que el comentario handyworker no sea vacío, es decir, que lo creó un handy worker
