@@ -1,6 +1,10 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,11 @@ import repositories.CurriculaRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+import domain.EducationRecord;
+import domain.EndorserRecord;
+import domain.HandyWorker;
+import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -23,8 +32,11 @@ public class CurriculaService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private ActorService actorService;
+	
+	@Autowired
+	private PersonalRecordService personalRecordService;
 	
 	//Constructors -----
 	public CurriculaService(){
@@ -33,10 +45,23 @@ public class CurriculaService {
 	
 	//Simple CRUD methods -----
 	public Curricula create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Curricula res = new Curricula();
-		return res;
+
+		
+		UserAccount ua = LoginService.getPrincipal();
+		Curricula c = new Curricula();
+		
+		if (LoginService.hasRole("HANDYWORKER")) {
+			HandyWorker hw  = (HandyWorker) actorService.getByUserAccountId(ua);
+			c.setHandyWorker(hw);
+		}
+
+		c.setEducationRecords(new ArrayList<EducationRecord>());
+		c.setEndorserRecords(new ArrayList<EndorserRecord>());
+		c.setMiscellaneousRecords(new ArrayList<MiscellaneousRecord>());
+		c.setProfessionalRecords(new ArrayList<ProfessionalRecord>());
+		c.setTicker(this.generateTicker());
+		
+		return c;
 	}
 	
 	public Collection<Curricula> findAll(){
@@ -47,31 +72,53 @@ public class CurriculaService {
 		return curriculaRepository.findOne(Id);
 	}
 	
-	public Curricula save(Curricula a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
+	public Curricula save(Curricula c){
+		UserAccount logged = LoginService.getPrincipal();
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+		//Assert.notNull(c.getPersonalRecord());
+		//sabemos que es un Handyworker y que es el dueño de la curricula que se quiere guardar.
+
+		Curricula res = curriculaRepository.saveAndFlush(c);
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		curriculaRepository.save(a);
-		return a;
+		return res;
 	}
 	
-	public void delete(Curricula a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
+	public void delete(Curricula c){
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		curriculaRepository.delete(a);
+		UserAccount logged = LoginService.getPrincipal();
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
+	
+		curriculaRepository.delete(c);
+		personalRecordService.delete(c.getPersonalRecord());
 	}
 	
 	//Other business methods -----
 	
+	private String generateTicker(){
+		Date date = new Date(); // your date
+		Calendar n = Calendar.getInstance();
+		n.setTime(date);
+		String t = "";
+		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
+				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ "-"+ randomWordAndNumber();
+
+		return t;
+	}
+	
+	private String randomWordAndNumber(){
+		 String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < 6) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        String saltStr = salt.toString();
+	        return saltStr;
+	}
 	
 }

@@ -1,16 +1,22 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.RefereeRepository;
 import repositories.ReportRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Note;
+import domain.Referee;
 import domain.Report;
 
 
@@ -22,19 +28,19 @@ public class ReportService {
 	@Autowired
 	private ReportRepository reportRepository;
 	
-	//Supporting Services -----
+	// Support repositories -------
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private RefereeService refereeService;
 	
-	//Constructors -----
-	public ReportService(){
-		super();
-	}
+	@Autowired
+	private NoteService noteService;
 	
 	//Simple CRUD methods -----
 	public Report create(){
 		Report res = new Report();
+		res.setAttachments(new ArrayList<String>());
+		res.setNotes(new ArrayList<Note>());
 		return res;
 	}
 	
@@ -46,34 +52,64 @@ public class ReportService {
 		return reportRepository.findOne(Id);
 	}
 	
-	public Report save(Report a){
+	public Report save(Report r){
+		Report saved;
+		Report rDatabase = reportRepository.findOne(r.getId());
 		Authority e = new Authority();
 		e.setAuthority("REFEREE");
 		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(e));			
-		reportRepository.save(a);
-		return a;
+		Referee rf = refereeService.findByUserAccountId(userAccount.getId());
+		Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		r.setMoment(current);
+		if(r.getIsDraft()==null) r.setIsDraft(true);
+		if(rDatabase!=null) {
+			Assert.isTrue(rDatabase.getIsDraft().equals(true));			// Comprobamos que el draft sea false. En el caso de que fuese true, no se podría actualizar
+		}
+			if(r.getReferee()==null)r.setReferee(rf);
+		saved = reportRepository.save(r);
+		return saved;
 	}
 	
 	public Report saveAut(Report a){	
-		reportRepository.save(a);
+		Report saved;
+		saved = reportRepository.save(a);
 		reportRepository.flush();
-		return a;
+		return saved;
 	}
 	
 	
-	public void delete(Report a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+	public void delete(Report r){
+		Authority e = new Authority();
+		e.setAuthority("REFEREE");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
-		reportRepository.delete(a);
+		for(Note n: r.getNotes()){
+			noteService.delete(n);
+		}
+		
+		reportRepository.delete(r);
+	}
+	
+	public void deleteAut(Report r){   // Usado al borrar complaints
+		
+		for(Note n: r.getNotes()){
+			noteService.delete(n);
+		}
+		reportRepository.delete(r);
 	}
 	
 	//Other business methods -----
+	
+	public Collection<Report> getReportsByComplaint(int complaintId){
+		Collection<Report> reports;
+		reports = reportRepository.getReportsByComplaint(complaintId);
+		return reports;
+		
+	}
 	
 	
 }

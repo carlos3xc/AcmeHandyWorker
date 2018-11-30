@@ -1,9 +1,8 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Note;
+import domain.Report;
 
 
 @Service
@@ -25,15 +25,8 @@ public class NoteService {
 	@Autowired
 	private NoteRepository noteRepository;
 	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public NoteService(){
-		super();
-	}
+	@Autowired
+	private ReportService reportService;
 	
 	//Simple CRUD methods -----
 	public Note create(){
@@ -50,9 +43,11 @@ public class NoteService {
 		return noteRepository.findOne(Id);
 	}
 	
+	// LOS ACTORES NO PUEDEN ACTUALIZAR LAS NOTAS UNA VEZ GUARDADAS EN LA BASE DE DATOS
 	public Note save(Note n){
 		//puede necesitarse control de versiones por concurrencia del objeto.
 		Note saved;
+		Report report;
 		Authority a= new Authority();
 		Authority b= new Authority();
 		Authority c= new Authority();
@@ -78,11 +73,16 @@ public class NoteService {
 		current = new Date(millis);
 		
 		n.setMoment(current);
-
+		
 		saved = noteRepository.save(n);
+		
+		report = saved.getReport();
+		report.getNotes().add(saved);
+		reportService.saveAut(report);
 		return saved;
 	}
 	
+	// LOS ACTORES NO PUEDEN ELIMINAR LAS NOTAS UNA VEZ GUARDADAS EN LA BASE DE DATOS
 	public void delete(Note n){
 		
 		Authority a= new Authority();
@@ -97,11 +97,36 @@ public class NoteService {
 				userAccount.getAuthorities().contains(b)|
 				userAccount.getAuthorities().contains(c));	
 
-			
 		noteRepository.delete(n);
+		
 	}
 	
 	//Other business methods -----
 	
+	public Double getAvgNotesPerReport(){
+		Double res;
+		res = noteRepository.getAvgNotesPerReport();
+		return res;
+	}
+	
+	public Integer getMinNotesPerReport(){
+		Integer res;
+		res = noteRepository.getMinNotesPerReport();
+		return res;
+	}
+	
+	public Integer getMaxNotesPerReport(){
+		Integer res;
+		res = noteRepository.getMaxNotesPerReport();
+		return res;
+	}
+	
+	public Double getStdevNotesPerReport(){
+		Double res;
+		res = noteRepository.getStdevNotesPerReport();
+		return res;
+	}
+	
+
 	
 }

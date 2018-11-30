@@ -1,6 +1,8 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.TutorialRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.HandyWorker;
+import domain.Section;
+import domain.Sponsorship;
 import domain.Tutorial;
 
 
@@ -23,8 +29,14 @@ public class TutorialService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private SectionService sectionService; 
+	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
+	@Autowired
+	private SponsorshipService sponsorshipService;
 	
 	//Constructors -----
 	public TutorialService(){
@@ -33,9 +45,13 @@ public class TutorialService {
 	
 	//Simple CRUD methods -----
 	public Tutorial create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
-		Tutorial res = new Tutorial();
+		Tutorial res;
+		Authority authority = new Authority();
+		authority.setAuthority("HANDYWORKER");
+		UserAccount userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		res = new Tutorial();
+		res.setPictures(new ArrayList<String>());
 		return res;
 	}
 	
@@ -43,32 +59,54 @@ public class TutorialService {
 		return tutorialRepository.findAll();
 	}
 	
-	public Tutorial findOne(int Id){
-		return tutorialRepository.findOne(Id);
+	public Tutorial findOne(int tutorialId){
+		return tutorialRepository.findOne(tutorialId);
 	}
 	
-	public Tutorial save(Tutorial a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+	public Tutorial save(Tutorial tutorial){	
+		Tutorial saved;
+		Authority e = new Authority();
+		e.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
-		tutorialRepository.save(a);
-		return a;
+		HandyWorker hw = handyWorkerService.findByPrincipal();
+		
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		tutorial.setMoment(current);
+		tutorial.setTitle("Tutorial 1");
+		tutorial.setSummary("Summary 1");
+		tutorial.setPictures(null);
+		tutorial.setHandyWorker(hw);
+		saved = tutorialRepository.save(tutorial);
+		return saved;
 	}
 	
-	public void delete(Tutorial a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+	public void delete(Tutorial tutorial){
+		Authority e = new Authority();
+		e.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
-		tutorialRepository.delete(a);
+		Collection<Section> sections;
+		sections = sectionService.findAll();
+		
+		Collection<Sponsorship> sponsorships;
+		sponsorships = sponsorshipService.findAll();
+		
+		for(Sponsorship sp: sponsorships){
+			if(sp.getTutorial().equals(tutorial)){
+				sponsorshipService.delete(sp);
+			}
+		}
+		
+		for(Section s: sections){
+			if(s.getTutorial().getId()== tutorial.getId()){
+				sectionService.delete(s);
+			}
+		}
+		tutorialRepository.delete(tutorial);
 	}
 	
 	//Other business methods -----

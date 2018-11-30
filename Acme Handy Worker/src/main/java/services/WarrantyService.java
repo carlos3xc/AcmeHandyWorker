@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.WarrantyRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Warranty;
@@ -18,24 +20,22 @@ import domain.Warranty;
 public class WarrantyService {
 
 	//Managed Repository -----
+	
 	@Autowired
 	private WarrantyRepository warrantyRepository;
 	
 	//Supporting Services -----
+
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public WarrantyService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
+	
 	public Warranty create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Warranty res = new Warranty();
+		
+		res.setLaws(new ArrayList<String>());
+		res.setIsDraft(true);
+		
 		return res;
 	}
 	
@@ -48,25 +48,23 @@ public class WarrantyService {
 	}
 	
 	public Warranty save(Warranty a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		Authority b = new Authority();
+		au.setAuthority("ADMIN");
+		b.setAuthority("CUSTOMER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au) || userAccount.getAuthorities().contains(b));
+		Assert.isTrue(a.getIsDraft());
 		
-		warrantyRepository.save(a);
-		return a;
+		return warrantyRepository.save(a);
 	}
 	
 	public void delete(Warranty a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("ADMIN");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		Assert.isTrue(a.getIsDraft());
 		
 		warrantyRepository.delete(a);
 	}

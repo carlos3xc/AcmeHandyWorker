@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,11 @@ import org.springframework.util.Assert;
 import repositories.ProfessionalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
+import domain.ProfessionalRecord;
+import domain.HandyWorker;
+import domain.MiscellaneousRecord;
+import domain.PersonalRecord;
 import domain.ProfessionalRecord;
 
 
@@ -23,8 +29,11 @@ public class ProfessionalRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public ProfessionalRecordService(){
@@ -33,9 +42,12 @@ public class ProfessionalRecordService {
 	
 	//Simple CRUD methods -----
 	public ProfessionalRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		ProfessionalRecord res = new ProfessionalRecord();
+		
+		Date start = new Date();
+		start.setTime(start.getTime()-1000);
+		res.setStartDate(start);
+		
 		return res;
 	}
 	
@@ -48,30 +60,49 @@ public class ProfessionalRecordService {
 	}
 	
 	public ProfessionalRecord save(ProfessionalRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
+
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el ER, si no simplemente se guarda ER sin vincular.
+		boolean hasCurricula = false;
+		ProfessionalRecord res = null;
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		professionalRecordRepository.save(a);
-		return a;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getProfessionalRecords().contains(a)){
+				//ya existe en un professional record
+				res = professionalRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = professionalRecordRepository.saveAndFlush(a);
+				Collection<ProfessionalRecord> aux = c.getProfessionalRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = professionalRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(ProfessionalRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		professionalRecordRepository.delete(a);
+		//probar si necesita borrarse de la lista de curricula manualmente.
+				Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+				UserAccount logged = LoginService.getPrincipal();
+				for (Curricula c : curriculaService.findAll()) {
+					if(c.getProfessionalRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+						c.getProfessionalRecords().remove(a);
+						curriculaService.save(c);
+						professionalRecordRepository.delete(a);
+						//System.out.println("se borra el professionalrecord");
+					}
+				}
 	}
 	
 	//Other business methods -----
-	
-	
 }

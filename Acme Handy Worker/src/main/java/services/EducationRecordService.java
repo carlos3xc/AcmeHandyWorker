@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,10 @@ import org.springframework.util.Assert;
 import repositories.EducationRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.EducationRecord;
+import domain.HandyWorker;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -23,8 +27,11 @@ public class EducationRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public EducationRecordService(){
@@ -33,9 +40,12 @@ public class EducationRecordService {
 	
 	//Simple CRUD methods -----
 	public EducationRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		EducationRecord res = new EducationRecord();
+		
+		Date start = new Date();
+		start.setTime(start.getTime()-1000);
+		res.setStartDate(start);
+		
 		return res;
 	}
 	
@@ -48,30 +58,50 @@ public class EducationRecordService {
 	}
 	
 	public EducationRecord save(EducationRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el ER, si no simplemente se guarda ER sin vincular.
+		boolean hasCurricula = false;
+		EducationRecord res = null;
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
 		
-		educationRecordRepository.save(a);
-		return a;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getEducationRecords().contains(a)){
+				//ya existe en un education record
+				res = educationRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = educationRecordRepository.saveAndFlush(a);
+				Collection<EducationRecord> aux = c.getEducationRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = educationRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(EducationRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		educationRecordRepository.delete(a);
+		//probar si necesita borrarse de la lista de curricula manualmente.
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getEducationRecords().contains(a)&&c.getHandyWorker().getUserAccount().equals(logged)){
+				c.getEducationRecords().remove(a);
+				curriculaService.save(c);
+				educationRecordRepository.delete(a);
+				//System.out.println("se borra el educationrecord");
+			}
+		}
 	}
 	
 	//Other business methods -----
-	
 	
 }

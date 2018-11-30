@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SectionRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Box;
+import domain.Message;
 import domain.Section;
+import domain.Tutorial;
 
 
 @Service
@@ -21,10 +26,10 @@ public class SectionService {
 	@Autowired
 	private SectionRepository sectionRepository;
 	
-	//Supporting Services -----
+//Supporting Services -----
 	
 	//@Autowired
-	//private SomeService serviceName 
+	//private TutorialService tutorialService; 
 	
 	//Constructors -----
 	public SectionService(){
@@ -33,9 +38,8 @@ public class SectionService {
 	
 	//Simple CRUD methods -----
 	public Section create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Section res = new Section();
+		res.setPictures(new ArrayList<String>());
 		return res;
 	}
 	
@@ -47,28 +51,23 @@ public class SectionService {
 		return sectionRepository.findOne(Id);
 	}
 	
-	public Section save(Section a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+	public Section save(Section section){		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("HANDYWORKER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		sectionRepository.save(a);
-		return a;
+		return sectionRepository.save(section);
 	}
 	
-	public void delete(Section a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+//	private TutorialService tutorialService;
+	public void delete(Section section){		
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Authority au = new Authority();
+		au.setAuthority("HANDYWORKER");
+		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		sectionRepository.delete(a);
+		sectionRepository.delete(section);	
 	}
 	
 	//Other business methods -----

@@ -1,18 +1,27 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-
 import repositories.ComplaintRepository;
 import security.LoginService;
-import security.UserAccount;
 import domain.Complaint;
+import domain.Customer;
+import domain.FixUpTask;
+import domain.Report;
 
+import services.CustomerService;
+import services.FixUpTaskService;
+import services.ReportService;
 
 @Service
 @Transactional
@@ -24,19 +33,21 @@ public class ComplaintService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CustomerService customerService;
 	
-	//Constructors -----
-	public ComplaintService(){
-		super();
-	}
+	@Autowired
+	private FixUpTaskService fixUpTaskService;
+	
+	@Autowired
+	private ReportService reportService;
+	
+
 	
 	//Simple CRUD methods -----
 	public Complaint create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Complaint res = new Complaint();
+		res.setAttachments(new ArrayList<String>());
 		return res;
 	}
 	
@@ -48,31 +59,164 @@ public class ComplaintService {
 		return complaintRepository.findOne(Id);
 	}
 	
-	public Complaint save(Complaint a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
+	// LOS ACTORES NO PUEDEN ACTUALIZAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
+	public Complaint save(Complaint c){
+		Complaint saved;
+		Collection<Complaint> complaints;
+		FixUpTask fx;
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		Customer customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		c.setMoment(current);
+
+		c.setCustomer(customer);
+		c.setMoment(current);
+		c.setTicker(generateTicker());
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		saved = complaintRepository.save(c);	
+		complaintRepository.flush();
 		
-		complaintRepository.save(a);
-		return a;
+		fx = saved.getFixUpTask();	
+		fx.getComplaints().add(saved); 
+		fixUpTaskService.save(fx);
+		
+		complaints = complaintRepository.findAll();					// Comprobamos que el reporte se ha guardado correctamente en el archivo de reportes
+
+		Assert.isTrue(complaints.contains(saved));
+
+		return saved;
 	}
 	
-	public void delete(Complaint a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
+	/*	// LOS ACTORES NO PUEDEN ACTUALIZAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
+	public Complaint save(Complaint c){
+		Complaint saved;
+		Collection<Complaint> complaints;
+		FixUpTask fx;
+		Assert.isTrue(c.getId()==0 || c.getId() != 0  &&
+				c.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		Customer customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		c.setMoment(current);
+
+		if(c.getId()==0){
+			c.setCustomer(customer);
+			c.setMoment(current);
+			c.setTicker(generateTicker());
+		}
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		saved = complaintRepository.save(c);	
+		complaintRepository.flush();
 		
-		complaintRepository.delete(a);
+		fx = saved.getFixUpTask();	
+		fx.getComplaints().add(saved); 
+		fixUpTaskService.save(fx);
+		
+		complaints = complaintRepository.findAll();					// Comprobamos que el reporte se ha guardado correctamente en el archivo de reportes
+
+		Assert.isTrue(complaints.contains(saved));
+
+		return saved;
+	}*/
+	
+	// LOS ACTORES NO PUEDEN ELIMINAR LOS COMPLAINTS UNA VEZ GUARDADOS EN LA BASE DE DATOS
+	public void delete(Complaint c){
+		Assert.isTrue(c.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
+		Collection<Complaint> complaints;
+		Collection<Report> reports;
+		
+		FixUpTask fx= c.getFixUpTask();
+		
+		reports = reportService.getReportsByComplaint(c.getId());
+		
+		for(Report r: reports){
+			reportService.deleteAut(r);
+		}
+		
+		if(fx!=null){
+			fx.getComplaints().remove(c);
+			fixUpTaskService.save(fx);
+		}
+		complaintRepository.delete(c);
+		
+		complaints = complaintRepository.findAll();
+		
+		Assert.isTrue(!(complaints.contains(c)));
 	}
 	
 	//Other business methods -----
+	
+	// B-RF 36.1
+	public Collection<Complaint> getComplaintsWithNoReports(){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsWithNoReports();
+		return res;
+	}
+	
+	// B-RF 36.2
+	public Collection<Complaint> getComplaintsReferee(int refereeId){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsReferee(refereeId);
+		return res;
+	}
+	
+	// B-RF 37.3
+	public Collection<Complaint> getComplaintsHandyWorker(int handyWorkerId){
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsHandyWorker(handyWorkerId);
+		return res;
+	}
+	
+	public Double getAvgComplaintsPerTask(){
+		Double res;
+		res = complaintRepository.getAvgComplaintsPerTask();
+		return res;
+	}
+	
+	public Integer getMinComplaintsPerTask(){
+		Integer res;
+		res = complaintRepository.getMinComplaintsPerTask();
+		return res;
+	}
+	
+	public Integer getMaxComplaintsPerTask(){
+		Integer res;
+		res = complaintRepository.getMaxComplaintsPerTask();
+		return res;
+	}
+	
+	public Double getStdevComplaintsPerTask(){
+		Double res;
+		res = complaintRepository.getStdevComplaintsPerTask();
+		return res;
+	}
+	
+	private String generateTicker(){
+		Date date = new Date(); // your date
+		Calendar n = Calendar.getInstance();
+		n.setTime(date);
+		String t = "";
+		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
+				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ "-"+ randomWordAndNumber();
+
+		return t;
+	}
+	
+	private String randomWordAndNumber(){
+		 String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < 6) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        String saltStr = salt.toString();
+	        return saltStr;
+	}
+	
+	
+	
+	
 	
 	
 }

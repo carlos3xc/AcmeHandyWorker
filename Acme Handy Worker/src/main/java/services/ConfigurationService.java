@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ConfigurationRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Configuration;
@@ -23,18 +24,8 @@ public class ConfigurationService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public ConfigurationService(){
-		super();
-	}
-	
 	//Simple CRUD methods -----
 	public Configuration create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		Configuration res = new Configuration();
 		return res;
 	}
@@ -48,25 +39,22 @@ public class ConfigurationService {
 	}
 	
 	public Configuration save(Configuration a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+		Configuration saved;
+		Authority n = new Authority();
+		n.setAuthority("ADMIN");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(n));
+
 		
-		configurationRepository.save(a);
-		return a;
+		saved = configurationRepository.saveAndFlush(a);
+		return saved;
 	}
 	
 	public void delete(Configuration a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
+		Authority n = new Authority();
+		n.setAuthority("ADMIN");
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		Assert.isTrue(userAccount.getAuthorities().contains(n));
 		
 		configurationRepository.delete(a);
 	}

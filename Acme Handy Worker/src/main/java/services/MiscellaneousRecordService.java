@@ -10,7 +10,11 @@ import org.springframework.util.Assert;
 import repositories.MiscellaneousRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
 import domain.MiscellaneousRecord;
+import domain.HandyWorker;
+import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -23,8 +27,11 @@ public class MiscellaneousRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public MiscellaneousRecordService(){
@@ -33,8 +40,6 @@ public class MiscellaneousRecordService {
 	
 	//Simple CRUD methods -----
 	public MiscellaneousRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
 		MiscellaneousRecord res = new MiscellaneousRecord();
 		return res;
 	}
@@ -48,28 +53,50 @@ public class MiscellaneousRecordService {
 	}
 	
 	public MiscellaneousRecord save(MiscellaneousRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el MR, si no simplemente se guarda MR sin vincular.
+		boolean hasCurricula = false;
+		MiscellaneousRecord res = null;
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
 		
-		miscellaneousRecordRepository.save(a);
-		return a;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(logged)){
+				if(c.getMiscellaneousRecords().contains(a)){
+				//ya existe en un miscellaneous record
+				res = miscellaneousRecordRepository.saveAndFlush(a);
+				}else{
+				//exite la curricula del handyworker.
+				
+				res = miscellaneousRecordRepository.saveAndFlush(a);
+				Collection<MiscellaneousRecord> aux = c.getMiscellaneousRecords();
+				aux.add(res);
+				curriculaService.save(c);
+				}
+				hasCurricula = true;
+			}
+		}
+		if(!hasCurricula){
+			res = miscellaneousRecordRepository.saveAndFlush(a);
+		}
+		Assert.notNull(res);
+		return res;
 	}
 	
 	public void delete(MiscellaneousRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		miscellaneousRecordRepository.delete(a);
-	}
+		// probar si necesita borrarse de la lista de curricula manualmente.
+				Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+				UserAccount logged = LoginService.getPrincipal();
+				for (Curricula c : curriculaService.findAll()) {
+					if (c.getMiscellaneousRecords().contains(a)
+							&& c.getHandyWorker().getUserAccount().equals(logged)) {
+						c.getMiscellaneousRecords().remove(a);
+						curriculaService.save(c);
+						miscellaneousRecordRepository.delete(a);
+						//System.out.println("se borra el miscellaneousRecord");
+					}
+				}
+			}
 	
 	//Other business methods -----
 	

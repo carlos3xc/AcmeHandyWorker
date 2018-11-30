@@ -10,7 +10,12 @@ import org.springframework.util.Assert;
 import repositories.EndorserRecordRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.Curricula;
+import domain.EducationRecord;
 import domain.EndorserRecord;
+import domain.HandyWorker;
+import domain.MiscellaneousRecord;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -23,8 +28,11 @@ public class EndorserRecordService {
 	
 	//Supporting Services -----
 	
-	//@Autowired
-	//private SomeService serviceName 
+	@Autowired
+	private CurriculaService curriculaService; 
+	
+	@Autowired
+	private ActorService actorService;
 	
 	//Constructors -----
 	public EndorserRecordService(){
@@ -33,8 +41,7 @@ public class EndorserRecordService {
 	
 	//Simple CRUD methods -----
 	public EndorserRecord create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+	
 		EndorserRecord res = new EndorserRecord();
 		return res;
 	}
@@ -48,30 +55,51 @@ public class EndorserRecordService {
 	}
 	
 	public EndorserRecord save(EndorserRecord a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
 		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		endorserRecordRepository.save(a);
-		return a;
+		//si el HandyWorker tiene una curricula se le guarda/actualiza el ER, si no simplemente se guarda ER sin vincular.
+				boolean hasCurricula = false;
+				EndorserRecord res = null;
+				Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+				UserAccount logged = LoginService.getPrincipal();
+				
+				for (Curricula c : curriculaService.findAll()) {
+					if(c.getHandyWorker().getUserAccount().equals(logged)){
+						if(c.getEndorserRecords().contains(a)){
+						//ya existe en un endorser record
+						res = endorserRecordRepository.saveAndFlush(a);
+						}else{
+						//exite la curricula del handyworker.
+						
+						res = endorserRecordRepository.saveAndFlush(a);
+						Collection<EndorserRecord> aux = c.getEndorserRecords();
+						aux.add(res);
+						curriculaService.save(c);
+						}
+						hasCurricula = true;
+					}
+				}
+				if(!hasCurricula){
+					res = endorserRecordRepository.saveAndFlush(a);
+				}
+				Assert.notNull(res);
+				return res;
 	}
 	
-	public void delete(EndorserRecord a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		endorserRecordRepository.delete(a);
+	public void delete(EndorserRecord a) {
+		// probar si necesita borrarse de la lista de curricula manualmente.
+		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
+		UserAccount logged = LoginService.getPrincipal();
+		for (Curricula c : curriculaService.findAll()) {
+			if (c.getEndorserRecords().contains(a)
+					&& c.getHandyWorker().getUserAccount().equals(logged)) {
+				c.getEndorserRecords().remove(a);
+				curriculaService.save(c);
+				endorserRecordRepository.delete(a);
+				//System.out.println("se borra el endorserRecord");
+			}
+		}
 	}
 	
 	//Other business methods -----
-	
-	
+
 }

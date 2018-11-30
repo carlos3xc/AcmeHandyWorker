@@ -1268,7 +1268,7 @@
 
 	<bean id="note1" class="domain.Note">
 		<property name="moment" value="2018/02/12 18:10" />
-		<property name="refereeComment" value="" />
+		<property name="refereeComment" value="Hello" />
 		<property name="customerComment" value="" />
 		<property name="handyWorkerComment" value="" />
 		<property name="report" ref="report1" />
@@ -1317,7 +1317,7 @@
 	<bean id="note7" class="domain.Note">
 		<property name="moment" value="2018/10/01 14:45" />
 		<property name="refereeComment" value="" />
-		<property name="customerComment" value="" />
+		<property name="customerComment" value="Hello" />
 		<property name="handyWorkerComment" value="" />
 		<property name="report" ref="report2" />
 	</bean>
@@ -1635,7 +1635,7 @@
 		<property name="maxPrice" value="748.14" />
 		<property name="startMoment" value="2018/10/13 15:00" />
 		<property name="endMoment" value="2018/10/25 19:00" />
-		<property name="warranty" ref="warranty4" />
+		<property name="warranty" ref="warranty1" />
 		<property name="category" ref="category4" />
 		<property name="customer" ref="customer4" />
 		<property name="applications">
@@ -1682,7 +1682,7 @@
 		<property name="maxPrice" value="389.36" />
 		<property name="startMoment" value="2017/05/20 14:00" />
 		<property name="endMoment" value="2017/05/22 15:00" />
-		<property name="warranty" ref="warranty6" />
+		<property name="warranty" ref="warranty2" />
 		<property name="category" ref="category6" />
 		<property name="customer" ref="customer1" />
 		<property name="applications">
@@ -1706,7 +1706,7 @@
 		<property name="maxPrice" value="65.70" />
 		<property name="startMoment" value="2018/04/20 12:00" />
 		<property name="endMoment" value="2018/04/25 13:00" />
-		<property name="warranty" ref="warranty7" />
+		<property name="warranty" ref="warranty3" />
 		<property name="category" ref="category8" />
 		<property name="customer" ref="customer2" />
 		<property name="applications">
@@ -1755,16 +1755,24 @@
 		<property name="fixUpTask" ref="fixUpTask1" />
 		<property name="handyWorker" ref="handyWorker1" />
 	</bean>
-	<!-- <bean id="workPlanPhase2" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Fix the bathroom door 2.0"/> <property name="description" value="Buy 
-		new hinges"/> <property name="startMoment" value="2018/03/13 11:00"/> <property 
-		name="endMoment" value="2018/03/13 12:00"/> <property name="fixUpTask" ref="fixUpTask1"/> 
-		<property name="handyWorker" ref="handyWorker1"/> </bean> <bean id="workPlanPhase3" 
-		class="domain.WorkPlanPhase"> <property name="title" value="Fix the bathroom 
-		door 3.0"/> <property name="description" value="Change the hinges"/> <property 
-		name="startMoment" value="2018/03/14 11:00"/> <property name="endMoment" 
-		value="2018/03/14 13:00"/> <property name="fixUpTask" ref="fixUpTask1"/> 
-		<property name="handyWorker" ref="handyWorker1"/> </bean> -->
+	
+	<bean id="workPlanPhase2" class="domain.WorkPlanPhase">
+		 <property name="title" value="Fix the bathroom door 2.0"/> 
+		 <property name="description" value="Buy new hinges"/> 
+		 <property name="startMoment" value="2018/03/13 11:00"/> 
+		 <property name="endMoment" value="2018/03/13 12:00"/> 
+		 <property name="fixUpTask" ref="fixUpTask1"/> 
+		<property name="handyWorker" ref="handyWorker1"/> 	
+	</bean> 
+	
+	<bean id="workPlanPhase3" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Fix the bathroom door 3.0"/> 
+		<property name="description" value="Change the hinges"/> 
+		<property name="startMoment" value="2018/03/14 11:00"/>
+		<property name="endMoment" value="2018/03/14 13:00"/> 
+		<property name="fixUpTask" ref="fixUpTask1"/> 
+		<property name="handyWorker" ref="handyWorker1"/> </bean> 
+		
 	<!-- PHASES FixUpTask 2 -->
 
 	<bean id="workPlanPhase4" class="domain.WorkPlanPhase">
@@ -1786,16 +1794,25 @@
 		<property name="fixUpTask" ref="fixUpTask3" />
 		<property name="handyWorker" ref="handyWorker3" />
 	</bean>
-	<!-- <bean id="workPlanPhase6" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Title workplan phase 2"/> <property name="description" value="Description 
-		workplan phase 2"/> <property name="startMoment" value="2018/05/13 11:00"/> 
-		<property name="endMoment" value="2018/05/13 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask3"/> <property name="handyWorker" ref="handyWorker3"/> </bean> 
-		<bean id="workPlanPhase7" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Title workplan phase 3"/> <property name="description" value="Description 
-		workplan phase 3"/> <property name="startMoment" value="2018/06/14 11:00"/> 
-		<property name="endMoment" value="2018/06/14 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask3"/> <property name="handyWorker" ref="handyWorker3"/> </bean> -->
+	
+	<bean id="workPlanPhase6" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 2"/> 
+		<property name="description" value="Description workplan phase 2"/> 
+		<property name="startMoment" value="2018/05/13 11:00"/> 
+		<property name="endMoment" value="2018/05/13 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask3"/> 
+		<property name="handyWorker" ref="handyWorker3"/>
+	</bean> 
+	
+	<bean id="workPlanPhase7" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 3"/> 
+		<property name="description" value="Description workplan phase 3"/> 
+		<property name="startMoment" value="2018/06/14 11:00"/> 
+		<property name="endMoment" value="2018/06/14 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask3"/> 
+		<property name="handyWorker" ref="handyWorker3"/> 
+	</bean>
+	
 	<!-- PHASES FixUpTask 4 -->
 
 	<bean id="workPlanPhase8" class="domain.WorkPlanPhase">
@@ -1806,11 +1823,14 @@
 		<property name="fixUpTask" ref="fixUpTask4" />
 		<property name="handyWorker" ref="handyWorker1" />
 	</bean>
-	<!-- <bean id="workPlanPhase9" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Cambiar luz 2.0"/> <property name="description" value="Comprar una 
-		bombilla nueva"/> <property name="startMoment" value="2018/03/17 11:00"/> 
-		<property name="endMoment" value="2018/03/17 12:00"/> <property name="fixUpTask" 
-		ref="fixUpTask4"/> <property name="handyWorker" ref="handyWorker1"/> </bean> -->
+	<bean id="workPlanPhase9" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Cambiar luz 2.0"/> 
+		<property name="description" value="Comprar una bombilla nueva"/> 
+		<property name="startMoment" value="2018/03/17 11:00"/> 
+		<property name="endMoment" value="2018/03/17 12:00"/>
+		<property name="fixUpTask" ref="fixUpTask4"/> 
+		<property name="handyWorker" ref="handyWorker1"/>
+	</bean>
 	<!-- PHASES FixUpTask 5 -->
 
 	<bean id="workPlanPhase10" class="domain.WorkPlanPhase">
@@ -1821,16 +1841,24 @@
 		<property name="fixUpTask" ref="fixUpTask5" />
 		<property name="handyWorker" ref="handyWorker2" />
 	</bean>
-	<!-- <bean id="workPlanPhase11" class="domain.WorkPlanPhase"> <property 
-		name="title" value="Title workplan phase 2"/> <property name="description" 
-		value="Paint the gate"/> <property name="startMoment" value="2018/03/13 11:00"/> 
-		<property name="endMoment" value="2018/03/13 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask5"/> <property name="handyWorker" ref="handyWorker2"/> </bean> 
-		<bean id="workPlanPhase12" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Title workplan phase 3"/> <property name="description" value="Description 
-		workplan phase 3"/> <property name="startMoment" value="2018/03/14 11:00"/> 
-		<property name="endMoment" value="2018/03/14 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask5"/> <property name="handyWorker" ref="handyWorker2"/> </bean> -->
+	<bean id="workPlanPhase11" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 2"/> 
+		<property name="description" value="Paint the gate"/> 
+		<property name="startMoment" value="2018/03/13 11:00"/> 
+		<property name="endMoment" value="2018/03/13 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask5"/> 
+		<property name="handyWorker" ref="handyWorker2"/> 
+	</bean> 
+		
+	<bean id="workPlanPhase12" class="domain.WorkPlanPhase">
+		<property name="title" value="Title workplan phase 3"/> 
+		<property name="description" value="Description workplan phase 3"/> 
+		<property name="startMoment" value="2018/03/14 11:00"/> 
+		<property name="endMoment" value="2018/03/14 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask5"/> 
+		<property name="handyWorker" ref="handyWorker2"/> 
+	</bean> 
+		
 	<!-- PHASES FixUpTask 6 -->
 
 	<bean id="workPlanPhase13" class="domain.WorkPlanPhase">
@@ -1841,16 +1869,25 @@
 		<property name="fixUpTask" ref="fixUpTask6" />
 		<property name="handyWorker" ref="handyWorker3" />
 	</bean>
-	<!-- <bean id="workPlanPhase14" class="domain.WorkPlanPhase"> <property 
-		name="title" value="Title workplan phase 2"/> <property name="description" 
-		value="Clean the pipe"/> <property name="startMoment" value="2018/03/13 11:00"/> 
-		<property name="endMoment" value="2018/03/13 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask6"/> <property name="handyWorker" ref="handyWorker3"/> </bean> 
-		<bean id="workPlanPhase15" class="domain.WorkPlanPhase"> <property name="title" 
-		value="Title workplan phase 3"/> <property name="description" value="Description 
-		workplan phase 3"/> <property name="startMoment" value="2018/03/14 11:00"/> 
-		<property name="endMoment" value="2018/03/14 21:00"/> <property name="fixUpTask" 
-		ref="fixUpTask6"/> <property name="handyWorker" ref="handyWorker3"/> </bean> -->
+	
+	<bean id="workPlanPhase14" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 2"/> 
+		<property name="description" value="Clean the pipe"/> 
+		<property name="startMoment" value="2018/03/13 11:00"/> 
+		<property name="endMoment" value="2018/03/13 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask6"/> 
+		<property name="handyWorker" ref="handyWorker3"/> 
+	</bean> 
+	
+	<bean id="workPlanPhase15" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 3"/> 
+		<property name="description" value="Description workplan phase 3"/> 
+		<property name="startMoment" value="2018/03/14 11:00"/> 
+		<property name="endMoment" value="2018/03/14 21:00"/> 
+		<property name="fixUpTask" ref="fixUpTask6"/> 
+		<property name="handyWorker" ref="handyWorker3"/> 
+	</bean>
+	
 	<!-- PHASES FixUpTask 7 -->
 
 	<bean id="workPlanPhase16" class="domain.WorkPlanPhase">
@@ -1861,12 +1898,15 @@
 		<property name="fixUpTask" ref="fixUpTask7" />
 		<property name="handyWorker" ref="handyWorker1" />
 	</bean>
-	<!-- <bean id="workPlanPhase17" class="domain.WorkPlanPhase"> <property 
-		name="title" value="Title workplan phase 2"/> <property name="description" 
-		value="Description workplan phase 3"/> <property name="startMoment" value="2018/03/13 
-		11:00"/> <property name="endMoment" value="2018/03/13 21:00"/> <property 
-		name="fixUpTask" ref="fixUpTask7"/> <property name="handyWorker" ref="handyWorker1"/> 
-		</bean> -->
+	
+	<bean id="workPlanPhase17" class="domain.WorkPlanPhase"> 
+		<property name="title" value="Title workplan phase 2"/> 
+		<property name="description" value="Description workplan phase 3"/> 
+		<property name="startMoment" value="2018/03/13 11:00"/> 
+		<property name="endMoment" value="2018/03/13 21:00"/>
+		<property name="fixUpTask" ref="fixUpTask7"/> 
+		<property name="handyWorker" ref="handyWorker1"/> 
+	</bean> 
 
 	<!-- PHASES FixUpTask 8 -->
 
@@ -2413,7 +2453,6 @@
 		<property name="actor" ref="customer1" />
 		<property name="messages">
 			<list>
-				<ref bean="message2"/>
 			</list>
 		</property>
 	</bean>
@@ -2456,7 +2495,6 @@
 		<property name="actor" ref="customer2" />
 		<property name="messages">
 			<list>
-				<ref bean="message1"/>
 			</list>
 		</property>
 	</bean>
@@ -2467,6 +2505,7 @@
 		<property name="actor" ref="customer2" />
 		<property name="messages">
 			<list>
+				<ref bean="message2"/>
 			</list>
 		</property>
 	</bean>
@@ -2509,6 +2548,7 @@
 		<property name="actor" ref="customer3" />
 		<property name="messages">
 			<list>
+				<ref bean="message3"/>
 			</list>
 		</property>
 	</bean>
@@ -2667,7 +2707,6 @@
 		<property name="actor" ref="handyWorker1" />
 		<property name="messages">
 			<list>
-				<ref bean="message3"/>
 			</list>
 		</property>
 	</bean>
@@ -3043,8 +3082,8 @@
 		<property name="sender" ref="customer1" />
 		<property name="recipient" ref="customer2" />
 	</bean>
-
-	<bean id="message2" class="domain.Message">
+	
+		<bean id="message2" class="domain.Message">
 		<property name="moment" value="2018/05/01 11:00" />
 		<property name="body" value="Body 2" />
 		<property name="subject" value="Subject 2" />
@@ -3071,6 +3110,7 @@
 		<property name="sender" ref="customer3" />
 		<property name="recipient" ref="handyWorker1" />
 	</bean>
+
 
 
 </beans>

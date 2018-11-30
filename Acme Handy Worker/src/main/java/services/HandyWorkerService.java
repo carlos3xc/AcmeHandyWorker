@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,70 +9,123 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.HandyWorkerRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import domain.HandyWorker;
-
+import domain.SocialProfile;
 
 @Service
 @Transactional
 public class HandyWorkerService {
 
-	//Managed Repository -----
+	// Managed Repository -----
 	@Autowired
 	private HandyWorkerRepository handyWorkerRepository;
-	
-	//Supporting Services -----
-	
-	//@Autowired
-	//private SomeService serviceName 
-	
-	//Constructors -----
-	public HandyWorkerService(){
+
+	// Supporting Services -----
+
+	@Autowired
+	private UserAccountService userAccountService;
+
+	// Constructors -----
+	public HandyWorkerService() {
 		super();
 	}
-	
-	//Simple CRUD methods -----
-	public HandyWorker create(){
-		//Metodo general para todas los servicios, es probable 
-		//que sea necesario añadir atributos consistentes con la entity.
+
+	// Simple CRUD methods -----
+	public HandyWorker create() {
 		HandyWorker res = new HandyWorker();
+		res.setSocialProfiles(new ArrayList<SocialProfile>());
+		UserAccount ua = userAccountService.create();
+		res.setUserAccount(ua);
 		return res;
 	}
-	
-	public Collection<HandyWorker> findAll(){
+
+	public Collection<HandyWorker> findAll() {
 		return handyWorkerRepository.findAll();
 	}
-	
-	public HandyWorker findOne(int Id){
-		return handyWorkerRepository.findOne(Id);
+
+	public HandyWorker findOne(int handyWorkerId) {
+		return handyWorkerRepository.findOne(handyWorkerId);
 	}
-	
-	public HandyWorker save(HandyWorker a){
-		//puede necesitarse control de versiones por concurrencia del objeto.
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas
-		
+
+	public HandyWorker save(HandyWorker hw) {
+		Authority p = new Authority();
+		Authority e = new Authority();
+		UserAccount ua;
+		UserAccount savedUa;
+		e.setAuthority("ADMIN");
+		Collection<HandyWorker> handyWorkers;
+
 		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
+		if(hw.getId()==0)Assert.isTrue(userAccount.getAuthorities().contains(e));	
+		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
 		
-		handyWorkerRepository.save(a);
-		return a;
+		HandyWorker saved;
+		if (hw.getId() == 0) {
+			hw.setIsBanned(false);
+			hw.setIsSuspicious(false);
+			p.setAuthority("HANDYWORKER");
+			ua = hw.getUserAccount();
+			ua.getAuthorities().add(p);
+			savedUa = userAccountService.save(ua);
+			hw.setUserAccount(savedUa);
+		}
+		if(hw.getMake()==null){
+			hw.setMake(hw.getName()+" " + hw.getMiddleName()+ " " + hw.getSurname());
+		}
+		saved = handyWorkerRepository.saveAndFlush(hw);
+		handyWorkers = handyWorkerRepository.findAll();
+		Assert.isTrue(handyWorkers.contains(saved));
+		return saved;
+	}
+
+//	public void delete(HandyWorker handyWorker) {
+//		Assert.notNull(handyWorker);
+//		Assert.isTrue(handyWorker.getId() != 0);
+//
+//		Collection<SocialProfile> socialprofiles = handyWorker
+//				.getSocialProfiles();
+//
+//		// Borrar los identities de ese handy worker
+//		for (SocialProfile sp : socialprofiles) {
+//			socialProfileService.delete(sp);
+//		}
+//		this.handyWorkerRepository.delete(handyWorker);
+//	}
+
+	// Other business methods -----
+	
+	public HandyWorker findByUserAccountId(Integer Id){
+		HandyWorker hw;
+		hw = handyWorkerRepository.findByUserAccountId(Id);
+		return hw;
+	}
+
+	public HandyWorker findByPrincipal() {
+		HandyWorker hw;
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+		hw = handyWorkerRepository.findByPrincipal(userAccount.getId());
+		return hw;
+	}
+
+	public HandyWorker findByFinderId(final int finderId) {
+		Assert.notNull(finderId);
+		HandyWorker result;
+		result = this.handyWorkerRepository.findByFinderId(finderId);
+		return result;
 	}
 	
-	public void delete(HandyWorker a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		handyWorkerRepository.delete(a);
-	}
+//	public HandyWorker findByFinderId(final int finderId) {
+//		Assert.notNull(finderId);
+//		HandyWorker result;
+//		result = this.handyWorkerRepository.findByFinderId(finderId);
+//		return result;
+//	}
 	
-	//Other business methods -----
-	
-	
+
 }
