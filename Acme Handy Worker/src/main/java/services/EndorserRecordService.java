@@ -11,11 +11,7 @@ import repositories.EndorserRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
-import domain.EducationRecord;
 import domain.EndorserRecord;
-import domain.HandyWorker;
-import domain.MiscellaneousRecord;
-import domain.ProfessionalRecord;
 
 
 @Service
@@ -30,15 +26,7 @@ public class EndorserRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
-	
-	@Autowired
-	private ActorService actorService;
-	
-	//Constructors -----
-	public EndorserRecordService(){
-		super();
-	}
-	
+
 	//Simple CRUD methods -----
 	public EndorserRecord create(){
 	

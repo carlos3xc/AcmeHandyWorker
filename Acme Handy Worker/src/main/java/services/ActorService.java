@@ -86,7 +86,7 @@ public class ActorService {
 		return actorRepository.findByUserAccountId(ua);
 	}
 
-	private void createSystemBoxes(Actor actor) {
+	public void createSystemBoxes(Actor actor) {
 
 		Box inbox, outbox, spambox, trashbox;
 

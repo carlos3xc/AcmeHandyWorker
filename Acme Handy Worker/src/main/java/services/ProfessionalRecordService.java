@@ -13,10 +13,6 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.ProfessionalRecord;
-import domain.HandyWorker;
-import domain.MiscellaneousRecord;
-import domain.PersonalRecord;
-import domain.ProfessionalRecord;
 
 
 @Service
@@ -31,14 +27,6 @@ public class ProfessionalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
-	
-	@Autowired
-	private ActorService actorService;
-	
-	//Constructors -----
-	public ProfessionalRecordService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public ProfessionalRecord create(){

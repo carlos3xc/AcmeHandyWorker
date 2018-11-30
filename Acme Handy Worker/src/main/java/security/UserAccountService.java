@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 
 
@@ -24,11 +23,6 @@ public class UserAccountService {
 	
 	//@Autowired
 	//private SomeService serviceName 
-	
-	//Constructors -----
-	public UserAccountService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public UserAccount create(String username, String hashedPassword, String authority){
@@ -76,13 +70,7 @@ public class UserAccountService {
 	}
 	
 	public void delete(UserAccount a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
+
 		userAccountRepository.delete(a);
 	}
 	

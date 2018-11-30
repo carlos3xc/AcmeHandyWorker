@@ -11,9 +11,7 @@ import repositories.PersonalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
-import domain.HandyWorker;
 import domain.PersonalRecord;
-import domain.ProfessionalRecord;
 
 
 @Service
@@ -28,14 +26,6 @@ public class PersonalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
-	
-	@Autowired
-	private ActorService actorService;
-	
-	//Constructors -----
-	public PersonalRecordService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public PersonalRecord create(){

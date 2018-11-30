@@ -12,9 +12,6 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.MiscellaneousRecord;
-import domain.HandyWorker;
-import domain.MiscellaneousRecord;
-import domain.ProfessionalRecord;
 
 
 @Service
@@ -29,14 +26,6 @@ public class MiscellaneousRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
-	
-	@Autowired
-	private ActorService actorService;
-	
-	//Constructors -----
-	public MiscellaneousRecordService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public MiscellaneousRecord create(){

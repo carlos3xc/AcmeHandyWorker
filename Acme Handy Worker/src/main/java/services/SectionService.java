@@ -12,10 +12,7 @@ import repositories.SectionRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Box;
-import domain.Message;
 import domain.Section;
-import domain.Tutorial;
 
 
 @Service
@@ -28,13 +25,6 @@ public class SectionService {
 	
 //Supporting Services -----
 	
-	//@Autowired
-	//private TutorialService tutorialService; 
-	
-	//Constructors -----
-	public SectionService(){
-		super();
-	}
 	
 	//Simple CRUD methods -----
 	public Section create(){

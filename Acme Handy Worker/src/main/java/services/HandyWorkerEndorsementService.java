@@ -15,13 +15,9 @@ import repositories.HandyWorkerEndorsementRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Customer;
-import domain.CustomerEndorsement;
-import domain.FixUpTask;
 import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
 import domain.Word;
-import domain.WorkPlanPhase;
 
 
 @Service
@@ -38,11 +34,7 @@ public class HandyWorkerEndorsementService {
 	
 	@Autowired
 	private WordService wordService;
-	
-	//Constructors -----
-	public HandyWorkerEndorsementService(){
-		super();
-	}
+
 	
 	//Simple CRUD methods -----
 	public HandyWorkerEndorsement create(){
