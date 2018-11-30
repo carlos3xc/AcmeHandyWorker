@@ -72,7 +72,7 @@ public class SectionServiceTest extends AbstractTest{
 			Collection<Section> sections;
 			super.authenticate("handyworker1");
 
-			section = (Section) sectionService.findAll().toArray()[0];;
+			section = (Section) sectionService.findAll().toArray()[0];
 			
 			sectionService.delete(section);
 			

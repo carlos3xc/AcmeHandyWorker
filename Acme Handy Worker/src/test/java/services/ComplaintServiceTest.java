@@ -66,7 +66,7 @@ public class ComplaintServiceTest extends AbstractTest {
 
 		super.authenticate("customer1");						// Nos autenticamos como Referee
 		complaint = complaintService.create();					// Creamos el reporte
-		fixUpTask = fixUpTaskService.findOne(15946);
+		fixUpTask = (FixUpTask) fixUpTaskService.findAll().toArray()[0];
 		
 		complaint.getAttachments().add("Attachment test complaint");
 		complaint.setDescription("Description complaint test");
