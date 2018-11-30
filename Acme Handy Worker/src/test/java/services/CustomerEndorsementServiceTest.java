@@ -25,10 +25,7 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 	// Service under test ---------------------------------------------------------	
 		@Autowired
 		private CustomerEndorsementService customerEndorsementService;
-		
-		@Autowired
-		private CustomerService customerService;
-		
+				
 		@Autowired
 		private HandyWorkerService handyWorkerService;
 		

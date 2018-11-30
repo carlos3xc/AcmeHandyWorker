@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
-import domain.EndorserRecord;
 import domain.ProfessionalRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)

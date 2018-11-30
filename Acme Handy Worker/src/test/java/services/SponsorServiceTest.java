@@ -14,7 +14,6 @@ import security.Authority;
 import security.LoginService;
 import utilities.AbstractTest;
 import domain.Sponsor;
-import domain.Sponsor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",

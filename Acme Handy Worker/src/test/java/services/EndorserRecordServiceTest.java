@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
-import domain.EducationRecord;
 import domain.EndorserRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
