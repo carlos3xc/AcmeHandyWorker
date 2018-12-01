@@ -1,0 +1,1 @@
+Aquí se pondrán los mock ups correspondientes a las vistas asignadas por cada uno
