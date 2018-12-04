@@ -16,14 +16,14 @@
        
 <tiles-definitions>
 
-	<definition name="message/list" extends="master.page">	
-		<put-attribute name="title" value="Message List" />
-		<put-attribute name="body" value="/views/message/list.jsp" />
+	<definition name="box/list" extends="master.page">	
+		<put-attribute name="title" value="Box List" />
+		<put-attribute name="body" value="/views/box/list.jsp" />
 	</definition>
 	
-	<definition name="message/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit message" />
-		<put-attribute name="body" value="/views/message/edit.jsp" />
+	<definition name="box/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit box" />
+		<put-attribute name="body" value="/views/box/edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

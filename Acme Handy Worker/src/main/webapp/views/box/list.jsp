@@ -12,11 +12,11 @@
 
 <!-- 
 	Recieves: 
-		List<Box> boxes - los boxes de un actor.
-		String xxxxxHeader - cabecera de tabla de la propiedad.		
+		List<Box> boxes - los boxes de un actor.		
 -->
 
 <security:authorize access="isAuthenticated()">
+	<a href="box/edit.do"><spring:message code='box.create'/></a>
 		<table style="width:'100%' border='0' align='center' ">
 			<tr>
 				<th>Boxes</th>
@@ -34,5 +34,5 @@
 			</tr>		
 	</jstl:forEach>
 	</table>
-	<a href="box/edit.do"><spring:message code='message.create'/></a>
+	<a href="box/edit.do"><spring:message code='box.create'/></a>
 </security:authorize>

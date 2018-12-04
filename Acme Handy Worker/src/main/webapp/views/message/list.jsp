@@ -15,6 +15,7 @@
 -->
 
 <security:authorize access="isAuthenticated()">
+<a href="message/edit.do"><spring:message code ='message.create'/></a>
 		<table style="width:'100%' border='0' align='center' ">
 			<tr>
 				<th>Messages</th>
