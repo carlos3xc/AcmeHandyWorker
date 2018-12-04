@@ -13,6 +13,8 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.EducationRecord;
+import domain.HandyWorker;
+import domain.ProfessionalRecord;
 
 
 @Service
@@ -27,6 +29,17 @@ public class EducationRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+<<<<<<< HEAD
+	
+	@Autowired
+	private ActorService actorService;
+	
+	//Constructors -----
+	public EducationRecordService(){
+		super();
+	}
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 	
 	//Simple CRUD methods -----
 	public EducationRecord create(){

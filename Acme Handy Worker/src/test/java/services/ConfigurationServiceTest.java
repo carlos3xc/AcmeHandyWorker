@@ -11,7 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+<<<<<<< HEAD
+import domain.Complaint;
 import domain.Configuration;
+import domain.Report;
+=======
+import domain.Configuration;
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",

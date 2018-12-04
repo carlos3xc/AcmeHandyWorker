@@ -47,7 +47,11 @@ public class CategoryServiceTest extends AbstractTest{
 		Category res = catService.create();
 		
 		res.setName("Furniture");
+<<<<<<< HEAD
+		res.setParentCategory(catService.findOne(14665));
+=======
 		res.setParentCategory((Category) catService.findAll().toArray()[2]);
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 
 		Category saved = catService.save(res);
 		Collection<Category> categories = catService.findAll();

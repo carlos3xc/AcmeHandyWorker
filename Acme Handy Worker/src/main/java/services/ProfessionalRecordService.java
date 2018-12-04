@@ -12,6 +12,13 @@ import repositories.ProfessionalRecordRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
+<<<<<<< HEAD
+import domain.ProfessionalRecord;
+import domain.HandyWorker;
+import domain.MiscellaneousRecord;
+import domain.PersonalRecord;
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 import domain.ProfessionalRecord;
 
 
@@ -27,6 +34,17 @@ public class ProfessionalRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+<<<<<<< HEAD
+	
+	@Autowired
+	private ActorService actorService;
+	
+	//Constructors -----
+	public ProfessionalRecordService(){
+		super();
+	}
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 	
 	//Simple CRUD methods -----
 	public ProfessionalRecord create(){
