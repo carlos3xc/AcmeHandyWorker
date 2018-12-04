@@ -71,7 +71,7 @@ public class ComplaintService {
 		c.setCustomer(customer);
 		c.setMoment(current);
 		c.setTicker(generateTicker());
-		
+
 		saved = complaintRepository.save(c);	
 		complaintRepository.flush();
 		
@@ -194,9 +194,11 @@ public class ComplaintService {
 		Calendar n = Calendar.getInstance();
 		n.setTime(date);
 		String t = "";
+		String s = Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
+		if(s.length()==1) s= "0"+Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
 				+ Integer.toString(n.get(Calendar.MONTH) +1)
-				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
+				+ s
 				+ "-"+ randomWordAndNumber();
 
 		return t;

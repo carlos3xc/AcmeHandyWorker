@@ -18,10 +18,6 @@ import security.UserAccount;
 import security.UserAccountService;
 import domain.Customer;
 import domain.FixUpTask;
-<<<<<<< HEAD
-import domain.Referee;
-=======
->>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 import domain.SocialProfile;
 
 

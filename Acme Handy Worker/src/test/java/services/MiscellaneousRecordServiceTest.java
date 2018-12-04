@@ -13,10 +13,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Curricula;
 import domain.MiscellaneousRecord;
-<<<<<<< HEAD
-import domain.ProfessionalRecord;
-=======
->>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/datasource.xml",

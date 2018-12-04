@@ -175,10 +175,12 @@ public class FixUpTaskService {
 		Calendar n = Calendar.getInstance();
 		n.setTime(date);
 		String t = "";
+		String s = Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
+		if(s.length()==1) s= "0"+Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
 				+ Integer.toString(n.get(Calendar.MONTH) +1)
-				+ Integer.toString(n.get(Calendar.DAY_OF_MONTH))
-				+ "-"+randomWordAndNumber();
+				+ s
+				+ "-"+ randomWordAndNumber();
 
 		return t;
 	}
