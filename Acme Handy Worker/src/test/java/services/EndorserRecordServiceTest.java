@@ -12,7 +12,10 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Curricula;
+<<<<<<< HEAD
 import domain.EducationRecord;
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 import domain.EndorserRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)

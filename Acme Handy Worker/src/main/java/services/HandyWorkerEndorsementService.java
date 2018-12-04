@@ -15,6 +15,7 @@ import repositories.HandyWorkerEndorsementRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+<<<<<<< HEAD
 import domain.Customer;
 import domain.CustomerEndorsement;
 import domain.FixUpTask;
@@ -22,6 +23,11 @@ import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
 import domain.Word;
 import domain.WorkPlanPhase;
+=======
+import domain.HandyWorker;
+import domain.HandyWorkerEndorsement;
+import domain.Word;
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 
 
 @Service
@@ -38,11 +44,15 @@ public class HandyWorkerEndorsementService {
 	
 	@Autowired
 	private WordService wordService;
+<<<<<<< HEAD
 	
 	//Constructors -----
 	public HandyWorkerEndorsementService(){
 		super();
 	}
+=======
+
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 	
 	//Simple CRUD methods -----
 	public HandyWorkerEndorsement create(){
@@ -71,12 +81,21 @@ public class HandyWorkerEndorsementService {
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
 		
 		Date current = new Date(System.currentTimeMillis() - 1000);
+<<<<<<< HEAD
 		
 		handyWorkerEndorsement.setMoment(current);
 		handyWorkerEndorsement.setHandyWorker(hw);
 	//	handyWorkerEndorsement.setCustomer(c);
 		saved = handyWorkerEndorsementRepository.save(handyWorkerEndorsement);
 		
+=======
+		
+		handyWorkerEndorsement.setMoment(current);
+		handyWorkerEndorsement.setHandyWorker(hw);
+	//	handyWorkerEndorsement.setCustomer(c);
+		saved = handyWorkerEndorsementRepository.save(handyWorkerEndorsement);
+		
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 		return saved;
 	}
 	

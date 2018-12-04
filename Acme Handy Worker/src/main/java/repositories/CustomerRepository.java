@@ -1,7 +1,10 @@
 package repositories;
 
 import java.util.Collection;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

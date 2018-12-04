@@ -29,6 +29,7 @@ public class EducationRecordService {
 	
 	@Autowired
 	private CurriculaService curriculaService; 
+<<<<<<< HEAD
 	
 	@Autowired
 	private ActorService actorService;
@@ -37,6 +38,8 @@ public class EducationRecordService {
 	public EducationRecordService(){
 		super();
 	}
+=======
+>>>>>>> 24df8365044bf859bca0f2c5a25065ad2c644294
 	
 	//Simple CRUD methods -----
 	public EducationRecord create(){
