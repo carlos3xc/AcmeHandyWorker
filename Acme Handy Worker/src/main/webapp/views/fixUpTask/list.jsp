@@ -8,7 +8,9 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 	
-	
+	<!-- PARAMETERS FROM CONTROLLER: fixUpTasks: Collection<FixUpTask>, tasks a mostrar
+									 customer: Customer, customer logeado para comprobar si la task le pertenece -->
+									 	
 		<security:authorize access="hasRole('CUSTOMER')">
 	
 			<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/customer/list.do" pagesize="5">
@@ -55,9 +57,14 @@
 						<spring:message	code="task.show" />
 					</a><br/>
 					
-					<a href="actor/profile.do?actorId=${row.id}">
+					<a href="application/handyWorker/apply.do?fixUpTaskId=${row.id}">
 						<spring:message code="task.publisher"/>
-					</a><br/>							
+					</a><br/>	
+					
+					<a href="actor/profile.do?actorId=${row.customer.id}">
+						<spring:message code="task.apply"/>
+					</a><br/>
+								
 				</display:column>
 				
 				<spring:message code="task.ticker" var="tickerHeader"/>
@@ -77,5 +84,8 @@
 				<display:column property="maxPrice" title="${maxPriceHeader}" />	
 			
 			</display:table>
+			<br/>
+			
+			<a href="fixUpTask/customer/edit.do"><spring:message code="task.create"/></a>
 		
 		</security:authorize>
