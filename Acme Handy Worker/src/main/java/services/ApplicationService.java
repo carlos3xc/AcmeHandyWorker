@@ -53,7 +53,8 @@ public class ApplicationService {
 		// Assert.isTrue(application.getHandyWorker().getUserAccount().equals(userAccount));
 
 		application.setMoment(moment);
-
+		application.setStatus("PENDING");
+		
 		result = applicationRepository.save(application);
 		return result;
 	}
