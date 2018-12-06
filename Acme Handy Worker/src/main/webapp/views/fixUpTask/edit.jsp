@@ -19,30 +19,104 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="note/auditor/edit.do" modelAttribute="note">
+	<!-- PARAMETERS FROM CONTROLLER: fixUpTask: FixUpTask, task a editar
+									 categories: Collection<Category>, colección de categorías
+					 				 warranty: Warranty, garantía a añadir a la task 
+					 				 law: Law, ley a incluir en la lista de leyes de la garantía -->
+									 
+
+<form:form action="fixUpTask/customer/edit.do" modelAttribute="fixUpTask">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
+	<form:hidden path="ticker" />
+	<form:hidden path="moment" />
+	<form:hidden path="customer" />		
+	<form:hidden path="applications" />	
+	<form:hidden path="complaints" />
+	<jstl:if test="${fixUpTask.id !=0 }">
+		<form:hidden path="warranty"/>
+	</jstl:if>
 	
-	<form:hidden path="momentCreation" />
-	<form:hidden path="reply" />
-	<form:hidden path="momentResponse" />		
+	<security:authorize access="hasRole('CUSTOMER')">
 	
-	<security:authorize access="hasRole('AUDITOR')">
-	
-	<form:label path="remark">
-		<spring:message code="note.remark" />:
+	<form:label path="description">
+		<spring:message code="task.description" />:
 	</form:label>
-	
-	<form:textarea path="remark" />
-	<form:errors cssClass="error" path="remark" />
+	<form:textarea path="description" />
+	<form:errors cssClass="error" path="description" />
 	<br />
 	
-	<input type="submit" name="save" value="<spring:message code="note.save" />" />
+	<form:label path="address">
+		<spring:message code="task.address" />:
+	</form:label>
+	<form:input path="address" />
+	<form:errors cssClass="error" path="address" />
+	<br />
+	
+	<form:label path="maxPrice">
+		<spring:message code="task.maxPrice" />:
+	</form:label>
+	<form:input path="maxPrice" />
+	<form:errors cssClass="error" path="maxPrice" />
+	<br />
+	
+	<form:label path="startMoment">
+		<spring:message code="task.startMoment" />:
+	</form:label>
+	<form:input path="startMoment" />
+	<form:errors cssClass="error" path="startMoment" />
+	<br />
+	
+	<form:label path="endMoment">
+		<spring:message code="task.endMoment" />:
+	</form:label>
+	<form:input path="endMoment" />
+	<form:errors cssClass="error" path="endMoment" />
+	<br />
+	
+	<form:select id="categories" path="category">
+	<form:option label = "-----" value="0" />
+	<form:options items="${categories}" itemsLabel="name" itemsValue="id" />
+	</form:select>
+	<form:errors cssClass="error" path="category" />
+	<br />
+	
+	<jstl:if test="${fixUpTask.id !=0 }">
+		<h3><spring:message code="task.warranty"/></h3>
+			<form:label path="warranty.title">
+				<spring:message code="task.warranty.title" />:
+			</form:label>
+			<form:input path="warranty.title" />
+			<form:errors cssClass="error" path="warranty.title" />
+			<br />
+			
+			<form:label path="warranty.terms">
+				<spring:message code="task.warranty.terms" />:
+			</form:label>
+			<form:input path="warranty.terms" />
+			<form:errors cssClass="error" path="warranty.terms" />
+			<br />
+			
+			<form:label path="${law }">
+				<spring:message code="task.warranty.laws" />:
+			</form:label>
+			<form:input path="${law }" />
+			<form:errors cssClass="error" path="warranty.laws" />
+			<br />
+	</jstl:if>
+	
+	<input type="submit" name="save" value="<spring:message code="task.save" />" />
+	
+	<jstl:if test="${fixUpTask.id != 0}">
+		<input type="submit" name="delete"
+			value="<spring:message code="fixUpTask.delete" />"
+			onclick="return confirm('<spring:message code="fixUpTask.confirm.delete" />')" />&nbsp;
+	</jstl:if>
 				
 	<input type="button" name="cancel"
-		value="<spring:message code="note.cancel" />"
+		value="<spring:message code="task.cancel" />"
 		onclick="javascript: window.location.replace('')" />
 	<br />
 	
