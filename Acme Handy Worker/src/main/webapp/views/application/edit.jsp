@@ -40,7 +40,7 @@
 			<form:option value="ACCEPTED" label="<spring:message code="application.accepted"/>"/>
 			<form:option value="REJECTED" label="<spring:message code="application.rejected"/>"/>
 		</form:select>
-		<form:errors cssClass="error" path="name" />
+		<form:errors cssClass="error" path="status" />
 		<br />
 		
 		<form:label path="customerComment">
