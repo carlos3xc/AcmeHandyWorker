@@ -22,7 +22,7 @@
 	<!-- PARAMETERS FROM CONTROLLER: fixUpTask: FixUpTask, task a editar
 									 categories: Collection<Category>, colección de categorías
 					 				 warranty: Warranty, garantía a añadir a la task 
-					 				 law: Law, ley a incluir en la lista de leyes de la garantía -->
+					 				 -->
 									 
 
 <form:form action="fixUpTask/customer/edit.do" modelAttribute="fixUpTask">
@@ -65,14 +65,14 @@
 	<form:label path="startMoment">
 		<spring:message code="task.startMoment" />:
 	</form:label>
-	<form:input path="startMoment" />
+	<form:input path="startMoment" placeholder="01/01/2001 12:00"/>
 	<form:errors cssClass="error" path="startMoment" />
 	<br />
 	
 	<form:label path="endMoment">
 		<spring:message code="task.endMoment" />:
 	</form:label>
-	<form:input path="endMoment" />
+	<form:input path="endMoment" placeholder="01/01/2001 12:00"/>
 	<form:errors cssClass="error" path="endMoment" />
 	<br />
 	
@@ -99,10 +99,10 @@
 			<form:errors cssClass="error" path="warranty.terms" />
 			<br />
 			
-			<form:label path="${law }">
+			<form:label path="laws">
 				<spring:message code="task.warranty.laws" />:
 			</form:label>
-			<form:input path="${law }" />
+			<form:textarea path="laws" placeholder="Separate the different laws with ;"/>
 			<form:errors cssClass="error" path="warranty.laws" />
 			<br />
 	</jstl:if>

@@ -15,8 +15,7 @@
 	
 			<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/customer/list.do" pagesize="5">
 				
-				<spring:message code="task.options" var="optionsHeader" />
-				<display:column title="${optionsHeader}">
+				<display:column titleKey="task.options">
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.show" />
 					</a><br/>
@@ -27,21 +26,15 @@
 					</jstl:if>
 				</display:column>
 				
-				<spring:message code="task.ticker" var="tickerHeader"/>
-				<display:column property="ticker" title="${tickerHeader}" />	
+				<display:column property="ticker" titleKey="task.ticker" />	
 			
-				<spring:message code="task.description"  var="descriptionHeader"/>
-				<display:column property="description" title="${descriptionHeader}" />
+				<display:column property="description" titleKey="task.description" />
 				
-				<spring:message code="task.moment"  var="momentHeader"/>
 				<spring:message code="task.moment.format" var="formatMoment"/>
-				<display:column property="moment" title="${momentHeader}" format="{0,date,${formatMoment} }"/>
+				<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>
+				<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
 				
-				<spring:message code="task.startMoment"  var="startMomentHeader"/>
-				<display:column property="startMoment" title="${momentHeader}" format="{0,date,${formatMoment} }"/>
-				
-				<spring:message code="task.maxPrice" var="maxPriceHeader"/>
-				<display:column property="maxPrice" title="${maxPriceHeader}" />	
+				<display:column property="maxPrice" titleKey="task.maxPrice" />	
 			
 			</display:table>
 		
@@ -49,43 +42,33 @@
 		
 		<security:authorize access="hasRole('HANDYWORKER')">
 	
-			<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/customer/list.do" pagesize="5">
+			<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/list.do" pagesize="5">
 				
-				<spring:message code="task.options" var="optionsHeader" />
-				<display:column title="${optionsHeader}">
+				<display:column titleKey="task.options">
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.show" />
 					</a><br/>
 					
 					<a href="application/handyWorker/apply.do?fixUpTaskId=${row.id}">
-						<spring:message code="task.publisher"/>
+						<spring:message code="task.apply"/>
 					</a><br/>	
 					
 					<a href="actor/profile.do?actorId=${row.customer.id}">
-						<spring:message code="task.apply"/>
+						<spring:message code="task.publisher"/>
 					</a><br/>
 								
 				</display:column>
 				
-				<spring:message code="task.ticker" var="tickerHeader"/>
-				<display:column property="ticker" title="${tickerHeader}" />	
+				<display:column property="ticker" titleKey="task.ticker" />	
 			
-				<spring:message code="task.description"  var="descriptionHeader"/>
-				<display:column property="description" title="${descriptionHeader}" />
+				<display:column property="description" titleKey="task.description" />
 				
-				<spring:message code="task.moment"  var="momentHeader"/>
 				<spring:message code="task.moment.format" var="formatMoment"/>
-				<display:column property="moment" title="${momentHeader}" format="{0,date,${formatMoment} }"/>
+				<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>			
+				<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
 				
-				<spring:message code="task.startMoment"  var="startMomentHeader"/>
-				<display:column property="startMoment" title="${momentHeader}" format="{0,date,${formatMoment} }"/>
-				
-				<spring:message code="task.maxPrice" var="maxPriceHeader"/>
-				<display:column property="maxPrice" title="${maxPriceHeader}" />	
+				<display:column property="maxPrice" title="task.maxPrice" />	
 			
 			</display:table>
-			<br/>
-			
-			<a href="fixUpTask/customer/edit.do"><spring:message code="task.create"/></a>
-		
+					
 		</security:authorize>
