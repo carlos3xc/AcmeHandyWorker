@@ -1,5 +1,7 @@
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,4 +23,10 @@ public interface HandyWorkerRepository extends JpaRepository<HandyWorker, Intege
 
 	@Query("select f.handyWorker from Finder f where f.id=?1")
 	HandyWorker findByFinderId(int finderId);
+	
+	@Query("select hw from HandyWorker hw where (select count(a1)*1.0/ (select count(subhw1) from HandyWorker subhw1) from Application a1 where a1.status='ACCEPTED')*1.1 <= (select count(a3)*1.0 from Application a3 where a3.status='ACCEPTED' and hw.id = a3.handyWorker.id)")
+	Collection<HandyWorker> getHandyWorkersWMoreApplicationsThanAvg();
+	
+	@Query("select hw from Complaint com join com.fixUpTask fix join fix.applications app join app.handyWorker hw where app.status = 'ACCEPTED' group by hw order by count(com) desc")
+	Collection<HandyWorker> topThreeInComplaints();
 }

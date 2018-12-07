@@ -12,9 +12,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.MiscellaneousRecord;
-import domain.HandyWorker;
-import domain.MiscellaneousRecord;
-import domain.ProfessionalRecord;
+
 
 
 @Service

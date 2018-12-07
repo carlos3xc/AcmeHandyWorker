@@ -102,7 +102,7 @@ public class CustomerService {
 	//	List<Customer> customers = new ArrayList<Customer>();
 //		Collection<Integer> complaintsNumber = new ArrayList<Integer>();
 		Map<Customer,Integer> n = new HashMap<Customer,Integer>();
-		top = (List<Object>) customerRepository.TopThreeInComplaints();
+		top = (List<Object>) customerRepository.topThreeInComplaints();
 		for(int i=0;i<=top.size();i=i+2){
 			n.put((Customer)top.get(i),(Integer)top.get(i+1));
 		}

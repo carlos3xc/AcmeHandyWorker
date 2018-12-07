@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +29,6 @@ public class HandyWorkerService {
 
 	@Autowired
 	private UserAccountService userAccountService;
-
-	// Constructors -----
-	public HandyWorkerService() {
-		super();
-	}
 
 	// Simple CRUD methods -----
 	public HandyWorker create() {
@@ -120,12 +116,17 @@ public class HandyWorkerService {
 		return result;
 	}
 	
-//	public HandyWorker findByFinderId(final int finderId) {
-//		Assert.notNull(finderId);
-//		HandyWorker result;
-//		result = this.handyWorkerRepository.findByFinderId(finderId);
-//		return result;
-//	}
+	public Collection<HandyWorker> getHandyWorkersWMoreApplicationsThanAvg(){
+		Collection<HandyWorker> res;
+		res = handyWorkerRepository.getHandyWorkersWMoreApplicationsThanAvg();
+		return res;
+	}
+	
+	public Collection<HandyWorker> TopThreeInComplaints(){
+		Collection<HandyWorker> res;
+		res = handyWorkerRepository.topThreeInComplaints();
+		return res;
+	}
 	
 
 }

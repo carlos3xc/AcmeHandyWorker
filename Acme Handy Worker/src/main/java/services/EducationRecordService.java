@@ -13,8 +13,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Curricula;
 import domain.EducationRecord;
-import domain.HandyWorker;
-import domain.ProfessionalRecord;
+
 
 
 @Service

@@ -12,10 +12,7 @@ import repositories.SectionRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Box;
-import domain.Message;
 import domain.Section;
-import domain.Tutorial;
 
 
 @Service
