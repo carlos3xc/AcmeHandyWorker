@@ -19,9 +19,9 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-	<!-- PARAMETERS FROM CONTROLLER: fixUpTask: FixUpTask, task a editar
-									 categories: Collection<Category>, colección de categorías
-					 				 warranty: Warranty, garantía a añadir a la task 
+	<!-- PARAMETERS FROM CONTROLLER: finder: Finder, finder a editar
+									 fixUpTasks: Collection<FixUpTask>
+					 				 categories: Collection<Category>
 					 				 -->
 									 
 
