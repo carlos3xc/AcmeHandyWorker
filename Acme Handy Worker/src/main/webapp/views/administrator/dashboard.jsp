@@ -35,8 +35,8 @@ Double ratioAcceptedApplications - The ratio of accepted applications.
 Double ratioRejectedApplications - The ratio of rejected applications.
 Double ratioOvertimeApplications - The ratio of pending applications that cannot change its status because their time period's elapsed.
 Double ratioFixUpComplaint - The ratio of fix-up tasks with a complaint.
-Double topThreeCustomerComplaints - The top-three customers in terms of complaints.
-Double topThreeHandyWorkersComplaints - The top-three handy workers in terms of complaints.
+List<Customer> topThreeCustomerComplaints - The top-three customers in terms of complaints.
+List<HandyWorker> topThreeHandyWorkersComplaints - The top-three handy workers in terms of complaints.
 
 List<Customer> customerPublishers10 - The listing of customers who have published at least 10% more fix-up tasks than the average, ordered by number of applications.
 List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who have got accepted at least 10% more ap-plications than the average, ordered by number of applications.
@@ -121,11 +121,19 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 		</tr>
 		<tr>
 			<th><spring:message code="admin.topThreeCustomerComplaint"/></th>
-			<th><jstl:out value="${topThreeCustomerComplaints}"/></th>
+			<th>
+			<jstl:forEach var="i" items="${topThreeCustomerComplaints}">
+			<jstl:out value="${i.userAccount.username}"/>
+			</jstl:forEach>
+			</th>
 		</tr>
 		<tr>
 			<th><spring:message code="admin.topThreeHandyWorkerComplaint"/></th>
-			<th><jstl:out value="${topThreeHandyWorkersComplaints}"/></th>
+			<th>
+			<jstl:forEach var="i" items="${topThreeHandyWorkerComplaints}">
+			<jstl:out value="${i.userAccount.username}"/>, 
+			</jstl:forEach>
+			</th>
 		</tr>
 	</table>
 	
@@ -142,7 +150,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 		</jstl:forEach>
 	</table>
 	<br>
-	 - HandyWorkers
+	 - <spring:message code="admin.handyWorkers"/>
 	<table style="width:'100%' border='0' align='center' ">
 		<tr>
 			<th><spring:message code="admin.handyWorkersWhoPublish10"/></th>		

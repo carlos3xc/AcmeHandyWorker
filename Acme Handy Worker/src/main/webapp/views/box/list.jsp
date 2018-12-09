@@ -28,6 +28,7 @@
 				<a href="message/list.do?boxId=${i.id}"><spring:message code ='box.listMessages'/></a>
 				<jstl:if test="${i.systemBox == false}">
 				<a href="box/delete.do?boxId=${i.id}"><spring:message code ='box.delete'/></a>
+				<a href="box/edit.do?boxId=${i.id}"><spring:message code ='box.edit'/></a>
 				</jstl:if>
 				</td>
 				
