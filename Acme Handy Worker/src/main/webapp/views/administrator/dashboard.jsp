@@ -44,19 +44,19 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 -->
 
 <security:authorize access="hasRole('ADMINISTRATOR')">
-	Data Table:
+	<spring:message code="admin.datatable"/>
 	<table style="width:'100%' border='0' align='center' ">
 			<tr>
-				<th>Type</th>
-				<th>Fix-up task per user</th>
-				<th>Applications per Fix-up task</th>
-				<th>Maximum price of the Fix-up tasks</th>
-				<th>Price offered in application</th>
-				<th>Complaints per fix-up task</th>
-				<th>Notes per referee report</th>
+				<th><spring:message code="admin.type"/></th>
+				<th><spring:message code="admin.fixUpPerUser"/></th>
+				<th><spring:message code="admin.applicationsPerFixUp"/></th>
+				<th><spring:message code="admin.maximumPriceFixUp"/></th>
+				<th><spring:message code="admin.pricePerApplication"/></th>
+				<th><spring:message code="admin.complaintsPerFixUp"/></th>
+				<th><spring:message code="admin.notesPerReferee"/></th>
 			</tr>
 			<tr>
-				<td>Average:</td>
+				<td><spring:message code="admin.average"/></td>
 				<td><jstl:out value="${avgFixUpPerUser}"/></td>
 				<td><jstl:out value="${avgApplicationsPerFixUp}"/></td>
 				<td><jstl:out value="${avgMaxPricePerFixUp}"/></td>
@@ -65,7 +65,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 				<td><jstl:out value="${avgNotesPerReport}"/></td>
 			</tr>
 			<tr>
-				<td>Minimum:</td>
+				<td><spring:message code="admin.minimum"/></td>
 				<td><jstl:out value="${minFixUpPerUser}"/></td>
 				<td><jstl:out value="${minApplicationsPerFixUp}"/></td>
 				<td><jstl:out value="${minMaxPricePerFixUp}"/></td>
@@ -74,7 +74,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 				<td><jstl:out value="${minNotesPerReport}"/></td>
 			</tr>	
 			<tr>
-				<td>Maximum:</td>
+				<td><spring:message code="admin.maximum"/></td>
 				<td><jstl:out value="${maxFixUpPerUser}"/></td>
 				<td><jstl:out value="${maxApplicationsPerFixUp}"/></td>
 				<td><jstl:out value="${maxMaxPricePerFixUp}"/></td>
@@ -83,7 +83,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 				<td><jstl:out value="${maxNotesPerReport}"/></td>
 			</tr>
 			<tr>
-				<td>Standard deviation:</td>
+				<td><spring:message code="admin.stdv"/></td>
 				<td><jstl:out value="${stdvFixUpPerUser}"/></td>
 				<td><jstl:out value="${stdvApplicationsPerFixUp}"/></td>
 				<td><jstl:out value="${stdvMaxPricePerFixUp}"/></td>
@@ -94,47 +94,46 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 	</table>
 	
 	
-	Ratios:
 	<table style="width:'100%' border='0' align='center' ">
 		<tr>
-			<th>type:</th>
-			<th>ratio:</th>
+			<th><spring:message code="admin.type"/></th>
+			<th><spring:message code="admin.ratio"/></th>
 		</tr>
 		<tr>
-			<th>Ratio of pending applications:</th>
+			<th><spring:message code="admin.rPendingApp"/></th>
 			<th><jstl:out value="${ratioPendingApplications}"/></th>
 		</tr>
 		<tr>
-			<th>Ratio of accepted applications:</th>
+			<th><spring:message code="admin.rAcceptedApp"/></th>
 			<th><jstl:out value="${ratioAcceptedApplications}"/></th>
 		</tr>
 		<tr>
-			<th>Ratio of rejected applications:</th>
+			<th><spring:message code="admin.rRejectedApp"/></th>
 			<th><jstl:out value="${ratioRejectedApplications}"/></th>
 		</tr>
 		<tr>
-			<th>Ratio of overtimed applications</th>
+			<th><spring:message code="admin.rOvertimedApp"/></th>
 			<th><jstl:out value="${ratioOvertimeApplications}"/></th>
 		</tr>
 		<tr>
-			<th>Ratio of fix-up task with a complaint</th>
+			<th><spring:message code="admin.rWithComplaint"/></th>
 			<th><jstl:out value="${ratioFixUpComplaint}"/></th>
 		</tr>
 		<tr>
-			<th>Top three customers with complaints</th>
+			<th><spring:message code="admin.topThreeCustomerComplaint"/></th>
 			<th><jstl:out value="${topThreeCustomerComplaints}"/></th>
 		</tr>
 		<tr>
-			<th>Top three HandyWorkers with complaints</th>
+			<th><spring:message code="admin.topThreeHandyWorkerComplaint"/></th>
 			<th><jstl:out value="${topThreeHandyWorkersComplaints}"/></th>
 		</tr>
 	</table>
 	
-	Top publishers:
-	- Customers
+	<spring:message code="admin.topPublishers"/>
+	- <spring:message code="admin.customers"/>
 	<table style="width:'100%' border='0' align='center' ">
 		<tr>
-			<th>Customers who published 10% more than average:</th>		
+			<th><spring:message code="admin.customerWhoPublish10"/></th>		
 		</tr>
 		<jstl:forEach var="i" items="${customerPublishers10}">
 		<tr>
@@ -146,7 +145,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 	 - HandyWorkers
 	<table style="width:'100%' border='0' align='center' ">
 		<tr>
-			<th>HandyWorkers who got accepted 10% more than average:</th>		
+			<th><spring:message code="admin.handyWorkersWhoPublish10"/></th>		
 		</tr>
 		<jstl:forEach var="i" items="${handyWorkerPublishers10}">
 		<tr>
