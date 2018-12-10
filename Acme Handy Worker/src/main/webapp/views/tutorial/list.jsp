@@ -12,20 +12,16 @@
 
 	<display:table name="tutorials" id="row" requestURI="tutorial/handyWorker/list.do" pagesize="5">
 		
-		<jstl:if test="${row.status == 'ACCEPTED'}">
-			<display:column> <a href="tutorial/handyWorker/edit.do?appId=${row.id}"><spring:message code="tutorial.workplan"/></a> </display:column>
-		</jstl:if>
-			
-		<spring:message code="tutorial.title" var="title"/>
-		<display:column property="title" title="${title}" />	
+		<display:column><a href="tutorial/handyWorker/edit.do?tutorialId=${row.id}">
+			<spring:message code="tutorial.edit"/></a></display:column>
+
+		<display:column titleKey="tutorial.title" property="title" />	
 	
-		<spring:message code="tutorial.summary"  var="summary"/>
-		<display:column property="summary" title="${summary}" />
+		<display:column titleKey="tutorial.summary" property="summary" />
 		
-		<spring:message code="tutorial.moment"  var="momentHeader"/>
 		<spring:message code="tutorial.moment.format" var="formatMoment"/>
-		<display:column property="moment" title="${momentHeader}" format="{0,date,${formatMoment} }"/>
+		<display:column titleKey="tutorial.moment" property="moment" format="{0,date,${formatMoment} }"/>
 	
 	</display:table>
 	
-	<a href="tutorial/handyWorker/create.do?appId=${row.id}"><spring:message code="tutorial.create"/></a>
+	<a href="tutorial/handyWorker/create.do"><spring:message code="tutorial.create"/></a>
