@@ -27,9 +27,9 @@
 		<value>/views/administrator/tiles.xml</value>
 		<value>/views/customer/tiles.xml</value>
 		<value>/views/handyWorker/tiles.xml</value>
-		<value>/views/Referee/tiles.xml</value>
+		<value>/views/referee/tiles.xml</value>
 		<value>/views/sponsor/tiles.xml</value>
-		<value>/views/profile/tiles.xml</value>
+		<!-- This file does not exist <value>/views/profile/tiles.xml</value> -->
 		<value>/views/fixUpTask/tiles.xml</value>
 		<value>/views/finder/tiles.xml</value>
 		<value>/views/box/tiles.xml</value>
