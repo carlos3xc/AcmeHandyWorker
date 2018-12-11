@@ -27,10 +27,7 @@
 	<form:hidden path="ticker" />
 	<form:hidden path="moment" />
 	<form:hidden path="customer" />
-
-	<jstl:if test=${complaint.id != 0}>
-		<form:hidden path="fixUpTask" />
-	</jstl:if>
+	<form:hidden path="fixUpTask" />
 
 	<!-- <form:label path="ticker">
 		<spring:message code="complaint.ticker" />:
@@ -64,7 +61,7 @@
 	<form:errors cssClass="error" path="attachments" />
 	<br />
 
-	<jstl:if test=${complaint.id == 0}>
+	<!-- <jstl:if test=${complaint.id == 0}>
 		<form:label path="fixUpTask">
 			<spring:message code="complaint.fixUpTask" />:
 	</form:label>
@@ -74,7 +71,7 @@
 		</form:select>
 		<form:errors cssClass="error" path="fixUpTask" />
 		<br />
-	</jstl:if>
+	</jstl:if> -->
 
 	<input type="submit" name="save"
 		value="<spring:message code="complaint.save" />" />&nbsp; 
@@ -85,7 +82,7 @@
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="complaint.cancel" />"
-		onclick="javascript: window.location.replace('complaint/customer/list.do')" />
+		onclick="javascript: window.location.replace('complaint/customer/show.do')" />
 	<br />
 
 </form:form>
