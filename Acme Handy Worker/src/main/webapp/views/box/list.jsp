@@ -17,23 +17,25 @@
 
 <security:authorize access="isAuthenticated()">
 	<a href="box/edit.do"><spring:message code='box.create'/></a>
-		<table style="width:'100%' border='0' align='center' ">
-			<tr>
-				<th>Boxes</th>
-			</tr>
-	<jstl:forEach var="i" items="boxes">
+	
+	<display:table name="boxes" id="row" requestURI="box/list.do" pagesize="5">
+
+		<display:column titleKey="box.boxes">
+			<table border='1'style="width:100%">
 			<tr>
 				<td>
-				<jstl:out value="${i.name}"/><spring:message code ='box.listMessage'/>
-				<a href="message/list.do?boxId=${i.id}"><spring:message code ='box.listMessages'/></a>
-				<jstl:if test="${i.systemBox == false}">
-				<a href="box/delete.do?boxId=${i.id}"><spring:message code ='box.delete'/></a>
-				<a href="box/edit.do?boxId=${i.id}"><spring:message code ='box.edit'/></a>
+				<jstl:out value="${row.name}"/><br>
+				<a href="message/list.do?boxId=${row.id}"><spring:message code ='box.listMessages'/></a><br>
+				
+				<jstl:if test="${row.systemBox == false}">
+				<a href="box/delete.do?boxId=${row.id}"><spring:message code ='box.delete'/></a><br>
+				<a href="box/edit.do?boxId=${row.id}"><spring:message code ='box.edit'/></a><br>
 				</jstl:if>
 				</td>
-				
-			</tr>		
-	</jstl:forEach>
-	</table>
+			</tr>
+			</table>
+		</display:column>
+	</display:table>
+	
 	<a href="box/edit.do"><spring:message code='box.create'/></a>
 </security:authorize>
