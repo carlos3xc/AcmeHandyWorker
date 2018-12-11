@@ -124,6 +124,7 @@
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<property name="order" value="0" />
 	</bean>
 
 	<!-- Thymeleaf para A+ del D05 -->

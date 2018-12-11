@@ -32,7 +32,9 @@
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" /> 
 		<security:intercept-url pattern="/images/**" access="permitAll" /> 
 		<security:intercept-url pattern="/scripts/**" access="permitAll" /> 
-		<security:intercept-url pattern="/styles/**" access="permitAll" /> 
+		<security:intercept-url pattern="/styles/**" access="permitAll" />
+
+		<security:intercept-url pattern="/thymeleaf/fixuptask/**" access="permitAll" />
 
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" /> 
 
