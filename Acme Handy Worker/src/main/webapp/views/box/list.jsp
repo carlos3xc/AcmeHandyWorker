@@ -26,7 +26,6 @@
 				<td>
 				<jstl:out value="${row.name}"/><br>
 				<a href="message/list.do?boxId=${row.id}"><spring:message code ='box.listMessages'/></a><br>
-				
 				<jstl:if test="${row.systemBox == false}">
 				<a href="box/delete.do?boxId=${row.id}"><spring:message code ='box.delete'/></a><br>
 				<a href="box/edit.do?boxId=${row.id}"><spring:message code ='box.edit'/></a><br>
