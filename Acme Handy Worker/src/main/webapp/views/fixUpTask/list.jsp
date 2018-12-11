@@ -24,6 +24,9 @@
 								<spring:message	code="task.edit" />
 							</a><br/>							
 					</jstl:if>
+					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
+						<spring:message	code="task.complain" />
+					</a><br/>
 				</display:column>
 				
 				<display:column property="ticker" titleKey="task.ticker" />	
