@@ -15,30 +15,41 @@
 -->
 
 <security:authorize access="isAuthenticated()">
-<a href="message/edit.do"><spring:message code ='message.create'/></a>
-		<table style="width:'100%' border='0' align='center' ">
-			<tr>
-				<th>Messages</th>
-			</tr>
-	<jstl:forEach var="i" items="messages">
-			<tr>
+	<a href="message/edit.do"><spring:message code='message.create' /></a>
+
+	<display:table name="messages" id="row" requestURI="message/list.do" pagesize="5">
+
+		<display:column titleKey="message.messages">
+			<table border='1' style="width:100%">
+				<tr>
 				<td>
-				<a href="message/delete.do?messageId=${i.id}"><spring:message code ='message.delete'/></a>
+					<spring:message code='message.priority'/><jstl:out value="${row.priority}" />
 				</td>
+				</tr>
+				
+				<tr>
 				<td>
-				<spring:message code= 'message.priority'/><jstl:out value="${i.priority}"/>
+					<spring:message code='message.sender' /><jstl:out value="${row.sender.userAccount.username} \n" /> 
+					<spring:message code='message.subject' /><jstl:out value="${row.subject}" />
 				</td>
+				</tr>
+				
+				<tr>
 				<td>
-				<spring:message code= 'message.sender'/><jstl:out value="${i.sender.userAccount.username} \n"/>
-				<spring:message code= 'message.subject'/><jstl:out value="${i.subject}"/>
+					<jstl:out value="${row.body}" />
 				</td>
+				</tr>
+				
+				<tr>
 				<td>
-				<jstl:out value="${i.body}"/>
+					<a href="message/delete.do?messageId=${row.id}"><spring:message code='message.delete' /></a>
 				</td>
-			</tr>		
-	</jstl:forEach>
-	</table>
+				</tr>
+			</table>
+		</display:column>
+
+	</display:table>
 	<!-- edit method must diferentiate between no attributes where 
 	the sender will be obtained via the create method. -->
-	<a href="message/edit.do"><spring:message code ='message.create'/></a>
+	<a href="message/edit.do"><spring:message code='message.create' /></a>
 </security:authorize>
