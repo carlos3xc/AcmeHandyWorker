@@ -64,9 +64,9 @@
 			<h1><spring:message code="actor.fixUpTasks"/>:</h1><br/>
 			<display:table name="fixUpTasks" id="row" requestURI="actor/show.do" pagesize="5">
 	
-				<display:column property="ticker" titleKey="actor.ticker" />
-				<display:column property="description" titleKey="actor.description" />
-				<display:column property="moment" title="actor.moment" />
+				<display:column property="ticker" titleKey="actor.fixUpTask.ticker" />
+				<display:column property="description" titleKey="actor.fixUpTask.description" />
+				<display:column property="moment" title="actor.fixUpTask.moment" />
 				
 			</display:table>
 		</security:authorize>
@@ -75,9 +75,9 @@
 			<h1><spring:message code="actor.applications"/>:</h1><br/>
 		<display:table name="applications" id="row" requestURI="actor/show.do" pagesize="5">
 			
-			<display:column property="moment" titleKey="actor.moment" />
-			<display:column property="status" titleKey="actor.description" />
-			<display:column property="price" title="actor.price" />
+			<display:column property="moment" titleKey="actor.application.moment" />
+			<display:column property="status" titleKey="actor.application.description" />
+			<display:column property="price" title="actor.application.price" />
 			
 		</display:table>
 		</security:authorize>
