@@ -19,19 +19,17 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="application/update.do" modelAttribute="application">
+<security:authorize access="hasRole('CUSTOMER')">
 
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	
-	<form:hidden path="handyWorkerComment" />
-	<form:hidden path="moment" />
-	<form:hidden path="price" />
-	
-	
-	<security:authorize access="hasRole('CUSTOMER')">
+	<form:form action="application/update.do" modelAttribute="application">
+
+		<form:hidden path="id" />
+		<form:hidden path="version" />
 		
-	
+		<form:hidden path="handyWorkerComment" />
+		<form:hidden path="moment" />
+		<form:hidden path="price" />
+		
 		<form:label path="status">
 			<spring:message code="application.status" />:
 		</form:label>
@@ -99,7 +97,45 @@
 			value="<spring:message code="application.cancel" />"
 			onclick="javascript: window.location.replace('')" />
 		<br />
-	
-	</security:authorize>
 
-</form:form>
+	</form:form>
+
+</security:authorize>
+
+<security:authorize access="hasRole('HANDYWORKER')">
+
+	<form:form action="application/update.do" modelAttribute="application">
+
+		<form:hidden path="id" />
+		<form:hidden path="version" />
+		
+		<form:hidden path="moment" />
+		<form:hidden path="status" />
+		<form:hidden path="fixUpTask" />	
+			
+		<form:label path="price">
+			<spring:message code="application.price" />:
+		</form:label>
+		
+		<form:input path="price" />
+		<form:errors cssClass="error" path="price" />
+		<br />
+		
+		<form:label path="handyWorkerComment">
+			<spring:message code="application.comment" />:
+		</form:label>
+		
+		<form:input path="handyWorkerComment" />
+		<form:errors cssClass="error" path="handyWorkerComment" />
+		<br />
+		
+		<input type="submit" name="save" value="<spring:message code="application.save" />" />
+					
+		<input type="button" name="cancel"
+			value="<spring:message code="application.cancel" />"
+			onclick="javascript: window.location.replace('')" />
+		<br />
+
+	</form:form>
+
+</security:authorize>
