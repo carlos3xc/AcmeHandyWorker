@@ -15,6 +15,11 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
        
 <tiles-definitions>
+
+<definition name="actor/show" extends="master.page">
+		<put-attribute name="title" value="Show Personal Data" />
+		<put-attribute name="body" value="/views/actor/show.jsp" />
+	</definition>
 	
 	<definition name="actor/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit Personal Data" />
