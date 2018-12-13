@@ -19,6 +19,11 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<!-- 
+	Recibe: Message message: el mensaje a editar.
+			List<Actor> actors: todos los actores del sistema.
+ -->
+
 <form:form action="message/edit.do" modelAttribute="message">
 
 	<form:hidden path="id" />
@@ -42,12 +47,13 @@
 	<form:errors cssClass="error" path="priority" />
 	<br />
 	
-	<!-- deberia ser un actor y se le pide un username(string) -->
 	<form:label path="sender">
 		<spring:message code="message.sender" />:
 	</form:label>
 	
-	<form:input path="sender" />
+	<form:select path="sender">
+		<form:options items="${actors}" itemLabel="userAccount.username" itemValue="id"/>
+	</form:select>
 	<form:errors cssClass="error" path="sender" />
 	<br />
 	

@@ -34,12 +34,11 @@ public class MessageService {
 	private BoxService boxService;
 
 	// Simple CRUD methods -----
-	public Message create(Actor sender, Actor recipient) {
+	public Message create(Actor sender) {
 
 		Message message = new Message();
 
 		message.setSender(sender);
-		message.setRecipient(recipient);
 		message.setPriority("NEUTRAL");
 		message.setFlagSpam(false);
 		message.setTags(new ArrayList<String>());
@@ -63,7 +62,7 @@ public class MessageService {
 
 		message.setMoment(moment);
 
-		result = messageRepository.save(message);
+		result = messageRepository.saveAndFlush(message);
 		return result;
 	}
 
@@ -132,8 +131,10 @@ public class MessageService {
 		Actor handyWorker = application.getHandyWorker();
 		Actor customer = application.getFixUpTask().getCustomer();
 
-		Message message1 = this.create(sender, handyWorker);
-		Message message2 = this.create(sender, customer);
+		Message message1 = this.create(sender);
+		message1.setRecipient(handyWorker);
+		Message message2 = this.create(sender);
+		message2.setRecipient(customer);
 
 		message1.setBody("The status of the fix-up Task described as: \n"
 				+ application.getFixUpTask().getDescription()

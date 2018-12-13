@@ -16,7 +16,7 @@
 -->
 
 <security:authorize access="isAuthenticated()">
-	<a href="box/edit.do"><spring:message code='box.create'/></a>
+	<a href="box/create.do"><spring:message code='box.create'/></a>
 	
 	<display:table name="boxes" id="row" requestURI="box/list.do" pagesize="5">
 
@@ -37,5 +37,5 @@
 		</display:column>
 	</display:table>
 	
-	<a href="box/edit.do"><spring:message code='box.create'/></a>
+	<a href="box/create.do"><spring:message code='box.create'/></a>
 </security:authorize>

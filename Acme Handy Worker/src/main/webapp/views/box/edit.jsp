@@ -19,6 +19,10 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<!-- 
+	Recieves: Box box: box a editar.
+ -->
+
 <form:form action="box/edit.do" modelAttribute="box">
 
 	<form:hidden path="id" />

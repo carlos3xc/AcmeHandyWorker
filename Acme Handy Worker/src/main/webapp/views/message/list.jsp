@@ -15,7 +15,7 @@
 -->
 
 <security:authorize access="isAuthenticated()">
-	<a href="message/edit.do"><spring:message code='message.create' /></a>
+	<a href="message/create.do"><spring:message code='message.create' /></a>
 
 	<display:table name="messages" id="row" requestURI="message/list.do" pagesize="5">
 
@@ -51,5 +51,5 @@
 	</display:table>
 	<!-- edit method must diferentiate between no attributes where 
 	the sender will be obtained via the create method. -->
-	<a href="message/edit.do"><spring:message code='message.create' /></a>
+	<a href="message/create.do"><spring:message code='message.create' /></a>
 </security:authorize>
