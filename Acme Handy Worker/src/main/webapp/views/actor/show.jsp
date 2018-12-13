@@ -15,50 +15,22 @@
 									 fixUpTasks: Collection<FixUpTask>
 									 -->
 									 	
-		<fieldset>
-			<table>
-				<tr>
-					<td><b><spring:message code="actor.name"/></b> <jstl:out value="${name}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.middleName"/></b> <jstl:out value="${middleName}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.surname"/></b> <jstl:out value="${surname}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.photo"/></b> <jstl:out value="${photo}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.email"/></b> <jstl:out value="${email}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.phone"/></b> <jstl:out value="${phone}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.username"/></b> <jstl:out value="${username}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.authority"/></b> <jstl:out value="${authority}"/></td>
-				</tr>
-			</table>
-		</fieldset>
+		<b><spring:message code="actor.name"/></b> <jstl:out value="${name}"/>
+		<b><spring:message code="actor.middleName"/></b> <jstl:out value="${middleName}"/>
+				 
+		<b><spring:message code="actor.surname"/></b> <jstl:out value="${surname}"/> 		 				 
+		<b><spring:message code="actor.photo"/></b> <jstl:out value="${photo}"/> 				 				 
+		<b><spring:message code="actor.email"/></b> <jstl:out value="${email}"/> 			 				 
+		<b><spring:message code="actor.phone"/></b> <jstl:out value="${phone}"/> 				 
+		<b><spring:message code="actor.username"/></b> <jstl:out value="${username}"/> 				 				 
+		<b><spring:message code="actor.authority"/></b> <jstl:out value="${authority}"/> 
 		<br/>
-		<h1><spring:message code="actor.socialProfile"/>:</h1><br/>
-		<fieldset>
-			<table>
-				<tr>
-					<td><b><spring:message code="actor.socialProfile.nick"/>:</b> <jstl:out value="${actor.socialProfile.nick}"/></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.socialProfile.socialNetwork"/>:</b> <jstl:forEach var="law" items="${actor.socialProfile.socialNetwork}"> <jstl:out value="${law}"/><br/></jstl:forEach></td>
-				</tr>
-				<tr>
-					<td><b><spring:message code="actor.socialProfile.link"/>:</b><br/> <jstl:out value="${actor.socialProfile.link}"/></td>
-				</tr>
-			</table>
-		</fieldset>
-		<br/>
+		
+		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
+			<display:column property="nick"	titleKey="actor.socialProfile.nick"/>
+			<display:column property="socialNetwork" titleKey="actor.socialProfile.socialNetwork"/>
+			<display:column property="link" titleKey="actor.socialProfile.link"/>
+		</display:table>
 		
 		<security:authorize access="hasRole('CUSTOMER')">
 			<h1><spring:message code="actor.fixUpTasks"/>:</h1><br/>

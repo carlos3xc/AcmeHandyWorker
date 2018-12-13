@@ -10,12 +10,7 @@
 
 <tiles-definitions>
 
-	<definition name="sponsor/show" extends="master.page">
-		<put-attribute name="title" value="Mostrar Datos Personales" />
-		<put-attribute name="body" value="/views/sponsor/show.jsp" />
-	</definition>
-
-	<definition name="sponsor/register" extends="master.page">
+<definition name="sponsor/register" extends="master.page">
 		<put-attribute name="title" value="Registrar un patrocinador" />
 		<put-attribute name="body" value="/views/sponsor/register.jsp" />
 	</definition>
