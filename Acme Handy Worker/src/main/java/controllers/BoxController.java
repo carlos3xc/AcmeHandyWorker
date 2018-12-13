@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,19 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ActorService;
 import services.BoxService;
-import services.MessageService;
 import domain.Actor;
 import domain.Box;
-import domain.Message;
 
 @Controller
 @RequestMapping("box/")
 public class BoxController extends AbstractController {
 	
 	//Services
-	
-	@Autowired
-	private MessageService messageService;
 	
 	@Autowired
 	private BoxService boxService;
@@ -113,9 +107,10 @@ public class BoxController extends AbstractController {
 	
 	
 	//Delete-----------------------------------------------------------
-	@RequestMapping(value="/edit", method=RequestMethod.POST, params="delete")
-	public ModelAndView delete(Box box, BindingResult binding){
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public ModelAndView delete(@RequestParam int boxId){
 		ModelAndView res;
+		Box box = boxService.findOne(boxId);
 
 			try {
 				boxService.delete(box);

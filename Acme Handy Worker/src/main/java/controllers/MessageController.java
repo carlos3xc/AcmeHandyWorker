@@ -102,9 +102,10 @@ public class MessageController extends AbstractController {
 	
 	
 	//Delete-----------------------------------------------------------
-	@RequestMapping(value="/edit", method=RequestMethod.POST, params="delete")
-	public ModelAndView delete(Message message, BindingResult binding){
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public ModelAndView delete(@RequestParam int messageId){
 		ModelAndView res;
+		Message message = messageService.findOne(messageId);
 		
 		int boxId = 0;
 		Collection<Box> boxes = boxService.findAll();
