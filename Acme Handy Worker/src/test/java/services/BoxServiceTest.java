@@ -137,7 +137,8 @@ public class BoxServiceTest extends AbstractTest {
 
 		Box box = boxService.create(recipient);
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		boxService.addMessageToBox(box, message);
 

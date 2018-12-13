@@ -56,7 +56,8 @@ public class MessageServiceTest extends AbstractTest {
 
 		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		// System.out.println("Sender" + message.getSender());
 		// System.out.println("Recipient" + message.getRecipient());
@@ -77,7 +78,8 @@ public class MessageServiceTest extends AbstractTest {
 
 		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		// System.out.println("Sender" + message.getSender());
 		// System.out.println("Recipient" + message.getRecipient());
@@ -133,7 +135,8 @@ public class MessageServiceTest extends AbstractTest {
 
 		Actor recipient = (Actor) handyWorkerService.findAll().toArray()[0];
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		// Message result = messageService.save(message);
 
@@ -194,7 +197,8 @@ public class MessageServiceTest extends AbstractTest {
 
 		Actor recipient = (Actor) handyWorkerService.findAll().toArray()[0];
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		Message result;
 
@@ -308,7 +312,8 @@ public class MessageServiceTest extends AbstractTest {
 
 		Box recipientBox = (Box) boxService.findAll().toArray()[21];
 
-		Message message = messageService.create(sender, recipient);
+		Message message = messageService.create(sender);
+        message.setRecipient(recipient);
 
 		messageService.addMesageToBoxes(message);
 
