@@ -76,7 +76,8 @@ public class LoginService implements UserDetailsService {
 	
 	//----------- Metodos para comprobar los roles. ---------------
     private static UserAccount getAuthenticated() {
-        try {
+        
+    	try {
             UserAccount result;
             SecurityContext context;
             Authentication authentication;
@@ -91,6 +92,7 @@ public class LoginService implements UserDetailsService {
         } catch (final Throwable t) {
             return null;
         }
+    	
     }
     
     public static boolean hasRole(final String role) {
