@@ -40,26 +40,21 @@ public class ConfigurationService {
 	
 	public Configuration save(Configuration a){
 		Configuration saved;
-		Authority n = new Authority();
-		n.setAuthority("ADMIN");
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(n));
-
+		LoginService.hasRole("ADMIN");
+		//a configuration must be unique in the database.
+		Assert.isTrue(this.findAll().size()==1);
+		Assert.isTrue(this.findAll().toArray()[0].equals(a));
 		
 		saved = configurationRepository.saveAndFlush(a);
 		return saved;
 	}
 	
 	public void delete(Configuration a){
-		Authority n = new Authority();
-		n.setAuthority("ADMIN");
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(n));
-		
+		LoginService.hasRole("ADMIN");
 		configurationRepository.delete(a);
 	}
 	
 	//Other business methods -----
-	
+
 	
 }

@@ -594,7 +594,7 @@
 	</bean>
 
 
-	<!-- CONFIGURATIONS -->
+	<!-- CONFIGURATION -->
 
 	<bean id="configuration1" class="domain.Configuration">
 		<property name="banner" value="http://www.pinterest.es" />
@@ -602,14 +602,30 @@
 		<property name="finderCacheTime" value="2" />
 		<property name="defaultPhoneCode" value="+34" />
 		<property name="finderQueryResults" value="12" />
-	</bean>
-
-	<bean id="configuration2" class="domain.Configuration">
-		<property name="banner" value="http://www.pinterest.es" />
-		<property name="vatPercentage" value="80" />
-		<property name="finderCacheTime" value="8" />
-		<property name="defaultPhoneCode" value="+12" />
-		<property name="finderQueryResults" value="30" />
+		<property name="systemName" value="Acme Handy Worker" />
+		<property name="welcomeTextEnglish" value="Welcome to Acme Handy Worker! Price, quality, and trust in a single place" />
+		<property name="welcomeTextSpanish" value="¡Bienvenidos a Acme Handy Worker! Precio, calidad y confianza en el mismo sitio" />
+		<property name="spamWords">
+			<list>
+				<ref bean="word25"/>
+				<ref bean="word26"/>
+				<ref bean="word27"/>
+				<ref bean="word28"/>
+				<ref bean="word29"/>
+				<ref bean="word30"/>
+				<ref bean="word31"/>
+				<ref bean="word32"/>
+				<ref bean="word33"/>
+			</list>
+		</property>
+		<property name="creditCardMakes">
+			<list>
+				<ref bean="creditCardMake1"/>
+				<ref bean="creditCardMake2"/>
+				<ref bean="creditCardMake3"/>
+				<ref bean="creditCardMake4"/>
+			</list>
+		</property>
 	</bean>
 
 	<!-- WELCOME MESSAGE -->

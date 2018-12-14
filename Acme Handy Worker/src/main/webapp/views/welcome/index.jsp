@@ -16,6 +16,31 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<!-- 
+Recieves:
+String name: name of the user logged in, Anonymous otherwise.
+String welcomeMessageSpanish
+String welcomeMessageEnglish
+String systemName
+Date moment
+ -->
+<h1>${systemName}</h1>
+<div id="prefix"><spring:message code="welcome.greeting.prefix" /></div> ${name}<spring:message code="welcome.greeting.suffix" /><br>
+<div id="welcomeMessage"></div><br>
+
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+
+<script>
+	var prefix = document.getElementById("prefix").innerHTML;
+	
+	if(prefix == "Greetings") {
+		document.getElementById("welcomeMessage").innerHTML = "${welcomeMessageEnglish}";
+	}
+	
+	if(prefix == "¡Saludos ") {
+		document.getElementById("welcomeMessage").innerHTML = "${welcomeMessageSpanish}";
+	}
+
+</script>
+

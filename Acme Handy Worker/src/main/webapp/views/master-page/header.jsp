@@ -14,8 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href="#"><img src="https://irp-cdn.multiscreensite.com/3737b2b6/dms3rep/multi/desktop/4-2000x889.jpg" alt="Acme Handy Worker Co., Inc." /></a>
-	<h1>ACME HANDY WORKER</h1>
+	<a href="#"><img src="https://irp-cdn.multiscreensite.com/3737b2b6/dms3rep/multi/desktop/4-2000x889.jpg" alt="Acme Handy Worker Co., Inc." style="width:1000px;height:444px;" /></a>
 </div>
 
 <div>

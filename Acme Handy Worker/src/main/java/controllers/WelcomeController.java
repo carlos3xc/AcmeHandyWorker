@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ActorService;
+import services.ConfigurationService;
+import domain.Configuration;
 
 @Controller
 @RequestMapping("/welcome")
@@ -27,6 +29,9 @@ public class WelcomeController extends AbstractController {
 	//Services
 	@Autowired
 	ActorService actorService;
+	
+	@Autowired
+	ConfigurationService configurationService;
 	// Constructors -----------------------------------------------------------
 
 	public WelcomeController() {
@@ -50,9 +55,13 @@ public class WelcomeController extends AbstractController {
 				LoginService.hasRole("ADMIN")){
 		name = actorService.getByUserAccountId(LoginService.getPrincipal()).getName();
 		}
+		Configuration c = (Configuration) configurationService.findAll().toArray()[0];
 
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
+		result.addObject("welcomeMessageSpanish",c.getWelcomeTextSpanish());
+		result.addObject("welcomeMessageEnglish",c.getWelcomeTextEnglish());
+		result.addObject("systemName", c.getSystemName());
 		result.addObject("moment", moment);
 
 		return result;
