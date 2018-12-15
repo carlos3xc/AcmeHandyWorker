@@ -43,7 +43,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 	
 -->
 
-<security:authorize access="hasRole('ADMINISTRATOR')">
+<security:authorize access="hasRole('ADMIN')">
 	<spring:message code="admin.datatable"/>
 	<table style="width:'100%' border='0' align='center' ">
 			<tr>
