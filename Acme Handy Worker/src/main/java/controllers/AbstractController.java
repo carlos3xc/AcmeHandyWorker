@@ -11,13 +11,19 @@
 package controllers;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
+import services.ConfigurationService;
 
 @Controller
 public class AbstractController {
+
+	@Autowired
+	ConfigurationService configurationService;
 
 	// Panic handler ----------------------------------------------------------
 
@@ -31,6 +37,16 @@ public class AbstractController {
 		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
 
 		return result;
+	}
+
+	@ModelAttribute("banner")
+	public String getBanner() {
+		return configurationService.find().getBanner();
+	}
+
+	@ModelAttribute("systemName")
+	public String getSystemName() {
+		return configurationService.find().getSystemName();
 	}
 
 }

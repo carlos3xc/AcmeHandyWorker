@@ -37,6 +37,10 @@ public class ConfigurationService {
 	public Configuration findOne(int Id){
 		return configurationRepository.findOne(Id);
 	}
+
+	/*find(): Since only one instance of Configuration must exist,
+	we need to retrieve always the same object*/
+	public Configuration find(){return configurationRepository.findAll().iterator().next();}
 	
 	public Configuration save(Configuration a){
 		Configuration saved;

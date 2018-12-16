@@ -17,3 +17,14 @@
 	color: red;
 	font-weight: bolder;
 }
+
+div.page-header{
+	text-align: center;
+	min-height: 260px;
+	min-width: 525px;
+	margin: 0px 0 20px;
+}
+
+.banner {
+	max-height: 260px;
+}

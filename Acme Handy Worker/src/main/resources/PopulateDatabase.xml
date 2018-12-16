@@ -597,8 +597,8 @@
 	<!-- CONFIGURATION -->
 
 	<bean id="configuration1" class="domain.Configuration">
-		<property name="banner" value="http://www.pinterest.es" />
-		<property name="vatPercentage" value="30" />
+		<property name="banner" value="http://tinyurl.com/acme-handy-worker-logo" />
+		<property name="vatPercentage" value="21" />
 		<property name="finderCacheTime" value="2" />
 		<property name="defaultPhoneCode" value="+34" />
 		<property name="finderQueryResults" value="12" />

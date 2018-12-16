@@ -109,7 +109,6 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		//TODO:add word and creditcardmake to the view.
 		
 		res = new ModelAndView("administrator/configuration");
-		res.add
 		res.addObject("configuration", config);
 		res.addObject("errorMessage", messageCode);
 		

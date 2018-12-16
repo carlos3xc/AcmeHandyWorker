@@ -12,13 +12,14 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
-
-<div>
-	<a href="#"><img src="https://irp-cdn.multiscreensite.com/3737b2b6/dms3rep/multi/desktop/4-2000x889.jpg" alt="Acme Handy Worker Co., Inc." style="width:1000px;height:444px;" /></a>
+<a href="">
+<div class="page-header" style="background: url(${banner}) center no-repeat; background-size: cover">
+	<!--<img class="banner" src="${banner}" alt="${systemName}" />-->
 </div>
+</a>
 
 <div>
-	<ul id="jMenu">
+	<ul class="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
