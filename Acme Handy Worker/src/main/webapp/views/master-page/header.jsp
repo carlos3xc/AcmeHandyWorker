@@ -19,7 +19,7 @@
 </a>
 
 <div>
-	<ul class="jMenu">
+	<ul id="jMenu" class="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
