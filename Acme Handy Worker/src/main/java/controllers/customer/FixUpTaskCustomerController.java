@@ -12,12 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
-import domain.FixUpTask;
+import security.LoginService;
+import services.CategoryService;
+import services.CustomerService;
 import services.FixUpTaskService;
+import services.WarrantyService;
+import controllers.AbstractController;
+import domain.Category;
+import domain.Customer;
+import domain.FixUpTask;
+import domain.Warranty;
 
 @Controller
-@RequestMapping("/customer/fixuptask")
+@RequestMapping("/customer/fixUpTask")
 public class FixUpTaskCustomerController extends AbstractController{
 
 public FixUpTaskCustomerController(){
@@ -26,6 +33,15 @@ public FixUpTaskCustomerController(){
 
 	@Autowired
 	FixUpTaskService fixUpTaskService;
+	
+	@Autowired
+	CustomerService customerService;
+	
+	@Autowired
+	CategoryService categoryService;
+	
+	@Autowired
+	WarrantyService warrantyService;
 
 	//Listing---
 		@RequestMapping(value="/list", method = RequestMethod.GET)
@@ -33,10 +49,13 @@ public FixUpTaskCustomerController(){
 			
 			ModelAndView res;
 			Collection<FixUpTask> fixUpTasks;
+			Customer c;
+			c = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 			fixUpTasks = fixUpTaskService.getFixUpTasksCustomer();
 			
 			res = new ModelAndView("fixUpTask/list");
 			res.addObject("fixUpTasks", fixUpTasks);
+			res.addObject("customer",c);
 			res.addObject("requestURI", "fixUpTask/explorer/list.do");
 			return res; 
 		}
@@ -49,7 +68,7 @@ public FixUpTaskCustomerController(){
 			FixUpTask fixUpTask;
 			fixUpTask = this.fixUpTaskService.create();
 			
-
+			System.out.println("warranty create " + fixUpTask.getWarranty().getIsDraft());
 			result = this.createEditModelAndView(fixUpTask);
 
 			return result;
@@ -90,7 +109,6 @@ public FixUpTaskCustomerController(){
 		public ModelAndView save(@Valid FixUpTask fixUpTask, BindingResult binding){
 			
 			ModelAndView res;
-			
 			if(binding.hasErrors()){
 				System.out.println("Fallos en: \n" + binding.getAllErrors());
 				res = this.createEditModelAndView(fixUpTask);
@@ -116,9 +134,11 @@ public FixUpTaskCustomerController(){
 		
 		protected ModelAndView createEditModelAndView(FixUpTask fixUpTask, String messageCode){
 			ModelAndView res;
-
-			res= new ModelAndView("fixUpTask/list");
+			Collection<Category> categories = categoryService.findAll();
+			res= new ModelAndView("fixUpTask/edit");
 			res.addObject("fixUpTask", fixUpTask);
+
+			res.addObject("categories",categories);
 			res.addObject("message", messageCode);
 			
 			return res;

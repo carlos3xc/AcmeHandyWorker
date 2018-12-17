@@ -25,7 +25,7 @@
 					 				 -->
 									 
 
-<form:form action="fixUpTask/customer/edit.do" modelAttribute="fixUpTask">
+<form:form action="customer/fixUpTask/edit.do" modelAttribute="fixUpTask">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -35,6 +35,9 @@
 	<form:hidden path="customer" />		
 	<form:hidden path="applications" />	
 	<form:hidden path="complaints" />
+	<jstl:if test="${fixUpTask.id ==0 }">
+		<form:hidden path="warranty.isDraft"/>
+	</jstl:if>
 	<jstl:if test="${fixUpTask.id !=0 }">
 		<form:hidden path="warranty"/>
 	</jstl:if>
@@ -76,14 +79,17 @@
 	<form:errors cssClass="error" path="endMoment" />
 	<br />
 	
+	<form:label path="category">
+		<spring:message code="task.category" />:
+	</form:label>
 	<form:select id="categories" path="category">
-	<form:option label = "-----" value="0" />
-	<form:options items="${categories}" itemsLabel="name" itemsValue="id" />
+		<form:options items="${categories}" itemsLabel="name" itemsValue="id" />
+		<form:option label = "-----" value="0" />
 	</form:select>
 	<form:errors cssClass="error" path="category" />
 	<br />
 	
-	<jstl:if test="${fixUpTask.id !=0 }">
+	<jstl:if test="${fixUpTask.id ==0 }">
 		<h3><spring:message code="task.warranty"/></h3>
 			<form:label path="warranty.title">
 				<spring:message code="task.warranty.title" />:
@@ -99,10 +105,10 @@
 			<form:errors cssClass="error" path="warranty.terms" />
 			<br />
 			
-			<form:label path="laws">
+			<form:label path="warranty.laws">
 				<spring:message code="task.warranty.laws" />:
 			</form:label>
-			<form:textarea path="laws" placeholder="Separate the different laws with ;"/>
+			<form:textarea path="warranty.laws" placeholder="Separate the different laws with ;"/>
 			<form:errors cssClass="error" path="warranty.laws" />
 			<br />
 	</jstl:if>

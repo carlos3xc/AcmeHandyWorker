@@ -55,7 +55,6 @@ public class WarrantyService {
 		b.setAuthority("CUSTOMER");
 		Assert.isTrue(userAccount.getAuthorities().contains(au) || userAccount.getAuthorities().contains(b));
 		Assert.isTrue(a.getIsDraft());
-		
 		return warrantyRepository.save(a);
 	}
 	

@@ -19,6 +19,7 @@ import domain.Application;
 import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
+import domain.Warranty;
 import domain.WorkPlanPhase;
 
 
@@ -44,12 +45,21 @@ public class FixUpTaskService {
 	@Autowired
 	private WorkPlanPhaseService workPlanPhaseService;
 	
+	@Autowired
+	private WarrantyService warrantyService;
+	
 	//Simple CRUD methods -----
 	public FixUpTask create(){
 		FixUpTask res = new FixUpTask();
+		Warranty war = warrantyService.create();
 		res.setApplications(new ArrayList<Application>());
 		res.setComplaints(new ArrayList<Complaint>());
-		
+		res.setWarranty(war);
+		res.setCustomer(customerService.findByUserAccountId(LoginService.getPrincipal().getId()));
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		res.setMoment(current);
+		res.setTicker(generateTicker());
+
 		return res;
 	}
 	
@@ -63,16 +73,13 @@ public class FixUpTaskService {
 	
 	public FixUpTask save(FixUpTask fx){
 		FixUpTask saved;
+		Warranty war = warrantyService.create();
 		Collection<FixUpTask> fixUpTasks;
 		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
-		
-		Date current = new Date(System.currentTimeMillis() - 1000);
-		if(fx.getId()==0){
-			fx.setCustomer(customerService.findByUserAccountId(LoginService.getPrincipal().getId()));
-			fx.setMoment(current);
-			fx.setTicker(generateTicker());
-		}
+	
+		if(fx.getId()==0) war = warrantyService.save(fx.getWarranty());
+		fx.setWarranty(war);
 		saved = fixUpTaskRepository.save(fx);
 		fixUpTasks = fixUpTaskRepository.findAll();
 		Assert.isTrue(fixUpTasks.contains(saved));
