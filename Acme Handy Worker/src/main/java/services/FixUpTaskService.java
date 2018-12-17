@@ -85,6 +85,8 @@ public class FixUpTaskService {
 		Collection<Application> applications = fx.getApplications();
 		Customer c = fx.getCustomer();
 		Collection<WorkPlanPhase> wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
+		
+		Assert.isTrue(fx.getStartMoment().after(new Date()));
 		for(Complaint co: complaints){
 			co.setFixUpTask(null);
 			complaintService.delete(co);
@@ -110,6 +112,13 @@ public class FixUpTaskService {
 	public Collection<FixUpTask> getFixUpTasksHandyWorker(int handyWorkerId){
 		Collection<FixUpTask> res;
 		res = fixUpTaskRepository.getFixUpTasksHandyWorker(handyWorkerId);
+		return res;
+	}
+	
+	public Collection<FixUpTask> getFixUpTasksCustomer(){
+		Collection<FixUpTask> res;
+		Customer c = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		res = fixUpTaskRepository.getFixUpTasksCustomer(c.getId());
 		return res;
 	}
 	
