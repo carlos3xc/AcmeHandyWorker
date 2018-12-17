@@ -40,6 +40,8 @@
 				<display:column property="maxPrice" titleKey="task.maxPrice" />	
 			
 			</display:table>
+			
+		<a href="fixUpTask/customer/create.do"><spring:message code="task.create"/></a>
 		
 		</security:authorize>
 		
