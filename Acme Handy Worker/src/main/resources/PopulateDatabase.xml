@@ -11,9 +11,9 @@
 
 	<!-- User accounts ADMIN -->
 
-	<bean id="userAccountAdmin1" class="security.UserAccount">
-		<property name="username" value="admin1" />
-		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
+	<bean id="userAccountAdmin" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -228,7 +228,7 @@
 
 	<!-- ADMINS -->
 
-	<bean id="admin1" class="domain.Administrator">
+	<bean id="admin" class="domain.Administrator">
 		<property name="name" value="Rodrigo" />
 		<property name="surname" value="De la Serna" />
 		<property name="middleName" value="Pérez" />
@@ -238,7 +238,7 @@
 		<property name="address" value="Pasadizo Recomençaven ocasionar, 194B 19ºC" />
 		<property name="isBanned" value="false" />
 		<property name="isSuspicious" value="false" />
-		<property name="userAccount" ref="userAccountAdmin1" />
+		<property name="userAccount" ref="userAccountAdmin" />
 		<property name="socialProfiles">
 			<list>
 			</list>
@@ -2668,7 +2668,7 @@
 	<bean id="box21" class="domain.Box">
 		<property name="name" value="Spam Box" />
 		<property name="systemBox" value="true" />
-		<property name="actor" ref="admin1" />
+		<property name="actor" ref="admin" />
 		<property name="messages">
 			<list>
 			</list>
@@ -2678,7 +2678,7 @@
 	<bean id="box22" class="domain.Box">
 		<property name="name" value="In Box" />
 		<property name="systemBox" value="true" />
-		<property name="actor" ref="admin1" />
+		<property name="actor" ref="admin" />
 		<property name="messages">
 			<list>
 			</list>
@@ -2688,7 +2688,7 @@
 	<bean id="box23" class="domain.Box">
 		<property name="name" value="Out Box" />
 		<property name="systemBox" value="true" />
-		<property name="actor" ref="admin1" />
+		<property name="actor" ref="admin" />
 		<property name="messages">
 			<list>
 			</list>
@@ -2698,7 +2698,7 @@
 	<bean id="box24" class="domain.Box">
 		<property name="name" value="Trash Box" />
 		<property name="systemBox" value="true" />
-		<property name="actor" ref="admin1" />
+		<property name="actor" ref="admin" />
 		<property name="messages">
 			<list>
 			</list>
