@@ -97,17 +97,17 @@ public class CustomerService {
 		return c;
 	}
 	
-	public Map<Customer,Integer> TopThreeInComplaints(){
-		List<Object> top;
+	public Collection<Customer> TopThreeInComplaints(){
+		Collection<Customer> top;
 	//	List<Customer> customers = new ArrayList<Customer>();
 //		Collection<Integer> complaintsNumber = new ArrayList<Integer>();
-		Map<Customer,Integer> n = new HashMap<Customer,Integer>();
-		top = (List<Object>) customerRepository.topThreeInComplaints();
-		for(int i=0;i<=top.size();i=i+2){
-			n.put((Customer)top.get(i),(Integer)top.get(i+1));
-		}
-		System.out.println(n);
-		return n;
+	//	Map<Customer,Integer> n = new HashMap<Customer,Integer>();
+		top =  customerRepository.topThreeInComplaints();
+//		for(int i=0;i<=top.size();i=i+2){
+//			n.put((Customer)top.get(i),(Integer)top.get(i+1));
+//		}
+//		System.out.println(n);
+		return top;
 	}
 	
 	public Collection<Customer> getCustomersWMoreTasksThanAvg(){

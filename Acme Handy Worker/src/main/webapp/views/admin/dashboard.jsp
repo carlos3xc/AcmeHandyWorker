@@ -119,11 +119,11 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 			<th><spring:message code="admin.rWithComplaint"/></th>
 			<th><jstl:out value="${ratioFixUpComplaint}"/></th>
 		</tr>
-		<tr>
+	<%-- <tr>
 			<th><spring:message code="admin.topThreeCustomerComplaint"/></th>
 			<th>
 			<jstl:forEach var="i" items="${topThreeCustomerComplaints}">
-			<jstl:out value="${i.userAccount.username}"/>
+			<jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> 
 			</jstl:forEach>
 			</th>
 		</tr>
@@ -131,10 +131,10 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 			<th><spring:message code="admin.topThreeHandyWorkerComplaint"/></th>
 			<th>
 			<jstl:forEach var="i" items="${topThreeHandyWorkerComplaints}">
-			<jstl:out value="${i.userAccount.username}"/>, 
+			<jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> , 
 			</jstl:forEach>
 			</th>
-		</tr>
+		</tr> --%>
 	</table>
 	
 	<spring:message code="admin.topPublishers"/>
@@ -145,7 +145,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 		</tr>
 		<jstl:forEach var="i" items="${customerPublishers10}">
 		<tr>
-			<td><jstl:out value="${i.userAccount.username}"/> </td>
+			<td><jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> </td>
 		</tr>			
 		</jstl:forEach>
 	</table>
@@ -157,7 +157,7 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 		</tr>
 		<jstl:forEach var="i" items="${handyWorkerPublishers10}">
 		<tr>
-			<td><jstl:out value="${i.userAccount.username}"/></td>
+			<td><jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> </td>
 		</tr>			
 		</jstl:forEach>
 	</table>

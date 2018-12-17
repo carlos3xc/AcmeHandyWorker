@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -112,5 +113,52 @@ public class ApplicationService {
 		res = applicationRepository.applicationByHandyWorker(handyWorkerId);
 		return res;
 	}
+	
+	public Double getAverageApplicationsPerFixUpTask(){
+		return applicationRepository.getAverageApplicationsPerFixUpTask();
+	}
+	
+	public Integer getMinimumApplicationsPerFixUpTask(){
+		return applicationRepository.getMinimumApplicationsPerFixUpTask();
+	}
+	
+	public Integer getMaximumApplicationsPerFixUpTask(){
+		return applicationRepository.getMaximumApplicationsPerFixUpTask();
+	}
 
+	public Double getStdevApplicationsPerFixUpTask(){
+		return applicationRepository.getStdevApplicationsPerFixUpTask();
+	}
+	
+	public Double getAveragePriceApplication(){
+		return applicationRepository.getAveragePriceApplication();
+	}
+	
+	public Integer getMaximumPriceApplications(){
+		return applicationRepository.getMaximumPriceApplications();
+	}
+	
+	public Integer getMinimumPriceApplications(){
+		return applicationRepository.getMinimumPriceApplications();
+	}
+
+	public Double getStdevPriceApplications(){
+		return applicationRepository.getStdevPriceApplications();
+	}
+
+	public Double getRatioPendingApplications(){
+		return applicationRepository.getRatioPendingApplications();
+	}
+
+	public Double getRatioAcceptedApplications(){
+		return applicationRepository.getRatioAcceptedApplications();
+	}
+	
+	public Double getRatioRejectedApplications(){
+		return applicationRepository.getRatioRejectedApplications();
+	}
+	
+	public Double getRatioPendingApplicationsTime(){
+		return applicationRepository.getRatioPendingApplicationsTime();
+	}
 }

@@ -597,7 +597,7 @@
 	<!-- CONFIGURATION -->
 
 	<bean id="configuration1" class="domain.Configuration">
-		<property name="banner" value="http://tinyurl.com/acme-handy-worker-logo" />
+		<property name="banner" value="https://irp-cdn.multiscreensite.com/3737b2b6/dms3rep/multi/desktop/4-2000x889.jpg" />
 		<property name="vatPercentage" value="21" />
 		<property name="finderCacheTime" value="2" />
 		<property name="defaultPhoneCode" value="+34" />

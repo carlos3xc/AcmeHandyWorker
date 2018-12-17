@@ -16,7 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	Customer findOne(Integer Id);
 	
 	@Query("select com.customer, count(com) from Complaint com group by com.customer order by count(com) desc")
-	Collection<Object> topThreeInComplaints();
+	Collection<Customer> topThreeInComplaints();
 	
 	@Query("select c from Customer c where c.userAccount.id = ?1") 
 	Customer findByUserAccountId(Integer Id);

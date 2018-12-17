@@ -114,7 +114,7 @@ Recieves:
 <jstl:out value="${i.word}"></jstl:out>
 </jstl:forEach>
 
-<form:form action="admin/admin/configuration.do" modelAttribute="word">
+<form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
@@ -129,7 +129,7 @@ Recieves:
 	<input type="submit" name="addSpam" value="<spring:message code="admin.add" />" />
 </form:form>
 
-<form:form action="admin/admin/configuration.do" modelAttribute="word">
+<form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
 	
 	<form:label path="word">
 		<spring:message code="admin.word" />:
@@ -146,8 +146,8 @@ Recieves:
 
 <h2><spring:message code="admin.manageCreditCardMakes"/></h2>
 <spring:message code="admin.currentCreditCardMakes"/>:
-<jstl:forEach var="i" items="${configuration.spamWords}">
-<jstl:out value="${i.word}"></jstl:out>
+<jstl:forEach var="i" items="${configuration.creditCardMakes}">
+<jstl:out value="${i.make}"></jstl:out>
 </jstl:forEach>
 
 <form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
