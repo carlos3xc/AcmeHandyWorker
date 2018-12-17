@@ -18,11 +18,11 @@
 -->
 
 <security:authorize access="hasRole('HANDYWORKER')">
-	<jstl:if test="curricula == null">
+	<jstl:if test="${curricula == null}">
 		<spring:message code="curricula.notCreated"/>
 		<a href="curricula/create.do"><spring:message code="curricula.create" /></a>
 	</jstl:if>
-	<jstl:if test="curricula != null">
+	<jstl:if test="${curricula != null}">
 		<h3><spring:message code="curricula.personalRecord"/></h3><br>
 		<h4><a href="curricula/editPersonalRecord.do?personalRecordId=${curricula.personalRecord.id}"><spring:message code="curricula.editPersonalRecord"/></a></h4><br>
 		<spring:message code="curricula.fullName"/>: <jstl:out value="${curricula.personalRecord.fullName }"/><br>
