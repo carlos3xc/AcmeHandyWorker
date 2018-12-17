@@ -49,7 +49,7 @@ public class WordService {
 		au.setAuthority("ADMIN");
 		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		return wordRepository.save(a);
+		return wordRepository.saveAndFlush(a);
 	}
 	
 	public void delete(Word a){

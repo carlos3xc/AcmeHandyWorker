@@ -6,28 +6,34 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.ConfigurationService;
+import services.CreditCardMakeService;
+import services.WordService;
 import controllers.AbstractController;
-import domain.Box;
 import domain.Configuration;
+import domain.CreditCardMake;
 import domain.Word;
 
 @Controller
-@RequestMapping("/administrator/admin")
+@RequestMapping("/admin/admin")
 public class AdministratorConfigurationAndDashboardController extends AbstractController {
 	
 	//Services
 	
 	@Autowired
 	private ConfigurationService configurationService;
+	
+	@Autowired
+	private CreditCardMakeService creditCardMakeService;
+	
+	@Autowired
+	private WordService	wordService;
 	
 	@Autowired
 	private ActorService actorService;
@@ -60,23 +66,26 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		}else{
 			try {
 				configurationService.save(config);
-				res = new ModelAndView("redirect:edit.do");
+				res = new ModelAndView("redirect:configuration.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 				
-				//TODO: añadir el commit error al admin.properties de message.
+				//TODO: añadir el commit error al message.properties de admin.
 			}
 		}
 		return res;
 	}
 	
 	//Add and remove methods ------------------------------------------
+	
+	// word------------------------------------------------------------
 	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="addSpam")
 	public ModelAndView addSpam(@Valid Word word, BindingResult binding){
 		ModelAndView res;
 		
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 		
+		wordService.save(word); // el create se hace automaticamente al cargar la vista.
 		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(config);
@@ -86,17 +95,71 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 				spams.add(word);
 				config.setSpamWords(spams);
 				configurationService.save(config);
-				res = new ModelAndView("redirect:edit.do");
+				res = new ModelAndView("redirect:configuration.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
-				
-				//TODO: añadir el commit error al admin.properties de message.
 			}
 		}
 		return res;
 	}
 	
-	//TODO: removeSpamWord, addCreditCard
+	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="removeSpam")
+	public ModelAndView removeSpam(@Valid Word word){
+		ModelAndView res;
+		
+		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
+			try {
+				wordService.delete(word);
+				res = new ModelAndView("redirect:configuration.do");
+			} catch (Throwable e) {
+				res = createEditModelAndView(config, "admin.commit.error");
+				
+			}
+		return res;
+	}
+	
+	
+	// make------------------------------------------------------------
+	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="addMake")
+	public ModelAndView addMake(@Valid CreditCardMake make, BindingResult binding){
+		ModelAndView res;
+		
+		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
+		
+		creditCardMakeService.save(make); // el create se hace automaticamente al cargar la vista.
+		
+		if(binding.hasErrors()){
+			res = createEditModelAndView(config);
+		}else{
+			try {
+				List<CreditCardMake> makes = config.getCreditCardMakes();
+				makes.add(make);
+				config.setCreditCardMakes(makes);
+				configurationService.save(config);
+				res = new ModelAndView("redirect:configuration.do");
+			} catch (Throwable e) {
+				res = createEditModelAndView(config, "admin.commit.error");
+				
+			}
+		}
+		return res;
+	}
+	
+	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="removeMake")
+	public ModelAndView removeSpam(@Valid CreditCardMake make){
+		ModelAndView res;
+		
+		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
+			try {
+				creditCardMakeService.delete(make);
+				res = new ModelAndView("redirect:configuration.do");
+			} catch (Throwable e) {
+				res = createEditModelAndView(config, "admin.commit.error");
+				
+				//TODO: añadir el commit error al admin.properties de message.
+			}
+		return res;
+	}
 	
 	//Helper methods---------------------------------------------------
 	protected ModelAndView createEditModelAndView(Configuration config){
@@ -107,9 +170,15 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	protected ModelAndView createEditModelAndView(Configuration config, String messageCode){
 		ModelAndView res;
 		//TODO:add word and creditcardmake to the view.
+		Word word = wordService.create();
+		word.setType("SPAM");
 		
-		res = new ModelAndView("administrator/configuration");
+		CreditCardMake make = creditCardMakeService.create();
+		
+		res = new ModelAndView("admin/configuration");
 		res.addObject("configuration", config);
+		res.addObject("creditCardMake", make);
+		res.addObject("word", word);
 		res.addObject("errorMessage", messageCode);
 		
 		return res;

@@ -13,10 +13,12 @@
 <!-- 
 Recieves: 
 	Configuration configuration- the configuration object of the system.
+	Word word - a default word in case the admin wants to create a new SpamWord
+	CreditCardMake creditCardMake - a default make in case the admin wants to create a new CreditCardMake
 -->
 
 <security:authorize access="hasRole('ADMIN')">
-	<form:form action="administrator/admin/configuration.do" modelAttribute="configuration">
+	<form:form action="admin/admin/configuration.do" modelAttribute="configuration">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -106,16 +108,15 @@ Recieves:
 	<br />
 </form:form>
 
-<h2><spring:message code=admin.manageSpamWords/></h2>
-<spring:message code=admin.currentSpamWords/>:
+<h2><spring:message code="admin.manageSpamWords"/></h2>
+<spring:message code="admin.currentSpamWords"/>:
 <jstl:forEach var="i" items="${configuration.spamWords}">
 <jstl:out value="${i.word}"></jstl:out>
 </jstl:forEach>
 
-<form:form action="administrator/admin/configuration.do" modelAttribute="word">
+<form:form action="admin/admin/configuration.do" modelAttribute="word">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="type" value="SPAM"/>
 	
 	<form:label path="word">
 		<spring:message code="admin.word" />:
@@ -128,10 +129,7 @@ Recieves:
 	<input type="submit" name="addSpam" value="<spring:message code="admin.add" />" />
 </form:form>
 
-<form:form action="administrator/admin/configuration.do" modelAttribute="word">
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="type"/>
+<form:form action="admin/admin/configuration.do" modelAttribute="word">
 	
 	<form:label path="word">
 		<spring:message code="admin.word" />:
@@ -146,13 +144,13 @@ Recieves:
 	<input type="submit" name="removeSpam" value="<spring:message code="admin.remove" />" />
 </form:form>
 
-<h2><spring:message code=admin.manageCreditCardMakes/></h2>
-<spring:message code=admin.currentCreditCardMakes/>:
+<h2><spring:message code="admin.manageCreditCardMakes"/></h2>
+<spring:message code="admin.currentCreditCardMakes"/>:
 <jstl:forEach var="i" items="${configuration.spamWords}">
 <jstl:out value="${i.word}"></jstl:out>
 </jstl:forEach>
 
-<form:form action="administrator/admin/configuration.do" modelAttribute="creditCardMake">
+<form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
@@ -167,9 +165,7 @@ Recieves:
 	<input type="submit" name="addMake" value="<spring:message code="admin.add" />" />
 </form:form>
 
-<form:form action="administrator/admin/configuration.do" modelAttribute="creditCardMake">
-	<form:hidden path="id" />
-	<form:hidden path="version" />
+<form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
 	
 	<form:label path="make">
 		<spring:message code="admin.make" />:
