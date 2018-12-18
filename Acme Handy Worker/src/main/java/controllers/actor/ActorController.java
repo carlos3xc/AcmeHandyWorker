@@ -27,8 +27,8 @@ import domain.SocialProfile;
 import domain.Sponsor;
 
 @Controller
-@RequestMapping("/register/actor")
-public class RegisterActorController extends AbstractController {
+@RequestMapping("/actor")
+public class ActorController extends AbstractController {
 
 	// Services
 	// -------------------------------------------------------------------
@@ -48,33 +48,48 @@ public class RegisterActorController extends AbstractController {
 	// Constructors
 	// ---------------------------------------------------------------
 
-	public RegisterActorController() {
+	public ActorController() {
 		super();
 	}
 
-	// Create -----------------------------------------------------------------
+	// Create handyWorker -----------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final String authority) {
+	public ModelAndView createHandyWorker() {
 
-		ModelAndView result = new ModelAndView();
+		ModelAndView result;
 
 		HandyWorker handyWorker = handyWorkerService.create();
-		Sponsor sponsor = sponsorService.create();
+
+		result = this.createEditModelAndView(handyWorker);
+
+		return result;
+	}
+
+	// Create customer --------------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView createCustomer() {
+
+		ModelAndView result;
+
 		Customer customer = customerService.create();
 
-		if (authority.equals("HANDYWORKER")) {
+		result = this.createEditModelAndView(customer);
 
-			result = this.createEditModelAndView(handyWorker);
+		return result;
+	}
 
-		} else if (authority.equals("CUSTOMER")) {
+	// Create sponsor ---------------------------------------------------------
 
-			result = this.createEditModelAndView(sponsor);
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView createSponsor() {
 
-		} else if (authority.equals("SPONSOR")) {
+		ModelAndView result;
 
-			result = this.createEditModelAndView(customer);
-		}
+		Sponsor sponsor = sponsorService.create();
+
+		result = this.createEditModelAndView(sponsor);
 
 		return result;
 	}
@@ -98,7 +113,7 @@ public class RegisterActorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Actor actor,
 			final BindingResult binding) {
-		
+
 		ModelAndView result;
 
 		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
@@ -119,8 +134,6 @@ public class RegisterActorController extends AbstractController {
 			}
 		return result;
 	}
-
-	// Delete -----------------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Actor actor) {
 		ModelAndView result;
@@ -143,7 +156,7 @@ public class RegisterActorController extends AbstractController {
 		isSuspicious = actor.getIsSuspicious();
 		isBanned = actor.getIsBanned();
 
-		result = new ModelAndView("register/edit");
+		result = new ModelAndView("actor/edit");
 
 		result.addObject("actor", actor);
 		result.addObject("socialProfiles", socialProfiles);
