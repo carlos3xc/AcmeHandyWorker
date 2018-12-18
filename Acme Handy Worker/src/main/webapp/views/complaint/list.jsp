@@ -8,8 +8,16 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="${complaints}" id="row"
-	requestURI="complaint/customer/list.do" pagesize="5">
+<display:table name="${complaints}" id="row" pagesize="5"
+	<security:authorize access="hasRole('CUSTOMER')">
+	requestURI="complaint/customer/list.do" 
+	</security:authorize>
+	<security:authorize access="hasRole('SPONSOR')">
+	requestURI="complaint/sponsor/list.do" 
+	</security:authorize>
+	<security:authorize access="hasRole('HANDYWORKER')">
+	requestURI="complaint/handyWorker/list.do" 
+	</security:authorize>>
 
 	<security:authorize access="hasRole('CUSTOMER')">
 		<display:column>

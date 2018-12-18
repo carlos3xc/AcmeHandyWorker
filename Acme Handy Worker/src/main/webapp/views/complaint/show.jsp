@@ -8,30 +8,30 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="${complaints}" id="row"
-	requestURI="complaint/customer/show.do" pagesize="5">
+<jstl:set var="customerName"
+	value="${complaint.customer.name + complaint.customer.middleName + complaint.customer.surname }" />
 
-	<security:authorize access="hasRole('CUSTOMER')">
-		<display:column>
-			<a href="complaint/customer/edit.do?complaintId=${row.id}"> <spring:message
-					code="complaint.edit" />
-			</a>
-		</display:column>
+<display:table name="complaint" id="row"
+	requestURI="complaint/customer/show.do">
 
-	</security:authorize>
+	<display:column>
 
-	<display:column titleKey="complaint.ticker" property="ticker" />
+		<b><spring:message code="complaint.ticker" /></b>
+		<jstl:out value="${complaint.ticker}" />
 
-	<display:column titleKey="complaint.description" property="description" />
+		<b><spring:message code="complaint.description" /></b>
+		<jstl:out value="${complaint.description}" />
 
-	<display:column titleKey="complaint.attachments" property="attachments"
-		sortable="false" />
+		<b><spring:message code="complaint.attachments" /></b>
+		<jstl:out value="${complaint.attachments}" />
 
-	<spring:message code="complaint.moment.format" var="formatMoment" />
-	<display:column titleKey="complaint.moment" property="moment"
-		sortable="true" format="{0, date, ${formatMoment}}" />
+		<b><spring:message code="complaint.moment" /></b>
+		<jstl:out value="${complaint.moment}" />
 
-	<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+		<b><spring:message code="complaint.fixUpTask" /></b>
+		<jstl:out value="${complaint.fixUpTask}" />
+
+	</display:column>
 
 </display:table>
 
