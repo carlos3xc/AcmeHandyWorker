@@ -2,8 +2,6 @@ package controllers.customer;
 
 import java.util.Collection;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 
 import domain.Complaint;
-import domain.SocialProfile;
 
 import services.ComplaintService;
 
@@ -42,9 +39,8 @@ public class ComplaintCustomerController extends AbstractController {
 	public ModelAndView list() {
 
 		ModelAndView result;
-		Collection<Complaint> complaints;
 
-		complaints = complaintService.findAll();
+		Collection<Complaint> complaints = complaintService.findAll();
 
 		result = new ModelAndView("complaint/list");
 		result.addObject("complaints", complaints);
@@ -63,8 +59,8 @@ public class ComplaintCustomerController extends AbstractController {
 		Complaint complaint = complaintService.findOne(complaintId);
 
 		result = new ModelAndView("complaint/show");
-		result.addObject("requestURI", "complaint/customer/show.do");
 		result.addObject("complaint", complaint);
+		result.addObject("requestURI", "complaint/customer/show.do");
 
 		return result;
 	}

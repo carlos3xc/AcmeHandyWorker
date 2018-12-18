@@ -11,6 +11,21 @@
 <display:table name="${complaints}" id="row"
 	requestURI="complaint/customer/list.do" pagesize="5">
 
+	<security:authorize access="hasRole('CUSTOMER')">
+		<display:column>
+			<a href="complaint/customer/edit.do?complaintId=${row.id}"> <spring:message
+					code="complaint.edit" />
+			</a>
+		</display:column>
+
+		<display:column>
+			<a href="complaint/customer/show.do?complaintId=${row.id}"> <spring:message
+					code="complaint.show" />
+			</a>
+		</display:column>
+
+	</security:authorize>
+
 	<display:column titleKey="complaint.ticker" property="ticker" />
 
 	<display:column titleKey="complaint.description" property="description" />

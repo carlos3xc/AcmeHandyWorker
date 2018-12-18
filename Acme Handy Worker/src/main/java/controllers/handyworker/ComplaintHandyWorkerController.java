@@ -1,4 +1,4 @@
-package controllers.referee;
+package controllers.handyworker;
 
 import java.util.Collection;
 
@@ -15,8 +15,8 @@ import controllers.AbstractController;
 import domain.Complaint;
 
 @Controller
-@RequestMapping("/complaint/referee")
-public class ComplaintRefereeController extends AbstractController {
+@RequestMapping("/complaint/handyWorker")
+public class ComplaintHandyWorkerController extends AbstractController {
 
 	// Services ----------------------------------------------------------------
 
@@ -25,43 +25,27 @@ public class ComplaintRefereeController extends AbstractController {
 
 	// Constructors ------------------------------------------------------------
 
-	public ComplaintRefereeController() {
+	public ComplaintHandyWorkerController() {
 		super();
 	}
 
-	// Listing B-RF 36.1 -------------------------------------------------------
+	// Listing B-RF 37.3 -------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 
 		ModelAndView result;
 
+		int handyWorkerId = LoginService.getPrincipal().getId();
+
 		Collection<Complaint> complaints = complaintService
-				.getComplaintsWithNoReports();
+				.getComplaintsHandyWorker(handyWorkerId);
 
 		result = new ModelAndView("complaint/list");
 		result.addObject("complaints", complaints);
-		result.addObject("requestURI", "complaint/referee/list.do");
+		result.addObject("requestURI", "complaint/handyWorker/list.do");
 
 		return result;
 	}
 
-	// Listing B-RF 36.2 -------------------------------------------------------
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list2() {
-
-		ModelAndView result;
-
-		int refereeId = LoginService.getPrincipal().getId();
-
-		Collection<Complaint> complaints = complaintService
-				.getComplaintsReferee(refereeId);
-
-		result = new ModelAndView("complaint/list");
-		result.addObject("complaints", complaints);
-		result.addObject("requestURI", "complaint/referee/list.do");
-
-		return result;
-	}
 }

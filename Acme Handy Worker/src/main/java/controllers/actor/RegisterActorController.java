@@ -98,10 +98,10 @@ public class RegisterActorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Actor actor,
 			final BindingResult binding) {
+		
 		ModelAndView result;
 
-		Md5PasswordEncoder encoder;
-		encoder = new Md5PasswordEncoder();
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		String pass = encoder.encodePassword(actor.getUserAccount()
 				.getPassword(), null);
 		actor.getUserAccount().setPassword(pass);
