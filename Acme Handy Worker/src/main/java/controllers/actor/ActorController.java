@@ -130,7 +130,7 @@ public class ActorController extends AbstractController {
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(actor,
-						"register.commit.error");
+						"actor.commit.error");
 			}
 		return result;
 	}
