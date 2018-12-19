@@ -20,7 +20,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="actor/edit.do" modelAttribute="actor">
+<form:form action="actor/admin/edit.do" modelAttribute="actor">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
