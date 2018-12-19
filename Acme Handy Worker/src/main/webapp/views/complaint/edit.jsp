@@ -82,7 +82,7 @@
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="complaint.cancel" />"
-		onclick="javascript: window.location.replace('complaint/customer/show.do')" />
+		onclick="javascript: window.location.replace('complaint/customer/list.do')" />
 	<br />
 
 </form:form>

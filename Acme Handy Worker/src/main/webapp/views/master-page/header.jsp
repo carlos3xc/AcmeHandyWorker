@@ -35,6 +35,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="complaint/customer/list.do"><spring:message code="master.page.customer.complaint.list" /></a></li>
 					<li><a href="customer/fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
 					<li><a href="customer/fixUpTask/create.do"><spring:message code="master.page.customer.task.create" /></a></li>					
 				</ul>

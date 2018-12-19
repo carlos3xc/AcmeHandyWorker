@@ -8,42 +8,82 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="${complaints}" id="row" pagesize="5"
-	<security:authorize access="hasRole('CUSTOMER')">
-	requestURI="complaint/customer/list.do" 
-	</security:authorize>
-	<security:authorize access="hasRole('SPONSOR')">
-	requestURI="complaint/sponsor/list.do" 
-	</security:authorize>
-	<security:authorize access="hasRole('HANDYWORKER')">
-	requestURI="complaint/handyWorker/list.do" 
-	</security:authorize>>
+<security:authorize access="hasRole('CUSTOMER')">
 
-	<security:authorize access="hasRole('CUSTOMER')">
-		<display:column>
-			<a href="complaint/customer/edit.do?complaintId=${row.id}"> <spring:message
-					code="complaint.edit" />
-			</a>
-		</display:column>
+	<display:table name="${complaints}" id="row" pagesize="5"
+		requestURI="complaint/customer/list.do">
 
-		<display:column>
-			<a href="complaint/customer/show.do?complaintId=${row.id}"> <spring:message
-					code="complaint.show" />
-			</a>
-		</display:column>
+		<security:authorize access="hasRole('CUSTOMER')">
+			<display:column>
+				<a href="complaint/customer/edit.do?complaintId=${row.id}"> <spring:message
+						code="complaint.edit" />
+				</a>
+			</display:column>
 
-	</security:authorize>
+			<display:column>
+				<a href="complaint/customer/show.do?complaintId=${row.id}"> <spring:message
+						code="complaint.show" />
+				</a>
+			</display:column>
 
-	<display:column titleKey="complaint.ticker" property="ticker" />
+		</security:authorize>
 
-	<display:column titleKey="complaint.description" property="description" />
+		<display:column titleKey="complaint.ticker" property="ticker" />
 
-	<spring:message code="complaint.moment.format" var="formatMoment" />
-	<display:column titleKey="complaint.moment" property="moment"
-		sortable="true" format="{0, date, ${formatMoment}}" />
+		<display:column titleKey="complaint.description"
+			property="description" />
 
-	<display:column titleKey="complaint.customer" property="customer" />
+		<spring:message code="complaint.moment.format" var="formatMoment" />
+		<display:column titleKey="complaint.moment" property="moment"
+			sortable="true" format="{0, date, ${formatMoment}}" />
 
-	<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+		<display:column titleKey="complaint.customer" property="customer" />
 
-</display:table>
+		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+
+	</display:table>
+
+</security:authorize>
+
+<security:authorize access="hasRole('SPONSOR')">
+
+	<display:table name="${complaints}" id="row" pagesize="5"
+		requestURI="complaint/sponsor/list.do">
+
+		<display:column titleKey="complaint.ticker" property="ticker" />
+
+		<display:column titleKey="complaint.description"
+			property="description" />
+
+		<spring:message code="complaint.moment.format" var="formatMoment" />
+		<display:column titleKey="complaint.moment" property="moment"
+			sortable="true" format="{0, date, ${formatMoment}}" />
+
+		<display:column titleKey="complaint.customer" property="customer" />
+
+		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+
+	</display:table>
+
+</security:authorize>
+
+<security:authorize access="hasRole('HANDYWORKER')">
+	<display:table name="${complaints}" id="row" pagesize="5"
+		requestURI="complaint/handyWorker/list.do">
+
+		<display:column titleKey="complaint.ticker" property="ticker" />
+
+		<display:column titleKey="complaint.description"
+			property="description" />
+
+		<spring:message code="complaint.moment.format" var="formatMoment" />
+		<display:column titleKey="complaint.moment" property="moment"
+			sortable="true" format="{0, date, ${formatMoment}}" />
+
+		<display:column titleKey="complaint.customer" property="customer" />
+
+		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+
+	</display:table>
+	
+</security:authorize>
