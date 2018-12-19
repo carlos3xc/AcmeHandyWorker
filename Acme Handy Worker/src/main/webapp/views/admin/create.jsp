@@ -18,37 +18,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="userAccount/admin/create.do"
+<security:authorize access="hasRole('ADMIN')"> 
+<form:form action="userAccount/admin/createAdmin.do"
 	modelAttribute="userAccount">
-
+	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="authorities"/>
 
-	<spring:message code="admin.userAccount.username.example"
-		var="username" />
-	<spring:message code="admin.userAccount.password.example"
-		var="password" />
-
-	<form:label path="userAccount.username">
+	<form:label path="username">
 		<spring:message code="admin.userAccount.username" />:
 	</form:label>
-	<form:input path="userAccount.username" placeholder="${username}" />
-	<form:errors cssClass="error" path="userAccount.username" />
+	<form:input path="username" />
+	<form:errors cssClass="error" path="username" />
 	<br />
 
-	<form:label path="userAccount.password">
+	<form:label path="password">
 		<spring:message code="admin.userAccount.password" />:
 	</form:label>
-	<form:input type="password" path="userAccount.password"
-		placeholder="${password}" />
-	<form:errors cssClass="error" path="userAccount.password" />
+	<form:input type="password" path="password" />
+	<form:errors cssClass="error" path="password" />
 	<br />
-
-	<form:select id="authorities.authority" path="userAccount.authorities">
-		<form:option label="----" value="0" />
-		<form:options items="${authorities}" itemLabel="authority" />
-	</form:select>
-	<form:errors cssClass="error" path="userAccount.authorities" />
 
 	<input type="submit" name="save"
 		value="<spring:message code="admin.save" />" />&nbsp; 
@@ -59,3 +49,39 @@
 	<br />
 
 </form:form>
+	
+</security:authorize>
+
+<security:authorize access="hasRole('ADMIN')"> 
+<form:form action="userAccount/admin/createReferee.do"
+	modelAttribute="userAccount">
+	
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	<form:hidden path="authorities"/>
+
+	<form:label path="username">
+		<spring:message code="admin.userAccount.username" />:
+	</form:label>
+	<form:input path="username" />
+	<form:errors cssClass="error" path="username" />
+	<br />
+
+	<form:label path="password">
+		<spring:message code="admin.userAccount.password" />:
+	</form:label>
+	<form:input type="password" path="password" />
+	<form:errors cssClass="error" path="password" />
+	<br />
+
+	<input type="submit" name="save"
+		value="<spring:message code="admin.save" />" />&nbsp; 
+
+	<input type="button" name="cancel"
+		value="<spring:message code="admin.cancel" />"
+		onclick="javascript: window.location.replace('master.page')" />
+	<br />
+
+</form:form>
+	
+</security:authorize>
