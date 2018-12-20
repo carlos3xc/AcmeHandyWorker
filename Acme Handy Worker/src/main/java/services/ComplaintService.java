@@ -167,6 +167,12 @@ public class ComplaintService {
 		return res;
 	}
 
+	public Collection<Complaint> getComplaintsFixUpTask(int fixUpTaskId) {
+		Collection<Complaint> res;
+		res = complaintRepository.getComplaintsFixUpTask(fixUpTaskId);
+		return res;
+	}
+
 	public Double getAvgComplaintsPerTask() {
 		Double res;
 		res = complaintRepository.getAvgComplaintsPerTask();
