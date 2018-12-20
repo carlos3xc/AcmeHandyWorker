@@ -62,8 +62,9 @@
 		<security:intercept-url pattern="/complaint/sponsor/list.do" access="hasRole('SPONSOR')" />  
 
         <security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')" /> 
-		<security:intercept-url pattern="/customer/fixUpTask/**" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" /> 
 
+		<security:intercept-url pattern="/fixUpTask/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 

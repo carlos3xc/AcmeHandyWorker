@@ -36,8 +36,8 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="complaint/customer/list.do"><spring:message code="master.page.customer.complaint.list" /></a></li>
-					<li><a href="customer/fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
-					<li><a href="customer/fixUpTask/create.do"><spring:message code="master.page.customer.task.create" /></a></li>					
+					<li><a href="fixUpTask/customer/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
+					<li><a href="fixUpTask/customer/create.do"><spring:message code="master.page.customer.task.create" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
