@@ -59,7 +59,7 @@
 		
 		<security:intercept-url pattern="/complaint/handyWorker/list.do" access="hasRole('HANDYWORKER')" />
 		
-		<security:intercept-url pattern="/complaint/sponsor/list.do" access="hasRole('SPONSOR')" />  
+		<security:intercept-url pattern="/complaint/referee/list.do" access="hasRole('REFEREE')" />  
 
         <security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" /> 
