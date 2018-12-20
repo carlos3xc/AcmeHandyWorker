@@ -46,39 +46,22 @@ public class PersonalRecordService {
 	
 	public PersonalRecord save(PersonalRecord a){
 		
-		//si el HandyWorker tiene una curricula se le guarda/actualiza el PR, si no simplemente se guarda PR sin vincular.
-		
 		PersonalRecord res = null;
-		boolean isInCurricula = false;
-		boolean hasCurricula = false;
-		Assert.isTrue(LoginService.hasRole("HANDYWORKER"));
-		UserAccount logged = LoginService.getPrincipal();
+		//si la id del record es cero no tiene curricula, si la id del record existe si tiene curricula, no se contemplan mas estados.
+		if(a.getId() == 0){// no tiene curricula
+			
+			System.out.println("no tiene curricula y le creamos una");
+			res = personalRecordRepository.saveAndFlush(a);
+			Curricula c = curriculaService.create();
+			c.setPersonalRecord(res);
+			System.out.println("se intenta guardar la curricula con ticker: "+c.getTicker());
+			curriculaService.save(c);
+			
+		}else{//Si tiene curricula
+			System.out.println("si tiene curricula se actualiza su personal Record");
+			res = personalRecordRepository.saveAndFlush(a); 
+		}
 		
-		for (Curricula c : curriculaService.findAll()) {
-			if(c.getPersonalRecord().equals(a)){//vemos si esta dentro de alguna curricula
-				if(c.getHandyWorker().getUserAccount().equals(logged)){//y que el dueño es el logueado
-					res = personalRecordRepository.saveAndFlush(a);//actualizamos la curricula
-				}
-					isInCurricula=true;
-					//System.out.println("Se ha encontrado una curricula que contiene al personalRecord, se actualiza ese record.");
-			}
-		}
-		if (!isInCurricula){// si no tiene curricula asignada
-			for (Curricula cu : curriculaService.findAll()) {
-				if(cu.getHandyWorker().getUserAccount().equals(logged)){
-					res = personalRecordRepository.saveAndFlush(a);
-					cu.setPersonalRecord(res);
-					curriculaService.save(cu);
-					hasCurricula = true;
-					//System.out.println("se ha encontrado una curricula para el usuario logueado, se le asigna el personalrecord");
-				}
-			}
-		}
-			if(!hasCurricula){
-				res = personalRecordRepository.saveAndFlush(a);
-				//System.out.println("no existe una curricula para el handyworker logueado, se guarda el personal record sin asignar.");
-			}
-		Assert.notNull(res);
 		return res;
 	}
 	

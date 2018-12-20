@@ -1,13 +1,9 @@
 package controllers.handyworker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +17,8 @@ import services.HandyWorkerService;
 import services.PersonalRecordService;
 import controllers.AbstractController;
 import domain.Actor;
-import domain.Box;
 import domain.Curricula;
+import domain.PersonalRecord;
 
 @Controller
 @RequestMapping("curricula/handyworker")
@@ -31,24 +27,23 @@ public class CurriculaController extends AbstractController {
 	//Services
 	
 	@Autowired
-	private HandyWorkerService handyWorkerService;
-	
-	@Autowired
 	CurriculaService curriculaService;
 	
 	@Autowired
-	PersonalRecordService personalRecordService;
+	private PersonalRecordService personalRecordService;
 	
 	@Autowired
 	private ActorService actorService;
 
-	// Constructors -----------------------------------------------------------
+	// Constructors ------------------------------------------------------------------
 
 	public CurriculaController() {
 		super();
 	}
 	
-	//Show-----------------------------------------------------------
+	
+	//Curricula----
+	//Show----------------------------------------------------------------------------
 
 
 	@RequestMapping(value="/show" , method=RequestMethod.GET)
@@ -70,17 +65,62 @@ public class CurriculaController extends AbstractController {
 		return res;
 	}
 	
+	//Delete
+	@RequestMapping(value="/deleteCurricula", method=RequestMethod.GET)
+	public ModelAndView delete(@RequestParam int curriculaId){
+		ModelAndView res;
+		Curricula c = curriculaService.findOne(curriculaId);
+
+			try {
+				curriculaService.delete(c);
+				res = new ModelAndView("redirect:show.do");
+			} catch (Throwable e) {
+				res = new ModelAndView("curricula/show");
+				res.addObject("curricula", c);
+				res.addObject("message", "message.commit.error");
+			}
+		return res;
+	}
 	
-	//Create-----------------------------------------------------------
-//	@RequestMapping(value="/create", method=RequestMethod.GET)
-//	public ModelAndView create(){
-//		ModelAndView res;
-//		Box box = boxService.create(actorService.getByUserAccountId(LoginService.getPrincipal()));
-//		
-//		res = this.createEditModelAndView(box);
-//		return res;
-//		
-//	}
+	//PERSONAL RECORD ----------------------------------------------------------------
+	
+	//Create--------------------------------------------------------------------------
+		@RequestMapping(value="/editPersonalRecord", method=RequestMethod.GET)
+		public ModelAndView create(){
+			// its the same as creating a personal record, saving it, and assigning it to the curricula later on,
+			// then creating a curricula, asssigning the PR to it then saving the curricula
+			
+			ModelAndView res;
+			PersonalRecord pr = personalRecordService.create();
+			
+			res = this.createEditPersonalRecordModelAndView(pr);
+			return res;
+		}
+		
+		@RequestMapping(value="/editPersonalRecord", method=RequestMethod.POST, params="save")
+		public ModelAndView savePersonalRecord(@Valid PersonalRecord pr, BindingResult binding){
+			// we check if the logged in actor has a curricula, if not create one and bind the PR to it (save the record first)
+			ModelAndView res;
+			System.out.println(binding);
+			System.out.println(pr.getFullName()+" "+pr.getEmail()+ pr.getLinkedInUrl());
+			
+			if(binding.hasErrors()){
+				res = createEditPersonalRecordModelAndView(pr);
+			}else{
+				try {
+					System.out.println("tries to save the personal record / create curricula");
+					personalRecordService.save(pr);// this already checks for the existance of a curricula. and if it doesnt exist it does it all.
+					res = new ModelAndView("redirect:show.do");
+				} catch (Throwable e) {
+					res = createEditPersonalRecordModelAndView(pr,"message.commit.error");
+					System.out.println(e);
+				}
+			}
+			return res;
+		}
+	
+	
+	
 	
 	//Edit-------------------------------------------------------------
 //	@RequestMapping(value="/edit", method=RequestMethod.GET)
@@ -132,17 +172,17 @@ public class CurriculaController extends AbstractController {
 	
 	
 	//Helper methods---------------------------------------------------
-	protected ModelAndView createEditModelAndView(Box box){
+	protected ModelAndView createEditPersonalRecordModelAndView(PersonalRecord pr){
 		ModelAndView res;
-		res = createEditModelAndView(box, null);
+		res = createEditPersonalRecordModelAndView(pr, null);
 		return res;
 	}
-	protected ModelAndView createEditModelAndView(Box box, String messageCode){
+	protected ModelAndView createEditPersonalRecordModelAndView(PersonalRecord pr, String messageCode){
 		ModelAndView res;
 		
-		res = new ModelAndView("box/edit");
-		res.addObject("box", box);
-		res.addObject("errorMessage", messageCode);
+		res = new ModelAndView("curricula/editPersonalRecord");
+		res.addObject("personalRecord", pr);
+		res.addObject("message", messageCode);
 		
 		return res;
 	}

@@ -100,7 +100,6 @@ public class BoxService {
 	}
 
 	public void addMessageToBox(Box box, Message message) {
-		System.out.println("se recive el box y el mensaje.");
 
 		List<Message> aux = new ArrayList<>(box.getMessages());
 
@@ -108,7 +107,6 @@ public class BoxService {
 		box.setMessages(aux);
 
 		this.save(box);
-		System.out.println("se ejecuta el save de box");
 	}
 
 }

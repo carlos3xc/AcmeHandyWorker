@@ -87,10 +87,8 @@ public class MessageController extends AbstractController {
 		}else{
 			try {
 				Message saved = messageService.save(message);
-				System.out.println("se guarda  el message");
 				
 				messageService.addMesageToBoxes(saved);
-				System.out.println("se añade a las boxes");
 				
 				int boxId = 0;
 				Collection<Box> boxes = boxService.findAll();
@@ -98,13 +96,13 @@ public class MessageController extends AbstractController {
 					if(b.getMessages().contains(saved))
 					boxId=b.getId();
 					System.out.println("se ha encontrado el box pertinente"+ boxId);
+					
 				}
 				
 				res = new ModelAndView("redirect:list.do?boxId="+boxId);
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
 				System.out.println(e);
-				
 			}
 		}
 		return res;

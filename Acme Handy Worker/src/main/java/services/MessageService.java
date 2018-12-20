@@ -33,6 +33,9 @@ public class MessageService {
 
 	@Autowired
 	private BoxService boxService;
+	
+	@Autowired
+	private ConfigurationService configurationService;
 
 	// Simple CRUD methods -----
 	public Message create(Actor sender) {
@@ -191,16 +194,18 @@ public class MessageService {
 		Actor recipient = message.getRecipient();
 		Actor sender = message.getSender();
 		
-		System.out.println("se encuentra a los actores");
+		String body = message.getBody();
+		String subject = message.getSubject();
+		
+		message.setFlagSpam(findSpamWords(body)||findSpamWords(subject));//se comprueba si llevan spam.
+		
 
 		Collection<Box> recieverBoxes = boxService.findByActorId(recipient.getId());
 		Collection<Box> senderBoxes = boxService.findByActorId(sender.getId());
 		
-		System.out.println("se encuentran sus boxes");
 
 		for (Box box : recieverBoxes) {
 			if (box.getName().equals("In Box")) {
-				System.out.println("se intenta añadir el mensaje al inbox del actor");
 				boxService.addMessageToBox(box, message);
 				
 			}
@@ -208,21 +213,31 @@ public class MessageService {
 
 		for (Box box : senderBoxes) {
 			if (box.getName().equals("Out Box")) {
-				System.out.println("se crea una copia del mensaje");
 				
+				//TODO: incumple el requisito de almacenar una copia.
 				Message copia = this.create(sender);
 				copia.setBody(message.getBody());
 				copia.setSubject(message.getSubject());
 				copia.setRecipient(recipient);
 				copia.setPriority(message.getPriority());
+				copia.setFlagSpam(message.getFlagSpam());
 				
-				System.out.println("se intenta añadir el mensaje al outbox del actor");
 				
 				Message saved = this.save(copia);
 				
 				boxService.addMessageToBox(box, saved);
 			}
 		}
+	}
+	
+	private boolean findSpamWords(String text){
+		boolean res = false;
+		String[] messageWords = text.split(" ");
+		for (int i = 0; i < messageWords.length; i++) {
+			
+		}
+		
+		return res;
 	}
 
 }
