@@ -86,9 +86,9 @@ public class ComplaintCustomerController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int complaintId) {
 
 		ModelAndView result;
-		Complaint complaint;
 
-		complaint = complaintService.findOne(complaintId);
+		Complaint complaint = complaintService.findOne(complaintId);
+
 		result = createEditModelAndView(complaint);
 
 		return result;
@@ -133,6 +133,23 @@ public class ComplaintCustomerController extends AbstractController {
 		return result;
 	}
 
+	// Cancel -----------------------------------------------------------------
+
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public ModelAndView cancel(@RequestParam final int complaintId) {
+		ModelAndView result;
+
+		Complaint complaint = this.complaintService.findOne(complaintId);
+
+		try {
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(complaint,
+					"complaint.commit.error");
+		}
+		return result;
+	}
+
 	protected ModelAndView createEditModelAndView(Complaint complaint) {
 		ModelAndView result;
 
@@ -147,8 +164,11 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("complaint/edit");
+		
+		Collection<String> attachments = complaint.getAttachments();
 
 		result.addObject("complaint", complaint);
+		result.addObject("attachments", attachments);
 		result.addObject("message", message);
 
 		return result;
