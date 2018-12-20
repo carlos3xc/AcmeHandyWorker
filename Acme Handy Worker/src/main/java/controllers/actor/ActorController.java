@@ -54,7 +54,7 @@ public class ActorController extends AbstractController {
 
 	// Create handyWorker -----------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/createHandyWorker", method = RequestMethod.GET)
 	public ModelAndView createHandyWorker() {
 
 		ModelAndView result;
@@ -68,7 +68,7 @@ public class ActorController extends AbstractController {
 
 	// Create customer --------------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/createCustomer", method = RequestMethod.GET)
 	public ModelAndView createCustomer() {
 
 		ModelAndView result;
@@ -82,7 +82,7 @@ public class ActorController extends AbstractController {
 
 	// Create sponsor ---------------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/createSponsor", method = RequestMethod.GET)
 	public ModelAndView createSponsor() {
 
 		ModelAndView result;

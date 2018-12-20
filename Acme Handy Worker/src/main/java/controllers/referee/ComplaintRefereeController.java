@@ -32,7 +32,7 @@ public class ComplaintRefereeController extends AbstractController {
 	// Listing B-RF 36.1 -------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView listComplaintsWithNoReports() {
 
 		ModelAndView result;
 
@@ -48,8 +48,8 @@ public class ComplaintRefereeController extends AbstractController {
 
 	// Listing B-RF 36.2 -------------------------------------------------------
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list2() {
+	@RequestMapping(value = "/listReferee", method = RequestMethod.GET)
+	public ModelAndView listComplaintsReferee() {
 
 		ModelAndView result;
 
