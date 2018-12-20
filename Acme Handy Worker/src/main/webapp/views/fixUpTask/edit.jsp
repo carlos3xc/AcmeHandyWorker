@@ -25,7 +25,7 @@
 					 				 -->
 									 
 
-<form:form action="customer/fixUpTask/edit.do" modelAttribute="fixUpTask">
+<form:form action="fixUpTask/customer/edit.do" modelAttribute="fixUpTask">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -82,8 +82,8 @@
 	<form:label path="category">
 		<spring:message code="task.category" />:
 	</form:label>
-	<form:select id="categories" path="category">
-		<form:options items="${categories}" itemsLabel="name" itemsValue="id" />
+	<form:select path="category">
+		<form:options items="${categories}" itemLabel="name" itemValue="id" />
 		<form:option label = "-----" value="0" />
 	</form:select>
 	<form:errors cssClass="error" path="category" />
@@ -117,8 +117,8 @@
 	
 	<jstl:if test="${fixUpTask.id != 0}">
 		<input type="submit" name="delete"
-			value="<spring:message code="fixUpTask.delete" />"
-			onclick="return confirm('<spring:message code="fixUpTask.confirm.delete" />')" />&nbsp;
+			value="<spring:message code="task.delete" />"
+			onclick="return confirm('<spring:message code="task.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 				
 	<input type="button" name="cancel"

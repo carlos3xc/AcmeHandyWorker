@@ -21,10 +21,9 @@ import controllers.AbstractController;
 import domain.Category;
 import domain.Customer;
 import domain.FixUpTask;
-import domain.Warranty;
 
 @Controller
-@RequestMapping("/customer/fixUpTask")
+@RequestMapping("fixUpTask/customer/")
 public class FixUpTaskCustomerController extends AbstractController{
 
 public FixUpTaskCustomerController(){
@@ -56,7 +55,7 @@ public FixUpTaskCustomerController(){
 			res = new ModelAndView("fixUpTask/list");
 			res.addObject("fixUpTasks", fixUpTasks);
 			res.addObject("customer",c);
-			res.addObject("requestURI", "fixUpTask/explorer/list.do");
+			res.addObject("requestURI", "fixUpTask/customer/list.do");
 			return res; 
 		}
 
@@ -68,7 +67,6 @@ public FixUpTaskCustomerController(){
 			FixUpTask fixUpTask;
 			fixUpTask = this.fixUpTaskService.create();
 			
-			System.out.println("warranty create " + fixUpTask.getWarranty().getIsDraft());
 			result = this.createEditModelAndView(fixUpTask);
 
 			return result;
@@ -107,9 +105,9 @@ public FixUpTaskCustomerController(){
 		
 		@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 		public ModelAndView save(@Valid FixUpTask fixUpTask, BindingResult binding){
-			
 			ModelAndView res;
 			if(binding.hasErrors()){
+				System.out.println("ups");
 				System.out.println("Fallos en: \n" + binding.getAllErrors());
 				res = this.createEditModelAndView(fixUpTask);
 			}else{
