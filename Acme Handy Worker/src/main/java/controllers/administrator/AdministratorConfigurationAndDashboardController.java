@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -110,17 +111,26 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		
 		wordService.save(word); // el create se hace automaticamente al cargar la vista.
 		
+		System.out.println(word.getContent()+"  "+word.getType());
+		System.out.println(binding.hasErrors());
+		for (ObjectError e : binding.getAllErrors()) {
+			System.out.println(e);
+		}
+		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(config);
 		}else{
 			try {
 				List<Word> spams = config.getspamWords();
+				List<CreditCardMake> makes = config.getCreditCardMakes();
 				spams.add(word);
 				config.setSpamWords(spams);
 				configurationService.save(config);
+				System.out.println("se ejecuta el save de config");
 				res = new ModelAndView("redirect:configuration.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
+				System.out.println("he cogido esto para ti: "+e);
 			}
 		}
 		return res;

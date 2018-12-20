@@ -645,171 +645,171 @@
 	<!-- POSITIVES -->
 
 	<bean id="word1" class="domain.Word">
-		<property name="word" value="good" />
+		<property name="content" value="good" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word2" class="domain.Word">
-		<property name="word" value="fantastic" />
+		<property name="content" value="fantastic" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word3" class="domain.Word">
-		<property name="word" value="excellent" />
+		<property name="content" value="excellent" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word4" class="domain.Word">
-		<property name="word" value="great" />
+		<property name="content" value="great" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word5" class="domain.Word">
-		<property name="word" value="amazing" />
+		<property name="content" value="amazing" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word6" class="domain.Word">
-		<property name="word" value="terrific" />
+		<property name="content" value="terrific" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word7" class="domain.Word">
-		<property name="word" value="beautiful" />
+		<property name="content" value="beautiful" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word8" class="domain.Word">
-		<property name="word" value="bueno" />
+		<property name="content" value="bueno" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word9" class="domain.Word">
-		<property name="word" value="fantástico" />
+		<property name="content" value="fantástico" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word10" class="domain.Word">
-		<property name="word" value="excelente" />
+		<property name="content" value="excelente" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word11" class="domain.Word">
-		<property name="word" value="genial" />
+		<property name="content" value="genial" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word12" class="domain.Word">
-		<property name="word" value="increíble" />
+		<property name="content" value="increíble" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word13" class="domain.Word">
-		<property name="word" value="estupendo" />
+		<property name="content" value="estupendo" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<bean id="word14" class="domain.Word">
-		<property name="word" value="bonito" />
+		<property name="content" value="bonito" />
 		<property name="type" value="POSITIVE" />
 	</bean>
 
 	<!-- NEGATIVES -->
 
 	<bean id="word15" class="domain.Word">
-		<property name="word" value="not" />
+		<property name="content" value="not" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word16" class="domain.Word">
-		<property name="word" value="bad" />
+		<property name="content" value="bad" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word17" class="domain.Word">
-		<property name="word" value="horrible" />
+		<property name="content" value="horrible" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word18" class="domain.Word">
-		<property name="word" value="average" />
+		<property name="content" value="average" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word19" class="domain.Word">
-		<property name="word" value="disaster" />
+		<property name="content" value="disaster" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word20" class="domain.Word">
-		<property name="word" value="no" />
+		<property name="content" value="no" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word21" class="domain.Word">
-		<property name="word" value="malo" />
+		<property name="content" value="malo" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word22" class="domain.Word">
-		<property name="word" value="horroroso" />
+		<property name="content" value="horroroso" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word23" class="domain.Word">
-		<property name="word" value="mediocre" />
+		<property name="content" value="mediocre" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<bean id="word24" class="domain.Word">
-		<property name="word" value="desastroso" />
+		<property name="content" value="desastroso" />
 		<property name="type" value="NEGATIVE" />
 	</bean>
 
 	<!-- SPAM WORDS -->
 
 	<bean id="word25" class="domain.Word">
-		<property name="word" value="sex" />
+		<property name="content" value="sex" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word26" class="domain.Word">
-		<property name="word" value="viagra" />
+		<property name="content" value="viagra" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word27" class="domain.Word">
-		<property name="word" value="cialis" />
+		<property name="content" value="cialis" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word28" class="domain.Word">
-		<property name="word" value="one million" />
+		<property name="content" value="one million" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word29" class="domain.Word">
-		<property name="word" value="you've been selected" />
+		<property name="content" value="you've been selected" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word30" class="domain.Word">
-		<property name="word" value="Nigeria" />
+		<property name="content" value="Nigeria" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word31" class="domain.Word">
-		<property name="word" value="sexo" />
+		<property name="content" value="sexo" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word32" class="domain.Word">
-		<property name="word" value="un millón" />
+		<property name="content" value="un millón" />
 		<property name="type" value="SPAM" />
 	</bean>
 
 	<bean id="word33" class="domain.Word">
-		<property name="word" value="ha sido seleccionado" />
+		<property name="content" value="ha sido seleccionado" />
 		<property name="type" value="SPAM" />
 	</bean>
 

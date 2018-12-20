@@ -14,7 +14,7 @@ public class Word extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	private String word;
+	private String content;
 	private String type;
 
 	// Constructors -----------------------------------------------------------
@@ -27,12 +27,12 @@ public class Word extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	public String getWord() {
-		return word;
+	public String getContent() {
+		return content;
 	}
 
-	public void setWord(String word) {
-		this.word = word;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@NotBlank
@@ -40,6 +40,8 @@ public class Word extends DomainEntity {
 	public String getType() {
 		return type;
 	}
+
+	
 
 	public void setType(String type) {
 		this.type = type;

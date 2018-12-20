@@ -96,8 +96,8 @@ public class HandyWorkerEndorsementService {
 		Collection<String> positives = new ArrayList<String>();
 		Collection<String> negatives = new ArrayList<String>();
 
-		for(Word w: wordService.findPositiveWords()) positives.add(w.getWord());
-		for(Word w: wordService.findNegativeWords()) negatives.add(w.getWord());
+		for(Word w: wordService.findPositiveWords()) positives.add(w.getContent());
+		for(Word w: wordService.findNegativeWords()) negatives.add(w.getContent());
 
 		
 		for(HandyWorkerEndorsement ce: endorsements){

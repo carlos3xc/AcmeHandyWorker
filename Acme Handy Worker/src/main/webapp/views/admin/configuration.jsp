@@ -111,34 +111,38 @@ Recieves:
 <h2><spring:message code="admin.manageSpamWords"/></h2>
 <spring:message code="admin.currentSpamWords"/>:
 <jstl:forEach var="i" items="${configuration.spamWords}">
-<jstl:out value="${i.word}"></jstl:out>
+<jstl:out value="${i.content}"></jstl:out>
 </jstl:forEach>
 
 <form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="type" value="SPAM"/>
 	
-	<form:label path="word">
+	<form:label path="content">
 		<spring:message code="admin.word" />:
 	</form:label>
 	
-	<form:input path="word" />
-	<form:errors cssClass="error" path="word" />
+	<form:input path="content" />
+	<form:errors cssClass="error" path="content" />
 	<br />
 	
 	<input type="submit" name="addSpam" value="<spring:message code="admin.add" />" />
 </form:form>
 
 <form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	<form:hidden path="type" value="SPAM"/>
 	
-	<form:label path="word">
+	<form:label path="content">
 		<spring:message code="admin.word" />:
 	</form:label>
 	
-	<form:select path="word">
-		<form:options items="${configuration.spamWords}" itemLabel="word" itemValue="id"/>
+	<form:select path="content">
+		<form:options items="${configuration.spamWords}" itemLabel="content" itemValue="content"/>
 	</form:select>
-	<form:errors cssClass="error" path="word" />
+	<form:errors cssClass="error" path="content" />
 	<br />
 	
 	<input type="submit" name="removeSpam" value="<spring:message code="admin.remove" />" />
@@ -150,7 +154,7 @@ Recieves:
 <jstl:out value="${i.make}"></jstl:out>
 </jstl:forEach>
 
-<form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
+ <form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	

@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class MessageService {
 		message.setPriority("NEUTRAL");
 		message.setFlagSpam(false);
 		message.setTags(new ArrayList<String>());
+		message.setMoment(new Date (System.currentTimeMillis()-1000));
 
 		return message;
 	}
@@ -188,20 +190,37 @@ public class MessageService {
 
 		Actor recipient = message.getRecipient();
 		Actor sender = message.getSender();
+		
+		System.out.println("se encuentra a los actores");
 
-		Collection<Box> recieverBoxes = boxService.findByActorId(recipient
-				.getId());
+		Collection<Box> recieverBoxes = boxService.findByActorId(recipient.getId());
 		Collection<Box> senderBoxes = boxService.findByActorId(sender.getId());
+		
+		System.out.println("se encuentran sus boxes");
 
 		for (Box box : recieverBoxes) {
 			if (box.getName().equals("In Box")) {
+				System.out.println("se intenta añadir el mensaje al inbox del actor");
 				boxService.addMessageToBox(box, message);
+				
 			}
 		}
 
 		for (Box box : senderBoxes) {
 			if (box.getName().equals("Out Box")) {
-				boxService.addMessageToBox(box, message);
+				System.out.println("se crea una copia del mensaje");
+				
+				Message copia = this.create(sender);
+				copia.setBody(message.getBody());
+				copia.setSubject(message.getSubject());
+				copia.setRecipient(recipient);
+				copia.setPriority(message.getPriority());
+				
+				System.out.println("se intenta añadir el mensaje al outbox del actor");
+				
+				Message saved = this.save(copia);
+				
+				boxService.addMessageToBox(box, saved);
 			}
 		}
 	}

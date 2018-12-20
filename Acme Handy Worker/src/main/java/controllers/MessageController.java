@@ -75,26 +75,36 @@ public class MessageController extends AbstractController {
 	public ModelAndView save(@Valid Message message, BindingResult binding){
 		ModelAndView res;
 		
-		int boxId = 0;
-		Collection<Box> boxes = boxService.findAll();
-		for (Box b : boxes) {
-			if(b.getMessages().contains(message))
-			boxId=b.getId();
-		}
+		System.out.println(message.getBody()+" "+message.getSubject()+" "+ 
+		message.getRecipient().getUserAccount().getUsername()
+		+message.getSender().getUserAccount().getUsername());
+		
+		
 		
 		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(message);
 		}else{
 			try {
-				messageService.save(message);
-				messageService.addMesageToBoxes(message);
+				Message saved = messageService.save(message);
+				System.out.println("se guarda  el message");
+				
+				messageService.addMesageToBoxes(saved);
+				System.out.println("se añade a las boxes");
+				
+				int boxId = 0;
+				Collection<Box> boxes = boxService.findAll();
+				for (Box b : boxes) {
+					if(b.getMessages().contains(saved))
+					boxId=b.getId();
+					System.out.println("se ha encontrado el box pertinente"+ boxId);
+				}
 				
 				res = new ModelAndView("redirect:list.do?boxId="+boxId);
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
+				System.out.println(e);
 				
-				//TODO: añadir el commit error al messages.properties de message.
 			}
 		}
 		return res;
@@ -139,9 +149,9 @@ public class MessageController extends AbstractController {
 		//editados no es necesario
 		
 		res = new ModelAndView("message/edit");
-		res.addObject("message", message);
+		res.addObject("userMessage", message);
 		res.addObject("actors",actorService.findAll());
-		res.addObject("errorMessage", messageCode);
+		res.addObject("message", messageCode);
 		
 		return res;
 	}

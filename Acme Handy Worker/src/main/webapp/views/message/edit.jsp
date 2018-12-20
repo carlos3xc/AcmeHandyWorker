@@ -20,11 +20,11 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- 
-	Recibe: Message message: el mensaje a editar.
+	Recibe: Message userMessage: el mensaje a editar.
 			List<Actor> actors: todos los actores del sistema.
  -->
 
-<form:form action="message/edit.do" modelAttribute="message">
+<form:form action="message/edit.do" modelAttribute="userMessage">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -48,11 +48,11 @@
 	<form:errors cssClass="error" path="priority" />
 	<br />
 	
-	<form:label path="sender">
-		<spring:message code="m.sender" />
+	<form:label path="recipient">
+		<spring:message code="m.recipient" />
 	</form:label>
 	
-	<form:select path="sender">
+	<form:select path="recipient">
 		<form:options items="${actors}" itemLabel="userAccount.username" itemValue="id"/>
 	</form:select>
 	<form:errors cssClass="error" path="sender" />
@@ -84,7 +84,7 @@
 	<br />
 	-->
 	
-	<input type="submit" name="save" value="<spring:message code="m" />" />
+	<input type="submit" name="save" value="<spring:message code="m.save" />" />
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="m.cancel" />"

@@ -33,7 +33,7 @@ public class WordServiceTest extends AbstractTest{
 		
 		Word res = wordService.create();
 		
-		Assert.isNull(res.getWord());
+		Assert.isNull(res.getContent());
 		Assert.isNull(res.getType());
 		
 		super.authenticate(null);
@@ -46,7 +46,7 @@ public class WordServiceTest extends AbstractTest{
 		
 		Word res = wordService.create();
 		
-		res.setWord("Ubisoft");
+		res.setContent("Ubisoft");
 		res.setType("NEGATIVE");
 		
 		
