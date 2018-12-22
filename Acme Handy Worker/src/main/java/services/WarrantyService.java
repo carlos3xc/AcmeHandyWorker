@@ -33,7 +33,6 @@ public class WarrantyService {
 	public Warranty create(){
 		Warranty res = new Warranty();
 		
-		res.setLaws(new ArrayList<String>());
 		res.setIsDraft(true);
 		
 		return res;
