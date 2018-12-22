@@ -81,7 +81,7 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		warranty= warrantyService.create();
 		warranty.setTitle("Warranty title test");
 		warranty.setTerms("Terms warranty test");
-		warranty.getLaws().add("Law test warranty");
+		warranty.setLaws("Law test warranty");
 		warranty.setIsDraft(true);
 		Wsaved = warrantyService.save(warranty);
 		
