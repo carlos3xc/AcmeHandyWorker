@@ -69,5 +69,11 @@ public class CategoryService {
 	
 	//Other business methods -----
 	
+	public Category getCategoryByName(String cName){
+		Category res;
+		res = categoryRepository.getCategoryByName(cName);
+		return res;
+	}
+	
 	
 }

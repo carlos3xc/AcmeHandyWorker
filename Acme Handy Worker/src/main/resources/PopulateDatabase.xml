@@ -1932,96 +1932,56 @@
 	<bean id="warranty1" class="domain.Warranty">
 		<property name="title" value="Warranty 1" />
 		<property name="terms" value="Terms warranty 1" />
-		<property name="laws">
-			<list>
-				<value>Law 1</value>
-				<value>Law 2</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 1, law 2"/>
 		<property name="isDraft" value="false" />
 	</bean>
 
 	<bean id="warranty2" class="domain.Warranty">
 		<property name="title" value="Warranty 2" />
 		<property name="terms" value="Terms warranty 2" />
-		<property name="laws">
-			<list>
-				<value>Law 3</value>
-				<value>Law 4</value>
-				<value>Law 5</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 1, law 2, law 3"/>
 		<property name="isDraft" value="false" />
 	</bean>
 
 	<bean id="warranty3" class="domain.Warranty">
 		<property name="title" value="Warranty 3" />
 		<property name="terms" value="Terms warranty 3" />
-		<property name="laws">
-			<list>
-				<value>Law 6</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 1, law 2, law 3, law 4"/>
 		<property name="isDraft" value="false" />
 	</bean>
 
 	<bean id="warranty4" class="domain.Warranty">
 		<property name="title" value="Warranty 4" />
 		<property name="terms" value="Terms warranty 4" />
-		<property name="laws">
-			<list>
-				<value>Law 7</value>
-				<value>Law 8</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 1"/>
 		<property name="isDraft" value="true" />
 	</bean>
 
 	<bean id="warranty5" class="domain.Warranty">
 		<property name="title" value="Warranty 5" />
 		<property name="terms" value="Terms warranty 5" />
-		<property name="laws">
-			<list>
-				<value>Law 9</value>
-				<value>Law 10</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 9, law 10"/>
 		<property name="isDraft" value="false" />
 	</bean>
 
 	<bean id="warranty6" class="domain.Warranty">
 		<property name="title" value="Warranty 6" />
 		<property name="terms" value="Terms warranty 6" />
-		<property name="laws">
-			<list>
-				<value>Law 11</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 11"/>
 		<property name="isDraft" value="true" />
 	</bean>
 
 	<bean id="warranty7" class="domain.Warranty">
 		<property name="title" value="Warranty 7" />
 		<property name="terms" value="Terms warranty 7" />
-		<property name="laws">
-			<list>
-				<value>Law 12</value>
-				<value>Law 13</value>
-				<value>Law 14</value>
-				<value>Law 15</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 12, law 12, law 13, law 14, law 15"/>
 		<property name="isDraft" value="true" />
 	</bean>
 
 	<bean id="warranty8" class="domain.Warranty">
 		<property name="title" value="Warranty 8" />
 		<property name="terms" value="Terms warranty 8" />
-		<property name="laws">
-			<list>
-				<value>Law 16</value>
-			</list>
-		</property>
+		<property name="laws" value ="Law 16, law 17"/>
 		<property name="isDraft" value="false" />
 	</bean>
 

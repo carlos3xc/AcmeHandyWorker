@@ -17,51 +17,44 @@
 	<!-- PARAMETERS CREATED IN VIEW: customerName: String, unión del name,middleName y surname del customer que publica la task -->
 					 
 		<!-- Creamos el nombre completo del customer y creamos una variable customerName -->
-		<jstl:set var="customerName" value="${fixUpTask.customer.name + fixUpTask.customer.middleName + fixUpTask.customer.surname }"/>
 		<display:table name="fixUpTask" id="row" requestURI="fixUpTask/list.do">
 				<display:column>
-					<b>Ticker:</b> <jstl:out value="${fixUpTask.ticker}"/>
-					<b><spring:message code="task.description"/></b> <jstl:out value="${fixUpTask.description}"/>
-					<b><spring:message code="task.address"/></b> <jstl:out value="${fixUpTask.address}"/>
-					<b><spring:message code="task.startMoment"/></b> <jstl:out value="${startMoment}"/>
-					<b><spring:message code="task.endMoment"/></b> <jstl:out value="${endMoment}" />
+					<spring:message code="task.moment.format" var="momentFormat"/>
+					<b>Ticker:</b> <jstl:out value="${fixUpTask.ticker}"/><br/>
+					<b><spring:message code="task.description"/>: </b> <jstl:out value="${fixUpTask.description}"/><br/>
+					<b><spring:message code="task.address"/>: </b> <jstl:out value="${fixUpTask.address}"/><br/>
+					<b><spring:message code="task.startMoment"/>: </b> <fmt:formatDate value="${fixUpTask.startMoment}" pattern="${momentFormat}" /> <br/>
+					<b><spring:message code="task.endMoment"/>: </b> <fmt:formatDate value="${fixUpTask.endMoment}" pattern="${momentFormat}" /> <br/>
 				</display:column>
 				<display:column>
-					<b><spring:message code="task.category"/></b> <jstl:out value="${fixUpTask.category.name}"/>
-					<b><spring:message code="task.moment"/></b> <jstl:out value="${moment}"/>
-					<b><spring:message code="task.maxPrice"/></b> <jstl:out value="${fixUpTask.maxPrice}"/>
-					<b><spring:message code="task.publisher"/></b> <a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${customerName}"/></a>
+					<b><spring:message code="task.category"/>: </b> <jstl:out value="${fixUpTask.category.name}"/><br/>
+					<b><spring:message code="task.moment"/>: </b> <fmt:formatDate value="${fixUpTask.moment}" pattern="${momentFormat}" /> <br/>
+					<b><spring:message code="task.maxPrice"/>: </b> <jstl:out value="${fixUpTask.maxPrice}"/><br/>
+					<b><spring:message code="task.publisher"/>: </b> <a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fullName}"/></a>
 				</display:column>		
 			</display:table>
 	
-	<display:table name="fixUpTask.warranty" id="row" requestURI="fixUpTask/list.do">
+	<display:table name="fixUpTask.warranty" id="row" requestURI="fixUpTask/show.do">
 				<display:column>
-					<b><spring:message code="task.warranty.title"/>:</b> <jstl:out value="${fixUpTask.warranty.title}"/>
-					<b><spring:message code="task.warranty.terms"/>:</b><br/> <jstl:out value="${fixUpTask.warranty.terms}"/>
+					<b><spring:message code="task.warranty.title"/>: </b> <jstl:out value="${fixUpTask.warranty.title}"/><br/>
+					<b><spring:message code="task.warranty.terms"/>: </b><br/> <jstl:out value="${fixUpTask.warranty.terms}"/>
 				</display:column>
 				<display:column>
 					<b><spring:message code="task.warranty.laws"/>:</b> <jstl:forEach var="law" items="${fixUpTask.warranty.laws}"> <jstl:out value="${law}"/><br/></jstl:forEach>
 				</display:column>		
 			</display:table>
 		<br/>
-		<h1><spring:message code="task.complaints"/>:</h1><br/>
+		<h3><spring:message code="task.complaints"/>:</h3>
 		<display:table name="complaints" id="row" requestURI="fixUpTask/show.do" pagesize="5">
 			
 			<display:column property="ticker" titleKey="task.ticker" />
 			
 			<display:column property="description" titleKey="task.description" />
 			
-			<display:column property="moment" title="task.moment" />
-			<!--  
-			<spring:message code="task.complaint.attachments" var="attachmentsHeader"/>
-			<display:column title="${tickerHeader}">
-				<jstl:forEach var="a" items="${row.attachments}">
-					<jstl:out value="${a}"/><br/>
-				</jstl:forEach>
-			</display:column>-->
-			
+			<display:column property="moment" titleKey="task.moment" />
+
 			<display:column titleKey="task.complaint.customer">
-				<a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fixUpTask.customer.username}"/></a>
+				<a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fixUpTask.customer.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 		

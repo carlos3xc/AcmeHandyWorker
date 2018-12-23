@@ -50,7 +50,7 @@ public class WarrantyServiceTest extends AbstractTest{
 		
 		res.setTerms("hola");
 		res.setTitle("Adios");
-		res.getLaws().add("ley1");
+		res.setLaws("ley1");
 		
 		Warranty saved = warrantyService.save(res);
 		

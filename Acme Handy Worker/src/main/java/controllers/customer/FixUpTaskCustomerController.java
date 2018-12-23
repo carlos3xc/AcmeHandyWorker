@@ -21,10 +21,9 @@ import controllers.AbstractController;
 import domain.Category;
 import domain.Customer;
 import domain.FixUpTask;
-import domain.Warranty;
 
 @Controller
-@RequestMapping("/customer/fixUpTask")
+@RequestMapping("fixUpTask/customer/")
 public class FixUpTaskCustomerController extends AbstractController{
 
 public FixUpTaskCustomerController(){
@@ -56,7 +55,7 @@ public FixUpTaskCustomerController(){
 			res = new ModelAndView("fixUpTask/list");
 			res.addObject("fixUpTasks", fixUpTasks);
 			res.addObject("customer",c);
-			res.addObject("requestURI", "fixUpTask/explorer/list.do");
+			res.addObject("requestURI", "fixUpTask/customer/list.do");
 			return res; 
 		}
 
@@ -68,7 +67,6 @@ public FixUpTaskCustomerController(){
 			FixUpTask fixUpTask;
 			fixUpTask = this.fixUpTaskService.create();
 			
-			System.out.println("warranty create " + fixUpTask.getWarranty().getIsDraft());
 			result = this.createEditModelAndView(fixUpTask);
 
 			return result;
@@ -87,7 +85,7 @@ public FixUpTaskCustomerController(){
 			return result;
 		}
 		
-	//Delete----------------------------------------------------------------------------------------------------------------------------------------
+	//Delete edit----------------------------------------------------------------------------------------------------------------------------------------
 		
 		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
 		public ModelAndView delete(FixUpTask fixUpTask, BindingResult binding){
@@ -103,13 +101,31 @@ public FixUpTaskCustomerController(){
 			return res;
 		}
 		
+	//Delete list ----------------------------------------------------------------------------------------------------------------------------------------
+	
+		@RequestMapping(value="/delete", method = RequestMethod.GET)
+		public ModelAndView delete(@RequestParam final int fixUpTaskId){
+			
+			ModelAndView res;
+			FixUpTask fx;
+			fx = fixUpTaskService.findOne(fixUpTaskId);
+			
+			try{
+				this.fixUpTaskService.delete(fx);
+				res= new ModelAndView("redirect:list.do");
+			} catch (Throwable oops) {
+				res = createEditModelAndView(fx,"task.commit.error");
+			}
+			return res;
+		}
+		
 	//Save---------------------------------------------------------------	
 		
 		@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 		public ModelAndView save(@Valid FixUpTask fixUpTask, BindingResult binding){
-			
 			ModelAndView res;
 			if(binding.hasErrors()){
+				System.out.println("ups");
 				System.out.println("Fallos en: \n" + binding.getAllErrors());
 				res = this.createEditModelAndView(fixUpTask);
 			}else{
@@ -135,6 +151,7 @@ public FixUpTaskCustomerController(){
 		protected ModelAndView createEditModelAndView(FixUpTask fixUpTask, String messageCode){
 			ModelAndView res;
 			Collection<Category> categories = categoryService.findAll();
+			categories.remove(categoryService.getCategoryByName("CATEGORY"));
 			res= new ModelAndView("fixUpTask/edit");
 			res.addObject("fixUpTask", fixUpTask);
 

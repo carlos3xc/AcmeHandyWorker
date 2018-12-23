@@ -36,8 +36,26 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="complaint/customer/list.do"><spring:message code="master.page.customer.complaint.list" /></a></li>
-					<li><a href="customer/fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
-					<li><a href="customer/fixUpTask/create.do"><spring:message code="master.page.customer.task.create" /></a></li>					
+					<li><a href="fixUpTask/customer/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
+					<li><a href="fixUpTask/customer/create.do"><spring:message code="master.page.customer.task.create" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('HANDYWORKER')">
+			<li><a class="fNiv"><spring:message	code="master.page.handyWorker" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="complaint/handyWorker/list.do"><spring:message code="master.page.handyWorker.complaint.list" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('REFEREE')">
+			<li><a class="fNiv"><spring:message	code="master.page.referee" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="complaint/referee/list.do"><spring:message code="master.page.referee.complaint.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

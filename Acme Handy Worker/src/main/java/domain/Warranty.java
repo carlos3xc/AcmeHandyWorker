@@ -18,7 +18,7 @@ public class Warranty extends DomainEntity {
 
 	private String title;
 	private String terms;
-	private Collection<String> laws;
+	private String laws;
 	private Boolean isDraft;
 
 	// Constructors -----------------------------------------------------------
@@ -47,13 +47,12 @@ public class Warranty extends DomainEntity {
 		this.terms = terms;
 	}
 
-	@NotEmpty
-	@ElementCollection
-	public Collection<String> getLaws() {
+	@NotBlank
+	public String getLaws() {
 		return this.laws;
 	}
 
-	public void setLaws(final Collection<String> laws) {
+	public void setLaws(final String laws) {
 		this.laws = laws;
 	}
 

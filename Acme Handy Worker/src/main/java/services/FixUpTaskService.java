@@ -77,8 +77,7 @@ public class FixUpTaskService {
 		Collection<FixUpTask> fixUpTasks;
 		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
-	
-		if(fx.getId()==0) war = warrantyService.save(fx.getWarranty());
+		war = warrantyService.save(fx.getWarranty());
 		fx.setWarranty(war);
 		saved = fixUpTaskRepository.save(fx);
 		fixUpTasks = fixUpTaskRepository.findAll();

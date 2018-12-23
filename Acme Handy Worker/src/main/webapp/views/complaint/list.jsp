@@ -37,18 +37,22 @@
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
 
-		<display:column titleKey="complaint.customer" property="customer" />
+		<display:column titleKey="complaint.customer">
+			<a href="actor/show.do?actorId=${row.customer.id}">
+				${row.customer.userAccount.username } </a>
+		</display:column>
 
-		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+		<display:column titleKey="complaint.fixUpTask"
+			property="fixUpTask.ticker" />
 
 	</display:table>
 
 </security:authorize>
 
-<security:authorize access="hasRole('SPONSOR')">
+<security:authorize access="hasRole('REFEREE')">
 
 	<display:table name="${complaints}" id="row" pagesize="5"
-		requestURI="complaint/sponsor/list.do">
+		requestURI="complaint/referee/list.do">
 
 		<display:column titleKey="complaint.ticker" property="ticker" />
 
@@ -59,9 +63,11 @@
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
 
-		<display:column titleKey="complaint.customer" property="customer" />
+		<display:column titleKey="complaint.referee"
+			property="${row.referee.userAccount.username}" />
 
-		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+		<display:column titleKey="complaint.fixUpTask"
+			property="fixUpTask.ticker" />
 
 	</display:table>
 
@@ -80,10 +86,12 @@
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
 
-		<display:column titleKey="complaint.customer" property="customer" />
+		<display:column titleKey="complaint.handyWorker"
+			property="${row.handyWorker.userAccount.username}" />
 
-		<display:column titleKey="complaint.fixUpTask" property="fixUpTask" />
+		<display:column titleKey="complaint.fixUpTask"
+			property="fixUpTask.ticker" />
 
 	</display:table>
-	
+
 </security:authorize>

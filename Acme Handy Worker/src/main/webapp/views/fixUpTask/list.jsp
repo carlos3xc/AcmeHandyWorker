@@ -19,10 +19,15 @@
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.show" />
 					</a><br/>
-					<jstl:if test="${row.customer == customer}"> <!-- customer SE PASARÁ DESDE EL CONTROLADOR INDICADO EL CUSTOMER LOGEADO -->
+					<jstl:if test="${row.customer == customer}"> 
+						<jstl:if test="${row.warranty.isDraft}">
 							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.edit" />
-							</a><br/>							
+							</a><br/>	
+						</jstl:if>	
+						<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
+								<spring:message	code="task.delete" />
+							</a><br/>						
 					</jstl:if>
 					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />
