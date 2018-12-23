@@ -51,10 +51,8 @@ public class FixUpTaskService {
 	//Simple CRUD methods -----
 	public FixUpTask create(){
 		FixUpTask res = new FixUpTask();
-		Warranty war = warrantyService.create();
 		res.setApplications(new ArrayList<Application>());
 		res.setComplaints(new ArrayList<Complaint>());
-		res.setWarranty(war);
 		res.setCustomer(customerService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		res.setMoment(current);
@@ -73,12 +71,10 @@ public class FixUpTaskService {
 	
 	public FixUpTask save(FixUpTask fx){
 		FixUpTask saved;
-		Warranty war = warrantyService.create();
 		Collection<FixUpTask> fixUpTasks;
 		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
-		war = warrantyService.save(fx.getWarranty());
-		fx.setWarranty(war);
+
 		saved = fixUpTaskRepository.save(fx);
 		fixUpTasks = fixUpTaskRepository.findAll();
 		Assert.isTrue(fixUpTasks.contains(saved));
@@ -86,13 +82,13 @@ public class FixUpTaskService {
 	}
 	
 	public void delete(FixUpTask fx){
-				Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	
+		Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	
 		Collection<Complaint> complaints = fx.getComplaints();
 		Collection<Application> applications = fx.getApplications();
 		Customer c = fx.getCustomer();
 		Collection<WorkPlanPhase> wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
-		
 		Assert.isTrue(fx.getStartMoment().after(new Date()));
+
 		for(Complaint co: complaints){
 			co.setFixUpTask(null);
 			complaintService.delete(co);

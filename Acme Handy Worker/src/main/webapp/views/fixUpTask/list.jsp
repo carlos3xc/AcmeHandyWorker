@@ -24,10 +24,13 @@
 							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.edit" />
 							</a><br/>	
-						</jstl:if>	
-						<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
+						</jstl:if>
+						<jsp:useBean id="today" class="java.util.Date"/>
+						<jstl:if test="${row.startMoment > today}">
+							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.delete" />
-							</a><br/>						
+							</a><br/>			
+						</jstl:if>			
 					</jstl:if>
 					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />

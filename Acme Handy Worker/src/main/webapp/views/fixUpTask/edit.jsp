@@ -35,13 +35,9 @@
 	<form:hidden path="customer" />		
 	<form:hidden path="applications" />	
 	<form:hidden path="complaints" />
-	<jstl:if test="${fixUpTask.id ==0 }">
-		<form:hidden path="warranty.isDraft"/>
-	</jstl:if>
-	<jstl:if test="${fixUpTask.id !=0 }">
+	<jstl:if test="${fixUpTask.warranty != null }">
 		<form:hidden path="warranty"/>
 	</jstl:if>
-	
 	<security:authorize access="hasRole('CUSTOMER')">
 	
 	<form:label path="description">
@@ -89,28 +85,16 @@
 	<form:errors cssClass="error" path="category" />
 	<br />
 	
-	<jstl:if test="${fixUpTask.id ==0 }">
-		<h3><spring:message code="task.warranty"/></h3>
-			<form:label path="warranty.title">
-				<spring:message code="task.warranty.title" />:
-			</form:label>
-			<form:input path="warranty.title" />
-			<form:errors cssClass="error" path="warranty.title" />
-			<br />
-			
-			<form:label path="warranty.terms">
-				<spring:message code="task.warranty.terms" />:
-			</form:label>
-			<form:input path="warranty.terms" />
-			<form:errors cssClass="error" path="warranty.terms" />
-			<br />
-			
-			<form:label path="warranty.laws">
-				<spring:message code="task.warranty.laws" />:
-			</form:label>
-			<form:textarea path="warranty.laws" placeholder="Separate the different laws with ;"/>
-			<form:errors cssClass="error" path="warranty.laws" />
-			<br />
+	<jstl:if test="${fixUpTask.warranty == null }">
+		<form:label path="warranty">
+			<spring:message code="task.warranty" />:
+		</form:label>
+		<form:select path="warranty">
+			<form:option label = "-----" value="0" />
+			<form:options items="${warranties}" itemLabel="title" itemValue="id" />
+		</form:select>
+		<form:errors cssClass="error" path="warranty" />
+		<br />
 	</jstl:if>
 	
 	<input type="submit" name="save" value="<spring:message code="task.save" />" />

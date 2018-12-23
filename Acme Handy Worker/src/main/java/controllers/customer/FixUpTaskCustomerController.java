@@ -1,6 +1,7 @@
 package controllers.customer;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -21,6 +22,7 @@ import controllers.AbstractController;
 import domain.Category;
 import domain.Customer;
 import domain.FixUpTask;
+import domain.Warranty;
 
 @Controller
 @RequestMapping("fixUpTask/customer/")
@@ -125,7 +127,6 @@ public FixUpTaskCustomerController(){
 		public ModelAndView save(@Valid FixUpTask fixUpTask, BindingResult binding){
 			ModelAndView res;
 			if(binding.hasErrors()){
-				System.out.println("ups");
 				System.out.println("Fallos en: \n" + binding.getAllErrors());
 				res = this.createEditModelAndView(fixUpTask);
 			}else{
@@ -151,10 +152,12 @@ public FixUpTaskCustomerController(){
 		protected ModelAndView createEditModelAndView(FixUpTask fixUpTask, String messageCode){
 			ModelAndView res;
 			Collection<Category> categories = categoryService.findAll();
+			Collection<Warranty> warranties = warrantyService.findWarrantiesWNoTask();
 			categories.remove(categoryService.getCategoryByName("CATEGORY"));
 			res= new ModelAndView("fixUpTask/edit");
 			res.addObject("fixUpTask", fixUpTask);
-
+			res.addObject("warranties",warranties);
+			res.addObject("now",new Date());
 			res.addObject("categories",categories);
 			res.addObject("message", messageCode);
 			
