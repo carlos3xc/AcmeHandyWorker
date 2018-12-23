@@ -57,18 +57,7 @@ public class BoxService {
 		// UserAccount userAccount = LoginService.getPrincipal();
 		// Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
 
-		result = boxRepository.save(box);
-		return result;
-	}
-
-	public Box saveBox(Box box) {
-		
-		Box result;
-
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(box.getActor().getUserAccount().equals(userAccount));
-
-		result = boxRepository.save(box);
+		result = boxRepository.saveAndFlush(box);
 		return result;
 	}
 
@@ -85,10 +74,6 @@ public class BoxService {
 
 	// Other business methods -----
 
-	public Collection<Box> findByActorId(Integer actorId) {
-		return boxRepository.findByActorId(actorId);
-	}
-
 	public Box createUserBox(Actor actor) {
 
 		Box box = this.create(actor);
@@ -102,11 +87,18 @@ public class BoxService {
 	public void addMessageToBox(Box box, Message message) {
 
 		List<Message> aux = new ArrayList<>(box.getMessages());
-
+		System.out.println(box.getMessages());
+		
 		aux.add(0, message); // los mensajes nuevos siempre se ponen primero.
 		box.setMessages(aux);
+		
+		System.out.println(box.getMessages());
 
-		this.save(box);
+	}
+	
+	public Box findByActorAndName(Actor actor, String boxName){
+		Assert.notNull(actor);
+		return boxRepository.findByActorIdAndName(actor.getId(), boxName);
 	}
 
 }

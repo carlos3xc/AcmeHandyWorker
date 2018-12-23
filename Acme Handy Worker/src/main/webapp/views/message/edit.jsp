@@ -32,7 +32,6 @@
 	<form:hidden path="flagSpam" />
 	<form:hidden path="moment" />
 	<form:hidden path="sender"/>
-	<form:hidden path="tags"/>
 	
 	<security:authorize access="isAuthenticated()">
 	
@@ -48,14 +47,14 @@
 	<form:errors cssClass="error" path="priority" />
 	<br />
 	
-	<form:label path="recipient">
+	<form:label path="recipients">
 		<spring:message code="m.recipient" />
 	</form:label>
 	
-	<form:select path="recipient">
+	<form:select multiple="true" path="recipients">
 		<form:options items="${actors}" itemLabel="userAccount.username" itemValue="id"/>
 	</form:select>
-	<form:errors cssClass="error" path="sender" />
+	<form:errors cssClass="error" path="recipients" />
 	<br />
 	
 	<form:label path="subject">
@@ -74,7 +73,7 @@
 	<form:errors cssClass="error" path="body" />
 	<br />  
 	
-	<!-- deberia ser una list y se le pide strings 
+	
 	<form:label path="tags">
 		<spring:message code="m.tags" />:
 	</form:label>
@@ -82,7 +81,6 @@
 	<form:textarea path="tags" />
 	<form:errors cssClass="error" path="tags" />
 	<br />
-	-->
 	
 	<input type="submit" name="save" value="<spring:message code="m.save" />" />
 				

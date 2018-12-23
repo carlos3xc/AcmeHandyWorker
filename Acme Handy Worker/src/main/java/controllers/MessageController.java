@@ -69,37 +69,22 @@ public class MessageController extends AbstractController {
 	
 	//Save-------------------------------------------------------------
 	
-	//TODO: no va a recibir un message si no un messageform que luego se convertira en message.
-	
 	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 	public ModelAndView save(@Valid Message message, BindingResult binding){
 		ModelAndView res;
-		
-		System.out.println(message.getBody()+" "+message.getSubject()+" "+ 
-		message.getRecipient().getUserAccount().getUsername()
-		+message.getSender().getUserAccount().getUsername());
-		
-		
-		
 		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(message);
 		}else{
 			try {
+				
 				Message saved = messageService.save(message);
-				
+				System.out.println("se ha ejecutado el save de messageService");
 				messageService.addMesageToBoxes(saved);
+				System.out.println("se añaden los mensajes a las boxes satisfactoriamente.");
 				
-				int boxId = 0;
-				Collection<Box> boxes = boxService.findAll();
-				for (Box b : boxes) {
-					if(b.getMessages().contains(saved))
-					boxId=b.getId();
-					System.out.println("se ha encontrado el box pertinente"+ boxId);
-					
-				}
-				
-				res = new ModelAndView("redirect:list.do?boxId="+boxId);
+				res = new ModelAndView("box/list");
+				res.addObject("boxes",boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId()));
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
 				System.out.println(e);

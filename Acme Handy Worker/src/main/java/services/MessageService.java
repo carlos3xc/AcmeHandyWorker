@@ -3,7 +3,9 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,9 @@ import domain.Actor;
 import domain.Administrator;
 import domain.Application;
 import domain.Box;
+import domain.Configuration;
 import domain.Message;
+import domain.Word;
 
 @Service
 @Transactional
@@ -77,15 +81,25 @@ public class MessageService {
 		// trashbox se elimina del sistema.
 
 		UserAccount userAccount = LoginService.getPrincipal();
+		
+		Set<Box> allActorBoxes = new HashSet<>();
 
-		Actor recipient = message.getRecipient();
-		Actor sender = message.getSender();
-
-		Actor logged = null;
-
-		if (recipient.getUserAccount().equals(userAccount)) {
-			logged = recipient;
+		Collection<Actor> recipients = message.getRecipients();
+		for (Actor a : recipients) {
+			allActorBoxes.addAll(boxService.findByActorId(a.getId()));
 		}
+		Actor sender = message.getSender();
+		allActorBoxes.addAll(boxService.findByActorId(sender.getId()));
+		
+		Actor logged = null;
+		
+		for (Actor recipient : recipients) {
+			if (recipient.getUserAccount().equals(userAccount)) {
+				logged = recipient;
+				break;
+			}
+		}
+		
 		if (sender.getUserAccount().equals(userAccount)) {
 			logged = sender;
 		}
@@ -106,7 +120,14 @@ public class MessageService {
 		if (trash.getMessages().contains(message)) {
 			Collection<Message> aux = trash.getMessages();
 			aux.remove(message);
-			messageRepository.delete(message);
+			
+			allActorBoxes.remove(trash);
+			for (Box b : allActorBoxes) {
+				if(b.getMessages().contains(message)){
+					messageRepository.delete(message);
+					break;
+				}
+			}
 			boxService.save(trash);
 		} else {
 			for (Box b : otherboxes) {
@@ -121,10 +142,6 @@ public class MessageService {
 				}
 			}
 		}
-
-		// modificar para aplicarlo a la entidad correspondiente.
-		// Assert.isTrue(message.getUserAccount().equals(userAccount));
-
 	}
 
 	// Other business methods -----
@@ -135,13 +152,16 @@ public class MessageService {
 
 		Actor handyWorker = application.getHandyWorker();
 		Actor customer = application.getFixUpTask().getCustomer();
+		
+		List<Actor> recipients = new ArrayList<>();
+		recipients.add(handyWorker);
+		recipients.add(customer);
 
-		Message message1 = this.create(sender);
-		message1.setRecipient(handyWorker);
-		Message message2 = this.create(sender);
-		message2.setRecipient(customer);
+		Message message = this.create(sender);
+		message.setRecipients(recipients);
+		
 
-		message1.setBody("The status of the fix-up Task described as: \n"
+		message.setBody("The status of the fix-up Task described as: \n"
 				+ application.getFixUpTask().getDescription()
 				+ "\n has changed you shoud revise it in the system. \n\n\n" +
 
@@ -149,16 +169,7 @@ public class MessageService {
 				+ application.getFixUpTask().getDescription()
 				+ "\n ha cambiado deberia revisar los cambios en el sistema.");
 
-		message2.setBody("The status of the fix-up Task described as: \n"
-				+ application.getFixUpTask().getDescription()
-				+ "\n has changed you shoud revise it in the system. \n\n\n" +
-
-				"El estado de la tarea de arreglo descrita como:\n"
-				+ application.getFixUpTask().getDescription()
-				+ "\n ha cambiado deberia revisar los cambios en el sistema.");
-
-		this.save(message1);
-		this.save(message2);
+		this.save(message);
 
 		Collection<Box> senderBoxes = boxService.findByActorId(sender.getId());
 		Collection<Box> handyWorkerBoxes = boxService.findByActorId(handyWorker
@@ -168,75 +179,58 @@ public class MessageService {
 
 		for (Box box : handyWorkerBoxes) {
 			if (box.getName().equals("In Box")) {
-				boxService.addMessageToBox(box, message1);
+				boxService.addMessageToBox(box, message);
 			}
 		}
 
 		for (Box box : customerBoxes) {
 			if (box.getName().equals("In Box")) {
-				boxService.addMessageToBox(box, message2);
+				boxService.addMessageToBox(box, message);
 			}
 		}
 
 		for (Box box : senderBoxes) {
 			if (box.getName().equals("Out Box")) {
-				boxService.addMessageToBox(box, message2);
-				boxService.addMessageToBox(box, message1);
-			}
-		}
-	}
-
-	public void addMesageToBoxes(Message message) {
-		// No se hara en el momento de la creacion si no a posteriori
-		// cuando el mensaje este completamente escrito para evitar
-		// guardar un mensaje diferente en la Box que lo que se queria mandar.
-
-		Actor recipient = message.getRecipient();
-		Actor sender = message.getSender();
-		
-		String body = message.getBody();
-		String subject = message.getSubject();
-		
-		message.setFlagSpam(findSpamWords(body)||findSpamWords(subject));//se comprueba si llevan spam.
-		
-
-		Collection<Box> recieverBoxes = boxService.findByActorId(recipient.getId());
-		Collection<Box> senderBoxes = boxService.findByActorId(sender.getId());
-		
-
-		for (Box box : recieverBoxes) {
-			if (box.getName().equals("In Box")) {
 				boxService.addMessageToBox(box, message);
 				
 			}
 		}
+	}
 
-		for (Box box : senderBoxes) {
-			if (box.getName().equals("Out Box")) {
-				
-				//TODO: incumple el requisito de almacenar una copia.
-				Message copia = this.create(sender);
-				copia.setBody(message.getBody());
-				copia.setSubject(message.getSubject());
-				copia.setRecipient(recipient);
-				copia.setPriority(message.getPriority());
-				copia.setFlagSpam(message.getFlagSpam());
-				
-				
-				Message saved = this.save(copia);
-				
-				boxService.addMessageToBox(box, saved);
+	public void addMesageToBoxes(Message message){
+		Collection<Box> boxes = new HashSet<Box>();
+		Box outBox = boxService
+				.findByActorAndName(message.getSender(),"Out Box");
+
+		boxes.add(outBox);
+		if (findSpamWords(message.getBody()+message.getSubject())){
+			for (Actor actor: message.getRecipients()){
+				Box spamBox = boxService.findByActorAndName(actor,"Spam Box");
+				boxes.add(spamBox);
 			}
+		}else{
+			for (Actor actor: message.getRecipients()){
+				Box inBox = boxService.findByActorAndName(actor,"In Box");
+				boxes.add(inBox);
+		}
+	}
+
+		for (Box box: boxes){
+			Collection<Message> messages = new HashSet<Message>(box.getMessages());
+			messages.add(message);
+			box.setMessages(messages);
 		}
 	}
 	
 	private boolean findSpamWords(String text){
 		boolean res = false;
-		String[] messageWords = text.split(" ");
-		for (int i = 0; i < messageWords.length; i++) {
-			
+		Configuration c = (Configuration) configurationService.findAll().toArray()[0];
+		for (Word w : c.getspamWords()) {
+			if(text.toLowerCase().contains(w.getContent().toLowerCase())){
+				res=true;
+				break;
+			}
 		}
-		
 		return res;
 	}
 
