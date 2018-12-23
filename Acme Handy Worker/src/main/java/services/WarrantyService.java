@@ -69,5 +69,11 @@ public class WarrantyService {
 	
 	//Other business methods -----
 	
+	public Collection<Warranty> findWarrantiesWNoTask(){
+		Collection<Warranty> res;
+		res = warrantyRepository.findWarrantiesWNoTask();
+		return res;
+	}
+	
 	
 }
