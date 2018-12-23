@@ -1,5 +1,8 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import utilities.AbstractTest;
 import domain.Actor;
 import domain.Box;
 import domain.Message;
-
-import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/datasource.xml",
@@ -72,7 +74,7 @@ public class BoxServiceTest extends AbstractTest {
 
 		box.setName("Name box");
 
-		result = boxService.saveBox(box);
+		result = boxService.save(box);
 
 		Assert.isTrue(boxService.findByActorId(15720).contains(result));
 		Assert.isTrue(boxService.findAll().contains(result));
@@ -134,11 +136,13 @@ public class BoxServiceTest extends AbstractTest {
 		Actor sender = (Actor) handyWorkerService.findAll().toArray()[4];
 
 		Actor recipient = (Actor) administratorService.findAll().toArray()[0];
+		List<Actor> recipients =  new ArrayList<>();
+		recipients.add(recipient);
 
 		Box box = boxService.create(recipient);
 
 		Message message = messageService.create(sender);
-		message.setRecipient(recipient);
+		message.setRecipients(recipients);
 
 		boxService.addMessageToBox(box, message);
 
