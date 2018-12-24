@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -99,7 +100,7 @@ public class Message extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private Actor sender;
-	private Actor recipient;
+	private Collection<Actor> recipients;
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -112,13 +113,14 @@ public class Message extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = false)
-	public Actor getRecipient() {
-		return this.recipient;
+	@ManyToMany
+	@NotNull
+	public Collection<Actor> getRecipients() {
+		return this.recipients;
 	}
 
-	public void setRecipient(final Actor recipient) {
-		this.recipient = recipient;
+	public void setRecipients(final Collection<Actor> recipients) {
+		this.recipients = recipients;
 	}
 
 }

@@ -3056,7 +3056,11 @@
 		</property>
 		<property name="flagSpam" value="false" />
 		<property name="sender" ref="customer1" />
-		<property name="recipient" ref="customer2" />
+		<property name="recipients">
+			<list>
+			<ref bean="customer2"/>
+		 	</list>
+		</property>
 	</bean>
 	
 		<bean id="message2" class="domain.Message">
@@ -3070,7 +3074,11 @@
 		</property>
 		<property name="flagSpam" value="false" />
 		<property name="sender" ref="customer2" />
-		<property name="recipient" ref="customer1" />
+		<property name="recipients">
+			<list>
+			<ref bean="customer1"/>
+		 	</list>
+		</property>
 	</bean>
 	
 	<bean id="message3" class="domain.Message">
@@ -3084,7 +3092,11 @@
 		</property>
 		<property name="flagSpam" value="false" />
 		<property name="sender" ref="customer3" />
-		<property name="recipient" ref="handyWorker1" />
+		<property name="recipients">
+			<list>
+			<ref bean="handyWorker1"/>
+		 	</list>
+		</property>
 	</bean>
 
 
