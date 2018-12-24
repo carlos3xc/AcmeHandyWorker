@@ -107,6 +107,12 @@ public class ApplicationService {
 
 		this.save(application);
 	}
+	
+	public Collection<Application> findApplicationsAccepted(int handyWorkerId, int taskId){
+		Collection<Application> res;
+		res = applicationRepository.findApplicationsAccepted(handyWorkerId, taskId);
+		return res;
+	}
 
 	public Collection<Application> applicationByHandyWorker(int handyWorkerId) {
 		Collection<Application> res = new ArrayList<Application>();

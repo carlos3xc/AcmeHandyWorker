@@ -17,6 +17,9 @@ public interface ApplicationRepository extends
 
 	@Query("select a from Application a where a.handyWorker.id = ?1")
 	Collection<Application> applicationByHandyWorker(Integer Id);
+	
+	@Query("select a from FixUpTask f join f.applications a where a.status='ACCEPTED' and a.handyWorker.id = ?1 and f.id = ?2")
+	Collection<Application> findApplicationsAccepted(int handyWorkerId, int taskId);
 
 	// C/2 The average, the minimum, the maximum and the standard deviation of
 	// the number of applications per fix-up tasks.
