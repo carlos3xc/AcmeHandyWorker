@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.ApplicationService;
 import services.ComplaintService;
 import services.FixUpTaskService;
+import services.HandyWorkerService;
+import services.WorkPlanPhaseService;
 import controllers.AbstractController;
+import domain.Application;
 import domain.Complaint;
+import domain.Customer;
 import domain.FixUpTask;
+import domain.HandyWorker;
+import domain.WorkPlanPhase;
 
 @Controller
 @RequestMapping("fixUpTask/")
@@ -29,22 +37,56 @@ public FixUpTaskController(){
 	@Autowired
 	ComplaintService complaintService;
 	
+	@Autowired
+	WorkPlanPhaseService workPlanPhaseService;
+	
+	@Autowired
+	ApplicationService applicationService;
+	
+	@Autowired
+	HandyWorkerService handyWorkerService;
+	
 	//Listing---
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView list(){
+		
+		ModelAndView res;
+		Collection<FixUpTask> fixUpTasks;
+		fixUpTasks = fixUpTaskService.findAll();
+		
+		res = new ModelAndView("fixUpTask/list");
+		res.addObject("fixUpTasks", fixUpTasks);
+		res.addObject("requestURI", "fixUpTask/list.do");
+		return res; 
+	}
+	
+	// Showing ----------------------------------------------------------------
 		@RequestMapping(value="/show", method = RequestMethod.GET)
 		public ModelAndView show(@RequestParam final int fixUpTaskId){
-			
+			// Comprobar que la task no tiene ninguna aplicación aceptada del hw logeado
 			ModelAndView res;
 			FixUpTask fixUpTask;
 			Collection<Complaint> complaints;
+			Collection<WorkPlanPhase> workPlanPhases;
+			Collection<Application> applications;
+			Boolean app = true;
+			HandyWorker hw = handyWorkerService.findByPrincipal();
 			complaints = complaintService.getComplaintsFixUpTask(fixUpTaskId);
 			fixUpTask = fixUpTaskService.findOne(fixUpTaskId);
+			workPlanPhases = workPlanPhaseService.findByFixUpTaskId(fixUpTaskId);
+			applications = applicationService.findApplicationsAccepted(hw.getId(), fixUpTaskId);
 			
+			if(applications.isEmpty()) app=false; //Si no hay aplicaciones aceptadas, quiere decir que no se podrán añadir fases hasta que haya una  por el hw
+			
+
 			String fullName = fixUpTask.getCustomer().getName()+" " + fixUpTask.getCustomer().getMiddleName() + " "+ fixUpTask.getCustomer().getSurname();
 			
 			res = new ModelAndView("fixUpTask/show");
 			res.addObject("fixUpTask", fixUpTask);
 			res.addObject("complaints",complaints);
+			res.addObject("workPlanPhases",workPlanPhases);
 			res.addObject("fullName",fullName);
+			res.addObject("app",app);
 			res.addObject("requestURI", "fixUpTask/show.do");
 			return res; 
 		}

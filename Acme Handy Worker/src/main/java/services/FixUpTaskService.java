@@ -44,10 +44,7 @@ public class FixUpTaskService {
 	
 	@Autowired
 	private WorkPlanPhaseService workPlanPhaseService;
-	
-	@Autowired
-	private WarrantyService warrantyService;
-	
+
 	//Simple CRUD methods -----
 	public FixUpTask create(){
 		FixUpTask res = new FixUpTask();

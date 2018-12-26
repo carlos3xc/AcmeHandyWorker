@@ -61,10 +61,17 @@
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.show" />
 					</a><br/>
-					
-					<a href="application/handyWorker/apply.do?fixUpTaskId=${row.id}">
-						<spring:message code="task.apply"/>
-					</a><br/>	
+					<jstl:set var="stat" value="0"/>
+					<jstl:forEach var="x" items="${row.applications}">
+						<jstl:if test="${x.status=='PENDING'}">
+						<jstl:if test="${stat=='0' }">
+							<jstl:set var="stat" value="1"/>
+							<a href="application/handyWorker/apply.do?fixUpTaskId=${row.id}">
+								<spring:message code="task.apply"/>
+							</a><br/>
+						</jstl:if>
+						</jstl:if>
+					</jstl:forEach>	
 					
 					<a href="actor/profile.do?actorId=${row.customer.id}">
 						<spring:message code="task.publisher"/>
@@ -80,8 +87,10 @@
 				<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>			
 				<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
 				
-				<display:column property="maxPrice" title="task.maxPrice" />	
+				<display:column property="maxPrice" titleKey="task.maxPrice" />	
 			
 			</display:table>
 					
 		</security:authorize>
+		
+		

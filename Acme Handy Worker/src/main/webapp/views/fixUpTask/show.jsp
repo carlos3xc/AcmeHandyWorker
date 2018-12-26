@@ -43,7 +43,27 @@
 					<b><spring:message code="task.warranty.laws"/>:</b> <jstl:forEach var="law" items="${fixUpTask.warranty.laws}"> <jstl:out value="${law}"/><br/></jstl:forEach>
 				</display:column>		
 			</display:table>
-		<br/>
+			
+		<h3><spring:message code="task.workplan"/>:</h3>
+		<display:table name="workPlanPhases" id="row" requestURI="fixUpTask/show.do" pagesize="5">
+			
+			<display:column property="title" titleKey="task.workplan.title" />
+			
+			<display:column property="description" titleKey="task.description" />
+			
+			<spring:message code="task.moment.format" var="formatMoment"/>
+			<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
+			
+			<display:column property="endMoment" titleKey="task.endMoment" format="{0,date,${formatMoment} }"/>
+
+			<display:column titleKey="task.workplan.handyWorker">
+				<a href="actor/profile.do?actorId=${row.handyWorker.id}"><jstl:out value="${row.handyWorker.userAccount.username}"/></a>
+			</display:column>
+		</display:table>
+		<jstl:if test="${app}">
+			<a href="workPlanPhase/handyWorker/create.do?fixUpTaskId=${fixUpTask.id}"><spring:message code="task.workPlanPhase.create"/></a><br/>
+		</jstl:if>
+
 		<h3><spring:message code="task.complaints"/>:</h3>
 		<display:table name="complaints" id="row" requestURI="fixUpTask/show.do" pagesize="5">
 			
@@ -54,7 +74,7 @@
 			<display:column property="moment" titleKey="task.moment" />
 
 			<display:column titleKey="task.complaint.customer">
-				<a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fixUpTask.customer.userAccount.username}"/></a>
+				<a href="actor/profile.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 		
