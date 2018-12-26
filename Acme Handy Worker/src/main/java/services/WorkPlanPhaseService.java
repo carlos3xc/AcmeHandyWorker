@@ -12,6 +12,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.FixUpTask;
+import domain.HandyWorker;
 import domain.WorkPlanPhase;
 
 
@@ -35,6 +36,8 @@ public class WorkPlanPhaseService {
 	public WorkPlanPhase create(){
 		WorkPlanPhase res;
 		res = new WorkPlanPhase();
+		HandyWorker hw = handyWorkerService.findByPrincipal();
+		res.setHandyWorker(hw);
 		return res;
 	}
 	

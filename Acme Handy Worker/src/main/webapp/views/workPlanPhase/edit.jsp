@@ -23,16 +23,15 @@
 					 				 -->
 									 
 
-<form:form action="workPlanPhase/handyWorker/edit.do" modelAttribute="WorkPlanPhase">
+	<security:authorize access="hasRole('HANDYWORKER')">
+
+<form:form action="workPlanPhase/handyWorker/edit.do" modelAttribute="workPlanPhase">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
 	<form:hidden path="fixUpTask" />
 	<form:hidden path="handyWorker" />
-
-	
-	<security:authorize access="hasRole('HANDYWORKER')">
 	
 	<form:label path="title">
 		<spring:message code="workplan.title" />:
@@ -75,6 +74,5 @@
 		onclick="javascript: window.location.replace('')" />
 	<br />
 	
-	</security:authorize>
-
 </form:form>
+	</security:authorize>

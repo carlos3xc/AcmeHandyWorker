@@ -77,6 +77,14 @@ public FixUpTaskController(){
 			applications = applicationService.findApplicationsAccepted(hw.getId(), fixUpTaskId);
 			
 			if(applications.isEmpty()) app=false; //Si no hay aplicaciones aceptadas, quiere decir que no se podrán añadir fases hasta que haya una  por el hw
+			else{
+				for(WorkPlanPhase w: workPlanPhases){
+					if(w.getHandyWorker() != hw){
+						app=false;
+						break;
+					}
+				}
+			}
 			
 
 			String fullName = fixUpTask.getCustomer().getName()+" " + fixUpTask.getCustomer().getMiddleName() + " "+ fixUpTask.getCustomer().getSurname();

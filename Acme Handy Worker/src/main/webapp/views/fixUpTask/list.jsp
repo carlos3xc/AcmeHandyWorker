@@ -20,7 +20,6 @@
 								<spring:message	code="task.show" />
 					</a><br/>
 					<jstl:if test="${row.customer == customer}"> 
-						<jstl:if test="${row.warranty.isDraft}">
 							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.edit" />
 							</a><br/>	
@@ -31,7 +30,6 @@
 								<spring:message	code="task.delete" />
 							</a><br/>			
 						</jstl:if>			
-					</jstl:if>
 					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />
 					</a><br/>
