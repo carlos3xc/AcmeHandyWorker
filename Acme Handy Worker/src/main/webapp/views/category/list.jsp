@@ -11,7 +11,7 @@
 <!-- Listing grid -->
 
 <display:table pagesize="5" class="category" name="categories"
-	requestURI="${requestURI}" id="row">
+	requestURI="category/administrator/list.do" id="row">
 
 	<!-- Action links -->
 
