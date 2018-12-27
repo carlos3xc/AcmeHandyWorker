@@ -48,6 +48,7 @@
 					<li class="arrow"></li>
 					<li><a href="complaint/handyWorker/list.do"><spring:message code="master.page.handyWorker.complaint.list" /></a></li>
 					<li><a href="fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
+					<li><a href="handyWorker/application/list.do"><spring:message code="master.page.handyWorker.app" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
