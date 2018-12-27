@@ -1,10 +1,14 @@
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -51,5 +55,24 @@ public class Category extends DomainEntity {
 	public void setParentCategory(final Category parentCategory) {
 		this.parentCategory = parentCategory;
 	}
+	
+	/*private Collection<Category>	categories;
+
+
+	@OneToMany(cascade = {
+		CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH
+	})
+	public Collection<Category> getCategories() {
+		return this.categories;
+	}
+
+	public void setCategories(final Collection<Category> categories) {
+		this.categories = categories;
+	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}*/
 
 }
