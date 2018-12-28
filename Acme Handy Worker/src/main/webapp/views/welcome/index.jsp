@@ -29,7 +29,14 @@ Date moment
 <div id="welcomeMessage"></div><br>
 
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<!-- <div id="url"></div>
+
+<script type="text/javascript">
+var url = window.location.href;
+document.getElementById("url").innerHTML = url;
+</script> -->
+
+
 
 <script>
 	var prefix = document.getElementById("prefix").innerHTML;

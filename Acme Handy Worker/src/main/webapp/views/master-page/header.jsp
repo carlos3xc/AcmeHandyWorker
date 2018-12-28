@@ -25,8 +25,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>
+					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.administrator.configuration" /></a></li>
+					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
 				</ul>
 			</li>
@@ -50,6 +50,7 @@
 					<li><a href="complaint/handyWorker/list.do"><spring:message code="master.page.handyWorker.complaint.list" /></a></li>
 					<li><a href="fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
 					<li><a href="handyWorker/application/list.do"><spring:message code="master.page.handyWorker.app" /></a></li>
+					<li><a href="curricula/handyworker/show.do"><spring:message code="master.page.handyWorker.curricula" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
