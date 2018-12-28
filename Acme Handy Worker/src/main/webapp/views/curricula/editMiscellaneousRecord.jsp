@@ -20,74 +20,51 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- 
-	Recibe: Message message: el mensaje a editar.
-			List<Actor> actors: todos los actores del sistema.
+	Recibe: EndorserRecord : endorserRecord
  -->
 
-<form:form action="message/edit.do" modelAttribute="message">
-
+<form:form action="curricula/handyworker/editMiscellaneousRecord.do" modelAttribute="miscellaneousRecord">
+	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
-	<form:hidden path="flagSpam" />
-	<form:hidden path="moment" />
-	<form:hidden path="sender"/>
-	<form:hidden path="tags"/>
+	private String title;
+	private String attachment;
+	private String comments;
 	
-	<security:authorize access="isAuthenticated()">
+	<security:authorize access="hasRole('HANDYWORKER')">
 	
-	<form:label path="priority">
-		<spring:message code="m.priority" />
+	<form:label path="title">
+		<spring:message code="curricula.miscellaneousRecord.title" />
 	</form:label>
 	
-	<form:select path="priority">
-		<form:option label="HIGH" value="HIGH"/>
-		<form:option label="NEUTRAL" value="NEUTRAL"/>
-		<form:option label="LOW" value="LOW"/>
-	</form:select>
-	<form:errors cssClass="error" path="priority" />
+	<form:input path="title" />
+	<form:errors cssClass="error" path="title" />
 	<br />
 	
-	<form:label path="sender">
-		<spring:message code="m.sender" />
+	<!--  -->
+	<form:label path="attachment">
+		<spring:message code="curricula.miscellaneousRecord.attachment" />
 	</form:label>
 	
-	<form:select path="sender">
-		<form:options items="${actors}" itemLabel="userAccount.username" itemValue="id"/>
-	</form:select>
-	<form:errors cssClass="error" path="sender" />
+	<form:textarea path="attachment" />
+	<form:errors cssClass="error" path="attachment" />
 	<br />
 	
-	<form:label path="subject">
-		<spring:message code="m.subject" />
+	<!--  -->
+	<form:label path="comments">
+		<spring:message code="curricula.miscellaneousRecord.comments" />
 	</form:label>
 	
-	<form:input path="subject" />
-	<form:errors cssClass="error" path="subject" />
+	<form:textarea path="comments" />
+	<form:errors cssClass="error" path="comments" />
 	<br />
 	
-	<form:label path="body">
-		<spring:message code="m.body" />
-	</form:label>
 	
-	<form:textarea path="body" />
-	<form:errors cssClass="error" path="body" />
-	<br />  
-	
-	<!-- deberia ser una list y se le pide strings 
-	<form:label path="tags">
-		<spring:message code="m.tags" />:
-	</form:label>
-	
-	<form:textarea path="tags" />
-	<form:errors cssClass="error" path="tags" />
-	<br />
-	-->
-	
-	<input type="submit" name="save" value="<spring:message code="m" />" />
+	<input type="submit" name="save" value="<spring:message code="curricula.save" />" />
 				
 	<input type="button" name="cancel"
-		value="<spring:message code="m.cancel" />"
+		value="<spring:message code="curricula.cancel" />"
 		onclick="javascript: window.location.replace('')" />
 	<br />
 	

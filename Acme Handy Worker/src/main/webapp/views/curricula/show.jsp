@@ -20,12 +20,12 @@
 <security:authorize access="hasRole('HANDYWORKER')">
 	<jstl:if test="${curricula == null}">
 		<spring:message code="curricula.notCreated"/>
-		<h4><a href="curricula/handyworker/editPersonalRecord.do"><spring:message code="curricula.create" /></a></h4>
+		<h4><a href="curricula/handyworker/createPersonalRecord.do"><spring:message code="curricula.create" /></a></h4>
 	</jstl:if>
 	<jstl:if test="${curricula != null}">
 		<h2>Ticker:${curricula.ticker}</h2>
 		<h4><a href="curricula/handyworker/deleteCurricula.do?curriculaId=${curricula.id}"><spring:message code="curricula.deleteCurricula"/></a></h4>
-		<h3><spring:message code="curricula.personalRecord"/></h3><br>
+		<h3><spring:message code="curricula.personalRecord"/></h3>
 		<h4><a href="curricula/handyworker/editPersonalRecord.do?personalRecordId=${curricula.personalRecord.id}"><spring:message code="curricula.editPersonalRecord"/></a></h4>
 		<spring:message code="curricula.fullName"/>: <jstl:out value="${curricula.personalRecord.fullName }"/><br>
 		<spring:message code="curricula.photo"/>: <jstl:out value="${curricula.personalRecord.photo }"/><br>
@@ -35,7 +35,7 @@
 		<hr>
 		
 		<h3><spring:message code="curricula.endorserRecords"/></h3>
-		<h4><a href="curricula/handyworker/createEndorserRecord.do"><spring:message code="curricula.createEndorserRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/createEndorserRecord.do"><spring:message code="curricula.createEndorserRecord"/></a></h4><hr>
 		<jstl:forEach var="i" items="${curricula.endorserRecords }">
 		<h4><a href="curricula/handyworker/editEndorserRecord.do?endorserRecordId=${i.id}"><spring:message code="curricula.editEndorserRecord"/></a></h4>
 		<h4><a href="curricula/handyworker/deleteEndorserRecord.do?endorserRecordId=${i.id}"><spring:message code="curricula.deleteEndorserRecord"/></a></h4>
@@ -49,7 +49,7 @@
 		
 		
 		<h3><spring:message code="curricula.educationRecords"/></h3>
-		<h4><a href="curricula/handyworker/createEducationRecord.do"><spring:message code="curricula.createEducationRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/createEducationRecord.do"><spring:message code="curricula.createEducationRecord"/></a></h4><hr>
 		<jstl:forEach var="i" items="${curricula.educationRecords }">
 		<h4><a href="curricula/handyworker/editEducationRecord.do?educationRecordId=${i.id}"><spring:message code="curricula.editEducationRecord"/></a></h4>
 		<h4><a href="curricula/handyworker/deleteEducationRecord.do?educationRecordId=${i.id}"><spring:message code="curricula.deleteEducationRecord"/></a></h4>
@@ -63,7 +63,7 @@
 		</jstl:forEach>
 		
 		<h3><spring:message code="curricula.professionalRecords"/></h3>
-		<h4><a href="curricula/handyworker/createProfessionalRecord.do"><spring:message code="curricula.createProfessionalRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/createProfessionalRecord.do"><spring:message code="curricula.createProfessionalRecord"/></a></h4><hr>
 		<jstl:forEach var="i" items="${curricula.professionalRecords }">
 		<h4><a href="curricula/handyworker/editProfessionalRecord.do?professionalRecordId=${i.id}"><spring:message code="curricula.editProfessionalRecord"/></a></h4>
 		<h4><a href="curricula/handyworker/deleteProfessionalRecord.do?prosfessionalRecordId=${i.id}"><spring:message code="curricula.deleteProfessionalRecord"/></a></h4>
