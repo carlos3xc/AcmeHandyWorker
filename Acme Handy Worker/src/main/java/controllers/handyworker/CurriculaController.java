@@ -214,33 +214,31 @@ public class CurriculaController extends AbstractController {
 	}
 
 	// Edit-----------------------------------------------------------------------------
-	@RequestMapping(value = "/editEndorserRecord", method = RequestMethod.GET)
-	public ModelAndView editEndorserRecord(@RequestParam int endorserRecordId) {
+	@RequestMapping(value = "/editEducationRecord", method = RequestMethod.GET)
+	public ModelAndView editEducationRecord(@RequestParam int educationRecordId) {
 
 		ModelAndView res;
-		EndorserRecord er = endorserRecordService.findOne(endorserRecordId);
+		EducationRecord er = educationRecordService.findOne(educationRecordId);
 
-		res = this.createEditEndorserRecordModelAndView(er);
+		res = this.createEditEducationRecordModelAndView(er);
 		return res;
 	}
 
 	// Save-----------------------------------------------------------------------------
-	@RequestMapping(value = "/editEndorserRecord", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEndorserRecord(@Valid EndorserRecord er,
-			BindingResult binding) {
+	@RequestMapping(value = "/editEducationRecord", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveEndorserRecord(@Valid EducationRecord er,BindingResult binding) {
 		ModelAndView res;
 		System.out.println(binding);
-		System.out.println(er.getEndorserName() + er.getEmail());
+
 
 		if (binding.hasErrors()) {
-			res = createEditEndorserRecordModelAndView(er);
+			res = createEditEducationRecordModelAndView(er);
 		} else {
 			try {
-				endorserRecordService.save(er);
+				educationRecordService.save(er);
 				res = new ModelAndView("redirect:show.do");
 			} catch (Throwable e) {
-				res = createEditEndorserRecordModelAndView(er,
-						"message.commit.error");
+				res = createEditEducationRecordModelAndView(er,"message.commit.error");
 				System.out.println(e);
 			}
 		}
@@ -248,11 +246,10 @@ public class CurriculaController extends AbstractController {
 	}
 
 	// Delete-----------------------------------------------------------------------------
-	@RequestMapping(value = "/deleteEndorserRecord", method = RequestMethod.GET)
-	public ModelAndView deleteEndorserRecord(@RequestParam int endorserRecordId) {
+	@RequestMapping(value = "/deleteEducationRecord", method = RequestMethod.GET)
+	public ModelAndView deleteEducationRecord(@RequestParam int educationRecordId) {
 		ModelAndView res;
-		endorserRecordService.delete(endorserRecordService
-				.findOne(endorserRecordId));
+		educationRecordService.delete(educationRecordService.findOne(educationRecordId));
 
 		res = new ModelAndView("redirect:show.do");
 		return res;
