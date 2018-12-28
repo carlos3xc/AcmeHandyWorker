@@ -15,13 +15,17 @@ import services.ActorService;
 import services.CurriculaService;
 import services.EducationRecordService;
 import services.EndorserRecordService;
+import services.MiscellaneousRecordService;
 import services.PersonalRecordService;
+import services.ProfessionalRecordService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Curricula;
 import domain.EducationRecord;
 import domain.EndorserRecord;
+import domain.MiscellaneousRecord;
 import domain.PersonalRecord;
+import domain.ProfessionalRecord;
 
 @Controller
 @RequestMapping("curricula/handyworker")
@@ -40,6 +44,12 @@ public class CurriculaController extends AbstractController {
 	
 	@Autowired
 	private EducationRecordService educationRecordService;
+	
+	@Autowired
+	private ProfessionalRecordService professionalRecordService;
+	
+	@Autowired
+	private MiscellaneousRecordService miscellaneousRecordService;
 	
 	@Autowired
 	private ActorService actorService;
@@ -226,7 +236,7 @@ public class CurriculaController extends AbstractController {
 
 	// Save-----------------------------------------------------------------------------
 	@RequestMapping(value = "/editEducationRecord", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEndorserRecord(@Valid EducationRecord er,BindingResult binding) {
+	public ModelAndView saveEducationRecord(@Valid EducationRecord er,BindingResult binding) {
 		ModelAndView res;
 		System.out.println(binding);
 
@@ -254,6 +264,115 @@ public class CurriculaController extends AbstractController {
 		res = new ModelAndView("redirect:show.do");
 		return res;
 	}
+	
+	//PROFESSIONAL RECORD ----------------------------------------------------------------
+	
+		// Create--------------------------------------------------------------------------
+		@RequestMapping(value = "/createProfessionalRecord", method = RequestMethod.GET)
+		public ModelAndView createProfessional() {
+
+			ModelAndView res;
+			ProfessionalRecord pr = professionalRecordService.create();
+
+			res = this.createEditProfessionalRecordModelAndView(pr);
+			return res;
+		}
+
+		// Edit-----------------------------------------------------------------------------
+		@RequestMapping(value = "/editProfessionalRecord", method = RequestMethod.GET)
+		public ModelAndView editProfessionalRecord(@RequestParam int professionalRecordId) {
+
+			ModelAndView res;
+			ProfessionalRecord pr = professionalRecordService.findOne(professionalRecordId);
+
+			res = this.createEditProfessionalRecordModelAndView(pr);
+			return res;
+		}
+
+		// Save-----------------------------------------------------------------------------
+		@RequestMapping(value = "/editProfessionalRecord", method = RequestMethod.POST, params = "save")
+		public ModelAndView saveProfessionalRecord(@Valid ProfessionalRecord pr,BindingResult binding) {
+			ModelAndView res;
+			System.out.println(binding);
+
+
+			if (binding.hasErrors()) {
+				res = createEditProfessionalRecordModelAndView(pr);
+			} else {
+				try {
+					professionalRecordService.save(pr);
+					res = new ModelAndView("redirect:show.do");
+				} catch (Throwable e) {
+					res = createEditProfessionalRecordModelAndView(pr,"message.commit.error");
+					System.out.println(e);
+				}
+			}
+			return res;
+		}
+
+		// Delete-----------------------------------------------------------------------------
+		@RequestMapping(value = "/deleteProfessionalRecord", method = RequestMethod.GET)
+		public ModelAndView deleteProfessionalRecord(@RequestParam int professionalRecordId) {
+			ModelAndView res;
+			educationRecordService.delete(educationRecordService.findOne(professionalRecordId));
+
+			res = new ModelAndView("redirect:show.do");
+			return res;
+		}
+		//MISCELLANEOUS RECORD ----------------------------------------------------------------
+		
+			// Create--------------------------------------------------------------------------
+			@RequestMapping(value = "/createMiscellaneousRecord", method = RequestMethod.GET)
+			public ModelAndView createMiscellaneousRecord() {
+
+				ModelAndView res;
+				MiscellaneousRecord mr = miscellaneousRecordService.create();
+
+				res = this.createEditMiscellaneousRecordModelAndView(mr);
+				return res;
+			}
+
+			// Edit-----------------------------------------------------------------------------
+			@RequestMapping(value = "/editMiscellaneousRecord", method = RequestMethod.GET)
+			public ModelAndView editMiscellaneousRecord(@RequestParam int miscellaneousRecordId) {
+
+				ModelAndView res;
+				MiscellaneousRecord mr = miscellaneousRecordService.findOne(miscellaneousRecordId);
+
+				res = this.createEditMiscellaneousRecordModelAndView(mr);
+				return res;
+			}
+
+			// Save-----------------------------------------------------------------------------
+			@RequestMapping(value = "/editMiscellaneousRecord", method = RequestMethod.POST, params = "save")
+			public ModelAndView saveMiscellaneousRecord(@Valid MiscellaneousRecord mr,BindingResult binding) {
+				ModelAndView res;
+				System.out.println(binding);
+
+
+				if (binding.hasErrors()) {
+					res = createEditMiscellaneousRecordModelAndView(mr);
+				} else {
+					try {
+						miscellaneousRecordService.save(mr);
+						res = new ModelAndView("redirect:show.do");
+					} catch (Throwable e) {
+						res = createEditMiscellaneousRecordModelAndView(mr,"message.commit.error");
+						System.out.println(e);
+					}
+				}
+				return res;
+			}
+
+			// Delete-----------------------------------------------------------------------------
+			@RequestMapping(value = "/deleteMiscellaneousRecord", method = RequestMethod.GET)
+			public ModelAndView deleteMiscellaneousRecord(@RequestParam int miscellaneousRecordId) {
+				ModelAndView res;
+				miscellaneousRecordService.delete(miscellaneousRecordService.findOne(miscellaneousRecordId));
+
+				res = new ModelAndView("redirect:show.do");
+				return res;
+			}
 
 	//Helper methods---------------------------------------------------
 	//Personal Record---------------------------------------------------
@@ -303,5 +422,35 @@ public class CurriculaController extends AbstractController {
 		
 		return res;
 	}
-	
+	//Professional Record---------------------------------------------------
+		protected ModelAndView createEditProfessionalRecordModelAndView(ProfessionalRecord pr){
+			ModelAndView res;
+			res = createEditProfessionalRecordModelAndView(pr, null);
+			return res;
+		}
+		protected ModelAndView createEditProfessionalRecordModelAndView(ProfessionalRecord pr, String messageCode){
+			ModelAndView res;
+			
+			res = new ModelAndView("curricula/editProfessionalRecord");
+			res.addObject("professionalRecord", pr);
+			res.addObject("message", messageCode);
+			
+			return res;
+		}
+		
+		//Miscellaneous Record---------------------------------------------------
+		protected ModelAndView createEditMiscellaneousRecordModelAndView(MiscellaneousRecord mr){
+			ModelAndView res;
+			res = createEditMiscellaneousRecordModelAndView(mr, null);
+			return res;
+		}
+		protected ModelAndView createEditMiscellaneousRecordModelAndView(MiscellaneousRecord mr, String messageCode){
+			ModelAndView res;
+			
+			res = new ModelAndView("curricula/editMiscellaneousRecord");
+			res.addObject("miscellaneousRecord", mr);
+			res.addObject("message", messageCode);
+			
+			return res;
+		}
 }

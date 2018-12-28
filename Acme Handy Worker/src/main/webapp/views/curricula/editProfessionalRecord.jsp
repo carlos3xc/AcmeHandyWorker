@@ -70,7 +70,7 @@
 		<spring:message code="curricula.professionalRecord.attachment" />
 	</form:label>
 	
-	<form:textarea path="attachment" />
+	<form:input path="attachment" />
 	<form:errors cssClass="error" path="attachment" />
 	<br />
 	

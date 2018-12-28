@@ -28,10 +28,6 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
-	private String title;
-	private String attachment;
-	private String comments;
-	
 	<security:authorize access="hasRole('HANDYWORKER')">
 	
 	<form:label path="title">
@@ -47,7 +43,7 @@
 		<spring:message code="curricula.miscellaneousRecord.attachment" />
 	</form:label>
 	
-	<form:textarea path="attachment" />
+	<form:input path="attachment" />
 	<form:errors cssClass="error" path="attachment" />
 	<br />
 	

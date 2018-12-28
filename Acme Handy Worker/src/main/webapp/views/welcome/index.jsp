@@ -25,29 +25,15 @@ String systemName
 Date moment
  -->
 <h1>${systemName}</h1>
-<div id="prefix"><spring:message code="welcome.greeting.prefix" /></div> ${name}<spring:message code="welcome.greeting.suffix" /><br>
-<div id="welcomeMessage"></div><br>
+<spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /><br>
 
+<jstl:forEach items="${pageContext.request.cookies}" var="i">
+<jstl:if test="${i.name == 'language' && i.value == 'es' }">
+	${welcomeMessageEnglish}
+</jstl:if>
 
-<!-- <div id="url"></div>
-
-<script type="text/javascript">
-var url = window.location.href;
-document.getElementById("url").innerHTML = url;
-</script> -->
-
-
-
-<script>
-	var prefix = document.getElementById("prefix").innerHTML;
-	
-	if(prefix == "Greetings") {
-		document.getElementById("welcomeMessage").innerHTML = "${welcomeMessageEnglish}";
-	}
-	
-	if(prefix == "¡Saludos ") {
-		document.getElementById("welcomeMessage").innerHTML = "${welcomeMessageSpanish}";
-	}
-
-</script>
+<jstl:if test="${i.name == 'language' && i.value == 'en' }">
+	${welcomeMessageSpanish}
+</jstl:if>
+</jstl:forEach>
 

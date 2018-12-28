@@ -77,10 +77,10 @@
 		</jstl:forEach>
 		
 		<h3><spring:message code="curricula.miscellaneousRecords"/></h3>
-		<h4><a href="curricula/handyworker/createMiscellaneousRecord.do"><spring:message code="curricula.createProfessionalRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/createMiscellaneousRecord.do"><spring:message code="curricula.createMiscellaneousRecord"/></a></h4>
 		<jstl:forEach var="i" items="${curricula.miscellaneousRecords }">
-		<h4><a href="curricula/handyworker/editMiscellaneousRecord.do?miscellaneousRecordId=${i.id}"><spring:message code="curricula.editProfessionalRecord"/></a></h4>
-		<h4><a href="curricula/handyworker/deleteMiscellaneousRecord.do?miscellaneousRecordId=${i.id}"><spring:message code="curricula.deleteProfessionalRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/editMiscellaneousRecord.do?miscellaneousRecordId=${i.id}"><spring:message code="curricula.editMiscellaneousRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/deleteMiscellaneousRecord.do?miscellaneousRecordId=${i.id}"><spring:message code="curricula.deleteMiscellaneousRecord"/></a></h4>
 		<spring:message code="curricula.title"/>: <jstl:out value="${i.title }"/><br>
 		<spring:message code="curricula.attachment"/>: <jstl:out value="${i.attachment }"/><br>
 		<spring:message code="curricula.comments"/>: <jstl:out value="${i.comments }"/><br>
