@@ -31,7 +31,7 @@ public class Finder extends DomainEntity {
 	}
 
 	// Getters and Setters ---------------------------------------------------
-	
+
 	public String getKeyword() {
 		return this.keyword;
 	}
