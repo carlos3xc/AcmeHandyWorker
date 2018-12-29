@@ -150,13 +150,13 @@ public HandyWorkerEndorsementCustomerController(){
 		protected ModelAndView createEditModelAndView(HandyWorkerEndorsement handyWorkerEndorsement, String messageCode){
 			ModelAndView res;
 			
-			Integer handyWorkerId = handyWorkerEndorsement.getHandyWorker().getId() ;
-			HandyWorker handyWorker = handyWorkerService.findOne(handyWorkerId);
+			//Integer handyWorkerId = handyWorkerEndorsement.getHandyWorker().getId() ;
+		//	HandyWorker handyWorker = handyWorkerService.findOne(handyWorkerId);
 			
 			res= new ModelAndView("handyWorkerEndorsement/edit");
 			res.addObject("handyWorkerEndorsement", handyWorkerEndorsement);
 			res.addObject("now",new Date());
-			res.addObject("handyWorker", handyWorker);
+//			res.addObject("handyWorker", handyWorker);
 			res.addObject("message", messageCode);
 			
 			return res;
