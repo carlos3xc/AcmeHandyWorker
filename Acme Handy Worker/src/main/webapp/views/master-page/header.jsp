@@ -28,6 +28,9 @@
 					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
+					<li><a href="userAccount/administrator/createAdministrator.do"><spring:message code="master.page.administrator.administrator.create" /></a></li>
+					<li><a href="userAccount/administrator/createReferee.do"><spring:message code="master.page.administrator.referee.create" /></a></li>
+					<li><a href="actor/administrator/list.do"><spring:message code="master.page.administrator.actor.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -78,6 +81,7 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="actor/show.do"><spring:message code="master.page.actor" /></a></li>
 					<li><a href="box/list.do"><spring:message code="master.page.boxlist" /></a></li>					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
