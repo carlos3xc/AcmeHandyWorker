@@ -29,22 +29,6 @@
 	<form:hidden path="customer" />
 	<form:hidden path="fixUpTask" />
 
-	<!-- <form:label path="ticker">
-		<spring:message code="complaint.ticker" />:
-	</form:label>
-	<form:input path="ticker"
-		placeholder="<spring:message code="complaint.ticker.example"/>" />
-	<form:errors cssClass="error" path="ticker" />
-	<br /> -->
-
-	<!-- <form:label path="moment">
-		<spring:message code="complaint.moment" />:
-	</form:label>
-	<form:input path="moment"
-		placeholder="<spring:message code="complaint.moment.format"/>" />
-	<form:errors cssClass="error" path="moment" />
-	<br /> -->
-
 	<form:label path="description">
 		<spring:message code="complaint.description" />:
 	</form:label>
@@ -60,18 +44,6 @@
 		placeholder="<spring:message code="complaint.attachments.example"/>" />
 	<form:errors cssClass="error" path="attachments" />
 	<br />
-
-	<!-- <jstl:if test=${complaint.id == 0}>
-		<form:label path="fixUpTask">
-			<spring:message code="complaint.fixUpTask" />:
-	</form:label>
-		<form:select id="fixUpTasks" path="fixUpTask">
-			<form:option label="----" value="0" />
-			<form:options items="${fixUpTasks}" itemValue="id" itemLabel="ticker" />
-		</form:select>
-		<form:errors cssClass="error" path="fixUpTask" />
-		<br />
-	</jstl:if> -->
 
 	<input type="submit" name="save"
 		value="<spring:message code="complaint.save" />" />&nbsp; 
