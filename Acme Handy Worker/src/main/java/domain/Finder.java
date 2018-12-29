@@ -18,6 +18,8 @@ public class Finder extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 
+	private Date moment;
+
 	private String keyword;
 	private Double minPrice;
 	private Double maxPrice;
@@ -31,6 +33,17 @@ public class Finder extends DomainEntity {
 	}
 
 	// Getters and Setters ---------------------------------------------------
+
+	@Past
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Date moment) {
+		this.moment = moment;
+	}
 
 	public String getKeyword() {
 		return this.keyword;

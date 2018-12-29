@@ -33,5 +33,5 @@ public interface FinderRepository extends JpaRepository<Finder, Integer>{
 										   @Param("warrantyId") Integer warrantyId);
 
 	@Query("select f from Finder f where f.handyWorker.id = :handyWorkerId")
-	HandyWorker findByHandyWorker(@Param("handyWorkerId") Integer handyWorkerId);
+	Finder findByHandyWorker(@Param("handyWorkerId") Integer handyWorkerId);
 }
