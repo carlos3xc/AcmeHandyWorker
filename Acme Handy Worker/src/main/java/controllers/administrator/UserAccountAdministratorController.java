@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
@@ -16,7 +17,7 @@ import security.UserAccountService;
 import controllers.AbstractController;
 
 @Controller
-@RequestMapping("/userAccount/admin")
+@RequestMapping("/userAccount/administrator")
 public class UserAccountAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------------
@@ -32,7 +33,7 @@ public class UserAccountAdministratorController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/createAdmin", method = RequestMethod.GET)
+	@RequestMapping(value = "/createAdministrator", method = RequestMethod.GET)
 	public ModelAndView createAdmin() {
 
 		ModelAndView result;
@@ -60,6 +61,20 @@ public class UserAccountAdministratorController extends AbstractController {
 		referee.getAuthorities().add(authority);
 
 		result = this.createEditModelAndView(referee);
+
+		return result;
+	}
+
+	// Edit -----------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int userAccountId) {
+
+		ModelAndView result;
+
+		UserAccount userAccount = userAccountService.findOne(userAccountId);
+
+		result = createEditModelAndView(userAccount);
 
 		return result;
 	}
@@ -98,7 +113,7 @@ public class UserAccountAdministratorController extends AbstractController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("userAccount/edit");
+		result = new ModelAndView("userAccount/create");
 
 		result.addObject("userAccount", userAccount);
 		result.addObject("message", message);

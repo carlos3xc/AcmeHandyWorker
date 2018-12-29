@@ -19,7 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authorize access="hasRole('ADMIN')"> 
-<form:form action="userAccount/admin/createAdmin.do"
+<form:form action="userAccount/administrator/createAdmin.do"
 	modelAttribute="userAccount">
 	
 	<form:hidden path="id" />
@@ -53,7 +53,7 @@
 </security:authorize>
 
 <security:authorize access="hasRole('ADMIN')"> 
-<form:form action="userAccount/admin/createReferee.do"
+<form:form action="userAccount/administrator/createReferee.do"
 	modelAttribute="userAccount">
 	
 	<form:hidden path="id" />

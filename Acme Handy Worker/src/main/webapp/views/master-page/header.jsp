@@ -71,6 +71,15 @@
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
+			
+			<li><a class="fNiv"> <spring:message code="master.page.actor.register" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="actor/createSponsor.do"><spring:message code="master.page.actor.sponsor" /></a></li>
+					<li><a href="actor/createCustomer.do"><spring:message code="master.page.actor.customer" /></a></li>
+					<li><a href="actor/createHandyWorker.do"><spring:message code="master.page.actor.handyWorker" /></a></li>
+				</ul>
+			</li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">

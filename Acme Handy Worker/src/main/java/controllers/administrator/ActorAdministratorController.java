@@ -19,7 +19,7 @@ import controllers.AbstractController;
 import domain.Actor;
 
 @Controller
-@RequestMapping("/actor/admin")
+@RequestMapping("/actor/administrator")
 public class ActorAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------------
@@ -47,7 +47,7 @@ public class ActorAdministratorController extends AbstractController {
 
 		result = new ModelAndView("actor/list");
 		result.addObject("actors", actors);
-		result.addObject("requestURI", "actor/admin/list.do");
+		result.addObject("requestURI", "actor/administrator/list.do");
 
 		return result;
 	}
@@ -103,7 +103,7 @@ public class ActorAdministratorController extends AbstractController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("actor/edit");
+		result = new ModelAndView("actor/list");
 
 		result.addObject("actor", actor);
 		result.addObject("message", message);

@@ -18,7 +18,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="customer/register.do" modelAttribute="customer">
+<form:form action="actor/createCustomer.do" modelAttribute="customer">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
