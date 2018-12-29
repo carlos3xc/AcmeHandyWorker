@@ -10,9 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ComplaintService;
+import services.HandyWorkerService;
 
 import controllers.AbstractController;
 import domain.Complaint;
+import domain.HandyWorker;
 
 @Controller
 @RequestMapping("/complaint/handyWorker")
@@ -22,6 +24,9 @@ public class ComplaintHandyWorkerController extends AbstractController {
 
 	@Autowired
 	private ComplaintService complaintService;
+
+	@Autowired
+	private HandyWorkerService handyWorkerService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -36,13 +41,16 @@ public class ComplaintHandyWorkerController extends AbstractController {
 
 		ModelAndView result;
 
-		int handyWorkerId = LoginService.getPrincipal().getId();
+		HandyWorker handyWorker = handyWorkerService
+				.findByUserAccountId(LoginService.getPrincipal().getId());
+		int handyWorkerId = handyWorker.getId();
 
 		Collection<Complaint> complaints = complaintService
 				.getComplaintsHandyWorker(handyWorkerId);
 
 		result = new ModelAndView("complaint/list");
 		result.addObject("complaints", complaints);
+		result.addObject("handyWorker", handyWorker);
 		result.addObject("requestURI", "complaint/handyWorker/list.do");
 
 		return result;

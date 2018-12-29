@@ -51,7 +51,7 @@
 
 <security:authorize access="hasRole('REFEREE')">
 
-	<display:table name="${complaints}" id="row" pagesize="5"
+	<display:table name="complaints" id="row" pagesize="5"
 		requestURI="complaint/referee/list.do">
 
 		<display:column titleKey="complaint.ticker" property="ticker" />
@@ -63,8 +63,8 @@
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
 
-		<display:column titleKey="complaint.referee"
-			property="${row.referee.userAccount.username}" />
+		<!--	<display:column titleKey="complaint.referee"
+			property="${row.referee.userAccount.username}" /> -->
 
 		<display:column titleKey="complaint.fixUpTask"
 			property="fixUpTask.ticker" />
@@ -74,7 +74,7 @@
 </security:authorize>
 
 <security:authorize access="hasRole('HANDYWORKER')">
-	<display:table name="${complaints}" id="row" pagesize="5"
+	<display:table name="complaints" id="row" pagesize="5"
 		requestURI="complaint/handyWorker/list.do">
 
 		<display:column titleKey="complaint.ticker" property="ticker" />
@@ -85,9 +85,6 @@
 		<spring:message code="complaint.moment.format" var="formatMoment" />
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
-
-		<display:column titleKey="complaint.handyWorker"
-			property="${row.handyWorker.userAccount.username}" />
 
 		<display:column titleKey="complaint.fixUpTask"
 			property="fixUpTask.ticker" />

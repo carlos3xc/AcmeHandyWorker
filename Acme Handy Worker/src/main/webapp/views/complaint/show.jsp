@@ -8,27 +8,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<jstl:set var="customerName"
-	value="${complaint.customer.name + complaint.customer.middleName + complaint.customer.surname }" />
+  <jstl:set var="name"
+	value="${name + middleName + surname}" />
 
 <display:table name="complaint" id="row"
 	requestURI="complaint/customer/show.do">
 
 	<display:column>
 
-		<b><spring:message code="complaint.ticker" /></b>
-		<jstl:out value="${complaint.ticker}" />
+		<b><spring:message code="complaint.ticker" />: </b>
+		<jstl:out value="${complaint.ticker}" /> <br/>
 
-		<b><spring:message code="complaint.description" /></b>
-		<jstl:out value="${complaint.description}" />
+		<b><spring:message code="complaint.description" />: </b>
+		<jstl:out value="${complaint.description}" /> <br/>
 
-		<b><spring:message code="complaint.attachments" /></b>
-		<jstl:out value="${complaint.attachments}" />
+		<b><spring:message code="complaint.attachments" />: </b>
+		<jstl:out value="${complaint.attachments}" /> <br/>
 
-		<b><spring:message code="complaint.moment" /></b>
-		<jstl:out value="${complaint.moment}" />
+		<b><spring:message code="complaint.moment" />: </b>
+		<jstl:out value="${complaint.moment}" /> <br/>
 
-		<b><spring:message code="complaint.fixUpTask" /></b>
+		<b><spring:message code="complaint.fixUpTask" />: </b>
 		<jstl:out value="${complaint.fixUpTask}" />
 
 	</display:column>

@@ -15,8 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 
 import domain.Complaint;
+import domain.Customer;
 
+import security.LoginService;
 import services.ComplaintService;
+import services.CustomerService;
 
 @Controller
 @RequestMapping("/complaint/customer")
@@ -26,6 +29,9 @@ public class ComplaintCustomerController extends AbstractController {
 
 	@Autowired
 	private ComplaintService complaintService;
+
+	@Autowired
+	private CustomerService customerService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -58,8 +64,14 @@ public class ComplaintCustomerController extends AbstractController {
 
 		Complaint complaint = complaintService.findOne(complaintId);
 
+		Customer customer = customerService.findByUserAccountId(LoginService
+				.getPrincipal().getId());
+		String name = customer.getName();
+
 		result = new ModelAndView("complaint/show");
 		result.addObject("complaint", complaint);
+		result.addObject("customer", customer);
+		result.addObject("name", name);
 		result.addObject("requestURI", "complaint/customer/show.do");
 
 		return result;
@@ -164,7 +176,7 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("complaint/edit");
-		
+
 		Collection<String> attachments = complaint.getAttachments();
 
 		result.addObject("complaint", complaint);
