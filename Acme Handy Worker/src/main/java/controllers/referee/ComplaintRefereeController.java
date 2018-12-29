@@ -57,7 +57,7 @@ public class ComplaintRefereeController extends AbstractController {
 
 	// Listing B-RF 36.2 -------------------------------------------------------
 
-	@RequestMapping(value = "/listReferee", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listComplaintsReferee() {
 
 		ModelAndView result;
