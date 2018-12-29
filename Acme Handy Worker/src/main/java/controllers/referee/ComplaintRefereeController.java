@@ -10,9 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ComplaintService;
+import services.RefereeService;
 
 import controllers.AbstractController;
 import domain.Complaint;
+import domain.Referee;
 
 @Controller
 @RequestMapping("/complaint/referee")
@@ -23,6 +25,9 @@ public class ComplaintRefereeController extends AbstractController {
 	@Autowired
 	private ComplaintService complaintService;
 
+	@Autowired
+	private RefereeService refereeService;
+
 	// Constructors ------------------------------------------------------------
 
 	public ComplaintRefereeController() {
@@ -31,20 +36,24 @@ public class ComplaintRefereeController extends AbstractController {
 
 	// Listing B-RF 36.1 -------------------------------------------------------
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listComplaintsWithNoReports() {
-
-		ModelAndView result;
-
-		Collection<Complaint> complaints = complaintService
-				.getComplaintsWithNoReports();
-
-		result = new ModelAndView("complaint/list");
-		result.addObject("complaints", complaints);
-		result.addObject("requestURI", "complaint/referee/list.do");
-
-		return result;
-	}
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+//	public ModelAndView listComplaintsWithNoReports() {
+//
+//		ModelAndView result;
+//		
+//		Referee referee = refereeService.findByUserAccountId(LoginService
+//				.getPrincipal().getId());
+//
+//		Collection<Complaint> complaints = complaintService
+//				.getComplaintsWithNoReports();
+//
+//		result = new ModelAndView("complaint/list");
+//		result.addObject("complaints", complaints);
+//		result.addObject("referee", referee);
+//		result.addObject("requestURI", "complaint/referee/list.do");
+//
+//		return result;
+//	}
 
 	// Listing B-RF 36.2 -------------------------------------------------------
 
@@ -53,13 +62,16 @@ public class ComplaintRefereeController extends AbstractController {
 
 		ModelAndView result;
 
-		int refereeId = LoginService.getPrincipal().getId();
+		Referee referee = refereeService.findByUserAccountId(LoginService
+				.getPrincipal().getId());
+		int refereeId = referee.getId();
 
 		Collection<Complaint> complaints = complaintService
 				.getComplaintsReferee(refereeId);
 
 		result = new ModelAndView("complaint/list");
 		result.addObject("complaints", complaints);
+		result.addObject("referee", referee);
 		result.addObject("requestURI", "complaint/referee/list.do");
 
 		return result;

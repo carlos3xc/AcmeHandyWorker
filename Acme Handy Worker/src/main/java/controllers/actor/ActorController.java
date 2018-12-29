@@ -76,6 +76,7 @@ public class ActorController extends AbstractController {
 		Customer customer = customerService.create();
 
 		result = this.createEditModelAndView(customer);
+		result.addObject("customer", customer);
 
 		return result;
 	}
@@ -90,6 +91,22 @@ public class ActorController extends AbstractController {
 		Sponsor sponsor = sponsorService.create();
 
 		result = this.createEditModelAndView(sponsor);
+
+		return result;
+	}
+
+	// Show --------------------------------------------------------------------
+
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam final int actorId) {
+
+		ModelAndView result;
+
+		Actor actor = actorService.findOne(actorId);
+
+		result = new ModelAndView("actor/show");
+		result.addObject("actor", actor);
+		result.addObject("requestURI", "actor/show.do");
 
 		return result;
 	}
