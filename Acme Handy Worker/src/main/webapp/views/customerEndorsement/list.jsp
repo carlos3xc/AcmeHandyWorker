@@ -16,29 +16,31 @@
 									 
 		<security:authorize access="hasRole('CUSTOMER')">
 		
-			<h1><spring:message code="customerEndosement.customerEndosements"/>:</h1><br/>
-			<display:table name="customerEndosements" id="row" requestURI="customerEndosements/customer/list.do" pagesize="5">
+			<h1><spring:message code="customerEndorsement.customerEndrosements"/>:</h1><br/>
+			<display:table name="customerEndorsements" id="row" requestURI="customerEndosements/customer/list.do" pagesize="5">
 				
 				<display:column titleKey="customerEndosements.options">
-					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
-								<spring:message	code="task.show" />
-					</a><br/>
+					<a href="customerEndorsement/show.do?customerEndorsementId=${row.id}">
+								<spring:message	code="customerEndorsement.show" />
+					</a>
+					<br/>
 					<jstl:if test="${row.customer == customer}"> 
-						<jstl:if test="${row.warranty.isDraft}">
-							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
-								<spring:message	code="task.edit" />
-							</a><br/>	
-						</jstl:if>
+							<a href="customerEndorsement/customer/edit.do?customerEndorsementId=${row.id}">
+								<spring:message	code="customerEndorsement.edit" />
+							</a>
+							<br/>	
 						<jsp:useBean id="today" class="java.util.Date"/>
 						<jstl:if test="${row.startMoment > today}">
 							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.delete" />
-							</a><br/>			
+							</a>
+							<br/>			
 						</jstl:if>			
 					</jstl:if>
 					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />
-					</a><br/>
+					</a>
+					<br/>
 				</display:column>
 				
 				<display:column property="ticker" titleKey="task.ticker" />	

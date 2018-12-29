@@ -68,8 +68,7 @@
 
         <security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/customerEndorsement/customer/**" access="hasRole('CUSTOMER')" />  
-
+		
 		<security:intercept-url pattern="/fixUpTask/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
