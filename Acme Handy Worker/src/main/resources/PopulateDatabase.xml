@@ -1091,55 +1091,43 @@
 	<!-- FINDERS -->
 
 	<bean id="finder1" class="domain.Finder">
-		<property name="keyword" value="default" />
-		<property name="minPrice" value="" />
-		<property name="maxPrice" value="" />
-		<property name="category" value="1" />
 		<property name="handyWorker" ref="handyWorker1" />
-		<!-- <property name="startDate" value=""/> Fechas comentadas ya que no 
-			pueden dejarse sin formato <property name="endDate" value=""/><property name="moment" value=""/>
-			 <property name="fixUpTasks"> Colección de fixUpTask comentada ya que no existen resultados 
-			aun para el finder <list> </list> </property> -->
+		<property name="fixUpTasks">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="finder2" class="domain.Finder">
-		<property name="keyword" value="default" />
-		<property name="minPrice" value="" />
-		<property name="maxPrice" value="" />
-		<property name="category" value="1" />
 		<property name="handyWorker" ref="handyWorker2" />
-		<!-- <property name="startDate" value=""/> <property name="endDate" value=""/>  <property name="moment" value=""/>
-			<property name="fixUpTasks"> <list> </list> </property> -->
+		<property name="fixUpTasks">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="finder3" class="domain.Finder">
-		<property name="keyword" value="default" />
-		<property name="minPrice" value="" />
-		<property name="maxPrice" value="" />
-		<property name="category" value="1" />
 		<property name="handyWorker" ref="handyWorker3" />
-		<!-- <property name="startDate" value=""/> <property name="endDate" value=""/> <property name="moment" value=""/>
-			<property name="fixUpTasks"> <list> </list> </property> -->
+		<property name="fixUpTasks">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="finder4" class="domain.Finder">
-		<property name="keyword" value="default" />
-		<property name="minPrice" value="" />
-		<property name="maxPrice" value="" />
-		<property name="category" value="1" />
 		<property name="handyWorker" ref="handyWorker4" />
-		<!-- <property name="startDate" value=""/> <property name="endDate" value=""/> <property name="moment" value=""/>
-			<property name="fixUpTasks"> <list> </list> </property> -->
+		<property name="fixUpTasks">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="finder5" class="domain.Finder">
-		<property name="keyword" value="default" />
-		<property name="minPrice" value="" />
-		<property name="maxPrice" value="" />
-		<property name="category" value="1" />
 		<property name="handyWorker" ref="handyWorker5" />
-		<!-- <property name="startDate" value=""/> <property name="endDate" value=""/> <property name="moment" value=""/>
-			<property name="fixUpTasks"> <list> </list> </property> -->
+		<property name="fixUpTasks">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 

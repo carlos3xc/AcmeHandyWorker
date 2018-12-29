@@ -108,13 +108,6 @@ public class HandyWorkerService {
 		hw = handyWorkerRepository.findByPrincipal(userAccount.getId());
 		return hw;
 	}
-
-	public HandyWorker findByFinderId(final int finderId) {
-		Assert.notNull(finderId);
-		HandyWorker result;
-		result = this.handyWorkerRepository.findByFinderId(finderId);
-		return result;
-	}
 	
 	public Collection<HandyWorker> getHandyWorkersWMoreApplicationsThanAvg(){
 		Collection<HandyWorker> res;

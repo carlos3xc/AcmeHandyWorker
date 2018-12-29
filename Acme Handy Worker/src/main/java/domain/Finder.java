@@ -3,14 +3,7 @@ package domain;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -30,7 +23,6 @@ public class Finder extends DomainEntity {
 	private Double maxPrice;
 	private Date startDate;
 	private Date endDate;
-	private Integer category;
 
 	// Constructors -----------------------------------------------------------
 
@@ -39,8 +31,7 @@ public class Finder extends DomainEntity {
 	}
 
 	// Getters and Setters ---------------------------------------------------
-
-	@NotBlank
+	
 	public String getKeyword() {
 		return this.keyword;
 	}
@@ -80,7 +71,6 @@ public class Finder extends DomainEntity {
 		this.startDate = startDate;
 	}
 
-	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getEndDate() {
@@ -91,23 +81,38 @@ public class Finder extends DomainEntity {
 		this.endDate = endDate;
 	}
 
-	public Integer getCategory() {
-		return category;
-	}
-
-	public void setCategory(Integer category) {
-		this.category = category;
-	}
-
 	// Relationships ----------------------------------------------------------
 
 	private HandyWorker handyWorker;
+
+	private Category category;
+	private Warranty warranty;
 	private Collection<FixUpTask> fixUpTasks;
 
 	@Valid
 	@OneToOne(optional = false)
 	public HandyWorker getHandyWorker() {
 		return this.handyWorker;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Warranty getWarranty() {
+		return warranty;
+	}
+
+	public void setWarranty(Warranty warranty) {
+		this.warranty = warranty;
 	}
 
 	public void setHandyWorker(final HandyWorker handyWorker) {

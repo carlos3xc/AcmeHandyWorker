@@ -10,10 +10,6 @@ import domain.FixUpTask;
 
 @Repository
 public interface FixUpTaskRepository extends JpaRepository<FixUpTask, Integer>{
-
-	// no es necesario viene por defecto esta como referencia
-	@Query("select a from FixUpTask a where a.id = ?1") 
-	FixUpTask findOne(Integer Id);
 	
 	//C-RF 11.1
 	@Query("select a.fixUpTask from Application a where a.handyWorker.id=?1")

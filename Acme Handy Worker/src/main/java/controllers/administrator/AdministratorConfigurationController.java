@@ -54,7 +54,7 @@ public class AdministratorConfigurationController extends AbstractController {
 		return res;
 	}
 
-	//Helper methods---------------------------------------------------
+	//Ancillary methods---------------------------------------------------
 	protected ModelAndView createEditModelAndView(Configuration config){
 		ModelAndView res;
 		res = createEditModelAndView(config, null);

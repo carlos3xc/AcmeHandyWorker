@@ -1,7 +1,9 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
+import domain.FixUpTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,7 @@ public class FinderService {
 	public Finder create(){
 		Finder result;
 		result = new Finder();
+		result.setFixUpTasks(new HashSet<FixUpTask>());
 		return result;
 	}
 	
@@ -57,18 +60,14 @@ public class FinderService {
 		if (finder.getId() != 0)
 			Assert.isTrue(this.esDeActorActual(finder));
 		Finder result;
-		UserAccount userAccount = LoginService.getPrincipal();
-		if(finder.getId()==0)finder.setHandyWorker(handyWorkerService.findByUserAccountId(userAccount.getId()));
+
+		if(finder.getId()==0){
+
+		}
 		result = this.finderRepository.save(finder);
 		return result;
 	}
-	
-	public Finder saveByFixUpTask(final Finder finder) {
-		Assert.notNull(finder);
-		final Finder result = this.finderRepository.save(finder);
-		return result;
-	}
-	
+
 	public void delete(Finder finder){
 		Assert.notNull(finder);
 		Assert.isTrue(finder.getId() != 0);
@@ -78,11 +77,12 @@ public class FinderService {
 	//Other business methods -----
 	
 	private Boolean esDeActorActual(final Finder finder) {
-		Boolean result = false;
+		Boolean result;
+
 		final HandyWorker principal = this.handyWorkerService.findByPrincipal();
-		final HandyWorker handyWorker = this.handyWorkerService.findByFinderId(finder.getId());
-		if (principal.equals(handyWorker))
-			result = true;
+		final HandyWorker handyWorkerFromFinder = finderRepository.findOne(finder.getId()).getHandyWorker();
+
+		result = principal.equals(handyWorkerFromFinder);
 		return result;
 	}
 	
