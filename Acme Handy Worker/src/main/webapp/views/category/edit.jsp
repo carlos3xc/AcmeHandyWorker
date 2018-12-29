@@ -10,7 +10,7 @@
 
 <!-- Listing grid -->
 
-<security:authorize access="hasRole('ADMINISTRATOR')">
+<security:authorize access="hasRole('ADMIN')">
 
 	<form:form action="category/administrator/edit.do"
 		modelAttribute="categoryForm">
