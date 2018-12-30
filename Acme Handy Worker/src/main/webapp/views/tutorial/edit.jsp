@@ -16,33 +16,33 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="tutorial/handyWorker/edit.do" modelAttribute="tutorial">
+<form:form action="tutorial/handyWorker/edit.do"
+	modelAttribute="tutorial">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	
+
 	<form:hidden path="moment" />
 	<form:hidden path="sections" />
-	
-	
+
 	<security:authorize access="hasRole('HANDYWORKER')">
-		
-	
+
 		<form:label path="sections">
 			<spring:message code="tutorial.section" />:
 		</form:label>
-		
+
 		<form:select path="sections">
 			<jstl:forEach var="item" items="${sections}">
-		        <form:option value="${item}" />
-	        </jstl:forEach>	
+				<form:option value="${item}" />
+			</jstl:forEach>
 		</form:select>
 		<form:errors cssClass="error" path="name" />
 		<br />
-		
+
 		<form:label path="title">
 			<spring:message code="tutorial.title" />:
 		</form:label>
@@ -56,7 +56,7 @@
 		<form:input path="summary" />
 		<form:errors cssClass="error" path="summary" />
 		<br />
-		
+
 		<form:label path="picture">
 			<spring:message code="tutorial.picture" />:
 		</form:label>
@@ -64,14 +64,18 @@
 		<form:errors cssClass="error" path="picture" />
 		<br />
 
-		
-		<input type="submit" name="save" value="<spring:message code="application.save" />" />
-					
+		<input type="submit" name="save"
+			value="<spring:message code="tutorial.save" />" />&nbsp;
+		<jstl:if test="${tutorial.id != 0}">
+			<input type="submit" name="delete"
+				value="<spring:message code="tutorial.delete" />"
+				onclick="return confirm('<spring:message code="tutorial.confirm.delete" />')" />&nbsp;
+	    </jstl:if>
 		<input type="button" name="cancel"
-			value="<spring:message code="application.cancel" />"
-			onclick="javascript: window.location.replace('')" />
+			value="<spring:message code="tutorial.cancel" />"
+			onclick="javascript: window.location.replace('tutorial/handyWorker/list.do')" />
 		<br />
-	
+
 	</security:authorize>
 
 </form:form>
