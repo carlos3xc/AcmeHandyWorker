@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
+import domain.Complaint;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.SocialProfile;
@@ -28,6 +30,9 @@ public class CustomerService {
 	//Managed Repository -----
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private ComplaintService complaintService;
 	
 	@Autowired
 	private UserAccountService userAccountService;
@@ -98,15 +103,25 @@ public class CustomerService {
 	}
 	
 	public Collection<Customer> TopThreeInComplaints(){
-		Collection<Customer> top;
-	//	List<Customer> customers = new ArrayList<Customer>();
-//		Collection<Integer> complaintsNumber = new ArrayList<Integer>();
-	//	Map<Customer,Integer> n = new HashMap<Customer,Integer>();
-		top =  customerRepository.topThreeInComplaints();
-//		for(int i=0;i<=top.size();i=i+2){
-//			n.put((Customer)top.get(i),(Integer)top.get(i+1));
+//		List<Customer> top = new ArrayList<>();
+//		Map<Customer, Integer> numberofcomplaints = new HashMap<>();
+//		
+//		for (Customer cu : this.findAll()) {
+//			numberofcomplaints.put(cu, 0);
 //		}
-//		System.out.println(n);
+//		
+//		for (Complaint c : complaintService.findAll()) {
+//			numberofcomplaints.put(c.getCustomer(), numberofcomplaints.get(c.getCustomer())+1);
+//		}
+//		
+//		for (Entry<Customer, Integer> entry : numberofcomplaints.entrySet()) {
+//			
+//			
+//		}
+		Collection<Customer> top = customerRepository.topThreeInComplaints();
+		
+		
+
 		return top;
 	}
 	

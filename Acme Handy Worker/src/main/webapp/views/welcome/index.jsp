@@ -26,14 +26,6 @@ Date moment
  -->
 <h1>${systemName}</h1>
 <spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /><br>
+<jstl:out value="${welcomeMessageToDisplay}"></jstl:out>
 
-<jstl:forEach items="${pageContext.request.cookies}" var="i">
-<jstl:if test="${i.name == 'language' && i.value == 'es' }">
-	${welcomeMessageEnglish}
-</jstl:if>
-
-<jstl:if test="${i.name == 'language' && i.value == 'en' }">
-	${welcomeMessageSpanish}
-</jstl:if>
-</jstl:forEach>
 

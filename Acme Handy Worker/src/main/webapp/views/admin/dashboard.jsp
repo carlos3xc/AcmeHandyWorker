@@ -119,22 +119,22 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 			<th><spring:message code="admin.rWithComplaint"/></th>
 			<th><jstl:out value="${ratioFixUpComplaint}"/></th>
 		</tr>
-	<%-- <tr>
+		 <tr>
 			<th><spring:message code="admin.topThreeCustomerComplaint"/></th>
 			<th>
 			<jstl:forEach var="i" items="${topThreeCustomerComplaints}">
-			<jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> 
+			<jstl:out value="${i.name} "/><jstl:out value="${i.surname}"/><br>
 			</jstl:forEach>
 			</th>
 		</tr>
 		<tr>
 			<th><spring:message code="admin.topThreeHandyWorkerComplaint"/></th>
 			<th>
-			<jstl:forEach var="i" items="${topThreeHandyWorkerComplaints}">
-			<jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> , 
+			<jstl:forEach var="i" items="${topThreeHandyWorkersComplaints}">
+			<jstl:out value="${i.name} "/><jstl:out value="${i.surname} "/><br>
 			</jstl:forEach>
 			</th>
-		</tr> --%>
+		</tr> 
 	</table>
 	
 	<spring:message code="admin.topPublishers"/>

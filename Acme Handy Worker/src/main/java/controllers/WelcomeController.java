@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,11 +57,20 @@ public class WelcomeController extends AbstractController {
 		name = actorService.getByUserAccountId(LoginService.getPrincipal()).getName();
 		}
 		Configuration c = (Configuration) configurationService.findAll().toArray()[0];
+		String welcomeText=" ";
+		
+		System.out.println("el locale es este: "+ LocaleContextHolder.getLocale().getLanguage());
+		if(LocaleContextHolder.getLocale().getLanguage().toLowerCase().equals("es")){
+			welcomeText = c.getWelcomeTextSpanish();
+		}
+
+		if(LocaleContextHolder.getLocale().getLanguage().toLowerCase().equals("en")){
+			welcomeText = c.getWelcomeTextEnglish();
+		}
 
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
-		result.addObject("welcomeMessageSpanish",c.getWelcomeTextSpanish());
-		result.addObject("welcomeMessageEnglish",c.getWelcomeTextEnglish());
+		result.addObject("welcomeMessageToDisplay",welcomeText);
 		result.addObject("systemName", c.getSystemName());
 		result.addObject("moment", moment);
 

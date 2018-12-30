@@ -109,12 +109,12 @@ Recieves:
 </form:form>
 
 <h2><spring:message code="admin.manageSpamWords"/></h2>
-<spring:message code="admin.currentSpamWords"/>:
+<spring:message code="admin.currentSpamWords"/>:<br>
 <jstl:forEach var="i" items="${configuration.spamWords}">
-<jstl:out value="${i.content}"></jstl:out>
+<jstl:out value="${i.content} "></jstl:out><a href="admin/admin/deleteSpam.do?wordId=${i.id}"><spring:message code= "admin.remove"/></a><br>
 </jstl:forEach>
 
-<form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
+<form:form action="admin/admin/addSpamWord.do" modelAttribute="spamWord">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="type" value="SPAM"/>
@@ -127,34 +127,16 @@ Recieves:
 	<form:errors cssClass="error" path="content" />
 	<br />
 	
-	<input type="submit" name="addSpam" value="<spring:message code="admin.add" />" />
-</form:form>
-
-<form:form action="admin/admin/configuration.do" modelAttribute="spamWord">
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="type" value="SPAM"/>
-	
-	<form:label path="content">
-		<spring:message code="admin.word" />:
-	</form:label>
-	
-	<form:select path="content">
-		<form:options items="${configuration.spamWords}" itemLabel="content" itemValue="content"/>
-	</form:select>
-	<form:errors cssClass="error" path="content" />
-	<br />
-	
-	<input type="submit" name="removeSpam" value="<spring:message code="admin.remove" />" />
+	<input type="submit" name="save" value="<spring:message code="admin.add" />" />
 </form:form>
 
 <h2><spring:message code="admin.manageCreditCardMakes"/></h2>
-<spring:message code="admin.currentCreditCardMakes"/>:
+<spring:message code="admin.currentCreditCardMakes"/>:<br>
 <jstl:forEach var="i" items="${configuration.creditCardMakes}">
-<jstl:out value="${i.make}"></jstl:out>
+<jstl:out value="${i.make} "></jstl:out><a href="admin/admin/deleteMake.do?makeId=${i.id}"><spring:message code= "admin.remove"/></a><br>
 </jstl:forEach>
 
- <form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
+ <form:form action="admin/admin/addCreditCard.do" modelAttribute="creditCardMake">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
@@ -166,23 +148,10 @@ Recieves:
 	<form:errors cssClass="error" path="make" />
 	<br />
 	
-	<input type="submit" name="addMake" value="<spring:message code="admin.add" />" />
+	<input type="submit" name="save" value="<spring:message code="admin.add" />" />
 </form:form>
 
-<form:form action="admin/admin/configuration.do" modelAttribute="creditCardMake">
-	
-	<form:label path="make">
-		<spring:message code="admin.make" />:
-	</form:label>
-	
-	<form:select path="make">
-		<form:options items="${configuration.creditCardMakes}" itemLabel="make" itemValue="id"/>
-	</form:select>
-	<form:errors cssClass="error" path="make" />
-	<br />
-	
-	<input type="submit" name="removeMake" value="<spring:message code="admin.remove" />" />
-</form:form>
+
 
 
 </security:authorize>

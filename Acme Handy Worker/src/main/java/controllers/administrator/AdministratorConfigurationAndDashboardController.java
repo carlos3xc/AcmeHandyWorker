@@ -7,9 +7,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
@@ -103,31 +103,24 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	//Add and remove methods ------------------------------------------
 	
 	// word------------------------------------------------------------
-	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="addSpam")
+	@RequestMapping(value="/addSpamWord", method=RequestMethod.POST, params="save")
 	public ModelAndView addSpam(@Valid Word word, BindingResult binding){
 		ModelAndView res;
 		
-		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
-		
-		wordService.save(word); // el create se hace automaticamente al cargar la vista.
-		
-		System.out.println(word.getContent()+"  "+word.getType());
-		System.out.println(binding.hasErrors());
-		for (ObjectError e : binding.getAllErrors()) {
-			System.out.println(e);
-		}
+		Configuration config = (Configuration) configurationService.findAll().toArray()[0];		
 		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(config);
 		}else{
 			try {
-				List<Word> spams = config.getspamWords();
-				List<CreditCardMake> makes = config.getCreditCardMakes();
-				spams.add(word);
-				config.setSpamWords(spams);
-				configurationService.save(config);
-				System.out.println("se ejecuta el save de config");
-				res = new ModelAndView("redirect:configuration.do");
+				Word saved = wordService.save(word);
+				
+				List<Word> aux = config.getspamWords();
+				aux.add(saved);
+				config.setSpamWords(aux);
+				Configuration savedc = configurationService.save(config);
+				
+				res = createEditModelAndView(savedc);
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 				System.out.println("he cogido esto para ti: "+e);
@@ -136,14 +129,18 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		return res;
 	}
 	
-	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="removeSpam")
-	public ModelAndView removeSpam(@Valid Word word){
+	@RequestMapping(value="/deleteSpam", method=RequestMethod.GET)
+	public ModelAndView removeSpam(@RequestParam int wordId){
 		ModelAndView res;
-		
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 			try {
-				wordService.delete(word);
-				res = new ModelAndView("redirect:configuration.do");
+				List<Word> aux = config.getspamWords();
+				aux.remove(wordService.findOne(wordId));
+				config.setSpamWords(aux);
+				Configuration saved = configurationService.save(config);
+				
+				wordService.delete(wordService.findOne(wordId));
+				res = createEditModelAndView(saved);
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 				
@@ -153,23 +150,26 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	
 	
 	// make------------------------------------------------------------
-	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="addMake")
+	@RequestMapping(value="/addCreditCard", method=RequestMethod.POST, params="save")
 	public ModelAndView addMake(@Valid CreditCardMake make, BindingResult binding){
 		ModelAndView res;
 		
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 		
-		creditCardMakeService.save(make); // el create se hace automaticamente al cargar la vista.
-		
 		if(binding.hasErrors()){
 			res = createEditModelAndView(config);
 		}else{
 			try {
-				List<CreditCardMake> makes = config.getCreditCardMakes();
-				makes.add(make);
-				config.setCreditCardMakes(makes);
-				configurationService.save(config);
-				res = new ModelAndView("redirect:configuration.do");
+				
+				CreditCardMake saved = creditCardMakeService.save(make);
+				
+				List<CreditCardMake> aux = config.getCreditCardMakes();
+				aux.add(saved);
+				config.setCreditCardMakes(aux);
+				Configuration savedc = configurationService.save(config);
+				
+				res = createEditModelAndView(savedc);
+				
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 				
@@ -178,18 +178,21 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		return res;
 	}
 	
-	@RequestMapping(value="/configuration", method=RequestMethod.POST, params="removeMake")
-	public ModelAndView removeSpam(@Valid CreditCardMake make){
+	@RequestMapping(value="/deleteMake", method=RequestMethod.GET)
+	public ModelAndView removeMake(@RequestParam int makeId){
 		ModelAndView res;
 		
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 			try {
-				creditCardMakeService.delete(make);
-				res = new ModelAndView("redirect:configuration.do");
+				
+				List<CreditCardMake> aux = config.getCreditCardMakes();
+				aux.remove(creditCardMakeService.findOne(makeId));
+				config.setCreditCardMakes(aux);
+				Configuration savedc = configurationService.save(config);
+				
+				res = createEditModelAndView(savedc);
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
-				
-				//TODO: añadir el commit error al admin.properties de message.
 			}
 		return res;
 	}

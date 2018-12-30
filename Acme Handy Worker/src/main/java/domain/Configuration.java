@@ -7,6 +7,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -117,7 +118,7 @@ public class Configuration extends DomainEntity {
 	
 	@Valid
 	@ElementCollection
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public List<Word> getspamWords() {
 		return spamWords;
 	}
@@ -127,7 +128,7 @@ public class Configuration extends DomainEntity {
 	}
 	@Valid
 	@ElementCollection
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public List<CreditCardMake> getCreditCardMakes() {
 		return creditCardMakes;
 	}

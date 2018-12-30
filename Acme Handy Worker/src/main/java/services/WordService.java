@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import repositories.WordRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Configuration;
 import domain.Word;
 
 
@@ -25,7 +27,8 @@ public class WordService {
 	
 	//Supporting Services -----
 	
-
+	@Autowired
+	private ConfigurationService configurationService;
 	
 	//Simple CRUD methods -----
 	
@@ -44,19 +47,16 @@ public class WordService {
 	}
 	
 	public Word save(Word a){
-		UserAccount userAccount = LoginService.getPrincipal();
-		Authority au = new Authority();
-		au.setAuthority("ADMIN");
-		Assert.isTrue(userAccount.getAuthorities().contains(au));
 		
-		return wordRepository.saveAndFlush(a);
+		Assert.isTrue(LoginService.hasRole("ADMIN"));
+		
+		Word saved = wordRepository.saveAndFlush(a);
+		return saved;
 	}
 	
 	public void delete(Word a){
-		UserAccount userAccount = LoginService.getPrincipal();
-		Authority au = new Authority();
-		au.setAuthority("ADMIN");
-		Assert.isTrue(userAccount.getAuthorities().contains(au));
+		
+		Assert.isTrue(LoginService.hasRole("ADMIN"));
 		
 		wordRepository.delete(a);
 	}
