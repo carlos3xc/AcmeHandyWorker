@@ -64,7 +64,7 @@
 						<jstl:if test="${x.status=='PENDING'}">
 						<jstl:if test="${stat=='0' }">
 							<jstl:set var="stat" value="1"/>
-							<a href="application/handyWorker/apply.do?fixUpTaskId=${row.id}">
+							<a href="handyWorker/application/apply.do?fixUpTaskId=${row.id}">
 								<spring:message code="task.apply"/>
 							</a><br/>
 						</jstl:if>
