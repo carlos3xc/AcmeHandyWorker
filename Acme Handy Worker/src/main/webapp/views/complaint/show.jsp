@@ -52,8 +52,8 @@
 						
 			<display:column property="description" titleKey="complaint.description" />
 			
-			<display:column titleKey="complaint.customer">
-				<a href="actor/profile.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
+			<display:column titleKey="complaint.referee">
+				<a href="actor/profile.do?actorId=${row.referee.id}"><jstl:out value="${row.referee.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 
