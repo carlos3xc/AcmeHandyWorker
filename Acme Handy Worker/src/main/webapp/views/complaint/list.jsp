@@ -17,10 +17,8 @@
 			<display:column>
 				<a href="complaint/customer/edit.do?complaintId=${row.id}"> <spring:message
 						code="complaint.edit" />
-				</a>
-			</display:column>
+				</a> <br/>
 
-			<display:column>
 				<a href="complaint/customer/show.do?complaintId=${row.id}"> <spring:message
 						code="complaint.show" />
 				</a>
