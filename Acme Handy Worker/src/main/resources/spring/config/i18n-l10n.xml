@@ -35,6 +35,7 @@
 		<value>/views/actor/messages</value>
 		<value>/views/tutorial/messages</value>
 		<value>/views/curricula/messages</value>
+		<value>/views/report/messages</value>
 		<value>/views/workPlanPhase/messages</value>
 		<value>/views/application/messages</value>
 		
