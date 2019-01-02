@@ -34,3 +34,26 @@
 
 </display:table>
 
+<h3><spring:message code="complaint.reports"/>:</h3>
+		<display:table name="reports" id="row" requestURI="complaint/customer/show.do" pagesize="5">
+			<display:column titleKey="report.options">
+				<jstl:if test="${row.isDraft}">
+					<jstl:if test="${row.referee == referee}"> 
+							<a href="report/referee/edit.do?fixUpTaskId=${row.id}">
+								<spring:message	code="complaint.edit" />
+							</a><br/>	
+						</jstl:if>
+							<a href="report/referee/delete.do?reportId=${row.id}">
+								<spring:message	code="complaint.delete" />
+							</a><br/>			
+				</jstl:if>
+			</display:column>
+			<display:column property="moment" titleKey="complaint.moment" />
+						
+			<display:column property="description" titleKey="complaint.description" />
+			
+			<display:column titleKey="complaint.customer">
+				<a href="actor/profile.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
+			</display:column>
+		</display:table>
+

@@ -20,6 +20,7 @@ import domain.Customer;
 import security.LoginService;
 import services.ComplaintService;
 import services.CustomerService;
+import services.RefereeService;
 
 @Controller
 @RequestMapping("/complaint/customer")
@@ -32,6 +33,9 @@ public class ComplaintCustomerController extends AbstractController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private RefereeService refereeService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -63,15 +67,10 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		Complaint complaint = complaintService.findOne(complaintId);
-/*
-		Customer customer = customerService.findByUserAccountId(LoginService
-				.getPrincipal().getId());
-		String name = customer.getName();*/
 
 		result = new ModelAndView("complaint/show");
 		result.addObject("complaint", complaint);
-/*	result.addObject("customer", customer);
-		result.addObject("name", name);*/
+		result.addObject("referee", refereeService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.addObject("requestURI", "complaint/customer/show.do");
 
 		return result;
