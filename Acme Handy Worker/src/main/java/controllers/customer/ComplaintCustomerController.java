@@ -63,15 +63,15 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		Complaint complaint = complaintService.findOne(complaintId);
-
+/*
 		Customer customer = customerService.findByUserAccountId(LoginService
 				.getPrincipal().getId());
-		String name = customer.getName();
+		String name = customer.getName();*/
 
 		result = new ModelAndView("complaint/show");
 		result.addObject("complaint", complaint);
-		result.addObject("customer", customer);
-		result.addObject("name", name);
+/*	result.addObject("customer", customer);
+		result.addObject("name", name);*/
 		result.addObject("requestURI", "complaint/customer/show.do");
 
 		return result;

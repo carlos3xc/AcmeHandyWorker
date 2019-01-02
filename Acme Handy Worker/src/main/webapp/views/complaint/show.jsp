@@ -8,9 +8,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-  <jstl:set var="name"
-	value="${name + middleName + surname}" />
-
 <display:table name="complaint" id="row"
 	requestURI="complaint/customer/show.do">
 
