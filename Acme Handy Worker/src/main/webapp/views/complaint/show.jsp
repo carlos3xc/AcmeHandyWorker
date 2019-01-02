@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
@@ -22,11 +23,12 @@
 		<b><spring:message code="complaint.attachments" />: </b>
 		<jstl:out value="${complaint.attachments}" /> <br/>
 
+        <spring:message code="complaint.moment.format" var="momentFormat"/>
 		<b><spring:message code="complaint.moment" />: </b>
-		<jstl:out value="${complaint.moment}" /> <br/>
+		<fmt:formatDate value="${complaint.moment}" pattern="${momentFormat}" /> <br/>
 
 		<b><spring:message code="complaint.fixUpTask" />: </b>
-		<jstl:out value="${complaint.fixUpTask}" />
+		<jstl:out value="${complaint.fixUpTask.ticker}" />
 
 	</display:column>
 

@@ -27,6 +27,7 @@
 					<li class="arrow"></li>
 					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.administrator.configuration" /></a></li>
 					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
+					<li><a href="actor/show.do"><spring:message code="master.page.administrator.actor.show" /></a></li>
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
 					<li><a href="userAccount/administrator/createAdministrator.do"><spring:message code="master.page.administrator.administrator.create" /></a></li>
 					<li><a href="userAccount/administrator/createReferee.do"><spring:message code="master.page.administrator.referee.create" /></a></li>
@@ -43,7 +44,8 @@
 					<li><a href="fixUpTask/customer/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
 					<li><a href="fixUpTask/customer/create.do"><spring:message code="master.page.customer.task.create" /></a></li>		
 					<li><a href="handyWorkerEndorsement/customer/create.do"><spring:message code="master.page.customer.handyWorkerEndorsement.create" /></a></li>			
-					<li><a href="handyWorkerEndorsement/customer/list.do"><spring:message code="master.page.customer.handyWorkerEndorsement.list" /></a></li>		
+					<li><a href="handyWorkerEndorsement/customer/list.do"><spring:message code="master.page.customer.handyWorkerEndorsement.list" /></a></li>
+					<li><a href="actor/show.do"><spring:message code="master.page.customer.actor.show" /></a></li>		
 				</ul>
 			</li>
 		</security:authorize>

@@ -16,8 +16,7 @@
 									 -->
 									 	
 		<b><spring:message code="actor.name"/></b> <jstl:out value="${name}"/>
-		<b><spring:message code="actor.middleName"/></b> <jstl:out value="${middleName}"/>
-				 
+		<b><spring:message code="actor.middleName"/></b> <jstl:out value="${middleName}"/>	 
 		<b><spring:message code="actor.surname"/></b> <jstl:out value="${surname}"/> 		 				 
 		<b><spring:message code="actor.photo"/></b> <jstl:out value="${photo}"/> 				 				 
 		<b><spring:message code="actor.email"/></b> <jstl:out value="${email}"/> 			 				 
@@ -59,6 +58,3 @@
 		onclick="javascript: window.location.replace('')" />
 	<br />
 		
-				
-		
-	
