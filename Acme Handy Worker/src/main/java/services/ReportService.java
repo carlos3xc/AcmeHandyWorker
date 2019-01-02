@@ -39,6 +39,8 @@ public class ReportService {
 		Report res = new Report();
 		res.setAttachments(new ArrayList<String>());
 		res.setNotes(new ArrayList<Note>());
+		Referee r = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+		res.setReferee(r);
 		return res;
 	}
 	
