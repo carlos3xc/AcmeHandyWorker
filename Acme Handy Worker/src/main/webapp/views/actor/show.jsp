@@ -14,47 +14,55 @@
 									 userAccount: UserAccount
 									 fixUpTasks: Collection<FixUpTask>
 									 -->
-									 	
-		<b><spring:message code="actor.name"/></b> <jstl:out value="${name}"/>
-		<b><spring:message code="actor.middleName"/></b> <jstl:out value="${middleName}"/>	 
-		<b><spring:message code="actor.surname"/></b> <jstl:out value="${surname}"/> 		 				 
-		<b><spring:message code="actor.photo"/></b> <jstl:out value="${photo}"/> 				 				 
-		<b><spring:message code="actor.email"/></b> <jstl:out value="${email}"/> 			 				 
-		<b><spring:message code="actor.phone"/></b> <jstl:out value="${phone}"/> 				 
-		<b><spring:message code="actor.username"/></b> <jstl:out value="${username}"/> 				 				 
-		<b><spring:message code="actor.authority"/></b> <jstl:out value="${authority}"/> 
-		<br/>
+								
+	 <display:table name="actor" id="row" requestURI="actor/show.do">
+		<display:column>					
+		<b><spring:message code="actor.name"/></b>: <jstl:out value="${actor.name}"/> <br/>
+		<b><spring:message code="actor.middleName"/></b> <jstl:out value="${actor.middleName}"/> <br/>	 
+		<b><spring:message code="actor.surname"/></b> <jstl:out value="${actor.surname}"/> <br/>		 				 
+		<b><spring:message code="actor.photo"/></b> <jstl:out value="${actor.photo}"/> <br/>				 				 
+		<b><spring:message code="actor.email"/></b> <jstl:out value="${actor.email}"/> <br/>			 				 
+		<b><spring:message code="actor.phone"/></b> <jstl:out value="${actor.phone}"/> <br/>				 
+		<b><spring:message code="actor.username"/></b> <jstl:out value="${actor.userAccount.username}"/> <br/>				 				 
+		<b><spring:message code="actor.authority"/></b> <jstl:out value="${actor.userAccount.authorities}"/> <br/>
+		</display:column>
+		</display:table>
 		
+		<spring:message code="actor.socialProfile"/>:<br/>
 		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
-			<display:column property="nick"	titleKey="actor.socialProfile.nick"/>
-			<display:column property="socialNetwork" titleKey="actor.socialProfile.socialNetwork"/>
-			<display:column property="link" titleKey="actor.socialProfile.link"/>
+		    <display:column>
+			<b><spring:message code="actor.socialProfile.nick"/></b> <jstl:out value="${socialProfiles.nick}"/> <br/>
+			<b><spring:message code="actor.socialProfile.socialNetwork"/></b> <jstl:out value="${socialProfiles.socialNetwork}"/> <br/>
+			<b><spring:message code="actor.socialProfile.link"/></b> <jstl:out value="${socialProfiles.link}"/> <br/>
+			</display:column>
 		</display:table>
 		
 		<security:authorize access="hasRole('CUSTOMER')">
-			<h1><spring:message code="actor.fixUpTasks"/>:</h1><br/>
+			<spring:message code="actor.fixUpTasks"/>:<br/>
 			<display:table name="fixUpTasks" id="row" requestURI="actor/show.do" pagesize="5">
 	
-				<display:column property="ticker" titleKey="actor.fixUpTask.ticker" />
-				<display:column property="description" titleKey="actor.fixUpTask.description" />
-				<display:column property="moment" title="actor.fixUpTask.moment" />
+				<b><spring:message code="actor.fixUpTask.ticker" /></b> <jstl:out value="${fixUpTasks.ticker}"/> <br/>
+				<b><spring:message code="actor.fixUpTask.description" /></b> <jstl:out value="${fixUpTasks.description}"/> <br/>
+				<b><spring:message code="actor.fixUpTask.moment" /></b> <jstl:out value="${fixUpTasks.moment}"/> <br/>
 				
 			</display:table>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('HANDYWORKER')">
-			<h1><spring:message code="actor.applications"/>:</h1><br/>
+			<spring:message code="actor.applications"/>:<br/>
 		<display:table name="applications" id="row" requestURI="actor/show.do" pagesize="5">
 			
-			<display:column property="moment" titleKey="actor.application.moment" />
-			<display:column property="status" titleKey="actor.application.description" />
-			<display:column property="price" title="actor.application.price" />
+			<b><spring:message code="actor.application.moment" /></b> <jstl:out value="${applications.moment}"/> <br/>
+			<b><spring:message code="actor.application.description" /></b> <jstl:out value="${applications.description}"/> <br/>
+			<b><spring:message code="actor.application.price" /></b> <jstl:out value="${applications.price}"/> <br/>
 			
 		</display:table>
 		</security:authorize>
+	
+	<h4><a href="actor/edit.do"><spring:message code="actor.edit" /></a></h4>
 		
 	<input type="button" name="back"
 		value="<spring:message code="actor.show.back" />"
-		onclick="javascript: window.location.replace('')" />
-	<br />
+		onclick="javascript: window.location.replace('master.page')" />
+	<br/>
 		

@@ -1,5 +1,6 @@
 package controllers.actor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
+import security.LoginService;
 import security.UserAccount;
 import services.ActorService;
 import services.CustomerService;
@@ -21,7 +24,9 @@ import services.SponsorService;
 
 import controllers.AbstractController;
 import domain.Actor;
+import domain.Application;
 import domain.Customer;
+import domain.FixUpTask;
 import domain.HandyWorker;
 import domain.SocialProfile;
 import domain.Sponsor;
@@ -98,14 +103,47 @@ public class ActorController extends AbstractController {
 	// Show --------------------------------------------------------------------
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam final int actorId) {
+	public ModelAndView show() {
 
 		ModelAndView result;
 
-		Actor actor = actorService.findOne(actorId);
+		// int actorId = LoginService.getPrincipal().getId();
+		// Actor actor = actorService.findOne(actorId);
+
+		Authority authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		Authority authority2 = new Authority();
+		authority.setAuthority("HANDYWORKER");
+
+		Actor actor = actorService.getByUserAccountId(LoginService
+				.getPrincipal());
+		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
 		result = new ModelAndView("actor/show");
+
+		if (actor.getUserAccount().getAuthorities().equals(authority)) {
+			Customer customer = (Customer) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
+
+			result.addObject("fixUpTasks", fixUpTasks);
+		}
+
+		if (actor.getUserAccount().getAuthorities().equals(authority2)) {
+			HandyWorker handyWorker = (HandyWorker) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			Collection<Application> applications = new ArrayList<Application>();
+			for (Application app : applications) {
+				if (app.getHandyWorker().equals(handyWorker)) {
+					applications.add(app);
+					result.addObject("applications", applications);
+				}
+			}
+		}
 		result.addObject("actor", actor);
+		result.addObject("socialProfiles", socialProfiles);
 		result.addObject("requestURI", "actor/show.do");
 
 		return result;
