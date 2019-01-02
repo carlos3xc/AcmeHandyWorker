@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.LoginService;
 import services.ApplicationService;
 import services.ComplaintService;
@@ -69,23 +70,26 @@ public FixUpTaskController(){
 			Collection<Complaint> complaints;
 			Collection<WorkPlanPhase> workPlanPhases;
 			Collection<Application> applications;
-			Boolean app = true;
+			Boolean app = false;
+			Authority n = new Authority();
+			n.setAuthority("HANDYWORKER");
 			HandyWorker hw = handyWorkerService.findByPrincipal();
 			complaints = complaintService.getComplaintsFixUpTask(fixUpTaskId);
 			fixUpTask = fixUpTaskService.findOne(fixUpTaskId);
 			workPlanPhases = workPlanPhaseService.findByFixUpTaskId(fixUpTaskId);
-			applications = applicationService.findApplicationsAccepted(hw.getId(), fixUpTaskId);
-			
-			if(applications.isEmpty()) app=false; //Si no hay aplicaciones aceptadas, quiere decir que no se podrán añadir fases hasta que haya una  por el hw
-			else{
-				for(WorkPlanPhase w: workPlanPhases){
-					if(w.getHandyWorker() != hw){
-						app=false;
-						break;
+			if(LoginService.getPrincipal().getAuthorities().contains(n)){
+				app = true;
+				applications = applicationService.findApplicationsAccepted(hw.getId(), fixUpTaskId);
+				if(applications.isEmpty()) app=false; // Si no hay aplicaciones aceptadas, quiere decir que no se podrán añadir fases hasta que haya una  por el hw
+				else{
+					for(WorkPlanPhase w: workPlanPhases){
+						if(w.getHandyWorker() != hw){
+							app=false;
+							break;
+						}
 					}
 				}
 			}
-			
 
 			String fullName = fixUpTask.getCustomer().getName()+" " + fixUpTask.getCustomer().getMiddleName() + " "+ fixUpTask.getCustomer().getSurname();
 			

@@ -16,11 +16,13 @@ import controllers.AbstractController;
 
 import domain.Complaint;
 import domain.Customer;
+import domain.Report;
 
 import security.LoginService;
 import services.ComplaintService;
 import services.CustomerService;
 import services.RefereeService;
+import services.ReportService;
 
 @Controller
 @RequestMapping("/complaint/customer")
@@ -36,6 +38,9 @@ public class ComplaintCustomerController extends AbstractController {
 	
 	@Autowired
 	private RefereeService refereeService;
+	
+	@Autowired
+	private ReportService reportService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -67,9 +72,11 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		Complaint complaint = complaintService.findOne(complaintId);
+		Collection<Report> reports = reportService.getReportsByComplaint(complaintId);
 
 		result = new ModelAndView("complaint/show");
 		result.addObject("complaint", complaint);
+		result.addObject("reports",reports);
 		result.addObject("referee", refereeService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.addObject("requestURI", "complaint/customer/show.do");
 

@@ -16,34 +16,31 @@
 									 
 	<!-- PARAMETERS CREATED IN VIEW: customerName: String, unión del name,middleName y surname del customer que publica la task -->
 					 
-		<!-- Creamos el nombre completo del customer y creamos una variable customerName -->
-		<display:table name="fixUpTask" id="row" requestURI="fixUpTask/list.do">
-				<display:column>
+				<div style="float:left;width:250px;">
 					<spring:message code="task.moment.format" var="momentFormat"/>
 					<b>Ticker:</b> <jstl:out value="${fixUpTask.ticker}"/><br/>
 					<b><spring:message code="task.description"/>: </b> <jstl:out value="${fixUpTask.description}"/><br/>
 					<b><spring:message code="task.address"/>: </b> <jstl:out value="${fixUpTask.address}"/><br/>
 					<b><spring:message code="task.startMoment"/>: </b> <fmt:formatDate value="${fixUpTask.startMoment}" pattern="${momentFormat}" /> <br/>
 					<b><spring:message code="task.endMoment"/>: </b> <fmt:formatDate value="${fixUpTask.endMoment}" pattern="${momentFormat}" /> <br/>
-				</display:column>
-				<display:column>
+				</div>
+				<div  style="margin:0 auto;width:250px;">
 					<b><spring:message code="task.category"/>: </b> <jstl:out value="${fixUpTask.category.name}"/><br/>
 					<b><spring:message code="task.moment"/>: </b> <fmt:formatDate value="${fixUpTask.moment}" pattern="${momentFormat}" /> <br/>
 					<b><spring:message code="task.maxPrice"/>: </b> <jstl:out value="${fixUpTask.maxPrice}"/><br/>
 					<b><spring:message code="task.publisher"/>: </b> <a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fullName}"/></a>
-				</display:column>		
-			</display:table>
-	
-	<display:table name="fixUpTask.warranty" id="row" requestURI="fixUpTask/show.do">
-				<display:column>
+				</div>		
+				<br/>
+				
+				<h3><spring:message code="task.warranty"/>:</h3>
+				<div style="float:left;width:250px;">
 					<b><spring:message code="task.warranty.title"/>: </b> <jstl:out value="${fixUpTask.warranty.title}"/><br/>
 					<b><spring:message code="task.warranty.terms"/>: </b><br/> <jstl:out value="${fixUpTask.warranty.terms}"/>
-				</display:column>
-				<display:column>
+				</div>
+				<div  style="margin:0 auto;width:250px;">
 					<b><spring:message code="task.warranty.laws"/>:</b> <jstl:forEach var="law" items="${fixUpTask.warranty.laws}"> <jstl:out value="${law}"/><br/></jstl:forEach>
-				</display:column>		
-			</display:table>
-			
+				</div>		
+				<<br/>
 		<h3><spring:message code="task.workplan"/>:</h3>
 		<display:table name="workPlanPhases" id="row" requestURI="fixUpTask/show.do" pagesize="5">
 			<display:column titleKey="task.options">
