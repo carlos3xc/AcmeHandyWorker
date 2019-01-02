@@ -32,3 +32,15 @@
 
 </display:table>
 
+<h3><spring:message code="complaint.reports"/>:</h3>
+		<display:table name="reports" id="row" requestURI="complaint/customer/show.do" pagesize="5">
+			
+			<display:column property="moment" titleKey="complaint.moment" />
+						
+			<display:column property="description" titleKey="complaint.description" />
+			
+			<display:column titleKey="complaint.customer">
+				<a href="actor/profile.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
+			</display:column>
+		</display:table>
+
