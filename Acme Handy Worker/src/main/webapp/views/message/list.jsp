@@ -12,6 +12,7 @@
 
 <!-- 
 	Recieves: List<Messages> messages - los mensajes de un box y un actor correspondientes.
+			  List<Box> boxes - los boxes de un actor para mover el mensaje. (no se incluye la trashbox)
 -->
 
 <security:authorize access="isAuthenticated()">
@@ -45,6 +46,18 @@
 					<a href="message/delete.do?messageId=${row.id}"><spring:message code='m.delete' /></a>
 				</td>
 				</tr>
+				
+				<tr>
+				<td>
+					<select id="boxToMove">
+						<jstl:forEach var="i" items="${boxes}">
+							<option value="${i.id}"><jstl:out value="${i.name}"/></option>
+						</jstl:forEach>	
+					</select>
+					<div id="messageID" style="visibility: hidden"><jstl:out value="${row.id}"/></div>
+					<input id="clickMe" type="button" value='<spring:message code="m.move"/>' onclick="myFunction();" />
+				</td>
+				</tr>
 			</table>
 		</display:column>
 
@@ -53,3 +66,15 @@
 	the sender will be obtained via the create method. -->
 	<a href="message/create.do"><spring:message code='m.create' /></a>
 </security:authorize>
+<script>
+function myFunction () { 
+	var e = document.getElementById("boxToMove");
+	var boxId = e.options[e.selectedIndex].value;
+	var messageId = document.getElementById("messageID").innerHTML;
+	var str = window.location.href;
+	var res = str.split("?");
+	window.location.href = "message/moveToBox.do?messageId="+messageId+"&newBoxId="+boxId+"&"+res[1];
+};
+
+
+</script>

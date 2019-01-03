@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -46,11 +47,13 @@ public class MessageController extends AbstractController {
 	@RequestMapping(value="/list" , method=RequestMethod.GET)
 	public ModelAndView list(@RequestParam int boxId) {
 		ModelAndView res;
-		boxService.findOne(boxId).getMessages();
+		
+		Collection<Box> boxes = boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId());
 		
 
 		res = new ModelAndView("message/list");
 		res.addObject("messages", boxService.findOne(boxId).getMessages());
+		res.addObject("boxes", boxes);
 
 		return res;
 	}
@@ -110,6 +113,33 @@ public class MessageController extends AbstractController {
 		
 			try {
 				messageService.delete(message);
+				res = new ModelAndView("redirect:list.do?boxId="+boxId);
+			} catch (Throwable e) {
+				res = createEditModelAndView(message, "message.commit.error");
+			}
+		return res;
+	}
+	
+	//Move message ---------------------------------------------------
+	
+	@RequestMapping(value="/moveToBox", method=RequestMethod.GET)
+	public ModelAndView moveToBox(@RequestParam int messageId, @RequestParam int boxId, @RequestParam int newBoxId){
+		ModelAndView res;
+		Message message = messageService.findOne(messageId);
+		Box original =  boxService.findOne(boxId);
+		Box destination = boxService.findOne(newBoxId);
+		
+			try {
+				Collection<Message>originalMessages = original.getMessages();
+				originalMessages.remove(message);
+				original.setMessages(originalMessages);
+				boxService.save(original);
+				
+				Collection<Message>newMessages = destination.getMessages();
+				newMessages.add(message);
+				destination.setMessages(newMessages);
+				boxService.save(destination);
+				
 				res = new ModelAndView("redirect:list.do?boxId="+boxId);
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");

@@ -59,7 +59,7 @@ public class WelcomeController extends AbstractController {
 		Configuration c = (Configuration) configurationService.findAll().toArray()[0];
 		String welcomeText=" ";
 		
-		System.out.println("el locale es este: "+ LocaleContextHolder.getLocale().getLanguage());
+//		System.out.println("el locale es este: "+ LocaleContextHolder.getLocale().getLanguage());
 		if(LocaleContextHolder.getLocale().getLanguage().toLowerCase().equals("es")){
 			welcomeText = c.getWelcomeTextSpanish();
 		}
