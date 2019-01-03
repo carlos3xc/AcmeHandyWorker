@@ -44,6 +44,8 @@
 		<security:intercept-url pattern="/actor/createSponsor.do" access="permitAll" /> 
 		<security:intercept-url pattern="/actor/createCustomer.do" access="permitAll" /> 
 		<security:intercept-url pattern="/actor/createHandyWorker.do" access="permitAll" /> 
+		<security:intercept-url pattern="/tutorial/list.do" access="permitAll" />
+		<security:intercept-url pattern="/tutorial/show.do" access="permitAll" /> 
 		
 		<!--Systems requirements rules: -->
 		
