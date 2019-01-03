@@ -81,9 +81,11 @@
         <security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/handyWorkerEndorsement/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/customerEndorsement/handyWorker/**" access="hasRole('HANDYWORKER')" />
 		
 		<security:intercept-url pattern="/fixUpTask/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/handyWorkerEndorsement/**" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/customerEndorsement/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
