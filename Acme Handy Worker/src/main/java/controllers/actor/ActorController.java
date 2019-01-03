@@ -103,12 +103,13 @@ public class ActorController extends AbstractController {
 	// Show --------------------------------------------------------------------
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show() {
+	public ModelAndView show(@RequestParam(required = false) Integer actorId) {
 
 		ModelAndView result;
 
 		// int actorId = LoginService.getPrincipal().getId();
-		// Actor actor = actorService.findOne(actorId);
+		
+		System.out.println(actorId);
 
 		Authority authority = new Authority();
 		authority.setAuthority("CUSTOMER");
@@ -116,11 +117,20 @@ public class ActorController extends AbstractController {
 		Authority authority2 = new Authority();
 		authority.setAuthority("HANDYWORKER");
 
+		result = new ModelAndView("actor/show");
+
+		if (actorId != null) {
+			Actor actor = actorService.findOne(actorId);
+			result.addObject("actor", actor);
+		} 
+//		else if (actorId == 0){
+
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
-		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
-		result = new ModelAndView("actor/show");
+//		}
+//		actorId = actor.getId();
+		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
 		if (actor.getUserAccount().getAuthorities().equals(authority)) {
 			Customer customer = (Customer) actorService
@@ -152,13 +162,17 @@ public class ActorController extends AbstractController {
 	// Edit -----------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int actorId) {
+	public ModelAndView edit() {
 
 		ModelAndView result;
-		Actor actor;
 
-		actor = actorService.findOne(actorId);
+		Actor actor = actorService.getByUserAccountId(LoginService
+				.getPrincipal());
+
+		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
+
 		result = createEditModelAndView(actor);
+		result.addObject("socialProfiles", socialProfiles);
 
 		return result;
 	}

@@ -33,11 +33,11 @@
 	<form:hidden path="isSuspicious" />
 	<form:hidden path="isBanned" />
 	<jstl:if test="${actor.id !=0 }">
-		<form:hidden path="socialProfile"/>
+		<form:hidden path="socialProfiles"/>
 		<form:hidden path="userAccount"/>
 	</jstl:if>
 	
-	<security:authorize access="isAuthenticated">
+	<!--<security:authorize access="isAuthenticated">-->
 	
 	<form:label path="name">
 		<spring:message code="actor.name" />:
@@ -113,25 +113,25 @@
 	
 	<jstl:if test="${actor.id !=0 }">
 		<h3><spring:message code="actor.socialProfile"/></h3>
-			<form:label path="socialProfile.nick">
+			<form:label path="socialProfiles.nick">
 				<spring:message code="actor.socialProfile.nick" />:
 			</form:label>
-			<form:input path="socialProfile.nick" />
-			<form:errors cssClass="error" path="socialProfile.nick" />
+			<form:input path="socialProfiles.nick" />
+			<form:errors cssClass="error" path="socialProfiles.nick" />
 			<br />
 			
-			<form:label path="socialProfile.socialNetwork">
+			<form:label path="socialProfiles.socialNetwork">
 				<spring:message code="actor.socialProfile.socialNetwork" />:
 			</form:label>
-			<form:input path="socialProfile.socialNetwork" />
-			<form:errors cssClass="error" path="socialProfile.socialNetwork" />
+			<form:input path="socialProfiles.socialNetwork" />
+			<form:errors cssClass="error" path="socialProfiles.socialNetwork" />
 			<br />
 			
-			<form:label path="socialProfile.link">
+			<form:label path="socialProfiles.link">
 				<spring:message code="actor.socialProfile.link" />:
 			</form:label>
-			<form:input path="socialProfile.link" />
-			<form:errors cssClass="error" path="socialProfile.link" />
+			<form:input path="socialProfiles.link" />
+			<form:errors cssClass="error" path="socialProfiles.link" />
 			<br />
 	</jstl:if>
 	
@@ -139,9 +139,9 @@
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="actor.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('actor.show.do')" />
 	<br />
 	
-	</security:authorize>
+	<!--</security:authorize>-->
 
 </form:form>
