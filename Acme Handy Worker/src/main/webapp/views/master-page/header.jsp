@@ -42,7 +42,8 @@
 					<li class="arrow"></li>
 					<li><a href="complaint/customer/list.do"><spring:message code="master.page.customer.complaint.list" /></a></li>
 					<li><a href="fixUpTask/customer/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
-					<li><a href="fixUpTask/customer/create.do"><spring:message code="master.page.customer.task.create" /></a></li>		
+					<li><a href="fixUpTask/customer/create.do"><spring:message code="master.page.customer.task.create" /></a></li>	
+					<li><a href="customer/application/list.do"><spring:message code="master.page.handyWorker.app" /></a></li>	
 					<li><a href="handyWorkerEndorsement/customer/create.do"><spring:message code="master.page.customer.handyWorkerEndorsement.create" /></a></li>			
 					<li><a href="handyWorkerEndorsement/customer/list.do"><spring:message code="master.page.customer.handyWorkerEndorsement.list" /></a></li>
 			   <!-- <li><a href="actor/show.do"><spring:message code="master.page.customer.actor.show" /></a></li>	-->	
