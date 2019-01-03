@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,6 +14,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Application;
+import domain.HandyWorker;
 
 @Service
 @Transactional
@@ -25,6 +25,9 @@ public class ApplicationService {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private HandyWorkerService actorService;
 
 	// Simple CRUD methods -----
 
@@ -32,9 +35,13 @@ public class ApplicationService {
 
 		Application result = new Application();
 		
+		UserAccount ua = LoginService.getPrincipal();
+		HandyWorker a = actorService.findByUserAccountId(ua.getId());
+		
 		Date moment = new Date(System.currentTimeMillis() - 1000);
 		result.setMoment(moment);
 		result.setStatus("PENDING");
+		result.setHandyWorker(a);
 		
 		return result;
 	}
@@ -117,6 +124,10 @@ public class ApplicationService {
 		Collection<Application> res = new ArrayList<Application>();
 		res = applicationRepository.applicationByHandyWorker(handyWorkerId);
 		return res;
+	}
+	
+	public Collection<Application> applicationByCustomer(Integer Id){
+		return applicationRepository.applicationByCustomer(Id);
 	}
 	
 	public Double getAverageApplicationsPerFixUpTask(){

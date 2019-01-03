@@ -10,21 +10,49 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-	<display:table name="applications" id="row" requestURI="application/list.do" pagesize="5">
+	<security:authorize access="hasRole('HANDYWORKER')">
+	
+		<display:table name="applications" id="row" requestURI="handyWorker/application/list.do" pagesize="5">
 			
-		<display:column titleKey="application.handyWorker" property="handyWorker" />	
+			<display:column> <a href="handyWorker/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> <br/>
+							<a href="handyWorker/application/show.do?appId=${row.id}"><spring:message code="application.show"/></a> </display:column>
+		
+			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
+			
+			<spring:message code="application.moment.format" var="formatMoment"/>
+			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }"/>
+			
+			<display:column titleKey="application.price" property="price" />
+			
+			<display:column titleKey="application.status" property="status" />
+			
+			<jstl:if test="${row.status == 'ACCEPTED'}">
+				<display:column> <a href="workplan/create.do?appId=${row.id}"><spring:message code="application.workplan"/></a> </display:column>
+			</jstl:if>
+		
+		</display:table>
+		
+	</security:authorize>
 	
-		<display:column titleKey="application.customer" property="customer" />
-		
-		<spring:message code="application.moment.format" var="formatMoment"/>
-		<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }"/>
-		
-		<display:column titleKey="application.price" property="price" />
-		
-		<display:column titleKey="application.status" property="status" />
-		
-		<jstl:if test="${row.status == 'ACCEPTED'}">
-			<display:column> <a href="workplan/create.do?appId=${row.id}"></a> </display:column>
-		</jstl:if>
+	<security:authorize access="hasRole('CUSTOMER')">
 	
-	</display:table>
+		<display:table name="applications" id="row" requestURI="customer/application/list.do" pagesize="5">
+			
+			<display:column> <a href="customer/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> </display:column>
+		
+			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
+			
+			<spring:message code="application.moment.format" var="formatMoment"/>
+			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }"/>
+			
+			<display:column titleKey="application.price" property="price" />
+			
+			<display:column titleKey="application.status" property="status" />
+			
+			<jstl:if test="${row.status == 'ACCEPTED'}">
+				<display:column> <a href="workplan/create.do?appId=${row.id}"><spring:message code="application.workplan"/></a> </display:column>
+			</jstl:if>
+		
+		</display:table>
+		
+	</security:authorize>

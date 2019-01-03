@@ -19,42 +19,52 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="application/update.do" modelAttribute="application">
+<security:authorize access="hasRole('HANDYWORKER')">
 
-	<form:hidden path="id" />
-	<form:hidden path="version" />
+	<form:form action="handyWorker/application/edit.do" modelAttribute="application">
 	
-	<form:hidden path="handyWorkerComment" />
-	<form:hidden path="moment" />
-	<form:hidden path="price" />
-	
-	
-	<security:authorize access="hasRole('CUSTOMER')">
+		<form:hidden path="id" />
+		<form:hidden path="version" />
+		
+		<form:hidden path="moment" />
+		<form:hidden path="status" />
+		<form:hidden path="fixUpTask" />
+		<form:hidden path="handyWorker" />	
+		
+		
+			
+			<form:label path="price">
+				<spring:message code="application.price" />:
+			</form:label>	
+			<form:input path="price" />
+			<form:errors cssClass="error" path="price" />
+			<br />
+			
+			<form:label path="handyWorkerComment">
+				<spring:message code="application.comment" />:
+			</form:label>		
+			<form:input path="handyWorkerComment" />
+			<form:errors cssClass="error" path="handyWorkerComment" />
+			<br />
+			
+			<input type="submit" name="save" value="<spring:message code="application.save" />" />
+						
+			<input type="button" name="cancel"
+				value="<spring:message code="application.cancel" />"
+				onclick="javascript: window.location.replace('')" />
+			<br />
+		
 		
 	
-		<form:label path="status">
-			<spring:message code="application.status" />:
-		</form:label>
-		
-		<form:select path="status">
-			<form:option value="ACCEPTED" label="<spring:message code="application.accepted"/>"/>
-			<form:option value="REJECTED" label="<spring:message code="application.rejected"/>"/>
-		</form:select>
-		<form:errors cssClass="error" path="status" />
-		<br />
-		
-		<form:label path="customerComment">
-			<spring:message code="application.comment" />:
-		</form:label>
-		
-		<form:input path="customerComment" />
-		<form:errors cssClass="error" path="customerComment" />
-		<br />
-		
-		<!-- Credit Card -->
+	</form:form>
+	
+</security:authorize>
+
+<!-- 
+			<form:form action="handyWorker/application/edit.do" modelAttribute="creditCard">
 		
 		<form:label path="holder">
-			<spring:message code="application.creditCard.holder" />:
+		<spring:message code="application.creditCard.holder" />:
 		</form:label>
 		
 		<form:input path="holder" />
@@ -69,12 +79,12 @@
 		<form:errors cssClass="error" path="brand" />
 		<br />
 		
-		<form:label path="cvv">
+		<form:label path="CVV">
 			<spring:message code="application.creditCard.cvv" />:
 		</form:label>
 		
-		<form:input path="cvv" />
-		<form:errors cssClass="error" path="cvv" />
+		<form:input path="CVV" />
+		<form:errors cssClass="error" path="CVV" />
 		<br />
 		
 		<form:label path="number">
@@ -99,7 +109,49 @@
 			value="<spring:message code="application.cancel" />"
 			onclick="javascript: window.location.replace('')" />
 		<br />
-	
-	</security:authorize>
+		
+	</form:form>
 
-</form:form>
+	<form:form action="handyWorker/application/edit.do" modelAttribute="application">
+	
+		<form:hidden path="id" />
+		<form:hidden path="version" />
+		
+		<form:hidden path="handyWorkerComment" />
+		<form:hidden path="handyWorker" />
+		<form:hidden path="moment" />
+		<form:hidden path="price" />
+		<form:hidden path="fixUpTask" />
+	
+			
+			<form:label path="status">
+				<spring:message code="application.status" />:
+			</form:label>
+			
+	 		<form:select id="status" path="status">
+				<form:option label="----" value="0"/>
+				<form:option label="ACCEPTED" value="ACCEPTED"/>
+				<form:option label="REJECTED" value="REJECTED"/>
+			</form:select>  
+			<form:errors cssClass="error" path="status" />
+			<br />
+			
+			<form:label path="customerComment">
+				<spring:message code="application.comment" />:
+			</form:label>
+			
+			<form:input path="customerComment" />
+			<form:errors cssClass="error" path="customerComment" />
+			<br />
+			
+	
+			
+			<input type="submit" name="save" value="<spring:message code="application.save" />" />
+					
+		<input type="button" name="cancel"
+			value="<spring:message code="application.cancel" />"
+			onclick="javascript: window.location.replace('')" />
+		<br />
+		
+	</form:form>
+	 -->
