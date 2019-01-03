@@ -19,7 +19,7 @@
 			<display:column>
 				<spring:message code="handyWorkerEndorsement.moment.format" var="momentFormat"/>
 				<b><spring:message code="handyWorkerEndorsement.moment"/>: </b> <fmt:formatDate value="${handyWorkerEndorsement.moment}" pattern="${momentFormat}" /> <br/>
-				<b><spring:message code="handyWorkerEndorsement.text"/>: </b> <jstl:out value="${fixUpTask.address}"/><br/>
+				<b><spring:message code="handyWorkerEndorsement.text"/>: </b> <jstl:out value="${handyWorkerEndorsement.text}"/><br/>
 				<b><spring:message code="handyWorkerEndorsement.publisher"/>: </b> <a href="actor/profile.do?actorId=${handyWorkerEndorsement.customer.id}">
 				<jstl:out value="${row.customer.userAccount.username}"/></a>
 				<b><spring:message code="handyWorkerEndorsement.referedTo"/>: </b> <a href="actor/profile.do?actorId=${handyWorkerEndorsement.handyWorker.id}">

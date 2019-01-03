@@ -9,62 +9,42 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 	<!-- PARAMETERS FROM CONTROLLER:
-									 customerEndosements Collection<CustomerEndosement>
+									 customerEndorsements Collection<CustomerEndorsement>
 									 customer Customer
 									 handyWorker HandyWorker
 									 -->
 									 
-		<security:authorize access="hasRole('CUSTOMER')">
+		<security:authorize access="hasRole('HANDYWORKER')">
 		
-			<h1><spring:message code="customerEndorsement.customerEndrosements"/>:</h1><br/>
-			<display:table name="customerEndorsements" id="row" requestURI="customerEndosements/customer/list.do" pagesize="5">
+			<h1><spring:message code="customerEndorsement.customerEndorsements"/>:</h1><br/>
+			<display:table name="customerEndorsements" id="row" requestURI="customerEndorsements/handyWorker/list.do" pagesize="5">
 				
-				<display:column titleKey="customerEndosements.options">
+				<display:column titleKey="customerEndorsements.options">
 					<a href="customerEndorsement/show.do?customerEndorsementId=${row.id}">
 								<spring:message	code="customerEndorsement.show" />
 					</a>
 					<br/>
-					<jstl:if test="${row.customer == customer}"> 
-							<a href="customerEndorsement/customer/edit.do?customerEndorsementId=${row.id}">
+					<jstl:if test="${row.handyWorker == handyWorker}"> 
+							<a href="customerEndorsement/handyWorker/edit.do?customerEndorsementId=${row.id}">
 								<spring:message	code="customerEndorsement.edit" />
 							</a>
 							<br/>	
-						<jsp:useBean id="today" class="java.util.Date"/>
-						<jstl:if test="${row.startMoment > today}">
-							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
-								<spring:message	code="task.delete" />
+							<a href="customerEndorsement/handyWorker/delete.do?customerEndorsementId=${row.id}">
+								<spring:message	code="customerEndorsement.delete" />
 							</a>
 							<br/>			
-						</jstl:if>			
 					</jstl:if>
-					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
-						<spring:message	code="task.complain" />
-					</a>
-					<br/>
 				</display:column>
 				
-				<display:column property="ticker" titleKey="task.ticker" />	
+				<spring:message code="customerEndorsement.moment.format" var="formatMoment"/>
+				<display:column property="moment" titleKey="customerEndorsement.moment" format="{0,date,${formatMoment}}" />	
 			
-				<display:column property="description" titleKey="task.description" />
-				
-				<spring:message code="task.moment.format" var="formatMoment"/>
-				<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>
-				<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
-				
-				<display:column property="maxPrice" titleKey="task.maxPrice" />	
+				<display:column property="text" titleKey="customerEndorsement.text" />
 			
 			</display:table>
 			
-			<a href="fixUpTask/customer/create.do"><spring:message code="task.create"/></a>
+			<a href="customerEndorsement/handyWorker/create.do"><spring:message code="customerEndorsement.create"/></a>
 			
 		</security:authorize>
-								
+			
 		
-	<input type="button" name="back"
-		value="<spring:message code="actor.show.back" />"
-		onclick="javascript: window.location.replace('')" />
-	<br />
-		
-				
-		
-	

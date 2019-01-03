@@ -19,7 +19,7 @@
 			<h1><spring:message code="handyWorkerEndorsement.handyWorkerEndorsements"/>:</h1><br/>
 			<display:table name="handyWorkerEndorsements" id="row" requestURI="handyWorkerEndorsements/customer/list.do" pagesize="5">
 				
-				<display:column titleKey="handyWorkerEndosements.options">
+				<display:column titleKey="handyWorkerEndorsements.options">
 					<a href="handyWorkerEndorsement/show.do?handyWorkerEndorsementId=${row.id}">
 								<spring:message	code="handyWorkerEndorsement.show" />
 					</a>
