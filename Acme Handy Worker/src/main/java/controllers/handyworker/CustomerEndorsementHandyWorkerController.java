@@ -155,7 +155,7 @@ public CustomerEndorsementHandyWorkerController(){
 			res= new ModelAndView("customerEndorsement/edit");
 			res.addObject("customerEndorsement", customerEndorsement);
 			res.addObject("now",new Date());
-//			res.addObject("handyWorker", handyWorker);
+//			res.addObject("customer", customer);
 			res.addObject("message", messageCode);
 			
 			return res;
