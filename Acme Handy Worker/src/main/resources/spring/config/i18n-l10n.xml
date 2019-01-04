@@ -40,6 +40,7 @@
 		<value>/views/application/messages</value>
 		<value>/views/customerEndorsement/messages</value>
 		<value>/views/handyWorkerEndorsement/messages</value>
+		<value>/views/category/messages</value>
 		
 	</util:list>
 
