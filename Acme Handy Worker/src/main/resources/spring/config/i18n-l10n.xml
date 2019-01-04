@@ -38,6 +38,8 @@
 		<value>/views/report/messages</value>
 		<value>/views/workPlanPhase/messages</value>
 		<value>/views/application/messages</value>
+		<value>/views/customerEndorsement/messages</value>
+		<value>/views/handyWorkerEndorsement/messages</value>
 		
 	</util:list>
 
