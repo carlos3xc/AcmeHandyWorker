@@ -62,16 +62,26 @@
 	<br />
 	
 	<form:label path="startMoment">
-		<spring:message code="task.startMoment" />:
+		<spring:message code="task.startMoment" />
 	</form:label>
-	<form:input path="startMoment" placeholder="01/01/2001 12:00"/>
+	<jstl:if test="${sMoment}">
+		<form:input path="startMoment" placeholder="01/01/2001 12:00"  readonly="true" />
+	</jstl:if>
+	<jstl:if test="${not sMoment}">
+		<form:input path="startMoment" placeholder="01/01/2001 12:00"/>
+	</jstl:if>
 	<form:errors cssClass="error" path="startMoment" />
 	<br />
 	
 	<form:label path="endMoment">
 		<spring:message code="task.endMoment" />:
 	</form:label>
-	<form:input path="endMoment" placeholder="01/01/2001 12:00"/>
+	<jstl:if test="${eMoment}">
+		<form:input path="endMoment" placeholder="01/01/2001 12:00" readonly="true"/>
+	</jstl:if>
+	<jstl:if test="${not eMoment}">
+		<form:input path="endMoment" placeholder="01/01/2001 12:00"/>
+	</jstl:if>
 	<form:errors cssClass="error" path="endMoment" />
 	<br />
 	

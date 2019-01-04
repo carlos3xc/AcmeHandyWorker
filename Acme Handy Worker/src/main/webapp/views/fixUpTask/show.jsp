@@ -40,7 +40,7 @@
 				<div  style="margin:0 auto;width:250px;">
 					<b><spring:message code="task.warranty.laws"/>:</b> <jstl:forEach var="law" items="${fixUpTask.warranty.laws}"> <jstl:out value="${law}"/><br/></jstl:forEach>
 				</div>		
-				<<br/>
+				<br/>
 		<h3><spring:message code="task.workplan"/>:</h3>
 		<display:table name="workPlanPhases" id="row" requestURI="fixUpTask/show.do" pagesize="5">
 			<display:column titleKey="task.options">

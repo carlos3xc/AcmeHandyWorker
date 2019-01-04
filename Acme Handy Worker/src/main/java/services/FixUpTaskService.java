@@ -71,7 +71,11 @@ public class FixUpTaskService {
 		Collection<FixUpTask> fixUpTasks;
 		Assert.isTrue( fx.getId()==0 || fx.getId() != 0  &&
 				fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));
-
+		if(fx.getId()==0){
+			Assert.isTrue(fx.getStartMoment().after(new Date()));
+			Assert.isTrue(fx.getEndMoment().after(new Date()));
+		}
+		
 		saved = fixUpTaskRepository.save(fx);
 		fixUpTasks = fixUpTaskRepository.findAll();
 		Assert.isTrue(fixUpTasks.contains(saved));
@@ -84,7 +88,6 @@ public class FixUpTaskService {
 		Collection<Application> applications = fx.getApplications();
 		Customer c = fx.getCustomer();
 		Collection<WorkPlanPhase> wp = workPlanPhaseService.findByFixUpTaskId(fx.getId());
-		Assert.isTrue(fx.getStartMoment().after(new Date()));
 
 		for(Complaint co: complaints){
 			co.setFixUpTask(null);
@@ -184,9 +187,11 @@ public class FixUpTaskService {
 		n.setTime(date);
 		String t = "";
 		String s = Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
+		String m = Integer.toString(n.get(Calendar.MONTH)+1);
 		if(s.length()==1) s= "0"+Integer.toString((n.get(Calendar.DAY_OF_MONTH)));
+		if(m.length()==1) m = "0"+ Integer.toString(n.get(Calendar.MONTH) +1);
 		t = t + Integer.toString(n.get(Calendar.YEAR) - 2000)
-				+ Integer.toString(n.get(Calendar.MONTH) +1)
+				+ m
 				+ s
 				+ "-"+ randomWordAndNumber();
 

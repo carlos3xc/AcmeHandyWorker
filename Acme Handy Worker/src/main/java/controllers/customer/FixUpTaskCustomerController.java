@@ -154,10 +154,15 @@ public FixUpTaskCustomerController(){
 			Collection<Category> categories = categoryService.findAll();
 			Collection<Warranty> warranties = warrantyService.findWarrantiesWNoTask();
 			categories.remove(categoryService.getCategoryByName("CATEGORY"));
+			Boolean sMoment = false, eMoment=false;
 			res= new ModelAndView("fixUpTask/edit");
+			if(fixUpTask.getStartMoment().before(new Date())) sMoment=true;
+			if(fixUpTask.getEndMoment().before(new Date())) eMoment=true;
 			res.addObject("fixUpTask", fixUpTask);
 			res.addObject("warranties",warranties);
 			res.addObject("now",new Date());
+			res.addObject("sMoment",sMoment);
+			res.addObject("eMoment",eMoment);
 			res.addObject("categories",categories);
 			res.addObject("message", messageCode);
 			
