@@ -58,6 +58,7 @@
 					<li><a href="complaint/handyWorker/list.do"><spring:message code="master.page.handyWorker.complaint.list" /></a></li>
 					<li><a href="fixUpTask/list.do"><spring:message code="master.page.customer.task.list" /></a></li>
 					<li><a href="handyWorker/application/list.do"><spring:message code="master.page.handyWorker.app" /></a></li>
+					<li><a href="tutorial/handyWorker/list.do"><spring:message code="master.page.tutorial.list" /></a></li>
 					<li><a href="curricula/handyworker/show.do"><spring:message code="master.page.handyWorker.curricula" /></a></li>
 					<li><a href="customerEndorsement/handyWorker/create.do"><spring:message code="master.page.handyWorker.customerEndorsement.create" /></a></li>			
 					<li><a href="customerEndorsement/handyWorker/list.do"><spring:message code="master.page.handyWorker.customerEndorsement.list" /></a></li>
