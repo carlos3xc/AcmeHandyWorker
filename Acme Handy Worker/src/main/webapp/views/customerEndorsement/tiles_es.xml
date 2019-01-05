@@ -18,12 +18,12 @@
 
 	<definition name="customerEndorsement/list" extends="master.page">	
 		<put-attribute name="title" value="Lista de valoraciones de clientes" />
-		<put-attribute name="body" value="/views/handyWorkerEndorsement/list.jsp" />
+		<put-attribute name="body" value="/views/customerEndorsement/list.jsp" />
 	</definition>
 	
 	<definition name="customerEndorsement/edit" extends="master.page">	
 		<put-attribute name="title" value="Editar valoración del cliente" />
-		<put-attribute name="body" value="/views/handyWorkerEndorsement/edit.jsp" />
+		<put-attribute name="body" value="/views/customerEndorsement/edit.jsp" />
 	</definition>
 	
 	<definition name="customerEndorsement/show" extends="master.page">	

@@ -18,6 +18,7 @@ import services.CustomerEndorsementService;
 import services.CustomerService;
 import services.HandyWorkerService;
 import controllers.AbstractController;
+import domain.Customer;
 import domain.CustomerEndorsement;
 import domain.HandyWorker;
 
@@ -149,13 +150,16 @@ public CustomerEndorsementHandyWorkerController(){
 		protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement, String messageCode){
 			ModelAndView res;
 			
-			//Integer handyWorkerId = handyWorkerEndorsement.getHandyWorker().getId() ;
-		//	HandyWorker handyWorker = handyWorkerService.findOne(handyWorkerId);
+			Integer customerId = customerEndorsement.getCustomer().getId();
+			Customer customer = customerService.findOne(customerId);
+			Integer handyWorkerId = customerEndorsement.getHandyWorker().getId() ;
+			HandyWorker handyWorker = handyWorkerService.findOne(handyWorkerId);
 			
 			res= new ModelAndView("customerEndorsement/edit");
 			res.addObject("customerEndorsement", customerEndorsement);
 			res.addObject("now",new Date());
-//			res.addObject("customer", customer);
+			res.addObject("customer", customer);
+			res.addObject("handyWorker", handyWorker);
 			res.addObject("message", messageCode);
 			
 			return res;

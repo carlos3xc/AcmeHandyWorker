@@ -16,10 +16,9 @@
 									 
 		<security:authorize access="hasRole('HANDYWORKER')">
 		
-		<!-- 	<h1><spring:message code="customerEndorsement.customerEndorsements"/>:</h1><br/> -->
 			<display:table name="customerEndorsements" id="row" requestURI="customerEndorsements/handyWorker/list.do" pagesize="5">
 				
-				<display:column titleKey="customerEndorsements.options">
+				<display:column titleKey="customerEndorsement.options">
 					<a href="customerEndorsement/show.do?customerEndorsementId=${row.id}">
 								<spring:message	code="customerEndorsement.show" />
 					</a>
