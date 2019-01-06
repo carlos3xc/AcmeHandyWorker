@@ -43,6 +43,7 @@
 				<br/>
 		<h3><spring:message code="task.workplan"/>:</h3>
 		<display:table name="workPlanPhases" id="row" requestURI="fixUpTask/show.do" pagesize="5">
+		<jstl:if test="${hw}">
 			<display:column titleKey="task.options">
 				<a href="workPlanPhase/handyWorker/edit.do?workPlanPhaseId=${row.id}">
 					<spring:message	code="task.edit" />
@@ -52,6 +53,7 @@
 					<spring:message	code="task.delete" />
 				</a><br/>			
 				</display:column>
+			</jstl:if>
 			<display:column property="title" titleKey="task.workplan.title" />
 			
 			<display:column property="description" titleKey="task.description" />

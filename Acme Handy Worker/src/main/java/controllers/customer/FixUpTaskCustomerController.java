@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.ApplicationService;
 import services.CategoryService;
 import services.CustomerService;
 import services.FixUpTaskService;
 import services.WarrantyService;
 import controllers.AbstractController;
+import domain.Application;
 import domain.Category;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.Warranty;
+import domain.WorkPlanPhase;
 
 @Controller
 @RequestMapping("fixUpTask/customer/")
@@ -43,6 +46,9 @@ public FixUpTaskCustomerController(){
 	
 	@Autowired
 	WarrantyService warrantyService;
+	
+	@Autowired
+	ApplicationService applicationService;
 
 	//Listing---
 		@RequestMapping(value="/list", method = RequestMethod.GET)
@@ -156,8 +162,9 @@ public FixUpTaskCustomerController(){
 			categories.remove(categoryService.getCategoryByName("CATEGORY"));
 			Boolean sMoment = false, eMoment=false;
 			res= new ModelAndView("fixUpTask/edit");
-			if(fixUpTask.getStartMoment().before(new Date())) sMoment=true;
-			if(fixUpTask.getEndMoment().before(new Date())) eMoment=true;
+			if(fixUpTask.getId() !=0 && fixUpTask.getStartMoment().before(new Date())) sMoment=true;
+			if(fixUpTask.getId() !=0 && fixUpTask.getEndMoment().before(new Date())) eMoment=true;
+
 			res.addObject("fixUpTask", fixUpTask);
 			res.addObject("warranties",warranties);
 			res.addObject("now",new Date());

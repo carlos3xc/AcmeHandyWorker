@@ -19,6 +19,7 @@
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.show" />
 					</a><br/>
+					<jstl:if test="${empty row.applications && empty row.complaints}">
 					<jstl:if test="${row.customer == customer}"> 
 							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.edit" />
@@ -29,8 +30,9 @@
 							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.delete" />
 							</a><br/>			
-						</jstl:if>			
-					<a href="complaint/customer/show.do?fixUpTaskId=${row.id}">
+						</jstl:if>		
+					</jstl:if>	
+					<a href="complaint/customer/edit.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />
 					</a><br/>
 				</display:column>
