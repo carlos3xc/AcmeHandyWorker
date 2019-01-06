@@ -18,7 +18,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
+<!-- 
 <security:authorize access="hasRole('HANDYWORKER')">
 
 	<form:form action="handyWorker/application/edit.do" modelAttribute="application">
@@ -58,61 +58,11 @@
 	
 	</form:form>
 	
-</security:authorize>
+</security:authorize> -->
 
-<!-- 
-			<form:form action="handyWorker/application/edit.do" modelAttribute="creditCard">
-		
-		<form:label path="holder">
-		<spring:message code="application.creditCard.holder" />:
-		</form:label>
-		
-		<form:input path="holder" />
-		<form:errors cssClass="error" path="holder" />
-		<br />
-		
-		<form:label path="brand">
-			<spring:message code="application.creditCard.brand" />:
-		</form:label>
-		
-		<form:input path="brand" />
-		<form:errors cssClass="error" path="brand" />
-		<br />
-		
-		<form:label path="CVV">
-			<spring:message code="application.creditCard.cvv" />:
-		</form:label>
-		
-		<form:input path="CVV" />
-		<form:errors cssClass="error" path="CVV" />
-		<br />
-		
-		<form:label path="number">
-			<spring:message code="application.creditCard.number" />:
-		</form:label>
-		
-		<form:input path="number" />
-		<form:errors cssClass="error" path="number" />
-		<br />
-		
-		<form:label path="expirationDate">
-			<spring:message code="application.creditCard.date" />:
-		</form:label>
-		
-		<form:input path="expirationDate" />
-		<form:errors cssClass="error" path="expirationDate" />
-		<br />
-		
-		<input type="submit" name="save" value="<spring:message code="application.save" />" />
-					
-		<input type="button" name="cancel"
-			value="<spring:message code="application.cancel" />"
-			onclick="javascript: window.location.replace('')" />
-		<br />
-		
-	</form:form>
+<security:authorize access="hasRole('CUSTOMER')">
 
-	<form:form action="handyWorker/application/edit.do" modelAttribute="application">
+	<form:form action="customer/application/edit.do" modelAttribute="application">
 	
 		<form:hidden path="id" />
 		<form:hidden path="version" />
@@ -124,29 +74,27 @@
 		<form:hidden path="fixUpTask" />
 	
 			
-			<form:label path="status">
-				<spring:message code="application.status" />:
-			</form:label>
-			
-	 		<form:select id="status" path="status">
-				<form:option label="----" value="0"/>
-				<form:option label="ACCEPTED" value="ACCEPTED"/>
-				<form:option label="REJECTED" value="REJECTED"/>
-			</form:select>  
-			<form:errors cssClass="error" path="status" />
-			<br />
-			
-			<form:label path="customerComment">
-				<spring:message code="application.comment" />:
-			</form:label>
-			
-			<form:input path="customerComment" />
-			<form:errors cssClass="error" path="customerComment" />
-			<br />
-			
-	
-			
-			<input type="submit" name="save" value="<spring:message code="application.save" />" />
+		<form:label path="status">
+			<spring:message code="application.status" />:
+		</form:label>
+		
+ 		<form:select id="status" path="status">
+			<form:option label="----" value="0"/>
+			<form:option label="ACCEPTED" value="ACCEPTED"/>
+			<form:option label="REJECTED" value="REJECTED"/>
+		</form:select>  
+		<form:errors cssClass="error" path="status" />
+		<br />
+		
+		<form:label path="customerComment">
+			<spring:message code="application.comment" />:
+		</form:label>
+		<form:input path="customerComment" />
+		<form:errors cssClass="error" path="customerComment" />
+		<br />
+
+		
+		<input type="submit" name="save" value="<spring:message code="application.next" />" />
 					
 		<input type="button" name="cancel"
 			value="<spring:message code="application.cancel" />"
@@ -154,4 +102,5 @@
 		<br />
 		
 	</form:form>
-	 -->
+	
+</security:authorize>

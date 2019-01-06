@@ -29,10 +29,11 @@ import services.FixUpTaskService;
 import services.HandyWorkerService;
 import controllers.AbstractController;
 import domain.Application;
+import domain.CreditCard;
 
 @Controller
 @RequestMapping("handyWorker/application/")
-public class HandyWorkerApplicationController extends AbstractController {
+public class ApplicationHandyWorkerController extends AbstractController {
 	
 	// Services ---------------------------------------------------------------
 	
@@ -47,7 +48,7 @@ public class HandyWorkerApplicationController extends AbstractController {
 	
 	// Constructors -----------------------------------------------------------
 
-	public HandyWorkerApplicationController() {
+	public ApplicationHandyWorkerController() {
 		super();
 	}
 
@@ -125,9 +126,7 @@ public class HandyWorkerApplicationController extends AbstractController {
 			result = createEditModelAndView(app);
 		}else{
 			try{
-				System.out.println("Aquí: "+app.getFixUpTask());
-				appService.save(app);
-				
+				appService.save(app);			
 				result = new ModelAndView("redirect:list.do");
 			}catch(Throwable oops){
 				result = createEditModelAndView(app,"application.commit.error");
@@ -149,10 +148,13 @@ public class HandyWorkerApplicationController extends AbstractController {
 	
 	protected ModelAndView createEditModelAndView(Application app, String msgCode){
 		ModelAndView result;
+		CreditCard cc;
 		
+		cc = new CreditCard();
 		result = new ModelAndView("application/edit");
 	
 		result.addObject("application",app);
+		result.addObject("creditCard",cc);
 		result.addObject("menssage",msgCode);
 		
 		return result;

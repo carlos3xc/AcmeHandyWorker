@@ -26,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ApplicationService;
 import services.CustomerService;
-import services.FixUpTaskService;
 import controllers.AbstractController;
 import domain.Application;
 import domain.CreditCard;
@@ -42,9 +41,6 @@ public class CustomerApplicationController extends AbstractController {
 	
 	@Autowired
 	private CustomerService customerService;
-	
-	@Autowired
-	private FixUpTaskService fixUpTaskService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -73,7 +69,7 @@ public class CustomerApplicationController extends AbstractController {
 	// Edit ------------------------------------------------------------------
 	
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
-	public ModelAndView save(@RequestParam int appId) {
+	public ModelAndView edit(@RequestParam int appId) {
 		ModelAndView result;
 		Application app;
 		
@@ -88,17 +84,15 @@ public class CustomerApplicationController extends AbstractController {
 	// Save ------------------------------------------------------------------
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
-	public ModelAndView saveHandyWorker(@Valid Application app, BindingResult binding) {
+	public ModelAndView save(@Valid Application app, BindingResult binding) {
 		ModelAndView result;
 
 		if(binding.hasErrors()){
 			result = createEditModelAndView(app);
 		}else{
 			try{
-				System.out.println("Aquí: "+app.getFixUpTask());
-				appService.save(app);
-				
-				result = new ModelAndView("redirect:list.do");
+				appService.save(app);				
+				result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
 			}catch(Throwable oops){
 				result = createEditModelAndView(app,"application.commit.error");
 			}
@@ -130,4 +124,25 @@ public class CustomerApplicationController extends AbstractController {
 		
 		return result;
 	}
+	
+//	@RequestMapping(value="/next", method=RequestMethod.GET)
+//	public ModelAndView next(@Valid Application app, BindingResult binding) {
+//		ModelAndView result;
+//
+//		if(binding.hasErrors()){
+//			result = createEditModelAndView(app);
+//		}else{
+//			try{
+//				appService.save(app);
+//				result = new ModelAndView("redirect:editCreditCard.do");
+//			}catch(Throwable oops){
+//				result = createEditModelAndView(app,"application.commit.error");
+//			}
+//		}
+//		
+//		return result;
+//	}
+	
+	
+	
 }

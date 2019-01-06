@@ -48,10 +48,6 @@
 			<display:column titleKey="application.price" property="price" />
 			
 			<display:column titleKey="application.status" property="status" />
-			
-			<jstl:if test="${row.status == 'ACCEPTED'}">
-				<display:column> <a href="workplan/create.do?appId=${row.id}"><spring:message code="application.workplan"/></a> </display:column>
-			</jstl:if>
 		
 		</display:table>
 		
