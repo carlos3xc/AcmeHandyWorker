@@ -8,11 +8,9 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="tutorial" id="row"
-	requestURI="tutorial/handyWorker/show.do">
-
+<display:table name="tutorial" id="row" requestURI="tutorial/handyWorker/show.do">
+	
 	<display:column>
-
 		<b><spring:message code="tutorial.title" />: </b>
 		<jstl:out value="${tutorial.title}" /> <br/>
 
@@ -28,9 +26,38 @@
 		<b><spring:message code="tutorial.handyWorker" />: </b>
 		<a href="actor/show.do?actorId=${row.handyWorker.id}">
 			${row.handyWorker.userAccount.username } </a>
-		<!-- <jstl:out value="${tutorial.handyWorker}" /> -->
-
 	</display:column>
-
+	
 </display:table>
 
+<security:authorize access="hasRole('HANDYWORKER')">
+	<a href="handyWorker/section/create.do?tutorialId=${row.id}"><spring:message code="tutorial.section.add" /></a>
+</security:authorize>
+
+<security:authorize access="hasRole('HANDYWORKER')">
+
+	<display:table name="sections" id="row" requestURI="tutorial/handyWorker/show.do">
+	
+		<display:column>
+	
+			<b><spring:message code="tutorial.title" />: </b>
+			<jstl:out value="${row.title}" /> <br/>
+	
+			<b><spring:message code="tutorial.section.text" />: </b>
+			<jstl:out value="${row.text}" /> <br/>
+	
+			<b><spring:message code="tutorial.pictures" />: </b>
+			<jstl:out value="${row.pictures}" /> <br/>
+	
+		</display:column>
+		
+		<display:column>
+			
+			<a href="handyWorker/section/edit.do?sectionId=${row.id}"><spring:message code="tutorial.edit" /></a> <br/>
+			<a href="handyWorker/section/delete.do?sectionId=${row.id}"><spring:message code="tutorial.delete" /></a>
+			
+		</display:column>
+	
+	</display:table>
+
+</security:authorize>

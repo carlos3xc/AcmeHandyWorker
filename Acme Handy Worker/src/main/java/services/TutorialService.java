@@ -46,12 +46,15 @@ public class TutorialService {
 	//Simple CRUD methods -----
 	public Tutorial create(){
 		Tutorial res;
-		Authority authority = new Authority();
-		authority.setAuthority("HANDYWORKER");
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
 		res = new Tutorial();
+		
+		HandyWorker hw = handyWorkerService.findByPrincipal();
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		res.setMoment(current);
+		res.setHandyWorker(hw);
 		res.setPictures(new ArrayList<String>());
+		
 		return res;
 	}
 	
@@ -70,16 +73,8 @@ public class TutorialService {
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
-		HandyWorker hw = handyWorkerService.findByPrincipal();
-		
-		Date current = new Date(System.currentTimeMillis() - 1000);
-		
-		tutorial.setMoment(current);
-		tutorial.setTitle("Tutorial 1");
-		tutorial.setSummary("Summary 1");
-		tutorial.setPictures(null);
-		tutorial.setHandyWorker(hw);
 		saved = tutorialRepository.save(tutorial);
+		
 		return saved;
 	}
 	
@@ -111,5 +106,7 @@ public class TutorialService {
 	
 	//Other business methods -----
 	
-	
+	public Collection<Tutorial> tutorialsByHandyWorker(int Id){
+		return tutorialRepository.tutorialsByHandyWorker(Id);
+	}
 }

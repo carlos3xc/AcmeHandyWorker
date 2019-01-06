@@ -10,36 +10,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="tutorials" id="row"
-	requestURI="tutorial/handyWorker/list.do" pagesize="5">
-
+	<display:table name="tutorials" id="row" requestURI="tutorial/list.do" pagesize="5">
+		
+			<display:column>
+				<security:authorize access="hasRole('HANDYWORKER')">
+					<a href="tutorial/handyWorker/edit.do?tutorialId=${row.id}"> <spring:message code="tutorial.edit" /> </a> <br/>
+					<a href="tutorial/handyWorker/delete.do?tutorialId=${row.id}"> <spring:message code="tutorial.delete" /> </a> <br/>
+				</security:authorize>
+				<a href="tutorial/show.do?tutorialId=${row.id}"> <spring:message code="tutorial.show" /></a>
+			</display:column>
+		
+			<display:column titleKey="tutorial.title" property="title" />
+		
+			<display:column titleKey="tutorial.summary" property="summary" />
+		
+			<spring:message code="tutorial.moment.format" var="formatMoment" />
+			<display:column titleKey="tutorial.moment" property="moment" format="{0,date,${formatMoment} }" />
+	
+	</display:table>
+	
 	<security:authorize access="hasRole('HANDYWORKER')">
-		<display:column>
-			<a href="tutorial/handyWorker/edit.do?tutorialId=${row.id}"> <spring:message
-					code="tutorial.edit" /> </a>
-		</display:column>
-
+	
+		<a href="tutorial/handyWorker/create.do"><spring:message code="tutorial.create" /></a>
+	
 	</security:authorize>
-
-	<display:column>
-		<a href="tutorial/handyWorker/show.do?tutorialId=${row.id}"> <spring:message
-				code="tutorial.show" />
-		</a>
-	</display:column>
-
-	<display:column titleKey="tutorial.title" property="title" />
-
-	<display:column titleKey="tutorial.summary" property="summary" />
-
-	<spring:message code="tutorial.moment.format" var="formatMoment" />
-	<display:column titleKey="tutorial.moment" property="moment"
-		format="{0,date,${formatMoment} }" />
-
-</display:table>
-
-<security:authorize access="hasRole('HANDYWORKER')">
-
-	<a href="tutorial/handyWorker/create.do"><spring:message
-			code="tutorial.create" /></a>
-
-</security:authorize>

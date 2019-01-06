@@ -12,45 +12,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.HandyWorkerService;
+import services.SectionService;
 import services.TutorialService;
 import controllers.AbstractController;
-import domain.Tutorial;
+import domain.Section;
 
 @Controller
-@RequestMapping("/tutorial/handyWorker")
-public class TutorialHandyWorkerController extends AbstractController {
+@RequestMapping("/handyWorker/section")
+public class SectionHandyWorkerController extends AbstractController {
 
 	// Services ----------------------------------------------------------------
 
 	@Autowired
-	private TutorialService tutorialService;
+	private SectionService sectionService;
 
 	@Autowired
-	private HandyWorkerService handyWorkerService;
+	private TutorialService tutorialService;
 
 	// Constructors ------------------------------------------------------------
 
-	public TutorialHandyWorkerController() {
+	public SectionHandyWorkerController() {
 		super();
 	}
 
 	// Listing -----------------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam int tutorialId) {
 
 		ModelAndView result;
-		Collection<Tutorial> tutorials;
+		Collection<Section> sections;
 		
-		int id = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
-		
-		tutorials = tutorialService.tutorialsByHandyWorker(id);
+		sections = sectionService.sectionsByTutorial(tutorialId);
 
 		result = new ModelAndView("tutorial/list");
-		result.addObject("tutorials", tutorials);
-		result.addObject("requestURI", "tutorial/list.do");
+		result.addObject("sections", sections);
+		result.addObject("requestURI", "handyWorker/sections/list.do");
 
 		return result;
 	}
@@ -58,12 +55,13 @@ public class TutorialHandyWorkerController extends AbstractController {
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam int tutorialId) {
 
 		ModelAndView result;
-		Tutorial tutorial = tutorialService.create();
+		Section section = sectionService.create();
+		section.setTutorial(tutorialService.findOne(tutorialId));
 
-		result = this.createEditModelAndView(tutorial);
+		result = this.createEditModelAndView(section);
 
 		return result;
 	}
@@ -71,13 +69,13 @@ public class TutorialHandyWorkerController extends AbstractController {
 	// Edit -----------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int tutorialId) {
+	public ModelAndView edit(@RequestParam final int sectionId) {
 
 		ModelAndView result;
 
-		Tutorial tutorial = tutorialService.findOne(tutorialId);
+		Section section = sectionService.findOne(sectionId);
 
-		result = createEditModelAndView(tutorial);
+		result = createEditModelAndView(section);
 
 		return result;
 	}
@@ -85,17 +83,17 @@ public class TutorialHandyWorkerController extends AbstractController {
 	// Save -----------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Tutorial tutorial, final BindingResult binding) {
+	public ModelAndView save(@Valid final Section section, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(tutorial);
+			result = this.createEditModelAndView(section);
 		} else{
 			try {
-				tutorialService.save(tutorial);
-				result = new ModelAndView("redirect:list.do");
+				sectionService.save(section);
+				result = new ModelAndView("redirect:/tutorial/show.do?tutorialId=" + section.getTutorial().getId());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(tutorial,"tutorial.commit.error");
+				result = this.createEditModelAndView(section,"section.commit.error");
 			}
 		}
 		
@@ -105,16 +103,16 @@ public class TutorialHandyWorkerController extends AbstractController {
 	// Delete -----------------------------------------------------------------
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int tutorialId) {
+	public ModelAndView delete(@RequestParam final int sectionId) {
 		ModelAndView result;
-		Tutorial tut;
-		tut = tutorialService.findOne(tutorialId);
+		Section section;
+		section = sectionService.findOne(sectionId);
 		
 		try {
-			this.tutorialService.delete(tut);
-			result = new ModelAndView("redirect:list.do");
+			this.sectionService.delete(section);
+			result = new ModelAndView("redirect:/tutorial/show.do?tutorialId=" + section.getTutorial().getId());
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(tut,"tutorial.commit.error");
+			result = this.createEditModelAndView(section,"section.commit.error");
 		}
 
 		return result;
@@ -122,21 +120,21 @@ public class TutorialHandyWorkerController extends AbstractController {
 	
 	// Ancillary methods ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(Tutorial tutorial) {
+	protected ModelAndView createEditModelAndView(Section section) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(tutorial, null);
+		result = this.createEditModelAndView(section, null);
 
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(final Tutorial tutorial,final String message) {
+	private ModelAndView createEditModelAndView(final Section section,final String message) {
 
 		ModelAndView result;
 
-		result = new ModelAndView("tutorial/edit");
+		result = new ModelAndView("section/edit");
 
-		result.addObject("tutorial", tutorial);
+		result.addObject("section", section);
 		result.addObject("message", message);
 
 		return result;

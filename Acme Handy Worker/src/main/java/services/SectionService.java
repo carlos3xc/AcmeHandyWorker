@@ -20,16 +20,22 @@ import domain.Section;
 public class SectionService {
 
 	//Managed Repository -----
+	
 	@Autowired
 	private SectionRepository sectionRepository;
 	
-//Supporting Services -----
+	//Supporting Services -----
 	
+	@Autowired
+	private TutorialService tutorialService;
 	
 	//Simple CRUD methods -----
+	
 	public Section create(){
 		Section res = new Section();
+		
 		res.setPictures(new ArrayList<String>());
+		
 		return res;
 	}
 	
@@ -62,5 +68,7 @@ public class SectionService {
 	
 	//Other business methods -----
 	
-	
+	public Collection<Section> sectionsByTutorial(int Id){
+		return sectionRepository.sectionsByTutorial(Id);
+	}
 }
