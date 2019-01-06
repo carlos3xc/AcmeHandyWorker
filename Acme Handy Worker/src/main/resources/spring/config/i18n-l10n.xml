@@ -39,6 +39,7 @@
 		<value>/views/workPlanPhase/messages</value>
 		<value>/views/application/messages</value>
 		<value>/views/tutorial/messages</value>
+		<value>/views/section/messages</value>
 		<value>/views/customerEndorsement/messages</value>
 		<value>/views/handyWorkerEndorsement/messages</value>
 		<value>/views/category/messages</value>
