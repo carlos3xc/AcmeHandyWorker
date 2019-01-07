@@ -19,7 +19,7 @@
 						code="complaint.edit" />
 				</a> <br/>
 
-				<a href="complaint/customer/show.do?complaintId=${row.id}"> <spring:message
+				<a href="complaint/show.do?complaintId=${row.id}"> <spring:message
 						code="complaint.show" />
 				</a>
 			</display:column>
@@ -51,6 +51,11 @@
 
 	<display:table name="complaints" id="row" pagesize="5"
 		requestURI="complaint/referee/list.do">
+	
+		<display:column>
+			<a href="complaint/show.do?complaintId=${row.id}"> <spring:message	code="complaint.show" />
+			</a>
+		</display:column>
 
 		<display:column titleKey="complaint.ticker" property="ticker" />
 
@@ -60,9 +65,6 @@
 		<spring:message code="complaint.moment.format" var="formatMoment" />
 		<display:column titleKey="complaint.moment" property="moment"
 			sortable="true" format="{0, date, ${formatMoment}}" />
-
-		<!--	<display:column titleKey="complaint.referee"
-			property="${row.referee.userAccount.username}" /> -->
 
 		<display:column titleKey="complaint.fixUpTask"
 			property="fixUpTask.ticker" />
@@ -74,6 +76,11 @@
 <security:authorize access="hasRole('HANDYWORKER')">
 	<display:table name="complaints" id="row" pagesize="5"
 		requestURI="complaint/handyWorker/list.do">
+		
+		<display:column>
+			<a href="complaint/show.do?complaintId=${row.id}"> <spring:message	code="complaint.show" />
+			</a>
+		</display:column>
 
 		<display:column titleKey="complaint.ticker" property="ticker" />
 
