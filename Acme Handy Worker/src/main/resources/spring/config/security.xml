@@ -77,20 +77,19 @@
 		<security:intercept-url pattern="/actor/admin/list.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')" />
 		
+		<security:intercept-url pattern="/complaint/**" access="hasRole('HANDYWORKER')||hasRole('CUSTOMER')||hasRole('REFEREE')" />  		
+		
 		<security:intercept-url pattern="/complaint/handyWorker/list.do" access="hasRole('HANDYWORKER')" />
 		<security:intercept-url pattern="/workPlanPhase/handyWorker/**" access="hasRole('HANDYWORKER')" />
 		<security:intercept-url pattern="/fixUpTask/list.do" access="hasRole('HANDYWORKER')" /> 
-		<security:intercept-url pattern="/complaint/show.do" access="hasRole('HANDYWORKER')" />  
 		
 		<security:intercept-url pattern="/complaint/referee/list.do" access="hasRole('REFEREE')" />  
 		<security:intercept-url pattern="/report/referee/edit.do" access="hasRole('REFEREE')" />  
-		<security:intercept-url pattern="/complaint/show.do" access="hasRole('REFEREE')" /> 
 
-        <security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')"/>		
 		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/creditCard/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/handyWorkerEndorsement/customer/**" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/complaint/show.do" access="hasRole('CUSTOMER')" />  
 
 		<security:intercept-url pattern="/customerEndorsement/handyWorker/**" access="hasRole('HANDYWORKER')" />
 		
