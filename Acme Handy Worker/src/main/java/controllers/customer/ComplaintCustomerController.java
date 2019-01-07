@@ -15,12 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 
 import domain.Complaint;
-import domain.Customer;
 import domain.Report;
 
 import security.LoginService;
 import services.ComplaintService;
-import services.CustomerService;
 import services.RefereeService;
 import services.ReportService;
 
@@ -33,9 +31,6 @@ public class ComplaintCustomerController extends AbstractController {
 	@Autowired
 	private ComplaintService complaintService;
 
-	@Autowired
-	private CustomerService customerService;
-	
 	@Autowired
 	private RefereeService refereeService;
 	

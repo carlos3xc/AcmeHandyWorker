@@ -72,6 +72,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="complaint/referee/list.do"><spring:message code="master.page.referee.complaint.list" /></a></li>
+					<li><a href="complaint/referee/listNoReport.do"><spring:message code="master.page.referee.complaint.listNoReport" /></a></li>
 			   <!-- <li><a href="actor/show.do"><spring:message code="master.page.referee.actor.show" /></a></li> -->		
 				</ul>
 			</li>
