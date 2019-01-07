@@ -17,7 +17,7 @@ import security.UserAccountService;
 import controllers.AbstractController;
 
 @Controller
-@RequestMapping("/userAccount/administrator")
+@RequestMapping("/userAccount/admin")
 public class UserAccountAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------------
@@ -113,7 +113,7 @@ public class UserAccountAdministratorController extends AbstractController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("userAccount/administrator/edit");
+		result = new ModelAndView("userAccount/edit");
 
 		result.addObject("userAccount", userAccount);
 		result.addObject("message", message);

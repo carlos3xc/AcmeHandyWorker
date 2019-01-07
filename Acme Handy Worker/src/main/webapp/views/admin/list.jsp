@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="${actors}" id="row" pagesize="5"
-	requestURI="actor/administrator/list.do">
+	requestURI="actor/admin/list.do">
 
 	<display:column titleKey="actor.name" property="name" />
 
@@ -21,7 +21,7 @@
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a href="actor/administrator/edit.do?actorId=${row.id}"> <spring:message
+			<a href="actor/admin/edit.do?actorId=${row.id}"> <spring:message
 					code="admin.edit" />
 			</a>
 		</display:column>

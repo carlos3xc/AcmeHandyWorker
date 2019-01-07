@@ -276,6 +276,33 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
+	
+	// Save -----------------------------------------------------------------
+
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+		public ModelAndView save(@Valid final Actor actor,
+				final BindingResult binding) {
+
+			ModelAndView result;
+
+			// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			// String pass = encoder.encodePassword(administrator.getUserAccount()
+			// .getPassword(), null);
+			// administrator.getUserAccount().setPassword(pass);
+
+			if (binding.hasErrors()) {
+				System.out.println(binding.getFieldErrors());
+				result = this.createEditModelAndView(actor);
+			} else
+				try {
+					actorService.save(actor);
+					result = new ModelAndView("redirect:show.do");
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(actor,
+							"actor.commit.error");
+				}
+			return result;
+		}
 
 	// Save -----------------------------------------------------------------
 
