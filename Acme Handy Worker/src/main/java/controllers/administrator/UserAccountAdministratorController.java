@@ -33,7 +33,7 @@ public class UserAccountAdministratorController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/createAdministrator", method = RequestMethod.GET)
+	@RequestMapping(value = "/createAdmin", method = RequestMethod.GET)
 	public ModelAndView createAdmin() {
 
 		ModelAndView result;
