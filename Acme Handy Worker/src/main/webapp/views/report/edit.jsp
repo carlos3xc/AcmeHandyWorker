@@ -30,17 +30,12 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
+	<form:hidden path="moment"/>
 	<form:hidden path="referee" />
 	<form:hidden path="complaint" />
 	<form:hidden path="notes" />
 	<form:hidden path="isDraft"/>
-	
-	<form:label path="moment">
-		<spring:message code="report.moment" />:
-	</form:label>
-	<form:input path="moment" placeholder="01/01/2001 12:00"/>
-	<form:errors cssClass="error" path="moment" />
-	<br />
+
 
 	<form:label path="description">
 		<spring:message code="report.description" />:

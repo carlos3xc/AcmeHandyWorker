@@ -41,6 +41,9 @@ public class ReportService {
 		res.setNotes(new ArrayList<Note>());
 		Referee r = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
 		res.setReferee(r);
+		Date current = new Date(System.currentTimeMillis() - 1000);
+		
+		res.setMoment(current);
 		return res;
 	}
 	
@@ -61,9 +64,6 @@ public class ReportService {
 		Referee rf = refereeService.findByUserAccountId(userAccount.getId());
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
-		Date current = new Date(System.currentTimeMillis() - 1000);
-		
-		r.setMoment(current);
 		if(r.getIsDraft()==null) r.setIsDraft(true);
 		if(rDatabase!=null) {
 			Assert.isTrue(rDatabase.getIsDraft().equals(true));			// Comprobamos que el draft sea false. En el caso de que fuese true, no se podría actualizar

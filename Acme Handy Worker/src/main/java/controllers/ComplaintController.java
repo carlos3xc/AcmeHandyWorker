@@ -51,6 +51,13 @@ public ComplaintController(){
 
 			Complaint complaint = complaintService.findOne(complaintId);
 			Collection<Report> reports = reportService.getReportsByComplaint(complaintId);
+			if(refereeService.findByUserAccountId(LoginService.getPrincipal().getId()) == null){
+				for(Report r : reports){
+					if(r.getIsDraft()==true){
+						reports.remove(r);
+					}
+				}
+			}
 
 			result = new ModelAndView("complaint/show");
 			result.addObject("complaint", complaint);

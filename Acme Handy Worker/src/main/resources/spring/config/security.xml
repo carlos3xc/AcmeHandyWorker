@@ -84,7 +84,7 @@
 		<security:intercept-url pattern="/fixUpTask/list.do" access="hasRole('HANDYWORKER')" /> 
 		
 		<security:intercept-url pattern="/complaint/referee/list.do" access="hasRole('REFEREE')" />  
-		<security:intercept-url pattern="/report/referee/edit.do" access="hasRole('REFEREE')" />  
+		<security:intercept-url pattern="/report/referee/**" access="hasRole('REFEREE')" />  
 
 		<security:intercept-url pattern="/complaint/customer/**" access="hasRole('CUSTOMER')"/>		
 		<security:intercept-url pattern="/fixUpTask/customer/**" access="hasRole('CUSTOMER')" />

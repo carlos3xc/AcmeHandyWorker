@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="complaint" id="row"
-	requestURI="complaint/customer/show.do">
+	requestURI="complaint/show.do">
 
 	<display:column>
 
@@ -35,25 +35,39 @@
 </display:table>
 
 <h3><spring:message code="complaint.reports"/>:</h3>
-		<display:table name="reports" id="row" requestURI="complaint/customer/show.do" pagesize="5">
+		<display:table name="reports" id="row" requestURI="complaint/show.do" pagesize="5">
+		<jstl:if test="${referee !=null }">
 			<display:column titleKey="report.options">
 				<jstl:if test="${row.isDraft}">
 					<jstl:if test="${row.referee == referee}"> 
-							<a href="report/referee/edit.do?fixUpTaskId=${row.id}">
+							<a href="report/referee/edit.do?reportId=${row.id}">
 								<spring:message	code="complaint.edit" />
 							</a><br/>	
-						</jstl:if>
+					
 							<a href="report/referee/delete.do?reportId=${row.id}">
 								<spring:message	code="complaint.delete" />
-							</a><br/>			
+							</a><br/>	
+						</jstl:if>		
 				</jstl:if>
 			</display:column>
+		</jstl:if>
 			<display:column property="moment" titleKey="complaint.moment" />
 						
 			<display:column property="description" titleKey="complaint.description" />
+			<display:column titleKey="complaint.attachments">
+				<jstl:forEach var="x" items="${row.attachments}">
+					<a href="${x}"><jstl:out value="${x }"/></a><br/>
+				</jstl:forEach>
+			</display:column>
 			
 			<display:column titleKey="complaint.referee">
 				<a href="actor/profile.do?actorId=${row.referee.id}"><jstl:out value="${row.referee.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
+		
+		<jstl:if test="${referee != null}"> 
+			<a href="report/referee/create.do?complaintId=${complaint.id}">
+								<spring:message	code="complaint.report.create" />
+			</a><br/>
+		</jstl:if>
 
