@@ -18,16 +18,21 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import services.ActorService;
+import services.AdministratorService;
+import services.ApplicationService;
 import services.CustomerService;
 import services.HandyWorkerService;
+import services.RefereeService;
 import services.SponsorService;
 
 import controllers.AbstractController;
 import domain.Actor;
+import domain.Administrator;
 import domain.Application;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.HandyWorker;
+import domain.Referee;
 import domain.SocialProfile;
 import domain.Sponsor;
 
@@ -45,10 +50,19 @@ public class ActorController extends AbstractController {
 	private SponsorService sponsorService;
 
 	@Autowired
+	private RefereeService refereeService;
+
+	@Autowired
+	private AdministratorService administratorService;
+
+	@Autowired
 	private HandyWorkerService handyWorkerService;
 
 	@Autowired
 	private CustomerService customerService;
+
+	@Autowired
+	private ApplicationService applicationService;
 
 	// Constructors
 	// ---------------------------------------------------------------
@@ -107,51 +121,88 @@ public class ActorController extends AbstractController {
 
 		ModelAndView result;
 
-		// int actorId = LoginService.getPrincipal().getId();
-		
-		System.out.println(actorId);
-
+		// Diferentes autoridades:
 		Authority authority = new Authority();
 		authority.setAuthority("CUSTOMER");
 
 		Authority authority2 = new Authority();
-		authority.setAuthority("HANDYWORKER");
+		authority2.setAuthority("HANDYWORKER");
+
+		Authority authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+
+		Authority authority4 = new Authority();
+		authority4.setAuthority("REFEREE");
+
+		Authority authority5 = new Authority();
+		authority5.setAuthority("ADMIN");
 
 		result = new ModelAndView("actor/show");
 
 		if (actorId != null) {
 			Actor actor = actorService.findOne(actorId);
 			result.addObject("actor", actor);
-		} 
-//		else if (actorId == 0){
+		}
 
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
 
-//		}
-//		actorId = actor.getId();
 		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
 		if (actor.getUserAccount().getAuthorities().equals(authority)) {
 			Customer customer = (Customer) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
+
+			customer = customerService.findOne(actor.getId());
+
 			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
 
 			result.addObject("fixUpTasks", fixUpTasks);
+			result.addObject("actor", customer);
 		}
 
 		if (actor.getUserAccount().getAuthorities().equals(authority2)) {
 			HandyWorker handyWorker = (HandyWorker) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
-			Collection<Application> applications = new ArrayList<Application>();
-			for (Application app : applications) {
-				if (app.getHandyWorker().equals(handyWorker)) {
-					applications.add(app);
-					result.addObject("applications", applications);
-				}
-			}
+			handyWorker = handyWorkerService.findOne(actor.getId());
+
+			int handyWorkerId = handyWorker.getId();
+
+			Collection<Application> applications = applicationService
+					.applicationByHandyWorker(handyWorkerId);
+
+			result.addObject("applications", applications);
+			result.addObject("actor", handyWorker);
 		}
+
+		if (actor.getUserAccount().getAuthorities().equals(authority3)) {
+			Sponsor sponsor = (Sponsor) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			sponsor = sponsorService.findOne(actor.getId());
+
+			result.addObject("actor", sponsor);
+		}
+
+		if (actor.getUserAccount().getAuthorities().equals(authority4)) {
+			Referee referee = (Referee) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			referee = refereeService.findOne(actor.getId());
+
+			result.addObject("actor", referee);
+		}
+
+		if (actor.getUserAccount().getAuthorities().equals(authority5)) {
+			Administrator administrator = (Administrator) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			administrator = administratorService.findOne(actor.getId());
+
+			result.addObject("actor", administrator);
+		}
+
 		result.addObject("actor", actor);
 		result.addObject("socialProfiles", socialProfiles);
 		result.addObject("requestURI", "actor/show.do");
@@ -164,12 +215,61 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit() {
 
-		ModelAndView result;
+		ModelAndView result = new ModelAndView();
 
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
 
+		// Diferentes autoridades:
+		Authority authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		Authority authority2 = new Authority();
+		authority2.setAuthority("HANDYWORKER");
+
+		Authority authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+
+		Authority authority4 = new Authority();
+		authority4.setAuthority("REFEREE");
+
+		Authority authority5 = new Authority();
+		authority5.setAuthority("ADMIN");
+
 		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
+
+		if (actor.getUserAccount().getAuthorities().equals(authority)) {
+			Customer customer = (Customer) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			result = createEditModelAndView(customer);
+		}
+
+		else if (actor.getUserAccount().getAuthorities().equals(authority2)) {
+			HandyWorker handyWorker = (HandyWorker) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			result = createEditModelAndView(handyWorker);
+
+		}
+
+		else if (actor.getUserAccount().getAuthorities().equals(authority3)) {
+			Sponsor sponsor = (Sponsor) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+			result = createEditModelAndView(sponsor);
+		}
+
+		else if (actor.getUserAccount().getAuthorities().equals(authority4)) {
+			Referee referee = (Referee) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+			result = createEditModelAndView(referee);
+		}
+
+		else if (actor.getUserAccount().getAuthorities().equals(authority5)) {
+			Administrator administrator = (Administrator) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+			result = createEditModelAndView(administrator);
+		}
 
 		result = createEditModelAndView(actor);
 		result.addObject("socialProfiles", socialProfiles);
@@ -179,26 +279,126 @@ public class ActorController extends AbstractController {
 
 	// Save -----------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Actor actor,
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveAdministrator")
+	public ModelAndView save(@Valid final Administrator administrator,
 			final BindingResult binding) {
 
 		ModelAndView result;
 
-		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		String pass = encoder.encodePassword(actor.getUserAccount()
-				.getPassword(), null);
-		actor.getUserAccount().setPassword(pass);
+		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// String pass = encoder.encodePassword(administrator.getUserAccount()
+		// .getPassword(), null);
+		// administrator.getUserAccount().setPassword(pass);
 
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
-			result = this.createEditModelAndView(actor);
+			result = this.createEditModelAndView(administrator);
 		} else
 			try {
-				actorService.save(actor);
-				result = new ModelAndView("redirect:list.do");
+				administratorService.save(administrator);
+				result = new ModelAndView("redirect:show.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(actor,
+				result = this.createEditModelAndView(administrator,
+						"actor.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveHandyWorker")
+	public ModelAndView save(@Valid final HandyWorker handyWorker,
+			final BindingResult binding) {
+
+		ModelAndView result;
+
+		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// String pass = encoder.encodePassword(handyWorker.getUserAccount()
+		// .getPassword(), null);
+		// handyWorker.getUserAccount().setPassword(pass);
+
+		if (binding.hasErrors()) {
+			System.out.println(binding.getFieldErrors());
+			result = this.createEditModelAndView(handyWorker);
+		} else
+			try {
+				handyWorkerService.save(handyWorker);
+				result = new ModelAndView("redirect:show.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(handyWorker,
+						"actor.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCustomer")
+	public ModelAndView save(@Valid final Customer customer,
+			final BindingResult binding) {
+
+		ModelAndView result;
+
+		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// String pass = encoder.encodePassword(customer.getUserAccount()
+		// .getPassword(), null);
+		// customer.getUserAccount().setPassword(pass);
+
+		if (binding.hasErrors()) {
+			System.out.println(binding.getFieldErrors());
+			result = this.createEditModelAndView(customer);
+		} else
+			try {
+				customerService.save(customer);
+				result = new ModelAndView("redirect:show.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(customer,
+						"actor.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveReferee")
+	public ModelAndView save(@Valid final Referee referee,
+			final BindingResult binding) {
+
+		ModelAndView result;
+
+		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// String pass = encoder.encodePassword(referee.getUserAccount()
+		// .getPassword(), null);
+		// referee.getUserAccount().setPassword(pass);
+
+		if (binding.hasErrors()) {
+			System.out.println(binding.getFieldErrors());
+			result = this.createEditModelAndView(referee);
+		} else
+			try {
+				refereeService.save(referee);
+				result = new ModelAndView("redirect:show.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(referee,
+						"actor.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveSponsor")
+	public ModelAndView save(@Valid final Sponsor sponsor,
+			final BindingResult binding) {
+
+		ModelAndView result;
+
+		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// String pass = encoder.encodePassword(sponsor.getUserAccount()
+		// .getPassword(), null);
+		// sponsor.getUserAccount().setPassword(pass);
+
+		if (binding.hasErrors()) {
+			System.out.println(binding.getFieldErrors());
+			result = this.createEditModelAndView(sponsor);
+		} else
+			try {
+				sponsorService.save(sponsor);
+				result = new ModelAndView("redirect:show.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(sponsor,
 						"actor.commit.error");
 			}
 		return result;
@@ -225,7 +425,44 @@ public class ActorController extends AbstractController {
 		isSuspicious = actor.getIsSuspicious();
 		isBanned = actor.getIsBanned();
 
+		Authority authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		Authority authority2 = new Authority();
+		authority2.setAuthority("HANDYWORKER");
+		
+		Authority authority3 = new Authority();
+		authority3.setAuthority("SPONSOR");
+
+		Authority authority4 = new Authority();
+		authority4.setAuthority("REFEREE");
+
+		Authority authority5 = new Authority();
+		authority5.setAuthority("ADMIN");
+
 		result = new ModelAndView("actor/edit");
+
+		if (actor.getUserAccount().getAuthorities().equals(authority)) {
+			Customer customer = (Customer) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
+
+			result.addObject("fixUpTasks", fixUpTasks);
+			result.addObject("actor", customer);
+		}
+
+		if (actor.getUserAccount().getAuthorities().equals(authority2)) {
+			HandyWorker handyWorker = (HandyWorker) actorService
+					.getByUserAccountId(LoginService.getPrincipal());
+
+			Collection<Application> applications = new ArrayList<Application>();
+			for (Application app : applications) {
+				if (app.getHandyWorker().equals(handyWorker)) {
+					applications.add(app);
+					result.addObject("applications", applications);
+				}
+			}
+		}
 
 		result.addObject("actor", actor);
 		result.addObject("socialProfiles", socialProfiles);

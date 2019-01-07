@@ -1,13 +1,3 @@
-<%--
- * action-1.jsp
- *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
- --%>
-
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -32,16 +22,14 @@
 	<form:label path="description">
 		<spring:message code="complaint.description" />:
 	</form:label>
-	<form:textarea path="description"
-		placeholder="<spring:message code="complaint.description.example"/>" />
+	<form:textarea path="description" />
 	<form:errors cssClass="error" path="description" />
 	<br />
 
 	<form:label path="attachments">
 		<spring:message code="complaint.attachments" />:
     </form:label>
-	<form:textarea path="attachments"
-		placeholder="<spring:message code="complaint.attachments.example"/>" />
+	<form:textarea path="attachments" />
 	<form:errors cssClass="error" path="attachments" />
 	<br />
 

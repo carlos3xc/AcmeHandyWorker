@@ -51,7 +51,7 @@
 		
 		<security:intercept-url pattern="/message/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/box/**" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/actor/show.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/actor/show.do" access="permitAll" />
 		<security:intercept-url pattern="/actor/edit.do" access="isAuthenticated()" /> 
 		
 		<security:intercept-url pattern="/admin/admin/**" access="hasRole('ADMIN')" /> 

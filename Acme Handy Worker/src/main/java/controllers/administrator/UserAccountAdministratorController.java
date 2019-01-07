@@ -113,7 +113,7 @@ public class UserAccountAdministratorController extends AbstractController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("userAccount/create");
+		result = new ModelAndView("userAccount/administrator/edit");
 
 		result.addObject("userAccount", userAccount);
 		result.addObject("message", message);

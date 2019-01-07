@@ -7,13 +7,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
-	<!-- PARAMETERS FROM CONTROLLER:
-									 actor: Actor
-					 				 socialProfile: SocialProfile
-									 userAccount: UserAccount
-									 fixUpTasks: Collection<FixUpTask>
-									 -->
 								
 	 <display:table name="actor" id="row" requestURI="actor/show.do">
 		<display:column>					
@@ -31,33 +24,33 @@
 		<spring:message code="actor.socialProfile"/>:<br/>
 		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
 		    <display:column>
-			<b><spring:message code="actor.socialProfile.nick"/></b>: <jstl:out value="${socialProfiles.nick}"/> <br/>
-			<b><spring:message code="actor.socialProfile.socialNetwork"/></b>: <jstl:out value="${socialProfiles.socialNetwork}"/> <br/>
-			<b><spring:message code="actor.socialProfile.link"/></b>: <jstl:out value="${socialProfiles.link}"/> <br/>
+			<b><spring:message code="actor.socialProfile.nick"/></b>: <jstl:out value="${actor.socialProfiles.nick}"/> <br/>
+			<b><spring:message code="actor.socialProfile.socialNetwork"/></b>: <jstl:out value="${actor.socialProfiles.socialNetwork}"/> <br/>
+			<b><spring:message code="actor.socialProfile.link"/></b>: <jstl:out value="${actor.socialProfiles.link}"/> <br/>
 			</display:column>
 		</display:table>
 		
-		<security:authorize access="hasRole('CUSTOMER')">
+	<%-- <security:authorize access="hasRole('CUSTOMER')">
 			<spring:message code="actor.fixUpTasks"/>:<br/>
 			<display:table name="fixUpTasks" id="row" requestURI="actor/show.do" pagesize="5">
-	
-				<b><spring:message code="actor.fixUpTask.ticker" /></b>: <jstl:out value="${fixUpTasks.ticker}"/> <br/>
-				<b><spring:message code="actor.fixUpTask.description" /></b>: <jstl:out value="${fixUpTasks.description}"/> <br/>
-				<b><spring:message code="actor.fixUpTask.moment" /></b>: <jstl:out value="${fixUpTasks.moment}"/> <br/>
-				
-			</display:table>
+	        <display:column>
+			<b><spring:message code="actor.fixUpTask.ticker" /></b>: <jstl:out value="${fixUpTasks.ticker}"/> <br/>
+			<b><spring:message code="actor.fixUpTask.description" /></b>: <jstl:out value="${fixUpTasks.description}"/> <br/>
+			<b><spring:message code="actor.fixUpTask.moment" /></b>: <jstl:out value="${fixUpTasks.moment}"/> <br/>
+			</display:column>
+			</display:table>	
 		</security:authorize>
 		
 		<security:authorize access="hasRole('HANDYWORKER')">
 			<spring:message code="actor.applications"/>:<br/>
 		<display:table name="applications" id="row" requestURI="actor/show.do" pagesize="5">
-			
+			<display:column>
 			<b><spring:message code="actor.application.moment" /></b>: <jstl:out value="${applications.moment}"/> <br/>
 			<b><spring:message code="actor.application.description" /></b>: <jstl:out value="${applications.description}"/> <br/>
 			<b><spring:message code="actor.application.price" /></b>: <jstl:out value="${applications.price}"/> <br/>
-			
+			</display:column>
 		</display:table>
-		</security:authorize>
+		</security:authorize> --%>
 	
 	<h4><a href="actor/edit.do"><spring:message code="actor.edit" /></a></h4>
 		
