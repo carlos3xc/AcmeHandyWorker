@@ -20,7 +20,7 @@
 
 <security:authorize access="hasRole('ADMIN')"> 
 <form:form action="userAccount/admin/createAdmin.do"
-	modelAttribute="userAccount">
+	modelAttribute="userAccountAdmin">
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -50,11 +50,8 @@
 
 </form:form>
 	
-</security:authorize>
-
-<security:authorize access="hasRole('ADMIN')"> 
 <form:form action="userAccount/admin/createReferee.do"
-	modelAttribute="userAccount">
+	modelAttribute="userAccountReferee">
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />

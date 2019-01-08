@@ -13,16 +13,16 @@
 
 	<display:column titleKey="actor.name" property="name" />
 
-	<display:column titleKey="actor.middleName" property="middle" />
+	<display:column titleKey="actor.middleName" property="middleName" />
 
 	<display:column titleKey="actor.surname" property="surname" />
 
-	<display:column titleKey="actor.isBanned" property="banned" />
+	<display:column titleKey="actor.isBanned" property="isBanned" />
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a href="actor/admin/edit.do?actorId=${row.id}"> <spring:message
-					code="admin.edit" />
+			<a href="actor/admin/banActor.do?actorId=${row.id}"> <spring:message
+					code="admin.ban" />
 			</a>
 		</display:column>
 

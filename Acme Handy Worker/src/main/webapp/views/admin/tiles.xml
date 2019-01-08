@@ -20,17 +20,17 @@
 		<put-attribute name="body" value="/views/admin/configuration.jsp" />
 	</definition>
 	
-	<definition name="admin/create" extends="master.page">
-		<put-attribute name="title" value="Create user account" />
+	<definition name="userAccount/createAdmin" extends="master.page">
+		<put-attribute name="title" value="Create user account admin" />
 		<put-attribute name="body" value="/views/admin/create.jsp" />
 	</definition>
 	
-	<definition name="admin/edit" extends="master.page">
-		<put-attribute name="title" value="Ban actor" />
-		<put-attribute name="body" value="/views/admin/edit.jsp" />
+	<definition name="userAccount/createReferee" extends="master.page">
+		<put-attribute name="title" value="Create user account referee" />
+		<put-attribute name="body" value="/views/admin/create.jsp" />
 	</definition>
 	
-	<definition name="admin/list" extends="master.page">
+	<definition name="actor/list" extends="master.page">
 		<put-attribute name="title" value="List of suspicious actors" />
 		<put-attribute name="body" value="/views/admin/list.jsp" />
 	</definition>

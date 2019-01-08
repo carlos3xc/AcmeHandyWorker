@@ -2,11 +2,8 @@ package controllers.administrator;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,42 +49,18 @@ public class ActorAdministratorController extends AbstractController {
 		return result;
 	}
 
-	// Edit -----------------------------------------------------------------
+	// Banear actor---------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int actorId) {
-
-		ModelAndView result;
+	@RequestMapping(value = "/banActor", method = RequestMethod.GET)
+	public ModelAndView banActor(@RequestParam int actorId) {
+		ModelAndView res;
 
 		Actor actor = actorService.findOne(actorId);
-
-		result = createEditModelAndView(actor);
-
-		return result;
-	}
-
-	// Save -----------------------------------------------------------------
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Actor actor,
-			final BindingResult binding) {
-
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			System.out.println(binding.getFieldErrors());
-
-			result = this.createEditModelAndView(actor);
-		} else
-			try {
-				administratorService.ban(actor);
-				actorService.save(actor);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(actor,
-						"actor.commit.error");
-			}
-		return result;
+		if (!actor.getIsBanned()) {
+			administratorService.ban(actorService.findOne(actorId));
+		}
+		res = new ModelAndView("redirect:list.do");
+		return res;
 	}
 
 	protected ModelAndView createEditModelAndView(Actor actor) {
