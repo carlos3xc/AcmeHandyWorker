@@ -136,16 +136,28 @@ public class ActorController extends AbstractController {
 
 		Authority authority5 = new Authority();
 		authority5.setAuthority("ADMIN");
+		
+		Boolean custProfileHw = false;
 
 		result = new ModelAndView("actor/show");
 		if (actorId != null) {
 			Actor actor = actorService.findOne(actorId);
 			result.addObject("actor", actor);
+			
+			if(LoginService.getPrincipal().getAuthorities().contains(authority2) &&
+					actor.getUserAccount().getAuthorities().contains(authority)){ //Si el logeado es hw y vemos el perfil de customer
+				custProfileHw = true;
+				Customer customer = customerService.findOne(actor.getId());
+				result.addObject("fixUpTasks", customer.getFixUpTasks());
+				result.addObject("custProfileHw",custProfileHw);
+			}
+			
 		}else{
 			Actor actor = actorService.getByUserAccountId(LoginService.getPrincipal());
 			Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
 		if (actor.getUserAccount().getAuthorities().contains(authority)) {
+			custProfileHw=true;
 			Customer customer = (Customer) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -154,6 +166,7 @@ public class ActorController extends AbstractController {
 			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
 
 			result.addObject("fixUpTasks", fixUpTasks);
+			result.addObject("custProfileHw",custProfileHw);
 			result.addObject("actor", customer);
 		}
 

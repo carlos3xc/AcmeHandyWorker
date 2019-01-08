@@ -16,6 +16,9 @@
 		<b><spring:message code="actor.email"/></b>: <jstl:out value="${actor.email}"/> <br/>			 				 
 		<b><spring:message code="actor.phone"/></b>: <jstl:out value="${actor.phone}"/> <br/>				 
 	</div>
+	<br/>
+		<b><a href="actor/edit.do"><spring:message code="actor.edit" /></a></b>
+	<br/>
 	
 		<h3><spring:message code="actor.socialProfile"/>:</h3>
 		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
@@ -25,30 +28,58 @@
 			<b><spring:message code="actor.socialProfile.link"/></b>: <jstl:out value="${actor.socialProfiles.link}"/> <br/>
 			</display:column>
 		</display:table>
-		
-	<%-- <security:authorize access="hasRole('CUSTOMER')">
-			<spring:message code="actor.fixUpTasks"/>:<br/>
-			<display:table name="fixUpTasks" id="row" requestURI="actor/show.do" pagesize="5">
-	        <display:column>
-			<b><spring:message code="actor.fixUpTask.ticker" /></b>: <jstl:out value="${fixUpTasks.ticker}"/> <br/>
-			<b><spring:message code="actor.fixUpTask.description" /></b>: <jstl:out value="${fixUpTasks.description}"/> <br/>
-			<b><spring:message code="actor.fixUpTask.moment" /></b>: <jstl:out value="${fixUpTasks.moment}"/> <br/>
+		<jstl:if test="${custProfileHw}">
+			<h3><spring:message code="actor.fixUpTasks"/>:</h3>
+<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/list.do" pagesize="5">
+			<display:column titleKey="task.options">
+					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
+						<spring:message	code="task.show" />
+					</a><br/>
+				<security:authorize access="hasRole('HANDYWORKER')">
+					<jstl:set var="stat" value="0"/>
+					<jstl:forEach var="x" items="${row.applications}">
+						<jstl:if test="${x.status=='PENDING'}">
+						<jstl:if test="${stat=='0' }">
+							<jstl:set var="stat" value="1"/>
+							<a href="handyWorker/application/apply.do?fixUpTaskId=${row.id}">
+								<spring:message code="task.apply"/>
+							</a><br/>
+						</jstl:if>
+						</jstl:if>
+					</jstl:forEach>	
+				</security:authorize>
+				<security:authorize access="hasRole('CUSTOMER')">
+					
+					<jstl:if test="${empty row.applications && empty row.complaints}">
+							<a href="fixUpTask/customer/edit.do?fixUpTaskId=${row.id}">
+								<spring:message	code="task.edit" />
+							</a><br/>	
+						</jstl:if>
+						<jsp:useBean id="today" class="java.util.Date"/>
+						<jstl:if test="${row.startMoment > today}">
+							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
+								<spring:message	code="task.delete" />
+							</a><br/>			
+					</jstl:if>	
+					<a href="complaint/customer/edit.do?fixUpTaskId=${row.id}">
+						<spring:message	code="task.complain" />
+					</a><br/>
+				</security:authorize>		
 			</display:column>
+				
+				<display:column property="ticker" titleKey="task.ticker" />	
+			
+				<display:column property="description" titleKey="task.description" />
+				
+				<spring:message code="task.moment.format" var="formatMoment"/>
+				<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>			
+				<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
+				
+				<display:column property="maxPrice" titleKey="task.maxPrice" />	
+			
 			</display:table>	
-		</security:authorize>
-		
-		<security:authorize access="hasRole('HANDYWORKER')">
-			<spring:message code="actor.applications"/>:<br/>
-		<display:table name="applications" id="row" requestURI="actor/show.do" pagesize="5">
-			<display:column>
-			<b><spring:message code="actor.application.moment" /></b>: <jstl:out value="${applications.moment}"/> <br/>
-			<b><spring:message code="actor.application.description" /></b>: <jstl:out value="${applications.description}"/> <br/>
-			<b><spring:message code="actor.application.price" /></b>: <jstl:out value="${applications.price}"/> <br/>
-			</display:column>
-		</display:table>
-		</security:authorize> --%>
+</jstl:if>
 	<br/>
-	<a href="actor/edit.do"><spring:message code="actor.edit" /></a>
 		
 	<input type="button" name="back"
 		value="<spring:message code="actor.show.back" />"
