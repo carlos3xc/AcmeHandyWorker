@@ -17,7 +17,7 @@ import controllers.AbstractController;
 import domain.Warranty;
 
 @Controller
-@RequestMapping("warranty/administrator/")
+@RequestMapping("warranty/admin/")
 public class WarrantyAdministratorController extends AbstractController{
 
 public WarrantyAdministratorController(){
@@ -37,7 +37,7 @@ public WarrantyAdministratorController(){
 			
 			res = new ModelAndView("warranty/list");
 			res.addObject("warranties", warranties);
-			res.addObject("requestURI", "warranty/administrator/list.do");
+			res.addObject("requestURI", "warranty/admin/list.do");
 			return res; 
 		}
 

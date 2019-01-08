@@ -23,7 +23,7 @@
 					 				 -->
 									 
 
-<form:form action="warranty/administrator/edit.do" modelAttribute="warranty">
+<form:form action="warranty/admin/edit.do" modelAttribute="warranty">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />

@@ -76,6 +76,11 @@
 		<security:intercept-url pattern="/actor/admin/list.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')" />
 		
+		<security:intercept-url pattern="/warranty/admin/show.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/warranty/admin/list.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/warranty/admin/edit.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/warranty/admin/**" access="hasRole('ADMIN')" />
+		
 		<security:intercept-url pattern="/complaint/**" access="hasRole('HANDYWORKER')||hasRole('CUSTOMER')||hasRole('REFEREE')" />  		
 		
 		<security:intercept-url pattern="/complaint/handyWorker/list.do" access="hasRole('HANDYWORKER')" />

@@ -13,19 +13,19 @@
 									 	
 		<security:authorize access="hasRole('ADMIN')">
 	
-			<display:table name="warranties" id="row" requestURI="warranty/administrator/list.do" pagesize="5">
+			<display:table name="warranties" id="row" requestURI="warranty/admin/list.do" pagesize="5">
 				
 				<display:column titleKey="warranty.options">
-					<a href="warranty/administrator/show.do?warrantyId=${row.id}">
+					<a href="warranty/admin/show.do?warrantyId=${row.id}">
 						<spring:message	code="warranty.show" />
 					</a>
 					<br/>			
 					<jstl:if test="${row.isDraft == true}">
-						<a href="warranty/administrator/edit.do?warrantyId=${row.id}">
+						<a href="warranty/admin/edit.do?warrantyId=${row.id}">
 							<spring:message	code="warranty.edit" />
 						</a>
 						<br/>	
-						<a href="warranty/administrator/delete.do?warrantyId=${row.id}">
+						<a href="warranty/admin/delete.do?warrantyId=${row.id}">
 							<spring:message	code="warranty.delete" />
 						</a>
 						<br/>			
@@ -43,7 +43,7 @@
 							
 			</display:table>
 			
-		<a href="warranty/administrator/create.do"><spring:message code="warranty.create"/></a>
+		<a href="warranty/admin/create.do"><spring:message code="warranty.create"/></a>
 		
 		</security:authorize>
 		
