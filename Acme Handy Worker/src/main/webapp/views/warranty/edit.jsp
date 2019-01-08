@@ -51,6 +51,9 @@
 		<form:errors cssClass="error" path="laws" />
 		<br />
 		
+		<form:label path="isDraft">
+			<spring:message code="warranty.isDraft" />:
+		</form:label>
 		<form:select id="isDraft" path="isDraft">
 			<form:option label="True" value="True"/>
 			<form:option label="False" value="False"/>
