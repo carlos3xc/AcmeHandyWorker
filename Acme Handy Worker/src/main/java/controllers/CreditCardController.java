@@ -52,12 +52,25 @@ public class CreditCardController extends AbstractController{
 		}else{
 			try{
 				appService.save(app);
-				System.out.println("Aqui: "+app.getCreditCard().getBrand());
 				result = new ModelAndView("redirect:/customer/application/list.do");
 			}catch(Throwable oops){
 				result = createEditModelAndView(cc,"creditCard.commit.error");
 			}
 		}
+		
+		return result;
+	}
+	
+	// Cancel -------------------------------------------------------------------------------------------
+	
+	@RequestMapping(value="/edit", method=RequestMethod.POST, params="cancel")
+	public ModelAndView cancel() {
+		ModelAndView result;
+		Application app = appService.findOne(this.appId);
+		app.setStatus("PENDING");
+		
+		appService.save(app);
+		result = new ModelAndView("redirect:/customer/application/list.do");
 		
 		return result;
 	}
@@ -72,9 +85,10 @@ public class CreditCardController extends AbstractController{
 		
 		protected ModelAndView createEditModelAndView(CreditCard cc, String messageCode){
 			ModelAndView res;
+			
 			res= new ModelAndView("creditCard/create");
 			res.addObject("creditCard",cc);
-			res.addObject("message", messageCode);
+			res.addObject("message", messageCode);	
 			
 			return res;
 		}					

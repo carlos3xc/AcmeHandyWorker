@@ -27,9 +27,7 @@
 			
 			<display:column titleKey="application.status" property="status" />
 			
-			<jstl:if test="${row.status == 'ACCEPTED'}">
-				<display:column> <a href="workplan/create.do?appId=${row.id}"><spring:message code="application.workplan"/></a> </display:column>
-			</jstl:if>
+			
 		
 		</display:table>
 		
@@ -39,8 +37,12 @@
 	
 		<display:table name="applications" id="row" requestURI="customer/application/list.do" pagesize="5">
 			
-			<display:column> <a href="customer/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> </display:column>
-		
+			<display:column>
+				<jstl:if test="${row.status == 'PENDING'}">
+					 <a href="customer/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> 
+				</jstl:if>
+			</display:column>
+			
 			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
 			
 			<spring:message code="application.moment.format" var="formatMoment"/>

@@ -85,13 +85,6 @@
 		</form:select>  
 		<form:errors cssClass="error" path="status" />
 		<br />
-		
-		<form:label path="customerComment">
-			<spring:message code="application.comment" />:
-		</form:label>
-		<form:input path="customerComment" />
-		<form:errors cssClass="error" path="customerComment" />
-		<br />
 
 		
 		<input type="submit" name="save" value="<spring:message code="application.next" />" />

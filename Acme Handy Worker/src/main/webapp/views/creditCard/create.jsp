@@ -66,10 +66,7 @@
 		
 		<input type="submit" name="save" value="<spring:message code="application.save" />" />
 					
-		<input type="button" name="cancel"
-			value="<spring:message code="application.cancel" />"
-			onclick="javascript: window.location.replace('')" />
-		<br />
+		<input type="submit" name="cancel" value="<spring:message code="application.cancel" />" /><br/>
 		
 	</form:form>
 	

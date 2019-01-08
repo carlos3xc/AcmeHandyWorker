@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,7 +73,6 @@ public class CustomerApplicationController extends AbstractController {
 		Application app;
 		
 		app = appService.findOne(appId);
-		Assert.notNull(app);
 		
 		result = createEditModelAndView(app);
 		
@@ -86,17 +84,57 @@ public class CustomerApplicationController extends AbstractController {
 	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 	public ModelAndView save(@Valid Application app, BindingResult binding) {
 		ModelAndView result;
-
+		Application saved;
 		if(binding.hasErrors()){
 			result = createEditModelAndView(app);
 		}else{
 			try{
-				appService.save(app);				
-				result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
+				saved = appService.save(app);
+				if(saved.getStatus().equals("ACCEPTED")){
+					
+					result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
+				}else{
+					result = new ModelAndView("redirect:/customer/application/edit.do?appId=" + app.getId());
+				}
+				
 			}catch(Throwable oops){
 				result = createEditModelAndView(app,"application.commit.error");
 			}
 		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/edit", method=RequestMethod.POST, params="saveAll")
+	public ModelAndView saveAll(@Valid Application app, BindingResult binding) {
+		ModelAndView result;
+		if(binding.hasErrors()){
+			result = createEditModelAndView(app);
+		}else{
+			try{
+				appService.save(app);
+				result = new ModelAndView("redirect:/customer/application/list.do");
+			}catch(Throwable oops){
+				result = createEditModelAndView(app,"application.commit.error");
+			}
+		}
+		
+		return result;
+	}
+	
+	// Cancel -----------------------------------------------------------------
+	
+	@RequestMapping(value="/edit", method=RequestMethod.POST, params="cancel")
+	public ModelAndView cancel(@Valid Application app) {
+		ModelAndView result;
+		app.setStatus("PENDING");
+		
+			try{
+				appService.save(app);
+				result = new ModelAndView("redirect:/customer/application/list.do");
+			}catch(Throwable oops){
+				result = createEditModelAndView(app,"application.commit.error");
+			}
 		
 		return result;
 	}
@@ -115,34 +153,22 @@ public class CustomerApplicationController extends AbstractController {
 		ModelAndView result;
 		CreditCard cc;
 		cc = new CreditCard();
+		System.out.println(app.getStatus());
+		if(app.getStatus().equals("REJECTED")){
+			
+			result = new ModelAndView("application/comment");
+			
+			result.addObject("application",app);
+			result.addObject("menssage",msgCode);
+		}else{
 		
-		result = new ModelAndView("application/edit");
-	
-		result.addObject("application",app);
-		result.addObject("creditCard",cc);
-		result.addObject("menssage",msgCode);
+			result = new ModelAndView("application/edit");
 		
+			result.addObject("application",app);
+			result.addObject("creditCard",cc);
+			result.addObject("menssage",msgCode);
+		}
 		return result;
 	}
-	
-//	@RequestMapping(value="/next", method=RequestMethod.GET)
-//	public ModelAndView next(@Valid Application app, BindingResult binding) {
-//		ModelAndView result;
-//
-//		if(binding.hasErrors()){
-//			result = createEditModelAndView(app);
-//		}else{
-//			try{
-//				appService.save(app);
-//				result = new ModelAndView("redirect:editCreditCard.do");
-//			}catch(Throwable oops){
-//				result = createEditModelAndView(app,"application.commit.error");
-//			}
-//		}
-//		
-//		return result;
-//	}
-	
-	
 	
 }
