@@ -73,7 +73,7 @@
 						</jstl:if>
 					</jstl:forEach>	
 					
-					<a href="actor/profile.do?actorId=${row.customer.id}">
+					<a href="actor/show.do?actorId=${row.customer.id}">
 						<spring:message code="task.publisher"/>
 					</a><br/>
 								

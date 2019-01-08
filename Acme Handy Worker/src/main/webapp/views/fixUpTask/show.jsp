@@ -28,7 +28,7 @@
 					<b><spring:message code="task.category"/>: </b> <jstl:out value="${fixUpTask.category.name}"/><br/>
 					<b><spring:message code="task.moment"/>: </b> <fmt:formatDate value="${fixUpTask.moment}" pattern="${momentFormat}" /> <br/>
 					<b><spring:message code="task.maxPrice"/>: </b> <jstl:out value="${fixUpTask.maxPrice}"/><br/>
-					<b><spring:message code="task.publisher"/>: </b> <a href="actor/profile.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fullName}"/></a>
+					<b><spring:message code="task.publisher"/>: </b> <a href="actor/show.do?actorId=${fixUpTask.customer.id}"><jstl:out value="${fullName}"/></a>
 				</div>		
 				<br/>
 				
@@ -64,7 +64,7 @@
 			<display:column property="endMoment" titleKey="task.endMoment" format="{0,date,${formatMoment} }"/>
 
 			<display:column titleKey="task.workplan.handyWorker">
-				<a href="actor/profile.do?actorId=${row.handyWorker.id}"><jstl:out value="${row.handyWorker.userAccount.username}"/></a>
+				<a href="actor/show.do?actorId=${row.handyWorker.id}"><jstl:out value="${row.handyWorker.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 		<jstl:if test="${app}">
@@ -81,7 +81,7 @@
 			<display:column property="moment" titleKey="task.moment" />
 
 			<display:column titleKey="task.complaint.customer">
-				<a href="actor/profile.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
+				<a href="actor/actor.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 		

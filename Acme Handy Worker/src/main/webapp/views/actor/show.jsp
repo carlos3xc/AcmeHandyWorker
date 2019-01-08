@@ -8,20 +8,16 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 								
-	 <display:table name="actor" id="row" requestURI="actor/show.do">
-		<display:column>					
+	<div>					
 		<b><spring:message code="actor.name"/></b>: <jstl:out value="${actor.name}"/> <br/>
 		<b><spring:message code="actor.middleName"/></b>: <jstl:out value="${actor.middleName}"/> <br/>	 
 		<b><spring:message code="actor.surname"/></b>: <jstl:out value="${actor.surname}"/> <br/>		 				 
 		<b><spring:message code="actor.photo"/></b>: <jstl:out value="${actor.photo}"/> <br/>				 				 
 		<b><spring:message code="actor.email"/></b>: <jstl:out value="${actor.email}"/> <br/>			 				 
 		<b><spring:message code="actor.phone"/></b>: <jstl:out value="${actor.phone}"/> <br/>				 
-		<b><spring:message code="actor.username"/></b>: <jstl:out value="${actor.userAccount.username}"/> <br/>				 				 
-		<b><spring:message code="actor.authority"/></b>: <jstl:out value="${actor.userAccount.authorities}"/> <br/>
-		</display:column>
-		</display:table>
-		
-		<spring:message code="actor.socialProfile"/>:<br/>
+	</div>
+	
+		<h3><spring:message code="actor.socialProfile"/>:</h3>
 		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
 		    <display:column>
 			<b><spring:message code="actor.socialProfile.nick"/></b>: <jstl:out value="${actor.socialProfiles.nick}"/> <br/>
@@ -51,8 +47,8 @@
 			</display:column>
 		</display:table>
 		</security:authorize> --%>
-	
-	<h4><a href="actor/edit.do"><spring:message code="actor.edit" /></a></h4>
+	<br/>
+	<a href="actor/edit.do"><spring:message code="actor.edit" /></a>
 		
 	<input type="button" name="back"
 		value="<spring:message code="actor.show.back" />"

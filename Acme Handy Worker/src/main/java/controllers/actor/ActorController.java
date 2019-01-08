@@ -138,18 +138,14 @@ public class ActorController extends AbstractController {
 		authority5.setAuthority("ADMIN");
 
 		result = new ModelAndView("actor/show");
-
 		if (actorId != null) {
 			Actor actor = actorService.findOne(actorId);
 			result.addObject("actor", actor);
-		}
+		}else{
+			Actor actor = actorService.getByUserAccountId(LoginService.getPrincipal());
+			Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
 
-		Actor actor = actorService.getByUserAccountId(LoginService
-				.getPrincipal());
-
-		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
-
-		if (actor.getUserAccount().getAuthorities().equals(authority)) {
+		if (actor.getUserAccount().getAuthorities().contains(authority)) {
 			Customer customer = (Customer) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -161,7 +157,7 @@ public class ActorController extends AbstractController {
 			result.addObject("actor", customer);
 		}
 
-		if (actor.getUserAccount().getAuthorities().equals(authority2)) {
+		if (actor.getUserAccount().getAuthorities().contains(authority2)) {
 			HandyWorker handyWorker = (HandyWorker) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -176,7 +172,7 @@ public class ActorController extends AbstractController {
 			result.addObject("actor", handyWorker);
 		}
 
-		if (actor.getUserAccount().getAuthorities().equals(authority3)) {
+		if (actor.getUserAccount().getAuthorities().contains(authority3)) {
 			Sponsor sponsor = (Sponsor) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -185,7 +181,7 @@ public class ActorController extends AbstractController {
 			result.addObject("actor", sponsor);
 		}
 
-		if (actor.getUserAccount().getAuthorities().equals(authority4)) {
+		if (actor.getUserAccount().getAuthorities().contains(authority4)) {
 			Referee referee = (Referee) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -194,7 +190,7 @@ public class ActorController extends AbstractController {
 			result.addObject("actor", referee);
 		}
 
-		if (actor.getUserAccount().getAuthorities().equals(authority5)) {
+		if (actor.getUserAccount().getAuthorities().contains(authority5)) {
 			Administrator administrator = (Administrator) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
 
@@ -202,9 +198,8 @@ public class ActorController extends AbstractController {
 
 			result.addObject("actor", administrator);
 		}
-
-		result.addObject("actor", actor);
 		result.addObject("socialProfiles", socialProfiles);
+		}
 		result.addObject("requestURI", "actor/show.do");
 
 		return result;

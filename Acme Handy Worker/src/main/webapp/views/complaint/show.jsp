@@ -61,7 +61,7 @@
 			</display:column>
 			
 			<display:column titleKey="complaint.referee">
-				<a href="actor/profile.do?actorId=${row.referee.id}"><jstl:out value="${row.referee.userAccount.username}"/></a>
+				<a href="actor/show.do?actorId=${row.referee.id}"><jstl:out value="${row.referee.userAccount.username}"/></a>
 			</display:column>
 		</display:table>
 		
