@@ -142,8 +142,10 @@ public class ActorController extends AbstractController {
 		result = new ModelAndView("actor/show");
 		if (actorId != null) {
 			Actor actor = actorService.findOne(actorId);
+			Boolean logged = false;
+			if(LoginService.getPrincipal().equals(actor.getUserAccount())) logged=true;
 			result.addObject("actor", actor);
-			
+			result.addObject("logged",logged);
 			if(LoginService.getPrincipal().getAuthorities().contains(authority2) &&
 					actor.getUserAccount().getAuthorities().contains(authority)){ //Si el logeado es hw y vemos el perfil de customer
 				custProfileHw = true;
@@ -155,6 +157,8 @@ public class ActorController extends AbstractController {
 		}else{
 			Actor actor = actorService.getByUserAccountId(LoginService.getPrincipal());
 			Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
+			Boolean logged = true;
+			result.addObject("logged",logged);
 
 		if (actor.getUserAccount().getAuthorities().contains(authority)) {
 			custProfileHw=true;
@@ -228,59 +232,7 @@ public class ActorController extends AbstractController {
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
 
-		// Diferentes autoridades:
-		Authority authority = new Authority();
-		authority.setAuthority("CUSTOMER");
-
-		Authority authority2 = new Authority();
-		authority2.setAuthority("HANDYWORKER");
-
-		Authority authority3 = new Authority();
-		authority3.setAuthority("SPONSOR");
-
-		Authority authority4 = new Authority();
-		authority4.setAuthority("REFEREE");
-
-		Authority authority5 = new Authority();
-		authority5.setAuthority("ADMIN");
-
-		Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
-
-		if (actor.getUserAccount().getAuthorities().equals(authority)) {
-			Customer customer = (Customer) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-
-			result = createEditModelAndView(customer);
-		}
-
-		else if (actor.getUserAccount().getAuthorities().equals(authority2)) {
-			HandyWorker handyWorker = (HandyWorker) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-
-			result = createEditModelAndView(handyWorker);
-
-		}
-
-		else if (actor.getUserAccount().getAuthorities().equals(authority3)) {
-			Sponsor sponsor = (Sponsor) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-			result = createEditModelAndView(sponsor);
-		}
-
-		else if (actor.getUserAccount().getAuthorities().equals(authority4)) {
-			Referee referee = (Referee) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-			result = createEditModelAndView(referee);
-		}
-
-		else if (actor.getUserAccount().getAuthorities().equals(authority5)) {
-			Administrator administrator = (Administrator) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-			result = createEditModelAndView(administrator);
-		}
-
 		result = createEditModelAndView(actor);
-		result.addObject("socialProfiles", socialProfiles);
 
 		return result;
 	}
@@ -292,19 +244,26 @@ public class ActorController extends AbstractController {
 				final BindingResult binding) {
 
 			ModelAndView result;
+			Actor actorDB = actorService.findOne(actor.getId());
 
-			// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			// String pass = encoder.encodePassword(administrator.getUserAccount()
-			// .getPassword(), null);
-			// administrator.getUserAccount().setPassword(pass);
+			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			 String pass = encoder.encodePassword(actor.getUserAccount()
+			 .getPassword(), null);
+			 actor.getUserAccount().setPassword(pass);
 
 			if (binding.hasErrors()) {
 				System.out.println(binding.getFieldErrors());
 				result = this.createEditModelAndView(actor);
 			} else
 				try {
+					
 					actorService.save(actor);
-					result = new ModelAndView("redirect:show.do");
+					if(actorDB.getUserAccount().getUsername() != actor.getUserAccount().getUsername() ||
+							actorDB.getUserAccount().getPassword() != actorDB.getUserAccount().getPassword())
+					result = new ModelAndView("j_spring_security_logout");
+					else
+						result = new ModelAndView("redirect:show.do");
+
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(actor,
 							"actor.commit.error");

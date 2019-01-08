@@ -18,6 +18,7 @@
 	<form:hidden path="isSuspicious" />
 	<form:hidden path="isBanned" />
 	<form:hidden path="userAccount.authorities" />
+	<form:hidden path="socialProfiles" />
 
 	<form:label path="name">
 		<spring:message code="actor.name" />:
@@ -95,29 +96,6 @@
 	<form:errors cssClass="error" path="userAccount.password" />
 	<br />
 
-	<h3>
-		<spring:message code="actor.socialProfile" />
-	</h3>
-	<form:label path="${socialProfile.nick}">
-		<spring:message code="actor.socialProfile.nick" />:
-	</form:label>
-	<form:input path="${socialProfile.nick}" />
-	<form:errors cssClass="error" path="${socialProfile.nick}" />
-	<br />
-
-	<form:label path="${socialProfile.socialNetwork}">
-		<spring:message code="actor.socialProfile.socialNetwork" />:
-	</form:label>
-	<form:input path="${socialProfile.socialNetwork}" />
-	<form:errors cssClass="error" path="${socialProfile.socialNetwork}" />
-	<br />
-
-	<form:label path="${socialProfile.link}">
-		<spring:message code="actor.socialProfile.link" />:
-	</form:label>
-	<form:input path="${socialProfile.link}" />
-	<form:errors cssClass="error" path="${socialProfile.link}" />
-	<br />
 
 	<input type="submit" name="save"
 		value="<spring:message code="actor.save" />" />

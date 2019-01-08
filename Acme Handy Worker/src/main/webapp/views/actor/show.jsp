@@ -17,8 +17,10 @@
 		<b><spring:message code="actor.phone"/></b>: <jstl:out value="${actor.phone}"/> <br/>				 
 	</div>
 	<br/>
+		<jstl:if test="${logged}">
 		<b><a href="actor/edit.do"><spring:message code="actor.edit" /></a></b>
 	<br/>
+		</jstl:if>
 	
 		<h3><spring:message code="actor.socialProfile"/>:</h3>
 		<display:table name="socialProfiles" id="row" requestURI="actor/show.do" pagesize="5">
