@@ -46,7 +46,7 @@
 		<form:label path="pictures">
 			<spring:message code="section.pictures" />:
 		</form:label>
-		<form:input path="pictures" />
+		<form:textarea path="pictures" />
 		<form:errors cssClass="error" path="pictures" />
 		<br />
 

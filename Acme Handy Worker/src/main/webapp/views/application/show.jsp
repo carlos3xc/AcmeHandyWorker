@@ -29,8 +29,8 @@
 		</display:table>
 		
 	<input type="button" name="back"
-		value="<spring:message code="task.show.back" />"
-		onclick="javascript: window.location.replace('')" />
+		value="<spring:message code="application.back" />"
+		onclick="javascript: window.location.replace('handyWorker/application/list.do')" />
 	<br />
 		
 </security:authorize>			

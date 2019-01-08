@@ -61,3 +61,21 @@
 	</display:table>
 
 </security:authorize>
+
+<security:authorize access="hasRole('HANDYWORKER')">
+
+	<input type="button" name="back"
+		value="<spring:message code="application.back" />"
+		onclick="javascript: window.location.replace('tutorial/handyWorker/list.do')" />
+	<br />
+	
+</security:authorize>
+
+<security:authorize access="isAnonymous()">
+
+	<input type="button" name="back"
+		value="<spring:message code="application.back" />"
+		onclick="javascript: window.location.replace('tutorial/list.do')" />
+	<br />
+	
+</security:authorize>

@@ -14,8 +14,9 @@
 	
 		<display:table name="applications" id="row" requestURI="handyWorker/application/list.do" pagesize="5">
 			
-			<display:column> <a href="handyWorker/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> <br/>
-							<a href="handyWorker/application/show.do?appId=${row.id}"><spring:message code="application.show"/></a> </display:column>
+			<display:column> 
+				<a href="handyWorker/application/show.do?appId=${row.id}"><spring:message code="application.show"/></a> 
+			</display:column>
 		
 			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
 			

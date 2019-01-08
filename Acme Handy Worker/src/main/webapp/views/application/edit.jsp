@@ -18,7 +18,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<!-- 
+
 <security:authorize access="hasRole('HANDYWORKER')">
 
 	<form:form action="handyWorker/application/edit.do" modelAttribute="application">
@@ -58,7 +58,7 @@
 	
 	</form:form>
 	
-</security:authorize> -->
+</security:authorize>
 
 <security:authorize access="hasRole('CUSTOMER')">
 
