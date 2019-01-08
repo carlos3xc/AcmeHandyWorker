@@ -62,7 +62,6 @@ public class CustomerService {
 		UserAccount ua;
 		UserAccount savedUa;
 		Collection<Customer> customers;
-		
 		if(c.getId()!=0){
 			UserAccount userAccount = LoginService.getPrincipal();
 			Assert.isTrue(userAccount.equals(c.getUserAccount()));

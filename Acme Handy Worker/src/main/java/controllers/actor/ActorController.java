@@ -231,6 +231,8 @@ public class ActorController extends AbstractController {
 
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
+		
+		System.out.println("edit " + actor.getUserAccount());
 
 		result = createEditModelAndView(actor);
 
@@ -242,7 +244,6 @@ public class ActorController extends AbstractController {
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 		public ModelAndView save(@Valid final Actor actor,
 				final BindingResult binding) {
-
 			ModelAndView result;
 			Actor actorDB = actorService.findOne(actor.getId());
 
@@ -256,8 +257,12 @@ public class ActorController extends AbstractController {
 				result = this.createEditModelAndView(actor);
 			} else
 				try {
-					
-					actorService.save(actor);
+					if(customerService.findOne(actor.getId())!=null) customerService.save(customerService.findOne(actor.getId()));
+					if(handyWorkerService.findOne(actor.getId())!=null) handyWorkerService.save(handyWorkerService.findOne(actor.getId()));
+					if(refereeService.findOne(actor.getId())!=null) refereeService.save(refereeService.findOne(actor.getId()));
+					if(sponsorService.findOne(actor.getId())!=null) sponsorService.save(sponsorService.findOne(actor.getId()));
+					if(administratorService.findOne(actor.getId())!=null) administratorService.save(administratorService.findOne(actor.getId()));
+
 					if(actorDB.getUserAccount().getUsername() != actor.getUserAccount().getUsername() ||
 							actorDB.getUserAccount().getPassword() != actorDB.getUserAccount().getPassword())
 					result = new ModelAndView("j_spring_security_logout");
@@ -278,19 +283,35 @@ public class ActorController extends AbstractController {
 			final BindingResult binding) {
 
 		ModelAndView result;
+		Administrator administratorDB = administratorService.findOne(administrator.getId());
+		Boolean uaChange = false;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		String pass = encoder.encodePassword(administrator.getUserAccount().getPassword(), null);
 
-		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		// String pass = encoder.encodePassword(administrator.getUserAccount()
-		// .getPassword(), null);
-		// administrator.getUserAccount().setPassword(pass);
+		if(!administrator.getUserAccount().getUsername().equals(administratorDB.getUserAccount().getUsername()) ||
+				!pass.equals(administratorDB.getUserAccount().getPassword())){
+			uaChange = true;
+			String a = administrator.getUserAccount().getUsername();
+			administrator.setUserAccount(administratorDB.getUserAccount());
+			administrator.getUserAccount().setUsername(a);
+			administrator.getUserAccount().setPassword(pass);
+		}else{
+			administrator.setUserAccount(administratorDB.getUserAccount());
+		}
+		
+		
 
+
+		
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(administrator);
 		} else
 			try {
 				administratorService.save(administrator);
-				result = new ModelAndView("redirect:show.do");
+				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
+				else result = new ModelAndView("redirect:show.do");
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(administrator,
 						"actor.commit.error");
@@ -302,20 +323,37 @@ public class ActorController extends AbstractController {
 	public ModelAndView save(@Valid final HandyWorker handyWorker,
 			final BindingResult binding) {
 
+
 		ModelAndView result;
+		HandyWorker handyWorkerDB = handyWorkerService.findOne(handyWorker.getId());
+		Boolean uaChange = false;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		String pass = encoder.encodePassword(handyWorker.getUserAccount().getPassword(), null);
 
-		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		// String pass = encoder.encodePassword(handyWorker.getUserAccount()
-		// .getPassword(), null);
-		// handyWorker.getUserAccount().setPassword(pass);
+		if(!handyWorker.getUserAccount().getUsername().equals(handyWorkerDB.getUserAccount().getUsername()) ||
+				!pass.equals(handyWorkerDB.getUserAccount().getPassword())){
+			uaChange = true;
+			String a = handyWorker.getUserAccount().getUsername();
+			handyWorker.setUserAccount(handyWorkerDB.getUserAccount());
+			handyWorker.getUserAccount().setUsername(a);
+			handyWorker.getUserAccount().setPassword(pass);
+		}else{
+			handyWorker.setUserAccount(handyWorkerDB.getUserAccount());
+		}
+		
+		
 
+
+		
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(handyWorker);
 		} else
 			try {
 				handyWorkerService.save(handyWorker);
-				result = new ModelAndView("redirect:show.do");
+				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
+				else result = new ModelAndView("redirect:show.do");
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(handyWorker,
 						"actor.commit.error");
@@ -323,24 +361,41 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCustomer")
 	public ModelAndView save(@Valid final Customer customer,
 			final BindingResult binding) {
 
 		ModelAndView result;
+		Customer customerDB = customerService.findOne(customer.getId());
+		Boolean uaChange = false;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		String pass = encoder.encodePassword(customer.getUserAccount().getPassword(), null);
 
-		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		// String pass = encoder.encodePassword(customer.getUserAccount()
-		// .getPassword(), null);
-		// customer.getUserAccount().setPassword(pass);
+		if(!customer.getUserAccount().getUsername().equals(customerDB.getUserAccount().getUsername()) ||
+				!pass.equals(customerDB.getUserAccount().getPassword())){
+			uaChange = true;
+			String a = customer.getUserAccount().getUsername();
+			customer.setUserAccount(customerDB.getUserAccount());
+			customer.getUserAccount().setUsername(a);
+			customer.getUserAccount().setPassword(pass);
+		}else{
+			customer.setUserAccount(customerDB.getUserAccount());
+		}
+		
+		
 
+
+		
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(customer);
 		} else
 			try {
 				customerService.save(customer);
-				result = new ModelAndView("redirect:show.do");
+				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
+				else result = new ModelAndView("redirect:show.do");
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(customer,
 						"actor.commit.error");
@@ -353,19 +408,35 @@ public class ActorController extends AbstractController {
 			final BindingResult binding) {
 
 		ModelAndView result;
+		Referee refereeDB = refereeService.findOne(referee.getId());
+		Boolean uaChange = false;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		String pass = encoder.encodePassword(referee.getUserAccount().getPassword(), null);
 
-		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		// String pass = encoder.encodePassword(referee.getUserAccount()
-		// .getPassword(), null);
-		// referee.getUserAccount().setPassword(pass);
+		if(!referee.getUserAccount().getUsername().equals(refereeDB.getUserAccount().getUsername()) ||
+				!pass.equals(refereeDB.getUserAccount().getPassword())){
+			uaChange = true;
+			String a = referee.getUserAccount().getUsername();
+			referee.setUserAccount(refereeDB.getUserAccount());
+			referee.getUserAccount().setUsername(a);
+			referee.getUserAccount().setPassword(pass);
+		}else{
+			referee.setUserAccount(refereeDB.getUserAccount());
+		}
+		
+		
 
+
+		
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(referee);
 		} else
 			try {
 				refereeService.save(referee);
-				result = new ModelAndView("redirect:show.do");
+				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
+				else result = new ModelAndView("redirect:show.do");
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(referee,
 						"actor.commit.error");
@@ -378,19 +449,35 @@ public class ActorController extends AbstractController {
 			final BindingResult binding) {
 
 		ModelAndView result;
+		Sponsor sponsorDB = sponsorService.findOne(sponsor.getId());
+		Boolean uaChange = false;
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		String pass = encoder.encodePassword(sponsor.getUserAccount().getPassword(), null);
 
-		// Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-		// String pass = encoder.encodePassword(sponsor.getUserAccount()
-		// .getPassword(), null);
-		// sponsor.getUserAccount().setPassword(pass);
+		if(!sponsor.getUserAccount().getUsername().equals(sponsorDB.getUserAccount().getUsername()) ||
+				!pass.equals(sponsorDB.getUserAccount().getPassword())){
+			uaChange = true;
+			String a = sponsor.getUserAccount().getUsername();
+			sponsor.setUserAccount(sponsorDB.getUserAccount());
+			sponsor.getUserAccount().setUsername(a);
+			sponsor.getUserAccount().setPassword(pass);
+		}else{
+			sponsor.setUserAccount(sponsorDB.getUserAccount());
+		}
+		
+		
 
+
+		
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(sponsor);
 		} else
 			try {
 				sponsorService.save(sponsor);
-				result = new ModelAndView("redirect:show.do");
+				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
+				else result = new ModelAndView("redirect:show.do");
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(sponsor,
 						"actor.commit.error");
@@ -408,62 +495,41 @@ public class ActorController extends AbstractController {
 			final String message) {
 
 		ModelAndView result;
-
-		Collection<SocialProfile> socialProfiles;
-		UserAccount userAccount;
-		Boolean isSuspicious;
-		Boolean isBanned;
-
-		socialProfiles = actor.getSocialProfiles();
-		userAccount = actor.getUserAccount();
-		isSuspicious = actor.getIsSuspicious();
-		isBanned = actor.getIsBanned();
-
-		Authority authority = new Authority();
-		authority.setAuthority("CUSTOMER");
-
-		Authority authority2 = new Authority();
-		authority2.setAuthority("HANDYWORKER");
-		
-		Authority authority3 = new Authority();
-		authority3.setAuthority("SPONSOR");
-
-		Authority authority4 = new Authority();
-		authority4.setAuthority("REFEREE");
-
-		Authority authority5 = new Authority();
-		authority5.setAuthority("ADMIN");
+		String type = "";
 
 		result = new ModelAndView("actor/edit");
 
-		if (actor.getUserAccount().getAuthorities().equals(authority)) {
-			Customer customer = (Customer) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
-
-			result.addObject("fixUpTasks", fixUpTasks);
-			result.addObject("actor", customer);
+		if(customerService.findOne(actor.getId())!=null){
+			Customer c = customerService.save(customerService.findOne(actor.getId()));
+			type="customer";
+			System.out.println(c.getFixUpTasks());
+			result.addObject("type",type);
+			result.addObject("actor",c);
 		}
-
-		if (actor.getUserAccount().getAuthorities().equals(authority2)) {
-			HandyWorker handyWorker = (HandyWorker) actorService
-					.getByUserAccountId(LoginService.getPrincipal());
-
-			Collection<Application> applications = new ArrayList<Application>();
-			for (Application app : applications) {
-				if (app.getHandyWorker().equals(handyWorker)) {
-					applications.add(app);
-					result.addObject("applications", applications);
-				}
-			}
+		if(handyWorkerService.findOne(actor.getId())!=null){
+			HandyWorker hw = handyWorkerService.save(handyWorkerService.findOne(actor.getId()));
+			type="handyworker";
+			result.addObject("type",type);
+			result.addObject("actor",hw);
 		}
-
-		result.addObject("actor", actor);
-		result.addObject("socialProfiles", socialProfiles);
-		result.addObject("userAccount", userAccount);
-		result.addObject("isSuspicious", isSuspicious);
-		result.addObject("isBanned", isBanned);
-
+		if(refereeService.findOne(actor.getId())!=null){ 
+			Referee r = refereeService.save(refereeService.findOne(actor.getId()));
+			type="referee";
+			result.addObject("type",type);
+			result.addObject("actor",r);
+		}
+		if(sponsorService.findOne(actor.getId())!=null){
+			Sponsor s = sponsorService.save(sponsorService.findOne(actor.getId()));
+			type="sponsor";
+			result.addObject("type",type);
+			result.addObject("actor",s);
+		}
+		if(administratorService.findOne(actor.getId())!=null){
+			Administrator a = administratorService.save(administratorService.findOne(actor.getId()));
+			type="administrator";
+			result.addObject("type",type);
+			result.addObject("actor",a);
+		}
 		result.addObject("message", message);
 
 		return result;

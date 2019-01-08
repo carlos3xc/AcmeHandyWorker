@@ -19,6 +19,9 @@
 	<form:hidden path="isBanned" />
 	<form:hidden path="userAccount.authorities" />
 	<form:hidden path="socialProfiles" />
+	<jstl:if test="${type=='customer'}">
+		<form:hidden path="fixUpTasks"/>
+	</jstl:if>
 
 	<form:label path="name">
 		<spring:message code="actor.name" />:
@@ -81,6 +84,8 @@
 	<h3>
 		<spring:message code="actor.userAccount" />
 	</h3>
+	
+	<div style="color:red;"><b><spring:message code="actor.useraccount.change"/></b></div>
 
 	<form:label path="userAccount.username">
 		<spring:message code="actor.username" />:
@@ -92,14 +97,25 @@
 	<form:label path="userAccount.password">
 		<spring:message code="actor.password" />:
 	</form:label>
-	<form:password path="userAccount.password" />
+	<form:password path="userAccount.password" /> <div style="color:red;"><spring:message code="actor.password.again"/></div>
 	<form:errors cssClass="error" path="userAccount.password" />
 	<br />
 
-
-	<input type="submit" name="save"
-		value="<spring:message code="actor.save" />" />
-
+	<jstl:if test="${type=='customer'}">
+		<input type="submit" name="saveCustomer" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='handyworker'}">
+		<input type="submit" name="saveHandyWorker" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='referee'}">
+		<input type="submit" name="saveReferee" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='sponsor'}">
+		<input type="submit" name="saveSponsor" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='administrator'}">
+		<input type="submit" name="saveAdministrator" value="<spring:message code="actor.save" />" />
+	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="actor.cancel" />"
 		onclick="javascript: window.location.replace('actor.show.do')" />
