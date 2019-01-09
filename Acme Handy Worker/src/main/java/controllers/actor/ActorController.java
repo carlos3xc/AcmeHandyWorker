@@ -2,6 +2,7 @@ package controllers.actor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -20,10 +21,13 @@ import security.UserAccount;
 import services.ActorService;
 import services.AdministratorService;
 import services.ApplicationService;
+import services.CustomerEndorsementService;
 import services.CustomerService;
+import services.HandyWorkerEndorsementService;
 import services.HandyWorkerService;
 import services.RefereeService;
 import services.SponsorService;
+import services.TutorialService;
 
 import controllers.AbstractController;
 import domain.Actor;
@@ -35,6 +39,7 @@ import domain.HandyWorker;
 import domain.Referee;
 import domain.SocialProfile;
 import domain.Sponsor;
+import domain.Tutorial;
 
 @Controller
 @RequestMapping("/actor")
@@ -62,7 +67,13 @@ public class ActorController extends AbstractController {
 	private CustomerService customerService;
 
 	@Autowired
-	private ApplicationService applicationService;
+	private TutorialService tutorialService;
+	
+	@Autowired
+	private HandyWorkerEndorsementService handyWorkerEndorsementService;
+	
+	@Autowired
+	private CustomerEndorsementService customerEndorsementService;
 
 	// Constructors
 	// ---------------------------------------------------------------
@@ -138,7 +149,8 @@ public class ActorController extends AbstractController {
 		authority5.setAuthority("ADMIN");
 		
 		Boolean custProfileHw = false;
-
+		Double score = 0d;
+		Boolean hw = false,cust=false;
 		result = new ModelAndView("actor/show");
 		if (actorId != null) {
 			Actor actor = actorService.findOne(actorId);
@@ -146,6 +158,22 @@ public class ActorController extends AbstractController {
 			if(LoginService.getPrincipal().equals(actor.getUserAccount())) logged=true;
 			result.addObject("actor", actor);
 			result.addObject("logged",logged);
+			
+			if(actor.getUserAccount().getAuthorities().contains(authority)){
+				cust=true;
+				Customer customer = customerService.findOne(actor.getId()); 
+				Map<Customer, Double> scoreC = customerEndorsementService.getScoreCustomerEndorsement();
+				 score = scoreC.get(customer);
+			}
+			if(actor.getUserAccount().getAuthorities().contains(authority2)){
+				hw=true;
+				HandyWorker handyw = handyWorkerService.findOne(actor.getId()); 
+				Map<HandyWorker, Double> scoreC = handyWorkerEndorsementService.getScoreHandyWorkerEndorsement();
+				score = scoreC.get(handyw);
+				Collection<Tutorial> tutorials = tutorialService.tutorialsByHandyWorker(actor.getId());
+				result.addObject("tutorials", tutorials);
+			}
+	
 			if(LoginService.getPrincipal().getAuthorities().contains(authority2) &&
 					actor.getUserAccount().getAuthorities().contains(authority)){ //Si el logeado es hw y vemos el perfil de customer
 				custProfileHw = true;
@@ -164,11 +192,12 @@ public class ActorController extends AbstractController {
 			custProfileHw=true;
 			Customer customer = (Customer) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
-
+			cust= true;
 			customer = customerService.findOne(actor.getId());
 
 			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
-
+			Map<Customer, Double> scoreC = customerEndorsementService.getScoreCustomerEndorsement();
+			 score = scoreC.get(customer);
 			result.addObject("fixUpTasks", fixUpTasks);
 			result.addObject("custProfileHw",custProfileHw);
 			result.addObject("actor", customer);
@@ -177,15 +206,14 @@ public class ActorController extends AbstractController {
 		if (actor.getUserAccount().getAuthorities().contains(authority2)) {
 			HandyWorker handyWorker = (HandyWorker) actorService
 					.getByUserAccountId(LoginService.getPrincipal());
-
+			hw=true;
 			handyWorker = handyWorkerService.findOne(actor.getId());
-
+			Map<HandyWorker, Double> scoreHW = handyWorkerEndorsementService.getScoreHandyWorkerEndorsement();
+			score = scoreHW.get(handyWorker);
 			int handyWorkerId = handyWorker.getId();
 
-			Collection<Application> applications = applicationService
-					.applicationByHandyWorker(handyWorkerId);
-
-			result.addObject("applications", applications);
+			Collection<Tutorial> tutorials = tutorialService.tutorialsByHandyWorker(handyWorkerId);
+			result.addObject("tutorials", tutorials);
 			result.addObject("actor", handyWorker);
 		}
 
@@ -217,6 +245,9 @@ public class ActorController extends AbstractController {
 		}
 		result.addObject("socialProfiles", socialProfiles);
 		}
+		result.addObject("score",score);
+		result.addObject("hw",hw);
+		result.addObject("cust",cust);
 		result.addObject("requestURI", "actor/show.do");
 
 		return result;
@@ -232,7 +263,6 @@ public class ActorController extends AbstractController {
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
 		
-		System.out.println("edit " + actor.getUserAccount());
 
 		result = createEditModelAndView(actor);
 
@@ -502,7 +532,6 @@ public class ActorController extends AbstractController {
 		if(customerService.findOne(actor.getId())!=null){
 			Customer c = customerService.save(customerService.findOne(actor.getId()));
 			type="customer";
-			System.out.println(c.getFixUpTasks());
 			result.addObject("type",type);
 			result.addObject("actor",c);
 		}

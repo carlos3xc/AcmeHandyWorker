@@ -14,7 +14,10 @@
 		<b><spring:message code="actor.surname"/></b>: <jstl:out value="${actor.surname}"/> <br/>		 				 
 		<b><spring:message code="actor.photo"/></b>: <jstl:out value="${actor.photo}"/> <br/>				 				 
 		<b><spring:message code="actor.email"/></b>: <jstl:out value="${actor.email}"/> <br/>			 				 
-		<b><spring:message code="actor.phone"/></b>: <jstl:out value="${actor.phone}"/> <br/>				 
+		<b><spring:message code="actor.phone"/></b>: <jstl:out value="${actor.phone}"/> <br/>
+		<jstl:if test="${hw ||cust}">
+			<b><spring:message code="actor.score"/></b>: <jstl:out value="${score}"/> <br/>			
+		</jstl:if>	 
 	</div>
 	<br/>
 		<jstl:if test="${logged}">
@@ -30,6 +33,27 @@
 			<b><spring:message code="actor.socialProfile.link"/></b>: <jstl:out value="${actor.socialProfiles.link}"/> <br/>
 			</display:column>
 		</display:table>
+		<jstl:if test="${hw }">
+		<h3><spring:message code="actor.tutorials"/>:</h3>
+		<display:table name="tutorials" id="row" requestURI="actor/show.do" pagesize="5">		
+			<display:column>
+				<security:authorize access="hasRole('HANDYWORKER')">
+					<a href="tutorial/handyWorker/edit.do?tutorialId=${row.id}"> <spring:message code="tutorial.edit" /> </a> <br/>
+					<a href="tutorial/handyWorker/delete.do?tutorialId=${row.id}"> <spring:message code="tutorial.delete" /> </a> <br/>
+				</security:authorize>
+				<a href="tutorial/show.do?tutorialId=${row.id}"> <spring:message code="tutorial.show" /></a>
+			</display:column>
+		
+			<display:column titleKey="tutorial.title" property="title" />
+		
+			<display:column titleKey="tutorial.summary" property="summary" />
+		
+			<spring:message code="tutorial.moment.format" var="formatMoment" />
+			<display:column titleKey="tutorial.moment" property="moment" format="{0,date,${formatMoment} }" />
+	
+	</display:table>
+	</jstl:if>
+		
 		<jstl:if test="${custProfileHw}">
 			<h3><spring:message code="actor.fixUpTasks"/>:</h3>
 <display:table name="fixUpTasks" id="row" requestURI="fixUpTask/list.do" pagesize="5">
