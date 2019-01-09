@@ -65,7 +65,7 @@ public class UserAccountService {
 		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		hashedPass = encoder.encodePassword(pass, null);
 		a.setPassword(hashedPass);
-		saved = userAccountRepository.save(a);
+		saved = userAccountRepository.saveAndFlush(a);
 		return saved;
 	}
 	

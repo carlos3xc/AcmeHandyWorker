@@ -33,9 +33,7 @@ public class AdministratorService {
 
 		Authority authority = new Authority();
 		authority.setAuthority("ADMIN");
-
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		LoginService.hasRole("ADMIN");
 
 		UserAccount user = new UserAccount();
 		user.addAuthority(authority);
@@ -43,20 +41,17 @@ public class AdministratorService {
 		Administrator administrator = new Administrator();
 		administrator.setUserAccount(user);
 		administrator.setSocialProfiles(new ArrayList<SocialProfile>());
+		administrator.setIsBanned(false);
+		administrator.setIsSuspicious(false);
 
 		return administrator;
 	}
 
 	public Referee createReferee() {
 
-		Authority authority = new Authority();
-		authority.setAuthority("ADMIN");
-
 		Authority authority2 = new Authority();
 		authority2.setAuthority("REFEREE");
-
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
+		Assert.isTrue(LoginService.hasRole("ADMIN"));
 
 		UserAccount user = new UserAccount();
 		user.addAuthority(authority2);
@@ -64,6 +59,8 @@ public class AdministratorService {
 		Referee referee = new Referee();
 		referee.setUserAccount(user);
 		referee.setSocialProfiles(new ArrayList<SocialProfile>());
+		referee.setIsBanned(false);
+		referee.setIsSuspicious(false);
 
 		return referee;
 	}
@@ -72,13 +69,9 @@ public class AdministratorService {
 
 		Administrator result;
 
-		Authority authority = new Authority();
-		authority.setAuthority("ADMIN");
+		Assert.isTrue(LoginService.hasRole("ADMIN"));
 
-		UserAccount userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains(authority));
-
-		result = administratorRepository.save(administrator);
+		result = administratorRepository.saveAndFlush(administrator);
 		return result;
 	}
 

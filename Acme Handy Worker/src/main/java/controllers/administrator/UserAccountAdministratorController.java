@@ -12,10 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Authority;
 import security.UserAccount;
 import security.UserAccountService;
-
+import services.AdministratorService;
+import services.RefereeService;
 import controllers.AbstractController;
+import domain.Actor;
+import domain.Administrator;
+import domain.Referee;
 
-@Controller
+@Controller 
 @RequestMapping("/userAccount/admin")
 public class UserAccountAdministratorController extends AbstractController {
 
@@ -23,7 +27,12 @@ public class UserAccountAdministratorController extends AbstractController {
 
 	@Autowired
 	private UserAccountService userAccountService;
+	
+	@Autowired
+	private AdministratorService adminService;
 
+	@Autowired
+	private RefereeService refereeService;
 	// Constructors ------------------------------------------------------------
 
 	public UserAccountAdministratorController() {
@@ -36,50 +45,54 @@ public class UserAccountAdministratorController extends AbstractController {
 	public ModelAndView createAdmin() {
 
 		ModelAndView result;
-		// UserAccount administrator = userAccountService.create();
-
-		// Authority authority = new Authority();
-		// authority.setAuthority("ADMIN");
-
-		// administrator.getAuthorities().add(authority);
 
 		result = this.createEditModelAndView();
 
 		return result;
 	}
 
-	// @RequestMapping(value = "/createReferee", method = RequestMethod.GET)
-	// public ModelAndView createReferee() {
-	//
-	// ModelAndView result;
-	// UserAccount referee = userAccountService.create();
-	//
-	// Authority authority = new Authority();
-	// authority.setAuthority("REFEREE");
-	//
-	// referee.getAuthorities().add(authority);
-	//
-	// result = this.createEditModelAndView(referee);
-	//
-	// return result;
-	// }
-
-	// Save -----------------------------------------------------------------
-
-	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final UserAccount userAccount,
-			final BindingResult binding) {
+	// SAVE ADMIN
+	@RequestMapping(value = "/createAdmin", method = RequestMethod.POST, params = "saveAdmin")
+	public ModelAndView saveAdmin(@Valid final Administrator admin , final BindingResult binding) {
 		ModelAndView result;
+		
+		System.out.println("saving the admin account: "+admin.getUserAccount().getUsername()+"  "+admin.getUserAccount().getPassword());
+		
 
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView();
 		} else
 			try {
-				userAccountService.save(userAccount);
-				result = new ModelAndView("redirect:list.do");
+				UserAccount savedUA = userAccountService.save(admin.getUserAccount());
+				admin.setUserAccount(savedUA);
+				adminService.save(admin);
+				result = this.createEditModelAndView();
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView("admin.commit.error");
+				System.out.println("EXCEPCION CAPTURADA!!!!!!: "+oops.getStackTrace());
+			}
+		return result;
+	}
+	
+	// SAVE REFEREE
+	@RequestMapping(value = "/createAdmin", method = RequestMethod.POST, params = "saveReferee")
+	public ModelAndView saveReferee(@Valid final Referee referee, final BindingResult binding) {
+		ModelAndView result;
+		System.out.println("saving the referee account: "+referee.getUserAccount().getUsername()+"  "+referee.getUserAccount().getPassword());
+		
+		if (binding.hasErrors()) {
+			System.out.println(binding.getFieldErrors());
+			result = this.createEditModelAndView();
+		} else
+			try {
+				UserAccount savedUA = userAccountService.save(referee.getUserAccount());
+				referee.setUserAccount(savedUA);
+				refereeService.save(referee);
+				result = this.createEditModelAndView();
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView("admin.commit.error");
+				System.out.println("EXCEPCION CAPTURADA!!!!!!:" + oops.getStackTrace());
 			}
 		return result;
 	}
@@ -98,24 +111,28 @@ public class UserAccountAdministratorController extends AbstractController {
 
 		result = new ModelAndView("userAccount/createAdmin");
 
+		//creating admin UserAccount and Actor 
 		UserAccount administrator = userAccountService.create();
-
 		Authority authority = new Authority();
 		authority.setAuthority("ADMIN");
-
 		administrator.getAuthorities().add(authority);
-
-		UserAccount referee = userAccountService.create();
-
+		Administrator admin = adminService.createAdministrator();
+		admin.setUserAccount(administrator);
+		
+		//creating referee UserAccount and Actor
+		UserAccount refereeUA = userAccountService.create();
 		Authority authority2 = new Authority();
 		authority2.setAuthority("REFEREE");
-
-		referee.getAuthorities().add(authority2);
-
-		result.addObject("userAccountAdmin", administrator);
-		result.addObject("userAccountReferee", referee);
+		refereeUA.getAuthorities().add(authority2);
+		Referee referee = adminService.createReferee();
+		referee.setUserAccount(refereeUA);
+		
+		
+		result.addObject("admin", admin);
+		result.addObject("referee", referee);
 		result.addObject("message", message);
 
 		return result;
 	}
+
 }

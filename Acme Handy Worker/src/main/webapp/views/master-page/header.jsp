@@ -30,7 +30,6 @@
 			   <!-- <li><a href="actor/show.do"><spring:message code="master.page.administrator.actor.show" /></a></li> -->
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
 					<li><a href="userAccount/admin/createAdmin.do"><spring:message code="master.page.administrator.administrator.create" /></a></li>
-					<li><a href="userAccount/admin/createReferee.do"><spring:message code="master.page.administrator.referee.create" /></a></li>
 					<li><a href="actor/admin/list.do"><spring:message code="master.page.administrator.actor.list" /></a></li>
 					<li><a href="warranty/admin/list.do"><spring:message code="master.page.administrator.warranty.list" /></a></li>
 				</ul>

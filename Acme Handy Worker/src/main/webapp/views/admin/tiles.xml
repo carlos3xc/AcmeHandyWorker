@@ -25,11 +25,6 @@
 		<put-attribute name="body" value="/views/admin/create.jsp" />
 	</definition>
 	
-<!-- 	<definition name="userAccount/createReferee" extends="master.page">
-		<put-attribute name="title" value="Create user account referee" />
-		<put-attribute name="body" value="/views/admin/create.jsp" />
-	</definition>  -->
-	
 	<definition name="actor/list" extends="master.page">
 		<put-attribute name="title" value="List of suspicious actors" />
 		<put-attribute name="body" value="/views/admin/list.jsp" />
