@@ -102,11 +102,8 @@ public class ActorController extends AbstractController {
 	public ModelAndView createCustomer() {
 
 		ModelAndView result;
-
 		Customer customer = customerService.create();
-
 		result = this.createEditModelAndView(customer);
-		result.addObject("customer", customer);
 
 		return result;
 	}
@@ -274,6 +271,7 @@ public class ActorController extends AbstractController {
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 		public ModelAndView save(@Valid final Actor actor,
 				final BindingResult binding) {
+			System.out.println("?");
 			ModelAndView result;
 			Actor actorDB = actorService.findOne(actor.getId());
 
@@ -393,28 +391,29 @@ public class ActorController extends AbstractController {
 
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCustomer")
-	public ModelAndView save(@Valid final Customer customer,
+	public ModelAndView save(final @Valid Customer customer,
 			final BindingResult binding) {
-
+		System.out.println("controlador save customer");
 		ModelAndView result;
 		Customer customerDB = customerService.findOne(customer.getId());
 		Boolean uaChange = false;
 		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		String pass = encoder.encodePassword(customer.getUserAccount().getPassword(), null);
-
-		if(!customer.getUserAccount().getUsername().equals(customerDB.getUserAccount().getUsername()) ||
-				!pass.equals(customerDB.getUserAccount().getPassword())){
+		System.out.println("pre if");
+		if(customer.getId() !=0 &&( !customer.getUserAccount().getUsername().equals(customerDB.getUserAccount().getUsername()) ||
+				!pass.equals(customerDB.getUserAccount().getPassword()))){
 			uaChange = true;
 			String a = customer.getUserAccount().getUsername();
 			customer.setUserAccount(customerDB.getUserAccount());
 			customer.getUserAccount().setUsername(a);
 			customer.getUserAccount().setPassword(pass);
-		}else{
+		}else {
+			if(customer.getId() !=0)
 			customer.setUserAccount(customerDB.getUserAccount());
 		}
 		
 		
-
+		System.out.println("seguimos save controller");
 
 		
 		if (binding.hasErrors()) {
@@ -422,6 +421,8 @@ public class ActorController extends AbstractController {
 			result = this.createEditModelAndView(customer);
 		} else
 			try {
+				System.out.println("llegamos");
+				
 				customerService.save(customer);
 				if(uaChange) result = new ModelAndView("redirect:/j_spring_security_logout");				
 				else result = new ModelAndView("redirect:show.do");
@@ -520,25 +521,31 @@ public class ActorController extends AbstractController {
 		result = this.createEditModelAndView(actor, null);
 		return result;
 	}
+	
+	
 
 	private ModelAndView createEditModelAndView(final Actor actor,
 			final String message) {
-
 		ModelAndView result;
 		String type = "";
-
+		Boolean newActor = false;
+		Authority autC = new Authority(); autC.setAuthority("CUSTOMER");
+		Authority autHW = new Authority(); autHW.setAuthority("HANDYWORKER");
+		if(actor.getId()==0)newActor=true;
 		result = new ModelAndView("actor/edit");
-
-		if(customerService.findOne(actor.getId())!=null){
-			Customer c = customerService.save(customerService.findOne(actor.getId()));
-			type="customer";
+		if(customerService.findOne(actor.getId())!=null || actor.getUserAccount().getAuthorities().contains(autC)){
+			System.out.println("entramos customer");
+				type="customer";
+			System.out.println("entra bien " + type);
 			result.addObject("type",type);
-			result.addObject("actor",c);
+			System.out.println("model and view actor " + actor);
 		}
-		if(handyWorkerService.findOne(actor.getId())!=null){
-			HandyWorker hw = handyWorkerService.save(handyWorkerService.findOne(actor.getId()));
+		if(handyWorkerService.findOne(actor.getId())!=null || actor.getUserAccount().getAuthorities().contains(autHW)){
+			System.out.println("entramos hw");
+			HandyWorker hw = (HandyWorker) actor;
 			type="handyworker";
 			result.addObject("type",type);
+			System.out.println(hw.getUserAccount() );
 			result.addObject("actor",hw);
 		}
 		if(refereeService.findOne(actor.getId())!=null){ 
@@ -560,8 +567,8 @@ public class ActorController extends AbstractController {
 			result.addObject("actor",a);
 		}
 		result.addObject("message", message);
+		result.addObject("newActor",newActor);
 
 		return result;
 	}
-
 }

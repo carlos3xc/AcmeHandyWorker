@@ -22,7 +22,7 @@
 	<jstl:if test="${type=='customer'}">
 		<form:hidden path="fixUpTasks"/>
 	</jstl:if>
-
+	
 	<form:label path="name">
 		<spring:message code="actor.name" />:
 	</form:label>
@@ -76,7 +76,7 @@
 		<form:label path="make">
 			<spring:message code="actor.make" />:
 	</form:label>
-		<form:input path="make" placeholder="${make}" />
+		<form:input path="make" />
 		<form:errors cssClass="error" path="make" />
 		<br />
 	</security:authorize>
@@ -84,9 +84,9 @@
 	<h3>
 		<spring:message code="actor.userAccount" />
 	</h3>
-	
+	<jstl:if test="${!newActor}">
 	<div style="color:red;"><b><spring:message code="actor.useraccount.change"/></b></div>
-
+	</jstl:if>
 	<form:label path="userAccount.username">
 		<spring:message code="actor.username" />:
 	</form:label>
@@ -97,7 +97,11 @@
 	<form:label path="userAccount.password">
 		<spring:message code="actor.password" />:
 	</form:label>
-	<form:password path="userAccount.password" /> <div style="color:red;"><spring:message code="actor.password.again"/></div>
+	
+	<form:password path="userAccount.password" /> 
+	<jstl:if test="${!newActor}">
+	<div style="color:red;"><spring:message code="actor.password.again"/></div>
+	</jstl:if>
 	<form:errors cssClass="error" path="userAccount.password" />
 	<br />
 

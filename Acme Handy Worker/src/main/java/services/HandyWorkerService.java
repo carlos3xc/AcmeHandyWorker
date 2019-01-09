@@ -33,9 +33,19 @@ public class HandyWorkerService {
 	// Simple CRUD methods -----
 	public HandyWorker create() {
 		HandyWorker res = new HandyWorker();
+		Authority p = new Authority();
+		UserAccount ua;
+		UserAccount savedUa;
+		
 		res.setSocialProfiles(new ArrayList<SocialProfile>());
-		UserAccount ua = userAccountService.create();
-		res.setUserAccount(ua);
+		ua = userAccountService.create();
+		res.setIsBanned(false);
+		res.setIsSuspicious(false);
+		p.setAuthority("HANDYWORKER");
+		ua.getAuthorities().add(p);
+		savedUa = userAccountService.save(ua);
+		res.setUserAccount(savedUa);
+
 		return res;
 	}
 
@@ -48,27 +58,13 @@ public class HandyWorkerService {
 	}
 
 	public HandyWorker save(HandyWorker hw) {
-		Authority p = new Authority();
-		Authority e = new Authority();
-		UserAccount ua;
-		UserAccount savedUa;
-		e.setAuthority("ADMIN");
 		Collection<HandyWorker> handyWorkers;
 
 		UserAccount userAccount = LoginService.getPrincipal();
-		if(hw.getId()==0)Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
 		
 		HandyWorker saved;
-		if (hw.getId() == 0) {
-			hw.setIsBanned(false);
-			hw.setIsSuspicious(false);
-			p.setAuthority("HANDYWORKER");
-			ua = hw.getUserAccount();
-			ua.getAuthorities().add(p);
-			savedUa = userAccountService.save(ua);
-			hw.setUserAccount(savedUa);
-		}
+
 		if(hw.getMake()==null){
 			hw.setMake(hw.getName()+" " + hw.getMiddleName()+ " " + hw.getSurname());
 		}

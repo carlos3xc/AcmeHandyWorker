@@ -42,10 +42,16 @@ public class CustomerService {
 	//Simple CRUD methods -----
 	public Customer create(){
 		Customer res = new Customer();
+		Authority p = new Authority();
+		UserAccount ua = userAccountService.create();
 		res.setFixUpTasks(new ArrayList<FixUpTask>());
 		res.setSocialProfiles(new ArrayList<SocialProfile>());
-		UserAccount ua = userAccountService.create();
-		res.setUserAccount(ua);
+		p.setAuthority("CUSTOMER");
+		ua.getAuthorities().add(p);
+		res.setUserAccount(userAccountService.save(ua));
+		
+		res.setIsBanned(false);
+		res.setIsSuspicious(false);
 		return res;
 	}
 	
@@ -58,24 +64,23 @@ public class CustomerService {
 	}
 	
 	public Customer save(Customer c){
-		Authority p = new Authority();
-		UserAccount ua;
-		UserAccount savedUa;
 		Collection<Customer> customers;
+		System.out.println("entramos a save customer");
 		if(c.getId()!=0){
+			System.out.println("entra aqui?");
 			UserAccount userAccount = LoginService.getPrincipal();
 			Assert.isTrue(userAccount.equals(c.getUserAccount()));
 		}
 		Customer saved;
+		System.out.println("por aqui sigue");
 		if(c.getId()==0){
-			c.setIsBanned(false);
-			c.setIsSuspicious(false);
-			p.setAuthority("CUSTOMER");
-			ua = c.getUserAccount();
-			ua.getAuthorities().add(p);
-			savedUa = userAccountService.save(ua);
-			c.setUserAccount(savedUa);
+			UserAccount ua = LoginService.getPrincipal();
+			UserAccount uasaved = userAccountService.save(ua);
+			System.out.println("UserAccount Guardada: "+uasaved + " " +uasaved.getUsername());
+			System.out.println("Existe en todas: "+ userAccountService.findAll().contains(uasaved));
+			c.setUserAccount(uasaved);
 		}
+		System.out.println("no entiendo nada");
 		saved = customerRepository.saveAndFlush(c);
 		customers = customerRepository.findAll();
 		Assert.isTrue(customers.contains(saved));
