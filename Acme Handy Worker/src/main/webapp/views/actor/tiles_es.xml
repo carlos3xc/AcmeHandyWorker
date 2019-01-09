@@ -26,4 +26,19 @@
 		<put-attribute name="body" value="/views/actor/edit.jsp" />
 	</definition>
 	
+	<definition name="actor/createCustomer" extends="master.page">	
+		<put-attribute name="title" value="Crear un nuevo cliente" />
+		<put-attribute name="body" value="/views/actor/createCustomer.jsp" />
+	</definition>
+	
+	<definition name="actor/createHandyWorker" extends="master.page">	
+		<put-attribute name="title" value="Create un nuevo manitas" />
+		<put-attribute name="body" value="/views/actor/createHandyWorker.jsp" />
+	</definition>
+	
+	<definition name="actor/createSponsor" extends="master.page">	
+		<put-attribute name="title" value="Crear un nuevo Sponsor" />
+		<put-attribute name="body" value="/views/actor/createSponsor.jsp" />
+	</definition>
+	
 </tiles-definitions>

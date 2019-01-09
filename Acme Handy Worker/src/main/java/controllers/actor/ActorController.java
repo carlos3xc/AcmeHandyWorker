@@ -84,43 +84,43 @@ public class ActorController extends AbstractController {
 
 	// Create handyWorker -----------------------------------------------------
 
-	@RequestMapping(value = "/createHandyWorker", method = RequestMethod.GET)
-	public ModelAndView createHandyWorker() {
-
-		ModelAndView result;
-
-		HandyWorker handyWorker = handyWorkerService.create();
-
-		result = this.createEditModelAndView(handyWorker);
-
-		return result;
-	}
+//	@RequestMapping(value = "/createHandyWorker", method = RequestMethod.GET)
+//	public ModelAndView createHandyWorker() {
+//
+//		ModelAndView result;
+//
+//		HandyWorker handyWorker = handyWorkerService.create();
+//
+//		result = this.createEditModelAndView(handyWorker);
+//
+//		return result;
+//	}
 
 	// Create customer --------------------------------------------------------
 
-	@RequestMapping(value = "/createCustomer", method = RequestMethod.GET)
-	public ModelAndView createCustomer() {
-
-		ModelAndView result;
-		Customer customer = customerService.create();
-		result = this.createEditModelAndView(customer);
-
-		return result;
-	}
+//	@RequestMapping(value = "/createCustomer", method = RequestMethod.GET)
+//	public ModelAndView createCustomer() {
+//
+//		ModelAndView result;
+//		Customer customer = customerService.create();
+//		result = this.createEditModelAndView(customer);
+//
+//		return result;
+//	}
 
 	// Create sponsor ---------------------------------------------------------
 
-	@RequestMapping(value = "/createSponsor", method = RequestMethod.GET)
-	public ModelAndView createSponsor() {
-
-		ModelAndView result;
-
-		Sponsor sponsor = sponsorService.create();
-
-		result = this.createEditModelAndView(sponsor);
-
-		return result;
-	}
+//	@RequestMapping(value = "/createSponsor", method = RequestMethod.GET)
+//	public ModelAndView createSponsor() {
+//
+//		ModelAndView result;
+//
+//		Sponsor sponsor = sponsorService.create();
+//
+//		result = this.createEditModelAndView(sponsor);
+//
+//		return result;
+//	}
 
 	// Show --------------------------------------------------------------------
 

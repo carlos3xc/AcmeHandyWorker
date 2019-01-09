@@ -16,7 +16,7 @@
        
 <tiles-definitions>
 
-<definition name="actor/show" extends="master.page">
+	<definition name="actor/show" extends="master.page">
 		<put-attribute name="title" value="Show Personal Data" />
 		<put-attribute name="body" value="/views/actor/show.jsp" />
 	</definition>
@@ -24,6 +24,21 @@
 	<definition name="actor/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit Personal Data" />
 		<put-attribute name="body" value="/views/actor/edit.jsp" />
+	</definition>
+	
+	<definition name="actor/createCustomer" extends="master.page">	
+		<put-attribute name="title" value="Create a new Customer" />
+		<put-attribute name="body" value="/views/actor/createCustomer.jsp" />
+	</definition>
+	
+	<definition name="actor/createHandyWorker" extends="master.page">	
+		<put-attribute name="title" value="Create a new Handy Worker" />
+		<put-attribute name="body" value="/views/actor/createHandyWorker.jsp" />
+	</definition>
+	
+	<definition name="actor/createSponsor" extends="master.page">	
+		<put-attribute name="title" value="Create a new Sponsor" />
+		<put-attribute name="body" value="/views/actor/createSponsor.jsp" />
 	</definition>
 	
 </tiles-definitions>

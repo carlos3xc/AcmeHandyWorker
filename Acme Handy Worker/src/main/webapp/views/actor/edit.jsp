@@ -14,11 +14,13 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-
 	<form:hidden path="isSuspicious" />
 	<form:hidden path="isBanned" />
+	
 	<form:hidden path="userAccount.authorities" />
+	
 	<form:hidden path="socialProfiles" />
+	
 	<jstl:if test="${type=='customer'}">
 		<form:hidden path="fixUpTasks"/>
 	</jstl:if>
@@ -111,14 +113,8 @@
 	<jstl:if test="${type=='handyworker'}">
 		<input type="submit" name="saveHandyWorker" value="<spring:message code="actor.save" />" />
 	</jstl:if>
-	<jstl:if test="${type=='referee'}">
-		<input type="submit" name="saveReferee" value="<spring:message code="actor.save" />" />
-	</jstl:if>
 	<jstl:if test="${type=='sponsor'}">
 		<input type="submit" name="saveSponsor" value="<spring:message code="actor.save" />" />
-	</jstl:if>
-	<jstl:if test="${type=='administrator'}">
-		<input type="submit" name="saveAdministrator" value="<spring:message code="actor.save" />" />
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="actor.cancel" />"

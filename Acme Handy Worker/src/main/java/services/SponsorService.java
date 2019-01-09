@@ -11,6 +11,7 @@ import repositories.SponsorRepository;
 import security.Authority;
 import security.UserAccount;
 import security.UserAccountService;
+import domain.Customer;
 import domain.SocialProfile;
 import domain.Sponsor;
 
@@ -31,19 +32,19 @@ public class SponsorService {
 	
 	//Simple CRUD methods -----
 	public Sponsor create(){
-		Sponsor res = new Sponsor();
+		Authority authority = new Authority();
+		authority.setAuthority("SPONSOR");
+
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority);
+
+		Sponsor sponsor = new Sponsor();
+		sponsor.setUserAccount(user);
+		sponsor.setSocialProfiles(new ArrayList<SocialProfile>());
+		sponsor.setIsBanned(false);
+		sponsor.setIsSuspicious(false);
 		
-		res.setIsBanned(false);
-		res.setIsSuspicious(false);
-		res.setSocialProfiles(new ArrayList<SocialProfile>());
-		
-		UserAccount ua = new UserAccount();
-		Authority a = new Authority();
-		a.setAuthority("SPONSOR");
-		ua.getAuthorities().add(a);
-		res.setUserAccount(uaService.save(ua));
-		
-		return res;
+		return sponsor;
 	}
 	
 	public Collection<Sponsor> findAll(){
@@ -56,7 +57,7 @@ public class SponsorService {
 	
 	public Sponsor save(Sponsor a){
 		
-		return sponsorRepository.save(a);
+		return sponsorRepository.saveAndFlush(a);
 	}
 	
 	public void delete(Sponsor a){

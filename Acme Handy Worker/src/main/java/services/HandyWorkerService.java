@@ -32,21 +32,19 @@ public class HandyWorkerService {
 
 	// Simple CRUD methods -----
 	public HandyWorker create() {
-		HandyWorker res = new HandyWorker();
-		Authority p = new Authority();
-		UserAccount ua;
-		UserAccount savedUa;
-		
-		res.setSocialProfiles(new ArrayList<SocialProfile>());
-		ua = userAccountService.create();
-		res.setIsBanned(false);
-		res.setIsSuspicious(false);
-		p.setAuthority("HANDYWORKER");
-		ua.getAuthorities().add(p);
-		savedUa = userAccountService.save(ua);
-		res.setUserAccount(savedUa);
+		Authority authority = new Authority();
+		authority.setAuthority("HANDYWORKER");
 
-		return res;
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority);
+
+		HandyWorker handyWorker = new HandyWorker();
+		handyWorker.setUserAccount(user);
+		handyWorker.setSocialProfiles(new ArrayList<SocialProfile>());
+		handyWorker.setIsBanned(false);
+		handyWorker.setIsSuspicious(false);
+		
+		return handyWorker;
 	}
 
 	public Collection<HandyWorker> findAll() {
@@ -58,19 +56,19 @@ public class HandyWorkerService {
 	}
 
 	public HandyWorker save(HandyWorker hw) {
-		Collection<HandyWorker> handyWorkers;
 
-		UserAccount userAccount = LoginService.getPrincipal();
-		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
-		
-		HandyWorker saved;
-
-		if(hw.getMake()==null){
+//		UserAccount userAccount = LoginService.getPrincipal();
+//		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
+//		
+	
+//
+//		System.out.println("el make es:"+hw.getMake());
+		if(hw.getMake()==null || hw.getMake().equals("")){
 			hw.setMake(hw.getName()+" " + hw.getMiddleName()+ " " + hw.getSurname());
 		}
+		HandyWorker saved;
 		saved = handyWorkerRepository.saveAndFlush(hw);
-		handyWorkers = handyWorkerRepository.findAll();
-		Assert.isTrue(handyWorkers.contains(saved));
+
 		return saved;
 	}
 

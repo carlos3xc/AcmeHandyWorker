@@ -2,10 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +13,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
-import domain.Complaint;
+import domain.Administrator;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.SocialProfile;
@@ -41,18 +37,21 @@ public class CustomerService {
 	
 	//Simple CRUD methods -----
 	public Customer create(){
-		Customer res = new Customer();
-		Authority p = new Authority();
-		UserAccount ua = userAccountService.create();
-		res.setFixUpTasks(new ArrayList<FixUpTask>());
-		res.setSocialProfiles(new ArrayList<SocialProfile>());
-		p.setAuthority("CUSTOMER");
-		ua.getAuthorities().add(p);
-		res.setUserAccount(userAccountService.save(ua));
+
+		Authority authority = new Authority();
+		authority.setAuthority("CUSTOMER");
+
+		UserAccount user = new UserAccount();
+		user.addAuthority(authority);
+
+		Customer customer = new Customer();
+		customer.setUserAccount(user);
+		customer.setSocialProfiles(new ArrayList<SocialProfile>());
+		customer.setFixUpTasks(new ArrayList<FixUpTask>());
+		customer.setIsBanned(false);
+		customer.setIsSuspicious(false);
 		
-		res.setIsBanned(false);
-		res.setIsSuspicious(false);
-		return res;
+		return customer;
 	}
 	
 	public Collection<Customer> findAll(){
@@ -64,27 +63,34 @@ public class CustomerService {
 	}
 	
 	public Customer save(Customer c){
-		Collection<Customer> customers;
-		System.out.println("entramos a save customer");
-		if(c.getId()!=0){
-			System.out.println("entra aqui?");
-			UserAccount userAccount = LoginService.getPrincipal();
-			Assert.isTrue(userAccount.equals(c.getUserAccount()));
-		}
-		Customer saved;
-		System.out.println("por aqui sigue");
-		if(c.getId()==0){
-			UserAccount ua = LoginService.getPrincipal();
-			UserAccount uasaved = userAccountService.save(ua);
-			System.out.println("UserAccount Guardada: "+uasaved + " " +uasaved.getUsername());
-			System.out.println("Existe en todas: "+ userAccountService.findAll().contains(uasaved));
-			c.setUserAccount(uasaved);
-		}
-		System.out.println("no entiendo nada");
-		saved = customerRepository.saveAndFlush(c);
-		customers = customerRepository.findAll();
-		Assert.isTrue(customers.contains(saved));
-		return saved;
+//		Collection<Customer> customers;
+//		System.out.println("entramos a save customer");
+//		if(c.getId()!=0){
+//			System.out.println("entra aqui?");
+//			UserAccount userAccount = LoginService.getPrincipal();
+//			Assert.isTrue(userAccount.equals(c.getUserAccount()));
+//		}
+//		Customer saved;
+//		System.out.println("por aqui sigue");
+//		if(c.getId()==0){
+//			UserAccount ua = LoginService.getPrincipal();
+//			UserAccount uasaved = userAccountService.save(ua);
+//			System.out.println("UserAccount Guardada: "+uasaved + " " +uasaved.getUsername());
+//			System.out.println("Existe en todas: "+ userAccountService.findAll().contains(uasaved));
+//			c.setUserAccount(uasaved);
+//		}
+//		System.out.println("no entiendo nada");
+//		saved = customerRepository.saveAndFlush(c);
+//		customers = customerRepository.findAll();
+//		Assert.isTrue(customers.contains(saved));
+		
+		Customer result;
+
+//		Assert.isTrue(LoginService.hasRole("ADMIN"));
+
+		result = customerRepository.saveAndFlush(c);
+		return result;
+		
 	}
 /*	
 	public void delete(Customer a){
