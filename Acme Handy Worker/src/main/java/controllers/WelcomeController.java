@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ActorService;
 import services.ConfigurationService;
+import domain.Actor;
 import domain.Configuration;
 
 @Controller
@@ -44,9 +45,11 @@ public class WelcomeController extends AbstractController {
 	@RequestMapping(value = "/index")
 	public ModelAndView index() {
 		ModelAndView result;
+		
 		SimpleDateFormat formatter;
 		String moment;
 		String name = "Anonymous";
+		boolean actorIsBanned = false;
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
@@ -54,7 +57,9 @@ public class WelcomeController extends AbstractController {
 		if(LoginService.hasRole("CUSTOMER")||LoginService.hasRole("HANDYWORKER")||
 				LoginService.hasRole("REFEREE")||LoginService.hasRole("SPONSOR")||
 				LoginService.hasRole("ADMIN")){
-		name = actorService.getByUserAccountId(LoginService.getPrincipal()).getName();
+		Actor actor = actorService.getByUserAccountId(LoginService.getPrincipal());
+		actorIsBanned = actor.getIsBanned();
+		name = actor.getName();
 		}
 		Configuration c = (Configuration) configurationService.findAll().toArray()[0];
 		String welcomeText=" ";
@@ -68,11 +73,15 @@ public class WelcomeController extends AbstractController {
 			welcomeText = c.getWelcomeTextEnglish();
 		}
 
+		if (actorIsBanned) {
+			result = new ModelAndView("redirect:/j_spring_security_logout");	
+		}else{
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
 		result.addObject("welcomeMessageToDisplay",welcomeText);
 		result.addObject("systemName", c.getSystemName());
 		result.addObject("moment", moment);
+		}
 
 		return result;
 	}

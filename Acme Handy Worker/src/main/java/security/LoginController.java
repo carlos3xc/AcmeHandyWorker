@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+
 import controllers.AbstractController;
 
 @Controller
@@ -33,6 +35,12 @@ public class LoginController extends AbstractController {
 
 	@Autowired
 	LoginService	service;
+	
+	@Autowired 
+	ActorService actorService;
+	
+	@Autowired 
+	UserAccountService accountService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -47,12 +55,25 @@ public class LoginController extends AbstractController {
 	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) final boolean showError) {
 		Assert.notNull(credentials);
 		Assert.notNull(bindingResult);
+//		boolean banned = false;
 
+		System.out.println(credentials.getUsername()+" "+credentials.getPassword());
 		ModelAndView result;
-
+//		String username = credentials.getUsername();
+//		for (UserAccount ua : accountService.findAll()) {
+//			if(ua.getUsername().equals(username)){
+//				if(actorService.getByUserAccountId(ua).getIsBanned()){
+//					banned = true;
+//				}
+//			}
+//		}
 		result = new ModelAndView("security/login");
 		result.addObject("credentials", credentials);
 		result.addObject("showError", showError);
+//		if(banned){
+//			credentials.setJ_username("YOU ARE HELLA BANNED BROTHER");
+//			result = new ModelAndView("redirect:login.do?showError=true");
+//		}
 
 		return result;
 	}
@@ -67,30 +88,6 @@ public class LoginController extends AbstractController {
 
 		return result;
 	}
-	
-	// Register -----------------------------------------------------------
-	
-	@RequestMapping("/register")
-	public ModelAndView register() {
-		ModelAndView res;
-//TODO:terminar esto.
-		List<Authority> types = new ArrayList<>();
-		Authority cust = new Authority();
-		Authority hw = new Authority();
-		Authority sp = new Authority();
-		cust.setAuthority("CUSTOMER");
-		hw.setAuthority("HANDYWORKER");
-		sp.setAuthority("SPONSOR");
-		
-		types.add(cust);
-		types.add(hw);
-		types.add(sp);
-		
-		
-		res = new ModelAndView("security/register");
-		res.addObject("types", types);
 
-		return res;
-	}
 
 }
