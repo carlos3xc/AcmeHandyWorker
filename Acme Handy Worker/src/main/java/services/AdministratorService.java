@@ -113,6 +113,8 @@ public class AdministratorService {
 				&& actor.getIsBanned().equals(false));
 
 		actor.setIsBanned(true);
+		
+		actor.getUserAccount().isEnabled();
 
 		return actorService.save(actor);
 	}
@@ -122,6 +124,8 @@ public class AdministratorService {
 		Assert.isTrue(actor.getIsBanned().equals(true));
 
 		actor.setIsBanned(false);
+		
+		actor.getUserAccount().isAccountNonLocked();
 
 		return actorService.save(actor);
 	}

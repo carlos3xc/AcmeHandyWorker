@@ -22,7 +22,13 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
 			<a href="actor/admin/banActor.do?actorId=${row.id}"> <spring:message
-					code="admin.ban" />
+					code="admin.banActor" />
+			</a>
+		</display:column>
+		
+		<display:column>
+			<a href="actor/admin/unBanActor.do?actorId=${row.id}"> <spring:message
+					code="admin.unBanActor" />
 			</a>
 		</display:column>
 

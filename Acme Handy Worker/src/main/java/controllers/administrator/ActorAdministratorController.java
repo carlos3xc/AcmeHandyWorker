@@ -63,6 +63,20 @@ public class ActorAdministratorController extends AbstractController {
 		return res;
 	}
 
+	// Desbanear actor---------------------------------------------------------
+
+	@RequestMapping(value = "/unBanActor", method = RequestMethod.GET)
+	public ModelAndView unBanActor(@RequestParam int actorId) {
+		ModelAndView res;
+
+		Actor actor = actorService.findOne(actorId);
+		if (actor.getIsBanned()) {
+			administratorService.unBan(actorService.findOne(actorId));
+		}
+		res = new ModelAndView("redirect:list.do");
+		return res;
+	}
+
 	protected ModelAndView createEditModelAndView(Actor actor) {
 		ModelAndView result;
 
