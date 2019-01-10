@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import services.WarrantyService;
 import services.*;
 
 import javax.validation.Valid;
@@ -25,9 +26,6 @@ public class FinderHandyWorkerController extends AbstractController {
 	private FinderService finderService;
 
 	@Autowired
-	private HandyWorkerService handyWorkerService;
-
-	@Autowired
 	private FixUpTaskService fixUpTaskService;
 
 	@Autowired
@@ -42,6 +40,7 @@ public class FinderHandyWorkerController extends AbstractController {
 	public ModelAndView filter() {
 		ModelAndView result;
 		result = createEditModelAndView(finderService.findByPrincipal());
+		System.out.println("Finder Results:" + finderService.findByPrincipal().getFixUpTasks());
 		return result;
 	}
 
@@ -74,17 +73,19 @@ public class FinderHandyWorkerController extends AbstractController {
 	protected ModelAndView createEditModelAndView(Finder finder, String messageCode){
 		ModelAndView res;
 		Collection<FixUpTask> fixUpTasks = new HashSet<FixUpTask>();
+		String cachedMessageCode = null;
 
-		if(finderService.findOne(finder.getId()).getMoment() ==null
+		res = new ModelAndView("finder/edit");
+
+		if(finderService.findOne(finder.getId()).getMoment() == null
 				|| finderService.isVoid(finder)
 				|| finderService.isExpired(finder)){
 			fixUpTasks.addAll(fixUpTaskService.findAll());
 		}else{
 			fixUpTasks.addAll(finderService.findOne(finder.getId()).getFixUpTasks());
+			cachedMessageCode = "finder.cachedMessage";
 		}
-
-
-		res = new ModelAndView("finder/edit");
+		res.addObject("cachedMessage", cachedMessageCode);
 		res.addObject("finder",finder);
 		res.addObject("categories", categoryService.findAll());
 		res.addObject("warranties", warrantyService.findAll());

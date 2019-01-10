@@ -16,16 +16,16 @@ import java.util.Date;
 public interface FinderRepository extends JpaRepository<Finder, Integer>{
 
 	@Query("select fix from FixUpTask fix where " +
-			"((:keyword is null or :keyword not like '' ) or " +
+			"((:keyword is null or :keyword like '' ) or " +
 				"(fix.ticker like %:keyword% " +
-				"and fix.description like %:keyword% " +
-				"and fix.address like %:keyword%))" +
+				"or fix.description like %:keyword% " +
+				"or fix.address like %:keyword%))" +
 			"and (:minPrice is null or fix.maxPrice >= :minPrice) " +
 			"and (:maxPrice is null or fix.maxPrice <= :maxPrice) " +
 			"and (:startDate is null or :startDate <= fix.startMoment) " +
 			"and (:endDate is null or fix.endMoment <= :endDate) " +
 			"and (:categoryId is null or fix.category.id = :categoryId) " +
-			"and (:warrantyId is null or fix.warranty.id = warrantyId)")
+			"and (:warrantyId is null or fix.warranty.id = :warrantyId)")
 	Collection<FixUpTask> filterFixUpTasks(@Param("keyword") String keyword,
 										   @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
 										   @Param("startDate") Date startDate, @Param("endDate") Date endDate,

@@ -133,7 +133,8 @@ public class FinderService {
 	public Boolean isVoid(final Finder finder){
 		Boolean result;
 
-		result = finder.getMinPrice() == null
+		result = (finder.getKeyword() == null || finder.getKeyword() == "")
+				&& finder.getMinPrice() == null
 				&& finder.getMaxPrice() == null
 				&& finder.getStartDate() == null
 				&& finder.getEndDate() == null

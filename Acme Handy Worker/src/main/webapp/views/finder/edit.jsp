@@ -25,12 +25,13 @@
 					 				 -->
 									 
 
-<form:form action="finder/handy-worker/edit.do" modelAttribute="finder">
+<form:form action="handyWorker/finder/filter.do" modelAttribute="finder">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
 	<form:hidden path="moment" />
+    <form:hidden path="handyWorker" />
 	
 	<security:authorize access="hasRole('HANDYWORKER')">
 	
@@ -66,13 +67,25 @@
 	<form:input path="endDate" placeholder="01/01/2010 12:00"/>
 	<form:errors cssClass="error" path="endDate" />
 	<br />
-	
-	<form:select id="categories" path="category">
-		<form:option label = "-----" value="0" />
-		<form:options items="${categories}" itemsLabel="name" itemsValue="id" />
+
+    <form:label path="category">
+    <spring:message code="finder.category" />:
+    </form:label>
+	<form:select id="category" path="category">
+		<form:option label = "-----" value="${null}" />
+		<form:options items="${categories}" itemLabel="name" itemValue="id" />
 	</form:select>
 	<form:errors cssClass="error" path="category" />
 	<br />
+    <form:label path="warranty">
+        <spring:message code="finder.warranty" />:
+    </form:label>
+    <form:select id="warranty" path="warranty">
+        <form:option label = "-----" value="${null}" />
+        <form:options items="${warranties}" itemLabel="title" itemValue="id" />
+    </form:select>
+    <form:errors cssClass="error" path="category" />
+    <br />
 	
 	<input type="submit" name="filter" value="<spring:message code="finder.search" />" />
 				
@@ -84,8 +97,15 @@
 	</security:authorize>
 
 </form:form>
+<br/>
+<jstl:if test="${cachedMessage != null}">
+	<p style="color: #3a3a3a"><spring:message code="${cachedMessage}" /></p>
+	<p style="color: #3a3a3a"><spring:message code="finder.cachedMoment"/>
+		<jstl:out value="${finder.moment}"/></p>
+	<br/>
+</jstl:if>
 
-<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/list.do" pagesize="5">
+<display:table name="fixUpTasks" id="row" requestURI="handyWorker/finder/filter.do" pagesize="5">
 
 	<display:column titleKey="task.options">
 		<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
