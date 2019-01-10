@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import services.WarrantyService;
 import services.*;
 
 import javax.validation.Valid;
@@ -42,6 +43,7 @@ public class FinderHandyWorkerController extends AbstractController {
 	public ModelAndView filter() {
 		ModelAndView result;
 		result = createEditModelAndView(finderService.findByPrincipal());
+		System.out.println("Finder Results:" + finderService.findByPrincipal().getFixUpTasks());
 		return result;
 	}
 
@@ -52,8 +54,14 @@ public class FinderHandyWorkerController extends AbstractController {
 			result = createEditModelAndView(finder);
 		} else {
 			try {
+				System.out.println("FinderHandyWorkerController filter: saving");
+				System.out.println("Finder parameters {"+ finder.getKeyword() +"}");
 				Finder updatedFinder = finderService.save(finder);
+				System.out.println("FinderHandyWorkerController filter: already saved");
+				System.out.println("FinderUpdated parameters {"+ updatedFinder.getKeyword() +"}");
 				result = createEditModelAndView(updatedFinder);
+				System.out.println(updatedFinder);
+				System.out.println("FinderHandyWorkerController filter: results" + updatedFinder.getFixUpTasks());
 			} catch (final Throwable oops) {
 				oops.printStackTrace();
 				result = createEditModelAndView(finder,
@@ -75,7 +83,10 @@ public class FinderHandyWorkerController extends AbstractController {
 		ModelAndView res;
 		Collection<FixUpTask> fixUpTasks = new HashSet<FixUpTask>();
 
-		if(finderService.findOne(finder.getId()).getMoment() ==null
+		System.out.println("createEditModelAndView:" + finder.getId() + finder.getMoment());
+		System.out.println("isVoid:" + finderService.isVoid(finder));
+
+		if(finderService.findOne(finder.getId()).getMoment() == null
 				|| finderService.isVoid(finder)
 				|| finderService.isExpired(finder)){
 			fixUpTasks.addAll(fixUpTaskService.findAll());
