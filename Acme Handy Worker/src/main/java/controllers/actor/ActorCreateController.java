@@ -82,10 +82,7 @@ public class ActorCreateController extends AbstractController {
 	// CUSTOMER
 	@RequestMapping(value = "/createCustomer", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveCustomer(@Valid final Customer customer , final BindingResult binding) {
-		ModelAndView result;
-		
-		System.out.println("saving the customer account: "+customer.getUserAccount().getUsername()+"  "+customer.getUserAccount().getPassword());
-		
+		ModelAndView result;		
 
 		if (binding.hasErrors()) {
 			System.out.println(binding.getFieldErrors());
@@ -95,7 +92,7 @@ public class ActorCreateController extends AbstractController {
 				UserAccount savedUA = userAccountService.save(customer.getUserAccount());
 				customer.setUserAccount(savedUA);
 				customerService.save(customer);
-				result = this.createEditModelAndView("CUSTOMER");
+				result = new ModelAndView("redirect:/security/login.do");
 				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView("actor.commit.error");
@@ -123,7 +120,7 @@ public class ActorCreateController extends AbstractController {
 					UserAccount savedUA = userAccountService.save(sponsor.getUserAccount());
 					sponsor.setUserAccount(savedUA);
 					sponsorService.save(sponsor);
-					result = this.createEditModelAndView("SPONSOR");
+					result = new ModelAndView("redirect:/security/login.do");
 					
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView("actor.commit.error");
@@ -151,7 +148,7 @@ public class ActorCreateController extends AbstractController {
 					UserAccount savedUA = userAccountService.save(handyworker.getUserAccount());
 					handyworker.setUserAccount(savedUA);
 					handyWorkerService.save(handyworker);
-					result = this.createEditModelAndView("HANDYWORKER");
+					result = new ModelAndView("redirect:/security/login.do");
 					
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView("actor.commit.error");
