@@ -1982,203 +1982,170 @@
 	</bean>
 
 	<bean id="category2" class="domain.Category">
-		<property name="name" value="Category 2" />
-	</bean>
-
-	<bean id="category3" class="domain.Category">
-		<property name="name" value="Category 3" />
-	</bean>
-
-	<bean id="category4" class="domain.Category">
-		<property name="name" value="Category 4" />
-		<property name="parentCategory" ref="category1" />
-	</bean>
-
-	<bean id="category5" class="domain.Category">
-		<property name="name" value="Category 5" />
-		<property name="parentCategory" ref="category1" />
-	</bean>
-
-	<bean id="category6" class="domain.Category">
-		<property name="name" value="Category 6" />
-		<property name="parentCategory" ref="category2" />
-	</bean>
-
-	<bean id="category7" class="domain.Category">
-		<property name="name" value="Category 7" />
-		<property name="parentCategory" ref="category3" />
-	</bean>
-
-	<bean id="category8" class="domain.Category">
-		<property name="name" value="Category 8" />
-		<property name="parentCategory" ref="category4" />
-	</bean>
-
-	<bean id="category9" class="domain.Category">
 		<property name="name" value="Carpentry" />
 	</bean>
 
-	<bean id="category10" class="domain.Category">
+	<bean id="category3" class="domain.Category">
 		<property name="name" value="Ceiling repair" />
 	</bean>
 
-	<bean id="category11" class="domain.Category">
+	<bean id="category4" class="domain.Category">
 		<property name="name" value="Cleaning" />
 	</bean>
 
-	<bean id="category12" class="domain.Category">
+	<bean id="category5" class="domain.Category">
 		<property name="name" value="Concrete work" />
 	</bean>
 
-	<bean id="category13" class="domain.Category">
+	<bean id="category6" class="domain.Category">
 		<property name="name" value="Doors" />
 	</bean>
 
-	<bean id="category14" class="domain.Category">
+	<bean id="category7" class="domain.Category">
 		<property name="name" value="Electrical wiring" />
 	</bean>
 
-	<bean id="category15" class="domain.Category">
+	<bean id="category8" class="domain.Category">
 		<property name="name" value="Fan installation" />
 	</bean>
 
-	<bean id="category16" class="domain.Category">
+	<bean id="category9" class="domain.Category">
 		<property name="name" value="Fence fixing" />
 	</bean>
 
-	<bean id="category17" class="domain.Category">
+	<bean id="category10" class="domain.Category">
 		<property name="name" value="Home security systems" />
 	</bean>
 
-	<bean id="category18" class="domain.Category">
+	<bean id="category11" class="domain.Category">
 		<property name="name" value="Insulation installation" />
 	</bean>
 
-	<bean id="category19" class="domain.Category">
+	<bean id="category12" class="domain.Category">
 		<property name="name" value="Lamp repairs" />
 	</bean>
 
-	<bean id="category20" class="domain.Category">
+	<bean id="category13" class="domain.Category">
 		<property name="name" value="Moving" />
 	</bean>
 
-	<bean id="category21" class="domain.Category">
+	<bean id="category14" class="domain.Category">
 		<property name="name" value="Painting" />
 	</bean>
 
-	<bean id="category22" class="domain.Category">
+	<bean id="category15" class="domain.Category">
 		<property name="name" value="Pest control" />
 	</bean>
 
-	<bean id="category23" class="domain.Category">
+	<bean id="category16" class="domain.Category">
 		<property name="name" value="Plumbing repairs" />
 	</bean>
 
-	<bean id="category24" class="domain.Category">
+	<bean id="category17" class="domain.Category">
 		<property name="name" value="Roofing" />
 	</bean>
 
-	<bean id="category25" class="domain.Category">
+	<bean id="category18" class="domain.Category">
 		<property name="name" value="Shelf installation" />
 	</bean>
 
-	<bean id="category26" class="domain.Category">
+	<bean id="category19" class="domain.Category">
 		<property name="name" value="Solar panels" />
 	</bean>
 
-	<bean id="category27" class="domain.Category">
+	<bean id="category20" class="domain.Category">
 		<property name="name" value="Soundproofing" />
 	</bean>
 
-	<bean id="category28" class="domain.Category">
+	<bean id="category21" class="domain.Category">
 		<property name="name" value="Sprinkler repair" />
 	</bean>
 
-	<bean id="category29" class="domain.Category">
+	<bean id="category22" class="domain.Category">
 		<property name="name" value="Window repair" />
 	</bean>
 
-	<bean id="category30" class="domain.Category">
+	<bean id="category23" class="domain.Category">
 		<property name="name" value="Carpintería" />
 	</bean>
 
-	<bean id="category31" class="domain.Category">
+	<bean id="category24" class="domain.Category">
 		<property name="name" value="Reparación del techo" />
 	</bean>
 
-	<bean id="category32" class="domain.Category">
+	<bean id="category25" class="domain.Category">
 		<property name="name" value="Limpieza" />
 	</bean>
 
-	<bean id="category33" class="domain.Category">
+	<bean id="category26" class="domain.Category">
 		<property name="name" value="Trabajo concreto" />
 	</bean>
 
-	<bean id="category34" class="domain.Category">
+	<bean id="category27" class="domain.Category">
 		<property name="name" value="Puertas" />
 	</bean>
 
-	<bean id="category35" class="domain.Category">
+	<bean id="category28" class="domain.Category">
 		<property name="name" value="Cableado eléctrico" />
 	</bean>
 
-	<bean id="category36" class="domain.Category">
+	<bean id="category29" class="domain.Category">
 		<property name="name" value="Instalación de ventilador" />
 	</bean>
 
-	<bean id="category37" class="domain.Category">
+	<bean id="category30" class="domain.Category">
 		<property name="name" value="Arreglo de la cerca" />
 	</bean>
 
-	<bean id="category38" class="domain.Category">
+	<bean id="category31" class="domain.Category">
 		<property name="name" value="Sistema de seguridad para el hogar" />
 	</bean>
 
-	<bean id="category39" class="domain.Category">
+	<bean id="category32" class="domain.Category">
 		<property name="name" value="Instalación de aislamiento" />
 	</bean>
 
-	<bean id="category40" class="domain.Category">
+	<bean id="category33" class="domain.Category">
 		<property name="name" value="Reparación de lámpara" />
 	</bean>
 
-	<bean id="category41" class="domain.Category">
+	<bean id="category34" class="domain.Category">
 		<property name="name" value="Mover" />
 	</bean>
 
-	<bean id="category42" class="domain.Category">
+	<bean id="category35" class="domain.Category">
 		<property name="name" value="Pintar" />
 	</bean>
 
-	<bean id="category43" class="domain.Category">
+	<bean id="category36" class="domain.Category">
 		<property name="name" value="Control de plagas" />
 	</bean>
 
-	<bean id="category44" class="domain.Category">
+	<bean id="category37" class="domain.Category">
 		<property name="name" value="Reparación de tuberías" />
 	</bean>
 
-	<bean id="category45" class="domain.Category">
+	<bean id="category38" class="domain.Category">
 		<property name="name" value="Techar" />
 	</bean>
 
-	<bean id="category46" class="domain.Category">
+	<bean id="category39" class="domain.Category">
 		<property name="name" value="Instalación de estantería" />
 	</bean>
 
-	<bean id="category47" class="domain.Category">
+	<bean id="category40" class="domain.Category">
 		<property name="name" value="Paneles solares" />
 	</bean>
 
-	<bean id="category48" class="domain.Category">
+	<bean id="category41" class="domain.Category">
 		<property name="name" value="Insonorización" />
 	</bean>
 
-	<bean id="category49" class="domain.Category">
+	<bean id="category42" class="domain.Category">
 		<property name="name" value="Reparación de aspersores" />
 	</bean>
 
-	<bean id="category50" class="domain.Category">
+	<bean id="category43" class="domain.Category">
 		<property name="name" value="Reparación de ventanas" />
 	</bean>
 
