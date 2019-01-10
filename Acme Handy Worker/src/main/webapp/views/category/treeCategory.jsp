@@ -8,19 +8,13 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<!-- Listing grid -->
-
 <display:table pagesize="5" class="category" name="categories"
 	requestURI="${requestURI}" id="row" >
 
-	<!-- Action links -->
-
-	<!-- Attributes -->
-	
 	<spring:message code="category.display.task" var="displayTask" />
 	<display:column title="${displayTask}">
 		<a href="fixUpTask/listTaskByCategory.do?categoryId=${row.id}">
-			<jstl:out value="${displayTask }" />
+			<jstl:out value="${displayTask}" />
 		</a>
 	</display:column>
 
