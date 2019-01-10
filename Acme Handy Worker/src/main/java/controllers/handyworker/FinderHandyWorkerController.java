@@ -82,9 +82,12 @@ public class FinderHandyWorkerController extends AbstractController {
 	protected ModelAndView createEditModelAndView(Finder finder, String messageCode){
 		ModelAndView res;
 		Collection<FixUpTask> fixUpTasks = new HashSet<FixUpTask>();
+		String cachedMessageCode = null;
 
 		System.out.println("createEditModelAndView:" + finder.getId() + finder.getMoment());
 		System.out.println("isVoid:" + finderService.isVoid(finder));
+
+		res = new ModelAndView("finder/edit");
 
 		if(finderService.findOne(finder.getId()).getMoment() == null
 				|| finderService.isVoid(finder)
@@ -92,10 +95,9 @@ public class FinderHandyWorkerController extends AbstractController {
 			fixUpTasks.addAll(fixUpTaskService.findAll());
 		}else{
 			fixUpTasks.addAll(finderService.findOne(finder.getId()).getFixUpTasks());
+			cachedMessageCode = "finder.cachedMessage";
 		}
-
-
-		res = new ModelAndView("finder/edit");
+		res.addObject("cachedMessage", cachedMessageCode);
 		res.addObject("finder",finder);
 		res.addObject("categories", categoryService.findAll());
 		res.addObject("warranties", warrantyService.findAll());
