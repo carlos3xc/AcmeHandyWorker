@@ -1,6 +1,5 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +46,16 @@ public class WarrantyService {
 	}
 	
 	public Warranty save(Warranty a){
+		
 		UserAccount userAccount = LoginService.getPrincipal();
 		Authority au = new Authority();
 		Authority b = new Authority();
+		
 		au.setAuthority("ADMIN");
 		b.setAuthority("CUSTOMER");
+		
 		Assert.isTrue(userAccount.getAuthorities().contains(au) || userAccount.getAuthorities().contains(b));
-		Assert.isTrue(a.getIsDraft());
+		
 		return warrantyRepository.save(a);
 	}
 	

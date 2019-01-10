@@ -27,7 +27,8 @@ public WarrantyAdministratorController(){
 	@Autowired
 	WarrantyService warrantyService;	
 
-	//Listing---
+		//Listing ---------------------------------------------------------------
+	
 		@RequestMapping(value="/list", method = RequestMethod.GET)
 		public ModelAndView list(){
 			
@@ -38,6 +39,22 @@ public WarrantyAdministratorController(){
 			res = new ModelAndView("warranty/list");
 			res.addObject("warranties", warranties);
 			res.addObject("requestURI", "warranty/admin/list.do");
+			return res; 
+		}
+		
+		// Show ------------------------------------------------------------------
+
+		@RequestMapping(value="/show", method = RequestMethod.GET)
+		public ModelAndView show(@RequestParam final int warrantyId){
+			ModelAndView res;
+			Warranty warranty;
+
+			warranty = warrantyService.findOne(warrantyId);
+			
+			res = new ModelAndView("warranty/show");
+			res.addObject("warranty", warranty);
+			res.addObject("requestURI", "warranty/admin/show.do");
+			
 			return res; 
 		}
 
@@ -107,7 +124,6 @@ public WarrantyAdministratorController(){
 		public ModelAndView save(@Valid Warranty warranty, BindingResult binding){
 			ModelAndView res;
 			if(binding.hasErrors()){
-				System.out.println("Fallos en: \n" + binding.getAllErrors());
 				res = this.createEditModelAndView(warranty);
 			}else{
 				try {

@@ -26,7 +26,7 @@
 		
 	<input type="button" name="back"
 		value="<spring:message code="warranty.back" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('warranty/admin/list.do')" />
 	<br />
 		
 				

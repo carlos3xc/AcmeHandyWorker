@@ -72,7 +72,7 @@
 					
 		<input type="button" name="cancel"
 			value="<spring:message code="warranty.cancel" />"
-			onclick="javascript: window.location.replace('')" />
+			onclick="javascript: window.location.replace('warranty/admin/list.do')" />
 		<br />
 	
 	</security:authorize>
