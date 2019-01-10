@@ -63,9 +63,9 @@ public class ReportService {
 		UserAccount userAccount = LoginService.getPrincipal();
 		Referee rf = refereeService.findByUserAccountId(userAccount.getId());
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
-		
+		System.out.println(rDatabase.getIsDraft() +" "+ r.getIsDraft());
 		if(r.getIsDraft()==null) r.setIsDraft(true);
-		if(rDatabase!=null) {
+		if(rDatabase!=null && rDatabase.getIsDraft().equals(false) && r.getIsDraft()) {
 			Assert.isTrue(rDatabase.getIsDraft().equals(true));			// Comprobamos que el draft sea false. En el caso de que fuese true, no se podría actualizar
 		}
 			if(r.getReferee()==null)r.setReferee(rf);
