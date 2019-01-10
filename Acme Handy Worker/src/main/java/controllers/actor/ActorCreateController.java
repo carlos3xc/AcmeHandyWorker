@@ -17,6 +17,7 @@ import services.CustomerService;
 import services.HandyWorkerService;
 import services.SponsorService;
 import controllers.AbstractController;
+import domain.CreditCard;
 import domain.Customer;
 import domain.HandyWorker;
 import domain.Referee;
@@ -52,8 +53,9 @@ public class ActorCreateController extends AbstractController {
 	public ModelAndView createCustomer() {
 
 		ModelAndView result;
-
-		result = this.createEditModelAndView("CUSTOMER");
+		
+		Customer customer = customerService.create();
+		result = this.createEditModelAndViewCustomer(customer);
 
 		return result;
 	}
@@ -62,8 +64,9 @@ public class ActorCreateController extends AbstractController {
 	public ModelAndView createHandyWorker() {
 
 		ModelAndView result;
-
-		result = this.createEditModelAndView("HANDYWORKER");
+		
+		HandyWorker hw = handyWorkerService.create();
+		result = this.createEditModelAndViewHandyWorker(hw);
 
 		return result;
 	}
@@ -72,34 +75,31 @@ public class ActorCreateController extends AbstractController {
 	public ModelAndView createSponsor() {
 
 		ModelAndView result;
-
-		result = this.createEditModelAndView("SPONSOR");
+		
+		Sponsor sponsor = sponsorService.create();
+		result = this.createEditModelAndViewSponsor(sponsor);
 
 		return result;
 	}
 
 	// SAVES-------------------------------------------------------
+	
 	// CUSTOMER
 	@RequestMapping(value = "/createCustomer", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveCustomer(@Valid final Customer customer , final BindingResult binding) {
 		ModelAndView result;		
-
+		
 		if (binding.hasErrors()) {
-			System.out.println(binding.getFieldErrors());
-			result = this.createEditModelAndView("CUSTOMER");
+			result = this.createEditModelAndViewCustomer(customer);
 		} else
 			try {
 				UserAccount savedUA = userAccountService.save(customer.getUserAccount());
 				customer.setUserAccount(savedUA);
 				customerService.save(customer);
-				result = new ModelAndView("redirect:/security/login.do");
+				result = new ModelAndView("redirect:");
 				
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView("actor.commit.error");
-				System.out.println("EXCEPCION CAPTURADA!!!!!!: ");
-				for (int i = 0; i < oops.getStackTrace().length; i++) {
-					System.out.println(oops.getStackTrace()[i]);
-				}
+				result = this.createEditModelAndViewCustomer(customer,"actor.commit.error");
 			}
 		return result;
 	}
@@ -108,26 +108,18 @@ public class ActorCreateController extends AbstractController {
 		@RequestMapping(value = "/createSponsor", method = RequestMethod.POST, params = "save")
 		public ModelAndView saveSponsor(@Valid final Sponsor sponsor , final BindingResult binding) {
 			ModelAndView result;
-			
-			System.out.println("saving the customer account: "+sponsor.getUserAccount().getUsername()+"  "+sponsor.getUserAccount().getPassword());
-			
 
 			if (binding.hasErrors()) {
-				System.out.println(binding.getFieldErrors());
-				result = this.createEditModelAndView("SPONSOR");
+				result = this.createEditModelAndViewSponsor(sponsor);
 			} else
 				try {
 					UserAccount savedUA = userAccountService.save(sponsor.getUserAccount());
 					sponsor.setUserAccount(savedUA);
 					sponsorService.save(sponsor);
-					result = new ModelAndView("redirect:/security/login.do");
+					result = new ModelAndView("redirect:");
 					
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView("actor.commit.error");
-					System.out.println("EXCEPCION CAPTURADA!!!!!!: ");
-					for (int i = 0; i < oops.getStackTrace().length; i++) {
-						System.out.println(oops.getStackTrace()[i]);
-					}
+					result = this.createEditModelAndViewSponsor(sponsor,"actor.commit.error");
 				}
 			return result;
 		}
@@ -136,39 +128,78 @@ public class ActorCreateController extends AbstractController {
 		@RequestMapping(value = "/createHandyWorker", method = RequestMethod.POST, params = "save")
 		public ModelAndView saveHandyWorker(@Valid final HandyWorker handyworker , final BindingResult binding) {
 			ModelAndView result;
-			
-			System.out.println("saving the customer account: "+handyworker.getUserAccount().getUsername()+"  "+handyworker.getUserAccount().getPassword());
-			
 
 			if (binding.hasErrors()) {
-				System.out.println(binding.getFieldErrors());
-				result = this.createEditModelAndView("HANDYWORKER");
+				result = this.createEditModelAndViewHandyWorker(handyworker);
 			} else
 				try {
 					UserAccount savedUA = userAccountService.save(handyworker.getUserAccount());
 					handyworker.setUserAccount(savedUA);
 					handyWorkerService.save(handyworker);
-					result = new ModelAndView("redirect:/security/login.do");
+					result = new ModelAndView("redirect:");
 					
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView("actor.commit.error");
-					System.out.println("EXCEPCION CAPTURADA!!!!!!: ");
-					for (int i = 0; i < oops.getStackTrace().length; i++) {
-						System.out.println(oops.getStackTrace()[i]);
-					}
+					result = this.createEditModelAndViewHandyWorker(handyworker,"actor.commit.error");
 				}
 			return result;
 		}
 	
 
-	protected ModelAndView createEditModelAndView(String type) {
+	protected ModelAndView createEditModelAndViewCustomer(Customer c) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(type, null);
+		result = this.createEditModelAndViewCustomer(c, null);
 
 		return result;
 	}
+	
+	protected ModelAndView createEditModelAndViewCustomer(Customer c, String messageCode){
+		ModelAndView res;
+		
+		res= new ModelAndView("actor/createCustomer");
+		res.addObject("customer",c);
+		res.addObject("message", messageCode);	
+		
+		return res;
+	}
+	
+	protected ModelAndView createEditModelAndViewSponsor(Sponsor c) {
+		ModelAndView result;
 
+		result = this.createEditModelAndViewSponsor(c, null);
+
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndViewSponsor(Sponsor c, String messageCode){
+		ModelAndView res;
+		
+		res= new ModelAndView("actor/createSponsor");
+		res.addObject("sponsor",c);
+		res.addObject("message", messageCode);	
+		
+		return res;
+	}
+	
+	protected ModelAndView createEditModelAndViewHandyWorker(HandyWorker c) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewHandyWorker(c, null);
+
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndViewHandyWorker(HandyWorker c, String messageCode){
+		ModelAndView res;
+		c.setMake("");
+		
+		res= new ModelAndView("actor/createHandyWorker");
+		res.addObject("handyworker",c);
+		res.addObject("message", messageCode);	
+		
+		return res;
+	}
+/*
 	private ModelAndView createEditModelAndView(String type, final String message) {
 
 		ModelAndView result = new ModelAndView("redirect: index.do");
@@ -177,7 +208,7 @@ public class ActorCreateController extends AbstractController {
 		if(type == "CUSTOMER"){
 			result = new ModelAndView("actor/createCustomer");
 			
-			Customer customer = customerService.create();
+			Customer customer = this.customer;
 			result.addObject("customer", customer);
 		}
 		
@@ -199,6 +230,6 @@ public class ActorCreateController extends AbstractController {
 		result.addObject("message", message);
 
 		return result;
-	}
+	}*/
 
 }
