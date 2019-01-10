@@ -76,5 +76,9 @@ public class CategoryService {
 		return res;
 	}
 	
+	public Collection<FixUpTask> listTaskByCategory(int id){
+		return categoryRepository.listTaskByCategory(id);
+	}
+	
 	
 }

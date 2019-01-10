@@ -13,8 +13,8 @@ import domain.FixUpTask;
 public interface CategoryRepository extends JpaRepository<Category, Integer>{
 	
 	@Query("select f from FixUpTask f where f.category.id = ?1")
-	public Collection<FixUpTask> listTaskByCategory(int id);
+	Collection<FixUpTask> listTaskByCategory(int id);
 	
 	@Query("select c from Category c where c.name = ?1")
-	public Category getCategoryByName(String cName);
+	Category getCategoryByName(String cName);
 }

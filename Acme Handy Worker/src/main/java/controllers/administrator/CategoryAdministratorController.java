@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CategoryService;
 import controllers.AbstractController;
 import domain.Category;
+import domain.FixUpTask;
 
 @Controller
 @RequestMapping("/category/administrator")
@@ -33,10 +34,22 @@ public class CategoryAdministratorController extends AbstractController {
 
 		Category category = categoryService.findOne(categoryId);
 
+		Collection<Category> categories = categoryService.findAll();
+		Collection<Category> cats = new ArrayList<Category>();
+		
+		for (Category cat : categories) {
+			if (cat.getParentCategory()!= null &&
+					cat.getParentCategory().equals(category)) {
+				cats.add(cat);
+			}
+		}
+
+		Collection<FixUpTask> fixUpTasks = categoryService.listTaskByCategory(categoryId);
+
 		result = new ModelAndView("category/show");
+		result.addObject("fixUpTasks", fixUpTasks);
+		result.addObject("cats", cats);
 		result.addObject("category", category);
-		// result.addObject("referee",
-		// refereeService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.addObject("requestURI", "category/administrator/show.do");
 
 		return result;
@@ -60,7 +73,8 @@ public class CategoryAdministratorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Category category = this.categoryService.create();
+		
+		Category category = categoryService.create();
 
 		result = this.createEditModelAndView(category);
 		return result;
@@ -72,8 +86,7 @@ public class CategoryAdministratorController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int categoryId) {
 		ModelAndView result;
 
-		Category category;
-		category = this.categoryService.findOne(categoryId);
+		Category category = categoryService.findOne(categoryId);
 
 		result = this.createEditModelAndView(category);
 		return result;
@@ -118,7 +131,7 @@ public class CategoryAdministratorController extends AbstractController {
 
 	private ModelAndView createEditModelAndView(final Category category) {
 		ModelAndView result;
-		
+
 		result = this.createEditModelAndView(category, null);
 		return result;
 	}
@@ -127,12 +140,16 @@ public class CategoryAdministratorController extends AbstractController {
 			final String message) {
 		ModelAndView result;
 
+		int id = category.getId();
+
 		Collection<Category> categories = this.categoryService.findAll();
+		Collection<FixUpTask> fixUpTasks = categoryService.listTaskByCategory(id);
 
 		result = new ModelAndView("category/edit");
 		result.addObject("category", category);
 		result.addObject("message", message);
 		result.addObject("categories", categories);
+		result.addObject("fixUpTasks", fixUpTasks);
 
 		return result;
 	}
