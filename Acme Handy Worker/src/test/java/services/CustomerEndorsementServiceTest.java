@@ -55,7 +55,7 @@ public class CustomerEndorsementServiceTest extends AbstractTest{
 			Collection<CustomerEndorsement> customerEndorsements;
 			super.authenticate("customer1");						
 			customerEndorsement = customerEndorsementService.create();					
-			hw = handyWorkerService.findOne(15728);
+			hw = handyWorkerService.findOne(15394);
 			
 			Date current = new Date(System.currentTimeMillis() - 1000);
 			

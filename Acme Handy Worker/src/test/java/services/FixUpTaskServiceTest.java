@@ -42,13 +42,10 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		super.authenticate("customer1");
 		fixUpTask = fixUpTaskService.create();
 		Assert.isTrue(fixUpTask.getApplications().isEmpty());
-		Assert.isNull(fixUpTask.getTicker());
 		Assert.isNull(fixUpTask.getCategory());
-		Assert.isNull(fixUpTask.getMoment());
 		Assert.isNull(fixUpTask.getDescription());
 		Assert.isNull(fixUpTask.getAddress());
 		Assert.isTrue(fixUpTask.getComplaints().isEmpty());
-		Assert.isNull(fixUpTask.getCustomer());
 		Assert.isNull(fixUpTask.getEndMoment());
 		Assert.isNull(fixUpTask.getStartMoment());
 		Assert.isNull(fixUpTask.getMaxPrice());
@@ -74,8 +71,8 @@ public class FixUpTaskServiceTest extends AbstractTest {
 		fixUpTask.setAddress("Address test");
 		fixUpTask.setCategory(category);
 		fixUpTask.setMaxPrice(600d);
-		fixUpTask.setStartMoment(Date.valueOf("2018-05-12"));
-		fixUpTask.setEndMoment(Date.valueOf("2019-01-13"));
+		fixUpTask.setStartMoment(Date.valueOf("2020-05-12"));
+		fixUpTask.setEndMoment(Date.valueOf("2021-01-13"));
 		
 		Warranty warranty, Wsaved;
 		warranty= warrantyService.create();

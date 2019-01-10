@@ -141,7 +141,7 @@ public class CurriculaController extends AbstractController {
 				res = createEditPersonalRecordModelAndView(pr);
 			}else{
 				try {
-					System.out.println("tries to save the personal record / create curricula");
+
 					personalRecordService.save(pr);// this already checks for the existance of a curricula. and if it doesnt exist it does it all.
 					res = new ModelAndView("redirect:show.do");
 				} catch (Throwable e) {

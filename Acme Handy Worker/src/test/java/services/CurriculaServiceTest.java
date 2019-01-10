@@ -73,8 +73,6 @@ public class CurriculaServiceTest extends AbstractTest {
 			}
 		}	
 		
-		
-		
 		curricula = curriculaService.create();
 		PersonalRecord p = personalRecordService.create();
 		
@@ -85,12 +83,16 @@ public class CurriculaServiceTest extends AbstractTest {
 		p.setPhoto("http://photostock.com/photo");
 		
 		
-		PersonalRecord persave = personalRecordService.save(p); 
-		curricula.setPersonalRecord(persave);
-		curriculaService.save(curricula);
+		personalRecordService.save(p); 
 
-//		Collection<Curricula> curriculas = curriculaService.findAll();						
+		boolean exists = false;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(LoginService.getPrincipal())){
+				exists = true;
+			}
+		}	
 
+		Assert.isTrue(exists);
 		super.authenticate(null);
 	}
 	
@@ -99,9 +101,9 @@ public class CurriculaServiceTest extends AbstractTest {
 	
 	@Test 
 	public void testHandyWorkerUpdate(){
-		Curricula curricula, saved;
-		Collection<Curricula> curriculas;
-		super.authenticate("handyworker1");					
+		Curricula curricula;
+		super.authenticate("handyworker1");	
+		
 		curricula = null;	
 		for (Curricula c : curriculaService.findAll()) {
 			if(c.getHandyWorker().getUserAccount().getUsername().equals("handyworker1")){
@@ -111,20 +113,23 @@ public class CurriculaServiceTest extends AbstractTest {
 		}
 		Assert.notNull(curricula);
 		
-		PersonalRecord p = personalRecordService.create();
+		PersonalRecord p = curricula.getPersonalRecord();	
 		
 		p.setEmail("email@dominio.com");
 		p.setFullName("pepito grillo");
 		p.setLinkedInUrl("http://linkedin.com/user");
 		p.setPhone("672190514");
 		p.setPhoto("http://photostock.com/photo");
+		
+		boolean is_modified = false;
+		for (Curricula c : curriculaService.findAll()) {
+			if(c.getHandyWorker().getUserAccount().equals(LoginService.getPrincipal())){
+				if(c.getPersonalRecord().getFullName().equals("pepito grillo"))
+				is_modified = true;
+			}
+		}	
 
-		personalRecordService.save(p);
-		
-		saved = curriculaService.save(curricula);						
-		
-		curriculas = curriculaService.findAll();						
-		Assert.isTrue(curriculas.contains(saved));
+		Assert.isTrue(is_modified);
 
 		super.authenticate(null);
 	}

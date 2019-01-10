@@ -109,6 +109,7 @@ public class ApplicationService {
 				|| (application.getStatus().equals("REJECTED") && application
 						.getCustomerComment() != ""));
 
+		//TODO:arreglar esto
 		messageService.sendSystemMessages(application);
 
 		this.save(application);
