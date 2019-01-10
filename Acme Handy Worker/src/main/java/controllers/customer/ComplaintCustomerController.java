@@ -15,10 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 
 import domain.Complaint;
+import domain.Customer;
+import domain.Referee;
 import domain.Report;
 
 import security.LoginService;
 import services.ComplaintService;
+import services.CustomerService;
 import services.RefereeService;
 import services.ReportService;
 
@@ -36,6 +39,9 @@ public class ComplaintCustomerController extends AbstractController {
 	
 	@Autowired
 	private ReportService reportService;
+	
+	@Autowired
+	private CustomerService customerService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -67,12 +73,24 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		Complaint complaint = complaintService.findOne(complaintId);
+		Customer customer;
+		Referee referee;
+		result = new ModelAndView("complaint/show");
+
+		if(refereeService.findByUserAccountId(LoginService.getPrincipal().getId()) != null){
+			referee = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+			result.addObject("referee", referee);
+
+		}
+		if(customerService.findByUserAccountId(LoginService.getPrincipal().getId()) != null){
+			customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+			if(complaint.getCustomer().equals(customer)) result.addObject("customer", customer);
+		}
+
 		Collection<Report> reports = reportService.getReportsByComplaint(complaintId);
 
-		result = new ModelAndView("complaint/show");
 		result.addObject("complaint", complaint);
 		result.addObject("reports",reports);
-		result.addObject("referee", refereeService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		result.addObject("requestURI", "complaint/customer/show.do");
 
 		return result;

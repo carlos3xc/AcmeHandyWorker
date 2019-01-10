@@ -67,7 +67,7 @@ public class UserAccountAdministratorController extends AbstractController {
 				UserAccount savedUA = userAccountService.save(admin.getUserAccount());
 				admin.setUserAccount(savedUA);
 				adminService.save(admin);
-				result = this.createEditModelAndView();
+				result = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView("admin.commit.error");
 				System.out.println("EXCEPCION CAPTURADA!!!!!!: "+oops.getStackTrace());
@@ -89,7 +89,7 @@ public class UserAccountAdministratorController extends AbstractController {
 				UserAccount savedUA = userAccountService.save(referee.getUserAccount());
 				referee.setUserAccount(savedUA);
 				refereeService.save(referee);
-				result = this.createEditModelAndView();
+				result = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView("admin.commit.error");
 				System.out.println("EXCEPCION CAPTURADA!!!!!!:" + oops.getStackTrace());

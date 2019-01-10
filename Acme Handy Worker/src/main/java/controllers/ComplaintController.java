@@ -13,6 +13,7 @@ import security.Authority;
 import security.LoginService;
 import services.ApplicationService;
 import services.ComplaintService;
+import services.CustomerService;
 import services.FixUpTaskService;
 import services.HandyWorkerService;
 import services.RefereeService;
@@ -44,22 +45,28 @@ public ComplaintController(){
 	@Autowired
 	RefereeService refereeService;
 	
+	@Autowired
+	CustomerService customerService;
+	
 	// Showing ----------------------------------------------------------------
 		@RequestMapping(value="/show", method = RequestMethod.GET)
 		public ModelAndView show(@RequestParam final int complaintId){
 			ModelAndView result;
 
 			Complaint complaint = complaintService.findOne(complaintId);
+			Customer customer;
+			result = new ModelAndView("complaint/show");
+
 			Collection<Report> reports = reportService.getReportsByComplaint(complaintId);
 			if(refereeService.findByUserAccountId(LoginService.getPrincipal().getId()) == null){
-				for(Report r : reports){
-					if(r.getIsDraft()==true){
-						reports.remove(r);
-					}
-				}
+				reports = reportService.getFinalReportsByComplaint(complaintId);
+			}
+			if(customerService.findByUserAccountId(LoginService.getPrincipal().getId()) != null){
+				customer = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+				if(complaint.getCustomer().equals(customer)) result.addObject("customer", customer);
 			}
 
-			result = new ModelAndView("complaint/show");
+
 			result.addObject("complaint", complaint);
 			result.addObject("reports",reports);
 			result.addObject("referee", refereeService.findByUserAccountId(LoginService.getPrincipal().getId()));

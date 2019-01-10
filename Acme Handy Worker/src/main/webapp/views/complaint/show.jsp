@@ -36,7 +36,7 @@
 
 <h3><spring:message code="complaint.reports"/>:</h3>
 		<display:table name="reports" id="row" requestURI="complaint/show.do" pagesize="5">
-		<jstl:if test="${referee !=null }">
+		<jstl:if test="${referee !=null || customer !=null}">
 			<display:column titleKey="report.options">
 				<jstl:if test="${row.isDraft}">
 					<jstl:if test="${row.referee == referee}"> 
@@ -48,6 +48,11 @@
 								<spring:message	code="complaint.delete" />
 							</a><br/>	
 						</jstl:if>		
+				</jstl:if>
+				<jstl:if test="${customer !=null}">
+					<a href="note/customer/create.do?reportId=${row.id}">
+								<spring:message	code="complaint.annotate" />
+							</a><br/>
 				</jstl:if>
 			</display:column>
 		</jstl:if>

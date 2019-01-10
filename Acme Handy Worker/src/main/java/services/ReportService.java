@@ -69,7 +69,7 @@ public class ReportService {
 			Assert.isTrue(rDatabase.getIsDraft().equals(true));			// Comprobamos que el draft sea false. En el caso de que fuese true, no se podría actualizar
 		}
 			if(r.getReferee()==null)r.setReferee(rf);
-		saved = reportRepository.save(r);
+		saved = reportRepository.saveAndFlush(r);
 		return saved;
 	}
 	
@@ -107,6 +107,13 @@ public class ReportService {
 	public Collection<Report> getReportsByComplaint(int complaintId){
 		Collection<Report> reports;
 		reports = reportRepository.getReportsByComplaint(complaintId);
+		return reports;
+		
+	}
+	
+	public Collection<Report> getFinalReportsByComplaint(int complaintId){
+		Collection<Report> reports;
+		reports = reportRepository.getFinalReportsByComplaint(complaintId);
 		return reports;
 		
 	}
