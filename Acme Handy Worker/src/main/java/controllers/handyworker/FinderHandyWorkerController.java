@@ -26,9 +26,6 @@ public class FinderHandyWorkerController extends AbstractController {
 	private FinderService finderService;
 
 	@Autowired
-	private HandyWorkerService handyWorkerService;
-
-	@Autowired
 	private FixUpTaskService fixUpTaskService;
 
 	@Autowired
@@ -54,14 +51,8 @@ public class FinderHandyWorkerController extends AbstractController {
 			result = createEditModelAndView(finder);
 		} else {
 			try {
-				System.out.println("FinderHandyWorkerController filter: saving");
-				System.out.println("Finder parameters {"+ finder.getKeyword() +"}");
 				Finder updatedFinder = finderService.save(finder);
-				System.out.println("FinderHandyWorkerController filter: already saved");
-				System.out.println("FinderUpdated parameters {"+ updatedFinder.getKeyword() +"}");
 				result = createEditModelAndView(updatedFinder);
-				System.out.println(updatedFinder);
-				System.out.println("FinderHandyWorkerController filter: results" + updatedFinder.getFixUpTasks());
 			} catch (final Throwable oops) {
 				oops.printStackTrace();
 				result = createEditModelAndView(finder,
@@ -83,9 +74,6 @@ public class FinderHandyWorkerController extends AbstractController {
 		ModelAndView res;
 		Collection<FixUpTask> fixUpTasks = new HashSet<FixUpTask>();
 		String cachedMessageCode = null;
-
-		System.out.println("createEditModelAndView:" + finder.getId() + finder.getMoment());
-		System.out.println("isVoid:" + finderService.isVoid(finder));
 
 		res = new ModelAndView("finder/edit");
 
