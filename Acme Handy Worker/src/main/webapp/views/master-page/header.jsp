@@ -50,6 +50,11 @@
 				</ul>
 			</li>
 		</security:authorize>
+
+    <security:authorize access="hasRole('HANDYWORKER')">
+        <li><a href="handyWorker/finder/filter.do" class="fNiv"><spring:message	code="master.page.finder" /></a>
+        </li>
+    </security:authorize>
 		
 		<security:authorize access="hasRole('HANDYWORKER')">
 			<li><a class="fNiv"><spring:message	code="master.page.handyWorker" /></a>

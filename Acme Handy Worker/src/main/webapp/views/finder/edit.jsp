@@ -46,7 +46,6 @@
 	</form:label>
 	<form:input path="minPrice" />
 	<form:errors cssClass="error" path="minPrice" />
-	<br />
 	
 	<form:label path="maxPrice">
 		<spring:message code="task.maxPrice" />:
@@ -60,7 +59,6 @@
 	</form:label>
 	<form:input path="startDate" placeholder="01/01/2010 12:00"/>
 	<form:errors cssClass="error" path="startDate" />
-	<br />
 	
 	<form:label path="endDate">
 		<spring:message code="finder.endDate" />:
@@ -76,13 +74,50 @@
 	<form:errors cssClass="error" path="category" />
 	<br />
 	
-	<input type="submit" name="search" value="<spring:message code="finder.search" />" />
+	<input type="submit" name="filter" value="<spring:message code="finder.search" />" />
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="finder.cancel" />"
 		onclick="javascript: window.location.replace('')" />
-	<br />
+	<br/>
 	
 	</security:authorize>
 
 </form:form>
+
+<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/list.do" pagesize="5">
+
+	<display:column titleKey="task.options">
+		<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
+			<spring:message	code="task.show" />
+		</a><br/>
+		<jstl:set var="stat" value="0"/>
+		<jstl:forEach var="x" items="${row.applications}">
+			<jstl:if test="${x.status=='PENDING'}">
+				<jstl:if test="${stat=='0' }">
+					<jstl:set var="stat" value="1"/>
+					<a href="handyWorker/application/apply.do?fixUpTaskId=${row.id}">
+						<spring:message code="task.apply"/>
+					</a><br/>
+				</jstl:if>
+			</jstl:if>
+		</jstl:forEach>
+
+		<a href="actor/show.do?actorId=${row.customer.id}">
+			<spring:message code="task.publisher"/>
+		</a><br/>
+
+	</display:column>
+
+	<display:column property="ticker" titleKey="task.ticker" />
+
+	<display:column property="description" titleKey="task.description" />
+
+	<spring:message code="task.moment.format" var="formatMoment"/>
+	<display:column property="moment" titleKey="task.moment" format="{0,date,${formatMoment} }"/>
+	<display:column property="startMoment" titleKey="task.startMoment" format="{0,date,${formatMoment} }"/>
+
+	<display:column property="maxPrice" titleKey="task.maxPrice" />
+
+</display:table>
+

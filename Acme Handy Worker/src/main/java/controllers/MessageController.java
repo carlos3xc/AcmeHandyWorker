@@ -77,6 +77,7 @@ public class MessageController extends AbstractController {
 		ModelAndView res;
 		
 		if(binding.hasErrors()){
+			System.out.println(binding.toString());
 			res = createEditModelAndView(message);
 		}else{
 			try {
