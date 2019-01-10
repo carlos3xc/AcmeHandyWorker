@@ -28,7 +28,7 @@
 		<spring:message code="application.creditCard.holder" />:
 		</form:label>
 		
-		<form:input path="holder" />
+		<form:input path="holder" placeholder="VISA"/>
 		<form:errors cssClass="error" path="holder" />
 		<br />
 		
@@ -36,7 +36,7 @@
 			<spring:message code="application.creditCard.brand" />:
 		</form:label>
 		
-		<form:input path="brand" />
+		<form:input path="brand" placeholder="1234"/>
 		<form:errors cssClass="error" path="brand" />
 		<br />
 		
@@ -44,7 +44,7 @@
 			<spring:message code="application.creditCard.cvv" />:
 		</form:label>
 		
-		<form:input path="CVV" />
+		<form:input path="CVV" placeholder="123"/>
 		<form:errors cssClass="error" path="CVV" />
 		<br />
 		
@@ -52,7 +52,7 @@
 			<spring:message code="application.creditCard.number" />:
 		</form:label>
 		
-		<form:input path="number" />
+		<form:input path="number" placeholder="8754729503472464"/>
 		<form:errors cssClass="error" path="number" />
 		<br />
 		
@@ -60,7 +60,7 @@
 			<spring:message code="application.creditCard.date" />:
 		</form:label>
 		
-		<form:input path="expirationDate" />
+		<form:input path="expirationDate" placeholder="MM/dd/yyyy HH:mm"/>
 		<form:errors cssClass="error" path="expirationDate" />
 		<br />
 		
