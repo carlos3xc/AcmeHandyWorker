@@ -1,11 +1,11 @@
 package services;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
-import domain.Configuration;
-import domain.FixUpTask;
+import domain.*;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,6 @@ import org.springframework.util.Assert;
 import repositories.FinderRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.Finder;
-import domain.HandyWorker;
 
 
 @Service
@@ -31,6 +29,9 @@ public class FinderService {
 	
 	@Autowired
 	private HandyWorkerService		handyWorkerService;
+
+	@Autowired
+	private FixUpTaskService		fixUpTaskService;
 
 	@Autowired
 	private ConfigurationService configurationService;
@@ -61,22 +62,37 @@ public class FinderService {
 		finder = this.finderRepository.findOne(finderId);
 		return finder;
 	}
+	/*This method takes into consideration that the finder may be expired
+	* and act accordingly*/
+	public Finder findByPrincipal(){
+		Finder result;
+		HandyWorker principal= handyWorkerService.findByPrincipal();
+		result = findByHandyWorker(principal);
+		/*In case is expired, we set all its parameters to null*/
+		if(result.getMoment() == null || isVoid(result) || isExpired(result)){
+			result = setAllToParametersToNullAndSave(result);
+		}
+		return result;
+	}
 	
 	public Finder save(Finder finder){
 		Finder result;
 		Assert.notNull(finder);
 		if (finder.getId() != 0) {
 			Assert.isTrue(this.esDeActorActual(finder));
+			/*In case the finder is empty, we empty all its parameters*/
 			if(isVoid(finder)){
 				finder.setMoment(null);
+				finder.setFixUpTasks(new HashSet<FixUpTask>());
+			/*In case finder is not empty, we filter fixUpTasks and then save the results in the finder*/
 			}else{
 				finder.setMoment(DateUtils.addMilliseconds(new Date(),-1));
+				filterFixUpTasks(finder);
 			}
 
 		}else{
 			/*Checking that the HandyWorker has not a Finder already
-				(Probably not necessary with '@OneToOne(optional = false)' annotation)
-			 */
+				(Probably not necessary with '@OneToOne(optional = false)' annotation)*/
 			Assert.isNull(findByHandyWorker(finder.getHandyWorker()));
 			/*Checking that all attributes but handyWorker and moment are null*/
 			Assert.isTrue(isVoid(finder));
@@ -101,16 +117,6 @@ public class FinderService {
 
 		return result;
 	}
-
-	public Finder findByPrincipal(){
-		Finder result;
-		HandyWorker principal = handyWorkerService.findByPrincipal();
-		Assert.notNull(principal);
-
-		result = findByHandyWorker(principal);
-
-		return result;
-	}
 	
 	//Other business methods -----
 	
@@ -124,10 +130,11 @@ public class FinderService {
 		return result;
 	}
 
-	private Boolean isVoid(final Finder finder){
+	public Boolean isVoid(final Finder finder){
 		Boolean result;
 
-		result = finder.getMinPrice() == null
+		result = (finder.getKeyword() == null || finder.getKeyword() == "")
+				&& finder.getMinPrice() == null
 				&& finder.getMaxPrice() == null
 				&& finder.getStartDate() == null
 				&& finder.getEndDate() == null
@@ -137,8 +144,27 @@ public class FinderService {
 		return result;
 	}
 
-	private Boolean isExpired(Finder finder){
-		Boolean result;
+	private Finder setAllToParametersToNullAndSave(Finder finder){
+		Assert.isTrue(finder.getMoment() == null || isExpired(finder));
+		Finder result;
+
+		finder.setMoment(null);
+		finder.setKeyword(null);
+		finder.setMinPrice(null);
+		finder.setMaxPrice(null);
+		finder.setStartDate(null);
+		finder.setEndDate(null);
+
+		finder.setCategory(null);
+		finder.setWarranty(null);
+		finder.setFixUpTasks(null);
+
+		result = save(finder);
+		return result;
+	}
+
+	public Boolean isExpired(Finder finder){
+		Boolean result = true;
 		Configuration configuration = configurationService.find();
 		Double cacheTimeInHours = configuration.getFinderCacheTime();
 		Date expirationMoment =  new Date();
@@ -148,12 +174,51 @@ public class FinderService {
 			expirationMoment = DateUtils.addMinutes(expirationMoment,
 				Double.valueOf(60 * (cacheTimeInHours - cacheTimeInHours.intValue())).intValue());
 
-		result = finder.getMoment().after(expirationMoment);
+			result = finder.getMoment().after(expirationMoment);
 
 		return result;
 	}
 
-	//TODO: public Collection<FixUpTask> filterFixUpTasks();
-	
-	
+	/*Don't declare finder parameter as final*/
+	public Finder filterFixUpTasks(Finder finder){
+		String keyword;
+		Double maxPrice, minPrice;
+		Date startDate, endDate;
+		Category category;
+		Warranty warranty;
+		Integer categoryId, warrantyId;
+
+		Collection<FixUpTask> fixUpTasks;
+
+		/*Extract finder parameters to filter fixUpTasks*/
+		keyword = finder.getKeyword();
+
+		maxPrice = finder.getMaxPrice();
+		minPrice = finder.getMinPrice();
+
+		startDate = finder.getStartDate();
+		endDate = finder.getEndDate();
+
+		category = finder.getCategory();
+		warranty = finder.getWarranty();
+
+		/*We do this to avoid a null pointer exception*/
+		if (category==null){
+			categoryId = null;
+		}else{
+			categoryId = category.getId();
+		}
+		if (warranty==null){
+			warrantyId = null;
+		}else{
+			warrantyId = warranty.getId();
+		}
+
+		fixUpTasks = finderRepository.filterFixUpTasks(keyword, minPrice,
+				maxPrice, startDate, endDate, categoryId, warrantyId);
+		finder.setFixUpTasks(fixUpTasks);
+
+		return finder;
+	}
+
 }

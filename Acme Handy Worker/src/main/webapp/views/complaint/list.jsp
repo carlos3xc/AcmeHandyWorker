@@ -49,28 +49,7 @@
 
 <security:authorize access="hasRole('REFEREE')">
 
-	<display:table name="complaints" id="row" pagesize="5"
-		requestURI="complaint/referee/list.do">
-	
-		<display:column>
-			<a href="complaint/show.do?complaintId=${row.id}"> <spring:message	code="complaint.show" />
-			</a>
-		</display:column>
 
-		<display:column titleKey="complaint.ticker" property="ticker" />
-
-		<display:column titleKey="complaint.description"
-			property="description" />
-
-		<spring:message code="complaint.moment.format" var="formatMoment" />
-		<display:column titleKey="complaint.moment" property="moment"
-			sortable="true" format="{0, date, ${formatMoment}}" />
-
-		<display:column titleKey="complaint.fixUpTask"
-			property="fixUpTask.ticker" />
-
-	</display:table>
-	
 	<display:table name="complaints" id="row" pagesize="5"
 		requestURI="complaint/referee/listNoReport.do">
 	

@@ -34,7 +34,6 @@
 	<form:hidden path="referee" />
 	<form:hidden path="complaint" />
 	<form:hidden path="notes" />
-	<form:hidden path="isDraft"/>
 
 
 	<form:label path="description">
@@ -49,6 +48,16 @@
 	</form:label>
 	<form:textarea path="attachments" />
 	<form:errors cssClass="error" path="attachments" />
+	<br />
+	
+	<form:label path="isDraft">
+		<spring:message code="report.isDraft" />:
+	</form:label>
+	<form:select id="isDraft" path="isDraft">
+		<form:option label="Yes" value="True"/>
+		<form:option label="No" value="False"/>
+	</form:select>  
+	<form:errors cssClass="error" path="isDraft" />
 	<br />
 
 
