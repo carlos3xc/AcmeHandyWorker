@@ -24,7 +24,7 @@ public class WelcomeMessageServiceTest extends AbstractTest {
 	@Test
 	public void testCreate() {
 
-		authenticate("admin1");
+		authenticate("admin");
 
 		WelcomeMessage welcomeMessage;
 
@@ -39,7 +39,7 @@ public class WelcomeMessageServiceTest extends AbstractTest {
 	@Test
 	public void testSave() {
 
-		authenticate("admin1");
+		authenticate("admin");
 
 		WelcomeMessage welcomeMessage = new WelcomeMessage();
 
@@ -61,7 +61,7 @@ public class WelcomeMessageServiceTest extends AbstractTest {
 	@Test
 	public void testUpdate() {
 
-		authenticate("admin1");
+		authenticate("admin");
 
 		WelcomeMessage welcomeMessage = (WelcomeMessage) welcomeMessageService
 				.findAll().toArray()[0];
@@ -82,7 +82,7 @@ public class WelcomeMessageServiceTest extends AbstractTest {
 	@Test
 	public void testDelete() {
 
-		authenticate("admin1");
+		authenticate("admin");
 
 		WelcomeMessage welcomeMessage = (WelcomeMessage) welcomeMessageService
 				.findAll().toArray()[0];

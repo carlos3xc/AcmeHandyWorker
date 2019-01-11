@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
 import domain.Customer;
 import domain.SocialProfile;
@@ -28,6 +29,9 @@ public class CustomerServiceTest extends AbstractTest {
 	
 	@Autowired
 	private SocialProfileService socialProfileService;
+	
+	@Autowired
+	private UserAccountService accountService;
 	// Tests ----------------------------------------------------------------------
 
 	
@@ -39,8 +43,6 @@ public class CustomerServiceTest extends AbstractTest {
 		customer = customerService.create();	
 		Assert.isNull(customer.getAddress());
 		Assert.isNull(customer.getEmail());
-		Assert.isNull(customer.getIsBanned());
-		Assert.isNull(customer.getIsSuspicious());
 		Assert.isNull(customer.getMiddleName());
 		Assert.isNull(customer.getName());
 		Assert.isNull(customer.getPhone());
@@ -79,9 +81,10 @@ public class CustomerServiceTest extends AbstractTest {
 		customer.getSocialProfiles().add(savedpr);
 
 		UserAccount userAccount = customer.getUserAccount();
-		userAccount.setUsername("customer12");
+		userAccount.setUsername("nuevocustomer");
 		userAccount.setPassword("customer12");
-		customer.setUserAccount(userAccount);
+		UserAccount savedua = accountService.save(userAccount);
+		customer.setUserAccount(savedua);
 
 		saved = customerService.save(customer);
 		

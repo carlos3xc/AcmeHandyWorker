@@ -47,10 +47,7 @@ public class ComplaintServiceTest extends AbstractTest {
 		super.authenticate("customer1");
 		complaint = complaintService.create();
 		Assert.isTrue(complaint.getAttachments().isEmpty());
-		Assert.isNull(complaint.getCustomer());
 		Assert.isNull(complaint.getFixUpTask());
-		Assert.isNull(complaint.getMoment());
-		Assert.isNull(complaint.getTicker());
 		Assert.isNull(complaint.getDescription());
 		super.authenticate(null);
 	}
@@ -66,6 +63,8 @@ public class ComplaintServiceTest extends AbstractTest {
 
 		super.authenticate("customer1");						// Nos autenticamos como Referee
 		complaint = complaintService.create();					// Creamos el reporte
+		
+		//TODO: falla porque no cumple la condicion del ticker revisar
 
 		fixUpTask = (FixUpTask) fixUpTaskService.findAll().toArray()[0];
 		

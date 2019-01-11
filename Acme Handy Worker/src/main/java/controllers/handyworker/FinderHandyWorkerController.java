@@ -26,9 +26,6 @@ public class FinderHandyWorkerController extends AbstractController {
 	private FinderService finderService;
 
 	@Autowired
-	private HandyWorkerService handyWorkerService;
-
-	@Autowired
 	private FixUpTaskService fixUpTaskService;
 
 	@Autowired
@@ -54,14 +51,8 @@ public class FinderHandyWorkerController extends AbstractController {
 			result = createEditModelAndView(finder);
 		} else {
 			try {
-				System.out.println("FinderHandyWorkerController filter: saving");
-				System.out.println("Finder parameters {"+ finder.getKeyword() +"}");
 				Finder updatedFinder = finderService.save(finder);
-				System.out.println("FinderHandyWorkerController filter: already saved");
-				System.out.println("FinderUpdated parameters {"+ updatedFinder.getKeyword() +"}");
 				result = createEditModelAndView(updatedFinder);
-				System.out.println(updatedFinder);
-				System.out.println("FinderHandyWorkerController filter: results" + updatedFinder.getFixUpTasks());
 			} catch (final Throwable oops) {
 				oops.printStackTrace();
 				result = createEditModelAndView(finder,
@@ -82,9 +73,9 @@ public class FinderHandyWorkerController extends AbstractController {
 	protected ModelAndView createEditModelAndView(Finder finder, String messageCode){
 		ModelAndView res;
 		Collection<FixUpTask> fixUpTasks = new HashSet<FixUpTask>();
+		String cachedMessageCode = null;
 
-		System.out.println("createEditModelAndView:" + finder.getId() + finder.getMoment());
-		System.out.println("isVoid:" + finderService.isVoid(finder));
+		res = new ModelAndView("finder/edit");
 
 		if(finderService.findOne(finder.getId()).getMoment() == null
 				|| finderService.isVoid(finder)
@@ -92,10 +83,9 @@ public class FinderHandyWorkerController extends AbstractController {
 			fixUpTasks.addAll(fixUpTaskService.findAll());
 		}else{
 			fixUpTasks.addAll(finderService.findOne(finder.getId()).getFixUpTasks());
+			cachedMessageCode = "finder.cachedMessage";
 		}
-
-
-		res = new ModelAndView("finder/edit");
+		res.addObject("cachedMessage", cachedMessageCode);
 		res.addObject("finder",finder);
 		res.addObject("categories", categoryService.findAll());
 		res.addObject("warranties", warrantyService.findAll());

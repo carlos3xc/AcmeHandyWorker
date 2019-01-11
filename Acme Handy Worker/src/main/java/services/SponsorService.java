@@ -24,7 +24,9 @@ public class SponsorService {
 	
 	@Autowired
 	private SponsorRepository sponsorRepository;
-	
+		
+	@Autowired
+	private UserAccountService userAccountService;
 	//Supporting Services -----
 	
 	@Autowired
@@ -43,6 +45,7 @@ public class SponsorService {
 		sponsor.setSocialProfiles(new ArrayList<SocialProfile>());
 		sponsor.setIsBanned(false);
 		sponsor.setIsSuspicious(false);
+		System.out.println(sponsor.getUserAccount().getPassword());
 		
 		return sponsor;
 	}
@@ -56,7 +59,8 @@ public class SponsorService {
 	}
 	
 	public Sponsor save(Sponsor a){
-		
+		UserAccount saved = userAccountService.save(a.getUserAccount());
+		a.setUserAccount(saved);
 		return sponsorRepository.saveAndFlush(a);
 	}
 	

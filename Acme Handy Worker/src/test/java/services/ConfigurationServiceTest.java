@@ -31,7 +31,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	@Test
 	public void testCreateConfigurations(){
 		Configuration configuration;
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		configuration = configurationService.create();
 		Assert.isNull(configuration.getBanner());
 		Assert.isNull(configuration.getDefaultPhoneCode());
@@ -48,15 +48,11 @@ public class ConfigurationServiceTest extends AbstractTest {
 	public void testSaveConfigurations(){
 		Configuration configuration,saved;
 		Collection<Configuration> configurations;
-		super.authenticate("admin1");
-		configuration = configurationService.create();
+		super.authenticate("admin");
+		configuration = configurationService.find();
 		
-		configuration.setBanner("http://www.pinterest.com");
-		configuration.setDefaultPhoneCode("+32");
-		configuration.setFinderCacheTime(20d);
-		configuration.setFinderQueryResults(15);
-		configuration.setVatPercentage(22d);
-		
+		configuration.setDefaultPhoneCode("+66");
+
 		saved = configurationService.save(configuration);
 
 		configurations = configurationService.findAll();
@@ -71,7 +67,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	@Test 
 	public void testUpdateConfiguration(){
 		Configuration configuration = new Configuration();
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		configuration = (Configuration) configurationService.findAll().toArray()[0];
 
 		configuration.setBanner("http://www.pixiv.com");
@@ -86,7 +82,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	public void testDeleteConfigurations(){
 		Configuration configuration;
 		Collection<Configuration> configurations;
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		configuration = (Configuration) configurationService.findAll().toArray()[0];	
 

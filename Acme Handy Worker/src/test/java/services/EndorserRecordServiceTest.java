@@ -36,7 +36,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	@Test
 	public void testHandyWorkerCreate(){
 		EndorserRecord er;
-		super.authenticate("handyWorker1");
+		super.authenticate("handyworker1");
 		er = endorserRecordService.create();
 
 		Assert.isNull(er.getComments());
@@ -56,7 +56,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 	public void testHandyWorkerSave(){
 		EndorserRecord	er, saved;
 		
-		super.authenticate("handyWorker1");						
+		super.authenticate("handyworker1");						
 		er = endorserRecordService.create();			
 		
 			er.setComments("comments");
@@ -65,10 +65,7 @@ public class EndorserRecordServiceTest extends AbstractTest {
 			er.setLinkedInProfile("http://www.linkedin.com/user");
 			er.setPhone("672190514");	
 		
-		saved = endorserRecordService.save(er);	
-
-		Collection<EndorserRecord> endorserRecords = endorserRecordService.findAll();						
-		Assert.isTrue(endorserRecords.contains(saved));
+		saved = endorserRecordService.save(er);
 		
 		boolean curriculaUpdated = false;
 		for (Curricula c : curriculaService.findAll()) {

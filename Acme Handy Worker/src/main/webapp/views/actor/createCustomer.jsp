@@ -6,11 +6,10 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-	<h2>Create Customer</h2> 
+
 <form:form action="actor/createCustomer.do" modelAttribute="customer">
 	
 	<form:hidden path="id" />
@@ -111,7 +110,7 @@
 
 	<input type="button" name="cancel"
 		value="<spring:message code="admin.cancel" />"
-		onclick="javascript: window.location.replace('master.page')" />
+		onclick="javascript: window.location.replace('')" />
 	<br />
 
 </form:form>

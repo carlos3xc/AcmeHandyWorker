@@ -10,7 +10,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-	<h2>Create Handy Worker</h2> 
 <form:form action="actor/createHandyWorker.do" modelAttribute="handyworker">
 	
 	<form:hidden path="id" />

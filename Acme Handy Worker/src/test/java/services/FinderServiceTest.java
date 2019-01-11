@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
 import domain.Finder;
 import domain.HandyWorker;
@@ -36,6 +37,10 @@ public class FinderServiceTest extends AbstractTest {
 	
 	@Autowired
 	private SocialProfileService socialProfileService;
+	
+	@Autowired
+	private UserAccountService accountService;
+
 
 
 	// Tests --------------------
@@ -43,7 +48,7 @@ public class FinderServiceTest extends AbstractTest {
 	@Test
 	public void testCreate() {
 		HandyWorker handyWorker;
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		handyWorker = handyWorkerService.create();						
 		
 		handyWorker.setName("Francisco");
@@ -65,7 +70,8 @@ public class FinderServiceTest extends AbstractTest {
 		UserAccount userAccount = handyWorker.getUserAccount();
 		userAccount.setUsername("handyWorker12");
 		userAccount.setPassword("handyWorker12");
-		handyWorker.setUserAccount(userAccount);
+		UserAccount savedua = accountService.save(userAccount);
+		handyWorker.setUserAccount(savedua);
 
 		handyWorkerService.save(handyWorker);
 		this.authenticate(null);
@@ -83,6 +89,7 @@ public class FinderServiceTest extends AbstractTest {
 //		final Collection<FixUpTask> fixUpTasks = new ArrayList<FixUpTask>();
 //		finder.setFixUpTasks(fixUpTasks);
 		Finder savedf = finderService.save(finder);
+		//TODO: no quiero tocar el metodo de carlos que lo arregle el, da fallo en el save.
 		Collection<Finder> finders = finderService.findAll();
 		Assert.isTrue(finders.contains(savedf), "----- Fallo metodo create -----");
 	}
@@ -116,7 +123,7 @@ public class FinderServiceTest extends AbstractTest {
 	@Test
 	public void testDelete() {
 		this.authenticate("handyworker3");
-		final Finder finder = this.finderService.findOne(15786);
+		final Finder finder = this.finderService.findOne(15447);
 		this.finderService.delete(finder);
 	}
 

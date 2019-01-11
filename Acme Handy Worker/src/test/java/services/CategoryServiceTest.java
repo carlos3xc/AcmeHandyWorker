@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class CategoryServiceTest extends AbstractTest{
 	@Test
 	public void testCreate(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Category res = catService.create();
 		
@@ -42,7 +43,7 @@ public class CategoryServiceTest extends AbstractTest{
 	@Test
 	public void testSave(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 
 		Category res = catService.create();
 		
@@ -62,14 +63,13 @@ public class CategoryServiceTest extends AbstractTest{
 	@Test
 	public void testDelete(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 
-		Category res = (Category) catService.findAll().toArray()[4];
-
-		catService.delete(res);
-		Collection<Category> categories = catService.findAll();
+		//TODO: HAY UN PROBLEMA CON LA ID.
 		
-		Assert.isTrue(!categories.contains(res));
+		Category res = (Category) catService.findAll().toArray()[4];
+		catService.delete(res);
+		Assert.isTrue(!catService.findAll().contains(res));
 		
 		super.authenticate(null);
 	}

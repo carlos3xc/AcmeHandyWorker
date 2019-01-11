@@ -160,6 +160,7 @@ public class MessageService {
 		Message message = this.create(sender);
 		message.setRecipients(recipients);
 		
+		message.setSubject("The status of the application with id"+ application.getId()+ " has changed");
 
 		message.setBody("The status of the fix-up Task described as: \n"
 				+ application.getFixUpTask().getDescription()

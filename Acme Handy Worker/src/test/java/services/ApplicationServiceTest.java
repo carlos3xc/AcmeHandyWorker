@@ -36,9 +36,11 @@ public class ApplicationServiceTest extends AbstractTest {
 
 	@Test
 	public void testCreate() {
+		authenticate("handyworker1");
 		Application application = applicationService.create();
 		Assert.state(application.getStatus() != "",
 				"El estado de la aplicación no debe ser nulo");
+		unauthenticate();
 	}
 
 	@Test
@@ -174,6 +176,7 @@ public class ApplicationServiceTest extends AbstractTest {
 		Application application = (Application) applicationService.findAll()
 				.toArray()[11];
 		applicationService.changeStatus(application, c);
+		//TODO:Falla en el sendSystemMessage no puedo hacer nada por ahora 
 
 		unauthenticate();
 	}

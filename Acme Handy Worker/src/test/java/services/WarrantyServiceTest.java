@@ -29,13 +29,13 @@ public class WarrantyServiceTest extends AbstractTest{
 	@Test
 	public void testCreate(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Warranty res = warrantyService.create();
 
 		Assert.isNull(res.getTerms());
 		Assert.isNull(res.getTitle());
-		Assert.isTrue(res.getLaws().isEmpty());
+		Assert.isNull(res.getLaws());
 		Assert.isTrue(res.getIsDraft());
 		
 		super.authenticate(null);
@@ -44,7 +44,7 @@ public class WarrantyServiceTest extends AbstractTest{
 	@Test
 	public void testSave(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Warranty res = warrantyService.create();
 		
@@ -62,7 +62,7 @@ public class WarrantyServiceTest extends AbstractTest{
 	@Test
 	public void testDelete(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Collection<Warranty> warranties = warrantyService.findAll();
 		Warranty res = null;

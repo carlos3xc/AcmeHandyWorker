@@ -15,6 +15,7 @@ import domain.SocialProfile;
 
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,6 +31,9 @@ public class HandyWorkerServiceTest extends AbstractTest{
 		
 		@Autowired
 		private SocialProfileService socialProfileService;
+		
+		@Autowired
+		private UserAccountService accountService;
 		// Tests ----------------------------------------------------------------------
 
 		
@@ -41,8 +45,6 @@ public class HandyWorkerServiceTest extends AbstractTest{
 			handyWorker = handyWorkerService.create();	
 			Assert.isNull(handyWorker.getAddress());
 			Assert.isNull(handyWorker.getEmail());
-			Assert.isNull(handyWorker.getIsBanned());
-			Assert.isNull(handyWorker.getIsSuspicious());
 			Assert.isNull(handyWorker.getMiddleName());
 			Assert.isNull(handyWorker.getName());
 			Assert.isNull(handyWorker.getPhone());
@@ -61,7 +63,7 @@ public class HandyWorkerServiceTest extends AbstractTest{
 		public void testSaveHandyWorker(){
 			HandyWorker handyWorker,saved;
 			Collection<HandyWorker> handyWorkers;
-			super.authenticate("admin1");
+			super.authenticate("admin");
 			handyWorker = handyWorkerService.create();						
 			
 			handyWorker.setName("Francisco");
@@ -83,7 +85,8 @@ public class HandyWorkerServiceTest extends AbstractTest{
 			UserAccount userAccount = handyWorker.getUserAccount();
 			userAccount.setUsername("handyWorker12");
 			userAccount.setPassword("handyWorker12");
-			handyWorker.setUserAccount(userAccount);
+			UserAccount savedua = accountService.save(userAccount);
+			handyWorker.setUserAccount(savedua);
 
 			saved = handyWorkerService.save(handyWorker);
 			

@@ -58,6 +58,9 @@ public class WordService {
 		
 		Assert.isTrue(LoginService.hasRole("ADMIN"));
 		
+		Configuration config = configurationService.find();
+		config.getspamWords().remove(a);
+		configurationService.save(config);
 		wordRepository.delete(a);
 	}
 	

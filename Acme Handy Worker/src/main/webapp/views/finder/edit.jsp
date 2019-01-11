@@ -97,6 +97,13 @@
 	</security:authorize>
 
 </form:form>
+<br/>
+<jstl:if test="${cachedMessage != null}">
+	<p style="color: #3a3a3a"><spring:message code="${cachedMessage}" /></p>
+	<p style="color: #3a3a3a"><spring:message code="finder.cachedMoment"/>
+		<jstl:out value="${finder.moment}"/></p>
+	<br/>
+</jstl:if>
 
 <display:table name="fixUpTasks" id="row" requestURI="handyWorker/finder/filter.do" pagesize="5">
 
