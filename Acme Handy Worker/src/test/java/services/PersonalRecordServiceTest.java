@@ -56,8 +56,7 @@ public class PersonalRecordServiceTest extends AbstractTest {
 	@Test 
 	public void testHandyWorkerSave(){
 		PersonalRecord	pr, saved;
-		
-		super.authenticate("handyWorker1");						
+		super.authenticate("handyWorker4");						
 		pr = personalRecordService.create();			
 		
 		pr.setEmail("email@dominio.com");
@@ -65,12 +64,9 @@ public class PersonalRecordServiceTest extends AbstractTest {
 		pr.setLinkedInUrl("http://linkedin.com/user");
 		pr.setPhone("672190514");
 		pr.setPhoto("http://photostock.com/photo");
-		
 		saved = personalRecordService.save(pr); 		
-
 		Collection<PersonalRecord> personalRecords = personalRecordService.findAll();						
 		Assert.isTrue(personalRecords.contains(saved));
-		
 		boolean curriculaUpdated = false;
 		for (Curricula c : curriculaService.findAll()) {
 			if(c.getPersonalRecord().equals(saved));
@@ -120,7 +116,7 @@ public class PersonalRecordServiceTest extends AbstractTest {
 	@Test 
 	public void testHandyWorkerDelete(){
 		PersonalRecord	pr, saved;
-		super.authenticate("handyworker1");		
+		super.authenticate("handyworker4");		
 		
 		pr = personalRecordService.create();			
 		

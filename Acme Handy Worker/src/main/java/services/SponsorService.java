@@ -24,7 +24,7 @@ public class SponsorService {
 	
 	@Autowired
 	private SponsorRepository sponsorRepository;
-	
+		
 	//Supporting Services -----
 	
 	@Autowired
@@ -39,7 +39,7 @@ public class SponsorService {
 		user.addAuthority(authority);
 
 		Sponsor sponsor = new Sponsor();
-		sponsor.setUserAccount(user);
+		sponsor.setUserAccount(uaService.save(user));
 		sponsor.setSocialProfiles(new ArrayList<SocialProfile>());
 		sponsor.setIsBanned(false);
 		sponsor.setIsSuspicious(false);

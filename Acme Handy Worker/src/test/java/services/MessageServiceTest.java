@@ -279,9 +279,11 @@ public class MessageServiceTest extends AbstractTest {
 
 		messageService.sendSystemMessages(application);
 
-		Box customerBox = boxService.findOne(15896); // Box 14
-		Box handyWorkerBox = boxService.findOne(15912); // Box 30
-		Box administratorBox = boxService.findOne(15905); // Box 23
+		Box customerBox = (Box)boxService.findAll().toArray()[13]; // Box 14
+		Box handyWorkerBox = (Box)boxService.findAll().toArray()[29]; // Box 30
+		Box administratorBox = (Box)boxService.findAll().toArray()[22]; // Box 23
+		
+		System.out.println("customerbox " + customerBox.getName() + " hwbox " + handyWorkerBox.getName() + " abox "+ administratorBox.getName());
 
 		// Box customerBox = (Box) boxService.findAll().toArray()[13];
 		// Box handyWorkerBox = (Box) boxService.findAll().toArray()[29];

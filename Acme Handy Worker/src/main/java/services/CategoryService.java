@@ -58,13 +58,17 @@ public class CategoryService {
 		Authority au = new Authority();
 		au.setAuthority("ADMIN");
 		Assert.isTrue(userAccount.getAuthorities().contains(au));
-		
 		//final Category primeraCategoria = this.getCategoryByName("category");
+		System.out.println(a.getParentCategory());
 		for(FixUpTask f:categoryRepository.listTaskByCategory(a.getId())){ //Hacerlo mejor con una query
-			f.setCategory(a.getParentCategory());
+			if(a.getParentCategory()!=null){
+				f.setCategory(a.getParentCategory());
+			}else{
+				f.setCategory(categoryRepository.getCategoryByName("CATEGORY"));
+			}
 			taskService.saveAdmin(f);
 		}
-		
+
 		categoryRepository.delete(a);
 	}
 	

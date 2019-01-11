@@ -78,7 +78,6 @@ public class CurriculaService {
 		Assert.isTrue(c.getHandyWorker().getUserAccount().equals(logged));
 		//Assert.notNull(c.getPersonalRecord());
 		//sabemos que es un Handyworker y que es el dueño de la curricula que se quiere guardar.
-
 		Curricula res = curriculaRepository.saveAndFlush(c);
 		
 		return res;

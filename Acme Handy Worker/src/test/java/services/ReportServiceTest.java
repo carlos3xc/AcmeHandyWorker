@@ -40,9 +40,9 @@ public class ReportServiceTest extends AbstractTest {
 		Assert.isNull(report.getComplaint());
 		Assert.isNull(report.getDescription());
 		Assert.isNull(report.getIsDraft());
-		Assert.isNull(report.getMoment());
+		Assert.notNull(report.getMoment());
 		Assert.isTrue(report.getNotes().isEmpty());
-		Assert.isNull(report.getReferee());
+		Assert.notNull(report.getReferee());
 		super.authenticate(null);
 	}
 	

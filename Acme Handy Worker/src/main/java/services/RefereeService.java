@@ -32,9 +32,12 @@ public class RefereeService {
 	//Simple CRUD methods -----
 	public Referee create(){
 		Referee res = new Referee();
+		Authority aut = new Authority();
+		aut.setAuthority("REFEREE");
 		res.setSocialProfiles(new ArrayList<SocialProfile>());
 		UserAccount ua = userAccountService.create();
-		res.setUserAccount(ua);
+		ua.getAuthorities().add(aut);
+		res.setUserAccount(userAccountService.save(ua));
 		return res;
 	}
 	
@@ -50,7 +53,7 @@ public class RefereeService {
 		
 		Referee result;
 
-		Assert.isTrue(LoginService.hasRole("ADMIN"));
+		Assert.isTrue(LoginService.hasRole("ADMIN") || LoginService.hasRole("REFEREE"));
 
 		result = refereeRepository.saveAndFlush(r);
 		return result;

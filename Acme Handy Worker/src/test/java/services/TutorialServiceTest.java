@@ -36,8 +36,8 @@ public class TutorialServiceTest extends AbstractTest{
 			Assert.isTrue(tutorial.getPictures().isEmpty());
 			Assert.isNull(tutorial.getTitle());
 			Assert.isNull(tutorial.getSummary());
-			Assert.isNull(tutorial.getMoment());
-			Assert.isNull(tutorial.getHandyWorker());
+			Assert.notNull(tutorial.getMoment());
+			Assert.notNull(tutorial.getHandyWorker());
 			super.authenticate(null);
 		}
 		
@@ -67,13 +67,14 @@ public class TutorialServiceTest extends AbstractTest{
 		
 		@Test 
 		public void testUpdateTutorials(){
-			Tutorial tutorial;
+			Tutorial tutorial,saved;
 			super.authenticate("handyworker1");						
-			tutorial = tutorialService.findOne(15795);				
-			tutorial.setTitle("Este es el nuevo título");	
-
-			tutorialService.save(tutorial);				
-
+			tutorial = (Tutorial) tutorialService.findAll().toArray()[0];
+			String old = tutorial.getTitle();
+			String newT = "Titulo update test";
+			tutorial.setTitle(newT);	
+			saved = tutorialService.save(tutorial);				
+			Assert.isTrue(old != newT && newT.equals(saved.getTitle()));
 			super.authenticate(null);
 		}
 		
@@ -85,7 +86,7 @@ public class TutorialServiceTest extends AbstractTest{
 			Collection<Tutorial> tutorials;
 			super.authenticate("handyworker1");								
 
-			tutorial = tutorialService.findOne(15797);						
+			tutorial = (Tutorial) tutorialService.findAll().toArray()[0];						
 
 			tutorialService.delete(tutorial);									
 			tutorials = tutorialService.findAll();						

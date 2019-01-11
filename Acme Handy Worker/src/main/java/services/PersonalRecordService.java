@@ -44,21 +44,19 @@ public class PersonalRecordService {
 		return personalRecordRepository.findOne(Id);
 	}
 	
+	// QUIERO LOS HANDY WORKERS CON CURRICULA
+	
 	public PersonalRecord save(PersonalRecord a){
 		
 		PersonalRecord res = null;
 		//si la id del record es cero no tiene curricula, si la id del record existe si tiene curricula, no se contemplan mas estados.
 		if(a.getId() == 0){// no tiene curricula
-			
-			System.out.println("no tiene curricula y le creamos una");
 			res = personalRecordRepository.saveAndFlush(a);
 			Curricula c = curriculaService.create();
 			c.setPersonalRecord(res);
-			System.out.println("se intenta guardar la curricula con ticker: "+c.getTicker());
 			curriculaService.save(c);
 			
 		}else{//Si tiene curricula
-			System.out.println("si tiene curricula se actualiza su personal Record");
 			res = personalRecordRepository.saveAndFlush(a); 
 		}
 		

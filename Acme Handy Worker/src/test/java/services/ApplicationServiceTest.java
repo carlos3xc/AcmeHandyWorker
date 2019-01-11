@@ -36,9 +36,11 @@ public class ApplicationServiceTest extends AbstractTest {
 
 	@Test
 	public void testCreate() {
+		authenticate("handyworker1");
 		Application application = applicationService.create();
 		Assert.state(application.getStatus() != "",
 				"El estado de la aplicación no debe ser nulo");
+		unauthenticate();
 	}
 
 	@Test

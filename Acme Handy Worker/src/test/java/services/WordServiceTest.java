@@ -29,7 +29,7 @@ public class WordServiceTest extends AbstractTest{
 	@Test
 	public void testCreate(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Word res = wordService.create();
 		
@@ -42,7 +42,7 @@ public class WordServiceTest extends AbstractTest{
 	@Test
 	public void testSave(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Word res = wordService.create();
 		
@@ -59,7 +59,7 @@ public class WordServiceTest extends AbstractTest{
 	@Test
 	public void testDelete(){
 		
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		
 		Word res = (Word) wordService.findAll().toArray()[0];
 		

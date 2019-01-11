@@ -37,7 +37,7 @@ public class RefereeServiceTest extends AbstractTest {
 	@Test
 	public void testCreateReferee(){
 		Referee referee;
-		super.authenticate("admin1");
+		super.authenticate("admin");
 		referee = refereeService.create();	
 		Assert.isNull(referee.getAddress());
 		Assert.isNull(referee.getEmail());
@@ -61,7 +61,7 @@ public class RefereeServiceTest extends AbstractTest {
 	public void testSaveReferee(){
 		Referee referee,saved;
 		Collection<Referee> referees;
-		super.authenticate("admin1");						// Nos autenticamos como Referee
+		super.authenticate("admin");						// Nos autenticamos como Referee
 		referee = refereeService.create();						// Creamos la nota
 		
 		referee.setName("Juan");

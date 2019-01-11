@@ -66,16 +66,10 @@ public class CategoryServiceTest extends AbstractTest{
 		super.authenticate("admin");
 
 		//TODO: HAY UN PROBLEMA CON LA ID.
-		Collection<Category> categories, copia;
-		categories = catService.findAll();
 		
-		copia = new ArrayList<Category>(categories);
-		Category res = (Category) copia.toArray()[4];
-
+		Category res = (Category) catService.findAll().toArray()[4];
 		catService.delete(res);
-		categories = catService.findAll();
-		
-		Assert.isTrue(!categories.contains(res));
+		Assert.isTrue(!catService.findAll().contains(res));
 		
 		super.authenticate(null);
 	}

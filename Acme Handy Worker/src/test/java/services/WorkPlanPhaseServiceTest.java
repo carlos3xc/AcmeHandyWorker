@@ -45,7 +45,7 @@ public class WorkPlanPhaseServiceTest extends AbstractTest {
 		Assert.isNull(workPlanPhase.getDescription());
 		Assert.isNull(workPlanPhase.getEndMoment());
 		Assert.isNull(workPlanPhase.getFixUpTask());
-		Assert.isNull(workPlanPhase.getHandyWorker());
+		Assert.notNull(workPlanPhase.getHandyWorker());
 		Assert.isNull(workPlanPhase.getStartMoment());
 		Assert.isNull(workPlanPhase.getTitle());
 						

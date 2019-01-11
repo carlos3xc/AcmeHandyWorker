@@ -62,7 +62,7 @@ public class SocialProfileServiceTest extends AbstractTest {
 	@Test 
 	public void testUpdateSocialProfiles(){
 		SocialProfile socialProfile,saved;
-		socialProfile = socialProfileService.findOne(15737);
+		socialProfile = (SocialProfile)socialProfileService.findAll().toArray()[0];
 		socialProfile.setNick("test1");
 
 		saved = socialProfileService.save(socialProfile);
