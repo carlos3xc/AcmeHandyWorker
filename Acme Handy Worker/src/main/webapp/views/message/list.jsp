@@ -64,7 +64,12 @@
 	</display:table>
 	<!-- edit method must diferentiate between no attributes where 
 	the sender will be obtained via the create method. -->
-	<a href="message/create.do"><spring:message code='m.create' /></a>
+	<a href="message/create.do"><spring:message code='m.create' /></a><br/>
+	
+	<input type="button" name="back"
+		value="<spring:message code="m.back" />"
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/box/list.do')" />
+	<br />
 </security:authorize>
 <script>
 function myFunction () { 

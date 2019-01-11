@@ -77,6 +77,7 @@ public class ActorCreateController extends AbstractController {
 		ModelAndView result;
 		
 		Sponsor sponsor = sponsorService.create();
+		System.out.println(sponsor.getUserAccount().getPassword());
 		result = this.createEditModelAndViewSponsor(sponsor);
 
 		return result;
@@ -115,6 +116,7 @@ public class ActorCreateController extends AbstractController {
 				try {
 					UserAccount savedUA = userAccountService.save(sponsor.getUserAccount());
 					sponsor.setUserAccount(savedUA);
+					
 					sponsorService.save(sponsor);
 					result = new ModelAndView("redirect:");
 					
