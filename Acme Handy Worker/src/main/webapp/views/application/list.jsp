@@ -11,21 +11,28 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 	<security:authorize access="hasRole('HANDYWORKER')">
+		
 	
 		<display:table name="applications" id="row" requestURI="handyWorker/application/list.do" pagesize="5">
+		
+		<jstl:set var="statushw" value="${row.status}"/>
+			<jsp:useBean id="todayhw" class="java.util.Date"/>
+			<jstl:if test="${statushw == 'PENDING' && row.fixUpTask.startMoment < todayhw }">
+				<jstl:set var="statushw" value="MOMENT"/>
+			</jstl:if>
 			
-			<display:column> 
+			<display:column class="${statushw}"> 
 				<a href="handyWorker/application/show.do?appId=${row.id}"><spring:message code="application.show"/></a> 
 			</display:column>
 		
-			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
+			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" class="${statushw}"/>
 			
 			<spring:message code="application.moment.format" var="formatMoment"/>
-			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }"/>
+			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }" class="${statushw}"/>
 			
-			<display:column titleKey="application.price" property="price" />
+			<display:column titleKey="application.price" property="price" class="${statushw}"/>
 			
-			<display:column titleKey="application.status" property="status" />
+			<display:column titleKey="application.status" property="status" class="${statushw}"/>
 			
 			
 		
@@ -37,20 +44,26 @@
 	
 		<display:table name="applications" id="row" requestURI="customer/application/list.do" pagesize="5">
 			
-			<display:column>
+			<jstl:set var="status" value="${row.status}"/>
+			<jsp:useBean id="today" class="java.util.Date"/>
+			<jstl:if test="${status == 'PENDING' && row.fixUpTask.startMoment < today }">
+				<jstl:set var="status" value="MOMENT"/>
+			</jstl:if>
+			
+			<display:column class="${status }">
 				<jstl:if test="${row.status == 'PENDING'}">
 					 <a href="customer/application/edit.do?appId=${row.id}"><spring:message code="application.edit" /></a> 
 				</jstl:if>
 			</display:column>
 			
-			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" />
+			<display:column titleKey="application.fixUpTask" property="fixUpTask.description" class="${status }"/>
 			
 			<spring:message code="application.moment.format" var="formatMoment"/>
-			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }"/>
+			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }" class="${status }"/>
 			
-			<display:column titleKey="application.price" property="price" />
+			<display:column titleKey="application.price" property="price" class="${status }"/>
 			
-			<display:column titleKey="application.status" property="status" />
+			<display:column titleKey="application.status" property="status" class="${status }"/>
 		
 		</display:table>
 		

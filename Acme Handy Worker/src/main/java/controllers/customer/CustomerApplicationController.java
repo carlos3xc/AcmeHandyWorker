@@ -11,6 +11,7 @@
 package controllers.customer;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -25,9 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ApplicationService;
 import services.CustomerService;
+import services.FixUpTaskService;
 import controllers.AbstractController;
 import domain.Application;
 import domain.CreditCard;
+import domain.FixUpTask;
 
 @Controller
 @RequestMapping("customer/application/")
@@ -40,6 +43,9 @@ public class CustomerApplicationController extends AbstractController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private FixUpTaskService fixUpTaskService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -57,6 +63,16 @@ public class CustomerApplicationController extends AbstractController {
 		int id = customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
 		
 		applications = appService.applicationByCustomer(id);
+/*		for(Application a: applications){
+			FixUpTask fx = a.getFixUpTask();
+			if(a.getStatus().equals("PENDING") && fx.getStartMoment().before(new Date()))
+				a.setAppClass("MOMENT");
+		/*	else if(a.getStatus().equals("ACCEPTED"))
+				a.setAppClass("ACCEPTED");
+			else if(a.getStatus().equals("REJECTED"))
+				a.setAppClass("REJECTED");
+				
+		}*/
 
 		result = new ModelAndView("application/list");
 		result.addObject("applications",applications);

@@ -17,7 +17,7 @@ public interface FixUpTaskRepository extends JpaRepository<FixUpTask, Integer>{
 	
 	@Query("select f from FixUpTask f where f.customer.id=?1")
 	Collection<FixUpTask> getFixUpTasksCustomer(int customerId);
-	
+
 	@Query("select fx from FixUpTask fx join fx.applications a where a.status='ACCEPTED'")
 	Collection<FixUpTask> getTasksAccepted();
 	

@@ -28,7 +28,7 @@ public class Application extends DomainEntity {
 	private String handyWorkerComment;
 	private String customerComment;
 	private CreditCard creditCard;
-
+	
 	// Constructors -----------------------------------------------------------
 
 	public Application() {
