@@ -27,6 +27,7 @@ import security.LoginService;
 import services.ApplicationService;
 import services.CustomerService;
 import services.FixUpTaskService;
+import services.MessageService;
 import controllers.AbstractController;
 import domain.Application;
 import domain.CreditCard;
@@ -46,6 +47,9 @@ public class CustomerApplicationController extends AbstractController {
 	
 	@Autowired
 	private FixUpTaskService fixUpTaskService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -107,9 +111,10 @@ public class CustomerApplicationController extends AbstractController {
 			try{
 				saved = appService.save(app);
 				if(saved.getStatus().equals("ACCEPTED")){
-					
+					messageService.sendSystemMessages(app);
 					result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
 				}else{
+					messageService.sendSystemMessages(app);
 					result = new ModelAndView("redirect:/customer/application/edit.do?appId=" + app.getId());
 				}
 				

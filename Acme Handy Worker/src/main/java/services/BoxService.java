@@ -92,6 +92,8 @@ public class BoxService {
 		aux.add(0, message.getId()); // los mensajes nuevos siempre se ponen primero.
 		box.setMessages(aux);
 		
+		this.save(box);
+		
 		System.out.println(box.getMessages());
 
 	}
