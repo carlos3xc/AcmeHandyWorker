@@ -32,21 +32,20 @@
 			<li><a class="fNiv"><spring:message	code="master.page.category" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
+					<li><a href="category/administrator/list.do"><spring:message code="master.page.category.list" /></a></li>
 				</ul>
 			</li>		
 			<li><a class="fNiv"><spring:message	code="master.page.actor" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="userAccount/admin/createAdmin.do"><spring:message code="master.page.administrator.administrator.create" /></a></li>
-					<li><a href="actor/admin/list.do"><spring:message code="master.page.administrator.actor.list" /></a></li>
-					<li><a href="warranty/admin/list.do"><spring:message code="master.page.administrator.warranty.list" /></a></li>
+					<li><a href="userAccount/admin/createAdmin.do"><spring:message code="master.page.administrator.create" /></a></li>
+					<li><a href="actor/admin/list.do"><spring:message code="master.page.actor.list" /></a></li>
 				</ul>
 			</li>		
 			<li><a class="fNiv"><spring:message	code="master.page.warranty" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="warranty/admin/list.do"><spring:message code="master.page.administrator.warranty.list" /></a></li>
+					<li><a href="warranty/admin/list.do"><spring:message code="master.page.warranty.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
