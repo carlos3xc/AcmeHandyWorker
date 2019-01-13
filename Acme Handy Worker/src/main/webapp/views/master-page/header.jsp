@@ -163,6 +163,13 @@
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 			
+			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="tutorial/list.do"><spring:message code="master.page.tutorial.list" /></a>
+				</ul>
+			</li>
+			
 			<li><a class="fNiv"> <spring:message code="master.page.actor.register" /></a>
 				<ul>
 					<li class="arrow"></li>
