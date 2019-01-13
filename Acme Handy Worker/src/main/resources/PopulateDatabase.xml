@@ -2436,7 +2436,6 @@
 		<property name="actor" ref="customer2" />
 		<property name="messages">
 			<list>
-				<ref bean="message2"/>
 			</list>
 		</property>
 	</bean>
@@ -2479,7 +2478,6 @@
 		<property name="actor" ref="customer3" />
 		<property name="messages">
 			<list>
-				<ref bean="message3"/>
 			</list>
 		</property>
 	</bean>

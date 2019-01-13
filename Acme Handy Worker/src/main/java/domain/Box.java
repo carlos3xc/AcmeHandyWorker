@@ -52,17 +52,15 @@ public class Box extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private Actor actor;
-	private Collection<Message> messages;
+	private Collection<Integer> messages;
 
 	@Valid
 	@ElementCollection
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH })
-	public Collection<Message> getMessages() {
+	public Collection<Integer> getMessages() {
 		return messages;
 	}
 
-	public void setMessages(Collection<Message> messages) {
+	public void setMessages(Collection<Integer> messages) {
 		this.messages = messages;
 	}
 

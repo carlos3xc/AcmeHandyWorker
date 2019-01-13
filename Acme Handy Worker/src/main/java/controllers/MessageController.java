@@ -1,7 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,6 +17,7 @@ import security.LoginService;
 import services.ActorService;
 import services.BoxService;
 import services.MessageService;
+import domain.Actor;
 import domain.Box;
 import domain.Message;
 
@@ -49,10 +50,13 @@ public class MessageController extends AbstractController {
 		ModelAndView res;
 		
 		Collection<Box> boxes = boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId());
-		
+		Collection<Message> messages = new ArrayList<>();
+		for (Integer i : boxService.findOne(boxId).getMessages()) {
+			messages.add(messageService.findOne(i));
+		}
 
 		res = new ModelAndView("message/list");
-		res.addObject("messages", boxService.findOne(boxId).getMessages());
+		res.addObject("messages", messages);
 		res.addObject("boxes", boxes);
 
 		return res;
@@ -83,12 +87,8 @@ public class MessageController extends AbstractController {
 			try {
 				
 				Message saved = messageService.save(message);
-				System.out.println("se ha ejecutado el save de messageService");
 				messageService.addMesageToBoxes(saved);
-				System.out.println("se añaden los mensajes a las boxes satisfactoriamente.");
-				
-				res = new ModelAndView("box/list");
-				res.addObject("boxes",boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId()));
+				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
 				System.out.println(e);
@@ -104,17 +104,11 @@ public class MessageController extends AbstractController {
 		ModelAndView res;
 		Message message = messageService.findOne(messageId);
 		
-		int boxId = 0;
-		Collection<Box> boxes = boxService.findAll();
-		for (Box b : boxes) {
-			if(b.getMessages().contains(message))
-			boxId=b.getId();
-		}
-		
-		
+
 			try {
 				messageService.delete(message);
-				res = new ModelAndView("redirect:list.do?boxId="+boxId);
+			
+				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
 			}
@@ -131,17 +125,17 @@ public class MessageController extends AbstractController {
 		Box destination = boxService.findOne(newBoxId);
 		
 			try {
-				Collection<Message>originalMessages = original.getMessages();
-				originalMessages.remove(message);
+				Collection<Integer>originalMessages = original.getMessages();
+				originalMessages.remove(message.getId());
 				original.setMessages(originalMessages);
 				boxService.save(original);
 				
-				Collection<Message>newMessages = destination.getMessages();
-				newMessages.add(message);
+				Collection<Integer>newMessages = destination.getMessages();
+				newMessages.add(message.getId());
 				destination.setMessages(newMessages);
 				boxService.save(destination);
 				
-				res = new ModelAndView("redirect:list.do?boxId="+boxId);
+				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(message, "message.commit.error");
 			}

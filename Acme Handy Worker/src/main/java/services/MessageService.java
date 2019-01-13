@@ -82,6 +82,7 @@ public class MessageService {
 
 		UserAccount userAccount = LoginService.getPrincipal();
 		
+		//añadimos todas las boxes de los actores que tienen el message a allActorBoxes
 		Set<Box> allActorBoxes = new HashSet<>();
 
 		Collection<Actor> recipients = message.getRecipients();
@@ -91,6 +92,8 @@ public class MessageService {
 		Actor sender = message.getSender();
 		allActorBoxes.addAll(boxService.findByActorId(sender.getId()));
 		
+		
+		//Vemos que actor de los que tiene el message es el que esta logeado.
 		Actor logged = null;
 		
 		for (Actor recipient : recipients) {
@@ -104,12 +107,11 @@ public class MessageService {
 			logged = sender;
 		}
 
+		//localizamos la trashbox y separamos los otros boxes en otherboxes para el actor logeado.
 		Box trash = null;
-
-		Collection<Box> loggedBoxes = boxService.findByActorId(logged.getId());
 		Collection<Box> otherboxes = new ArrayList<Box>();
 
-		for (Box box : loggedBoxes) {
+		for (Box box : boxService.findByActorId(logged.getId())) {
 			if (box.getName().equals("Trash Box"))
 				trash = box;
 			else {
@@ -117,25 +119,36 @@ public class MessageService {
 			}
 		}
 
-		if (trash.getMessages().contains(message)) {
-			Collection<Message> aux = trash.getMessages();
-			aux.remove(message);
-			
+		//comprobar si esta en trashbox
+		if (trash.getMessages().contains(message.getId())) {
+			Collection<Integer> aux = trash.getMessages();
+			aux.remove(message.getId());
+			trash.setMessages(aux);
 			allActorBoxes.remove(trash);
+			
+			//comprobamos si el mensaje esta en alguna otra box.
+			boolean isInOtherBox = false;
 			for (Box b : allActorBoxes) {
-				if(b.getMessages().contains(message)){
-					messageRepository.delete(message);
+				if(b.getMessages().contains(message.getId())){
+					isInOtherBox = true;
 					break;
 				}
 			}
+			if(!isInOtherBox){
+				messageRepository.delete(message);
+			}
+			
 			boxService.save(trash);
 		} else {
 			for (Box b : otherboxes) {
-				if (b.getMessages().contains(message)) {
-					Collection<Message> aux = b.getMessages();
-					aux.remove(message);
-					Collection<Message> t = trash.getMessages();
-					t.add(message);
+				if (b.getMessages().contains(message.getId())) {
+					Collection<Integer> aux = b.getMessages();
+					aux.remove(message.getId());
+					b.setMessages(aux);
+					
+					Collection<Integer> t = trash.getMessages();
+					t.add(message.getId());
+					trash.setMessages(t);
 
 					boxService.save(trash);
 					boxService.save(b);
@@ -200,8 +213,7 @@ public class MessageService {
 
 	public void addMesageToBoxes(Message message){
 		Collection<Box> boxes = new HashSet<Box>();
-		Box outBox = boxService
-				.findByActorAndName(message.getSender(),"Out Box");
+		Box outBox = boxService.findByActorAndName(message.getSender(),"Out Box");
 
 		boxes.add(outBox);
 		if (findSpamWords(message.getBody()+message.getSubject())){
@@ -209,6 +221,7 @@ public class MessageService {
 				Box spamBox = boxService.findByActorAndName(actor,"Spam Box");
 				boxes.add(spamBox);
 			}
+			message.getSender().setIsSuspicious(true);
 		}else{
 			for (Actor actor: message.getRecipients()){
 				Box inBox = boxService.findByActorAndName(actor,"In Box");
@@ -217,8 +230,8 @@ public class MessageService {
 	}
 
 		for (Box box: boxes){
-			Collection<Message> messages = new HashSet<Message>(box.getMessages());
-			messages.add(message);
+			Collection<Integer> messages = new HashSet<Integer>(box.getMessages());
+			messages.add(message.getId());
 			box.setMessages(messages);
 		}
 	}

@@ -33,7 +33,7 @@ public class BoxService {
 
 		box.setActor(actor);
 		box.setSystemBox(false);
-		box.setMessages(new ArrayList<Message>());
+		box.setMessages(new ArrayList<Integer>());
 
 		return box;
 	}
@@ -86,10 +86,10 @@ public class BoxService {
 
 	public void addMessageToBox(Box box, Message message) {
 
-		List<Message> aux = new ArrayList<>(box.getMessages());
+		List<Integer> aux = new ArrayList<>(box.getMessages());
 		System.out.println(box.getMessages());
 		
-		aux.add(0, message); // los mensajes nuevos siempre se ponen primero.
+		aux.add(0, message.getId()); // los mensajes nuevos siempre se ponen primero.
 		box.setMessages(aux);
 		
 		System.out.println(box.getMessages());
