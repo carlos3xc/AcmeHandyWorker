@@ -16,6 +16,8 @@
 	<display:column titleKey="actor.middleName" property="middleName" />
 
 	<display:column titleKey="actor.surname" property="surname" />
+	
+	<display:column titleKey="admin.userAccount.username" property="userAccount.username" />
 
 	<display:column titleKey="actor.isBanned" property="isBanned" />
 

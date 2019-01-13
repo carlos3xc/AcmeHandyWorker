@@ -77,7 +77,6 @@ public class ActorCreateController extends AbstractController {
 		ModelAndView result;
 		
 		Sponsor sponsor = sponsorService.create();
-		System.out.println(sponsor.getUserAccount().getPassword());
 		result = this.createEditModelAndViewSponsor(sponsor);
 
 		return result;
@@ -97,7 +96,7 @@ public class ActorCreateController extends AbstractController {
 				UserAccount savedUA = userAccountService.save(customer.getUserAccount());
 				customer.setUserAccount(savedUA);
 				customerService.save(customer);
-				result = new ModelAndView("redirect:");
+				result = new ModelAndView("redirect:/security/login.do");
 				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndViewCustomer(customer,"actor.commit.error");
@@ -118,7 +117,7 @@ public class ActorCreateController extends AbstractController {
 					sponsor.setUserAccount(savedUA);
 					
 					sponsorService.save(sponsor);
-					result = new ModelAndView("redirect:");
+					result = new ModelAndView("redirect:/security/login.do");
 					
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndViewSponsor(sponsor,"actor.commit.error");
@@ -138,7 +137,7 @@ public class ActorCreateController extends AbstractController {
 					UserAccount savedUA = userAccountService.save(handyworker.getUserAccount());
 					handyworker.setUserAccount(savedUA);
 					handyWorkerService.save(handyworker);
-					result = new ModelAndView("redirect:");
+					result = new ModelAndView("redirect:/security/login.do");
 					
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndViewHandyWorker(handyworker,"actor.commit.error");

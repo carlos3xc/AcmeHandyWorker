@@ -50,3 +50,9 @@
 
 </display:table>
 
+<br/>
+	<input type="button" name="back"
+		value="<spring:message code="category.back" />"
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/category/administrator/list.do')" />
+	<br />
+

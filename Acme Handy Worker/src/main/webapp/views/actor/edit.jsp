@@ -106,7 +106,7 @@
 	</jstl:if>
 	<form:errors cssClass="error" path="userAccount.password" />
 	<br />
-
+	<jstl:out value="${type }"/>
 	<jstl:if test="${type=='customer'}">
 		<input type="submit" name="saveCustomer" value="<spring:message code="actor.save" />" />
 	</jstl:if>
@@ -114,6 +114,12 @@
 		<input type="submit" name="saveHandyWorker" value="<spring:message code="actor.save" />" />
 	</jstl:if>
 	<jstl:if test="${type=='sponsor'}">
+		<input type="submit" name="saveSponsor" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='referee'}">
+		<input type="submit" name="saveReferee" value="<spring:message code="actor.save" />" />
+	</jstl:if>
+	<jstl:if test="${type=='administrator'}">
 		<input type="submit" name="saveSponsor" value="<spring:message code="actor.save" />" />
 	</jstl:if>
 	<input type="button" name="cancel"

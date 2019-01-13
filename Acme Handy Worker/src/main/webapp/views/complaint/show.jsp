@@ -56,6 +56,7 @@
 				</jstl:if>
 			</display:column>
 		</jstl:if>
+			<jstl:set var="ref" value="${row.referee}"/>
 			<display:column property="moment" titleKey="complaint.moment" />
 						
 			<display:column property="description" titleKey="complaint.description" />
@@ -70,7 +71,7 @@
 			</display:column>
 		</display:table>
 		
-		<jstl:if test="${referee != null}"> 
+		<jstl:if test="${referee == ref}"> 
 			<a href="report/referee/create.do?complaintId=${complaint.id}">
 								<spring:message	code="complaint.report.create" />
 			</a><br/>

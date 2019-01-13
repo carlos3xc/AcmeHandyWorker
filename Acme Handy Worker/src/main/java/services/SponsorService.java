@@ -59,8 +59,8 @@ public class SponsorService {
 	}
 	
 	public Sponsor save(Sponsor a){
-		UserAccount saved = userAccountService.save(a.getUserAccount());
-		a.setUserAccount(saved);
+	/*	UserAccount saved = userAccountService.save(a.getUserAccount());
+		a.setUserAccount(saved);*/
 		return sponsorRepository.saveAndFlush(a);
 	}
 	

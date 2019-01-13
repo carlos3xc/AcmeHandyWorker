@@ -436,7 +436,7 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveReferee")
 	public ModelAndView save(@Valid final Referee referee,
 			final BindingResult binding) {
-
+		System.out.println("entra al save referee");
 		ModelAndView result;
 		Referee refereeDB = refereeService.findOne(referee.getId());
 		Boolean uaChange = false;
@@ -477,6 +477,7 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveSponsor")
 	public ModelAndView save(@Valid final Sponsor sponsor,
 			final BindingResult binding) {
+		System.out.println("entra al save sponsor?");
 
 		ModelAndView result;
 		Sponsor sponsorDB = sponsorService.findOne(sponsor.getId());

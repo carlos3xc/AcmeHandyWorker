@@ -18,6 +18,6 @@ public interface ReportRepository extends JpaRepository<Report, Integer>{
 	@Query("select r from Report r where r.complaint.id = ?1")
 	Collection<Report> getReportsByComplaint(int complaintId);
 	
-	@Query("select r from Report r where r.complaint.id = ?1 and r.isDraft = true")
+	@Query("select r from Report r where r.complaint.id = ?1 and r.isDraft = false")
 	Collection<Report> getFinalReportsByComplaint(int complaintId);
 }
