@@ -212,27 +212,32 @@ public class MessageService {
 	}
 
 	public void addMesageToBoxes(Message message){
-		Collection<Box> boxes = new HashSet<Box>();
+		Collection<Box> boxes = new ArrayList<Box>();
 		Box outBox = boxService.findByActorAndName(message.getSender(),"Out Box");
 
 		boxes.add(outBox);
 		if (findSpamWords(message.getBody()+message.getSubject())){
+
 			for (Actor actor: message.getRecipients()){
 				Box spamBox = boxService.findByActorAndName(actor,"Spam Box");
 				boxes.add(spamBox);
+
 			}
 			message.getSender().setIsSuspicious(true);
+			
 		}else{
 			for (Actor actor: message.getRecipients()){
 				Box inBox = boxService.findByActorAndName(actor,"In Box");
 				boxes.add(inBox);
+				
 		}
 	}
 
 		for (Box box: boxes){
-			Collection<Integer> messages = new HashSet<Integer>(box.getMessages());
+			Collection<Integer> messages = new ArrayList<>(box.getMessages());
 			messages.add(message.getId());
 			box.setMessages(messages);
+			boxService.save(box);
 		}
 	}
 	

@@ -22,6 +22,7 @@
 <!-- 
 	Recibe: Message userMessage: el mensaje a editar.
 			List<Actor> actors: todos los actores del sistema.
+			boolean isBroadcast: indica si el mensaje a crear es de braodcast o no.
  -->
 
 <form:form action="message/edit.do" modelAttribute="userMessage">
@@ -32,6 +33,9 @@
 	<form:hidden path="flagSpam" />
 	<form:hidden path="moment" />
 	<form:hidden path="sender"/>
+	<jstl:if test="${isBroadcast==true}">
+		<form:hidden path="recipients"/>
+	</jstl:if>
 	
 	<security:authorize access="isAuthenticated()">
 	
@@ -47,8 +51,9 @@
 	<form:errors cssClass="error" path="priority" />
 	<br />
 	
+	<jstl:if test="${isBroadcast==false}">
 	<form:label path="recipients">
-		<spring:message code="m.recipient" />
+	<spring:message code="m.recipient" />
 	</form:label>
 	
 	<form:select multiple="true" path="recipients">
@@ -56,6 +61,8 @@
 	</form:select>
 	<form:errors cssClass="error" path="recipients" />
 	<br />
+	</jstl:if>
+
 	
 	<form:label path="subject">
 		<spring:message code="m.subject" />
