@@ -2995,62 +2995,91 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- BOXES HANDY WORKER 4 -->
 
-	<!-- MESSAGES -->
-
-	<bean id="message1" class="domain.Message">
-		<property name="moment" value="2018/03/01 11:00" />
-		<property name="body" value="Body 1" />
-		<property name="subject" value="Subject 1" />
-		<property name="priority" value="LOW" />
-		<property name="tags">
+	<bean id="box61" class="domain.Box">
+		<property name="name" value="Spam Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker4" />
+		<property name="messages">
 			<list>
 			</list>
 		</property>
-		<property name="flagSpam" value="false" />
-		<property name="sender" ref="customer1" />
-		<property name="recipients">
+	</bean>
+
+	<bean id="box62" class="domain.Box">
+		<property name="name" value="In Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker4" />
+		<property name="messages">
 			<list>
-			<ref bean="customer2"/>
-		 	</list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="box63" class="domain.Box">
+		<property name="name" value="Out Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker4" />
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="box64" class="domain.Box">
+		<property name="name" value="Trash Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker4" />
+		<property name="messages">
+			<list>
+			</list>
 		</property>
 	</bean>
 	
-		<bean id="message2" class="domain.Message">
-		<property name="moment" value="2018/05/01 11:00" />
-		<property name="body" value="Body 2" />
-		<property name="subject" value="Subject 2" />
-		<property name="priority" value="HIGH" />
-		<property name="tags">
+	<!-- BOXES HANDY WORKER 4 -->
+
+	<bean id="box65" class="domain.Box">
+		<property name="name" value="Spam Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker5" />
+		<property name="messages">
 			<list>
 			</list>
 		</property>
-		<property name="flagSpam" value="false" />
-		<property name="sender" ref="customer2" />
-		<property name="recipients">
-			<list>
-			<ref bean="customer1"/>
-		 	</list>
-		</property>
 	</bean>
-	
-	<bean id="message3" class="domain.Message">
-		<property name="moment" value="2018/06/01 11:00" />
-		<property name="body" value="Body 3" />
-		<property name="subject" value="Subject 3" />
-		<property name="priority" value="LOW" />
-		<property name="tags">
+
+	<bean id="box66" class="domain.Box">
+		<property name="name" value="In Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker5" />
+		<property name="messages">
 			<list>
 			</list>
 		</property>
-		<property name="flagSpam" value="false" />
-		<property name="sender" ref="customer3" />
-		<property name="recipients">
+	</bean>
+
+	<bean id="box67" class="domain.Box">
+		<property name="name" value="Out Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker5" />
+		<property name="messages">
 			<list>
-			<ref bean="handyWorker1"/>
-		 	</list>
+			</list>
 		</property>
 	</bean>
+
+	<bean id="box68" class="domain.Box">
+		<property name="name" value="Trash Box" />
+		<property name="systemBox" value="true" />
+		<property name="actor" ref="handyWorker5" />
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+
 
 
 

@@ -69,7 +69,17 @@ public class MessageController extends AbstractController {
 		ModelAndView res;
 		Message message = messageService.create(actorService.getByUserAccountId(LoginService.getPrincipal()));
 		
-		res = this.createEditModelAndView(message);
+		res = this.createEditModelAndView(message,false);
+		return res;
+		
+	}
+	
+	@RequestMapping(value="/createBroadcast" , method=RequestMethod.GET)
+	public ModelAndView createBroadcast(){
+		ModelAndView res;
+		Message message = messageService.create(actorService.getByUserAccountId(LoginService.getPrincipal()));
+		message.setRecipients(actorService.findAll());
+		res = this.createEditModelAndView(message,true);
 		return res;
 		
 	}
@@ -82,7 +92,7 @@ public class MessageController extends AbstractController {
 		
 		if(binding.hasErrors()){
 			System.out.println(binding.toString());
-			res = createEditModelAndView(message);
+			res = createEditModelAndView(message,false);
 		}else{
 			try {
 				
@@ -90,8 +100,11 @@ public class MessageController extends AbstractController {
 				messageService.addMesageToBoxes(saved);
 				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
-				res = createEditModelAndView(message, "message.commit.error");
-				System.out.println(e);
+				res = createEditModelAndView(message, false, "message.commit.error");
+				for (StackTraceElement st : e.getStackTrace()) {
+					System.out.println(st);
+				}
+				
 			}
 		}
 		return res;
@@ -110,7 +123,7 @@ public class MessageController extends AbstractController {
 			
 				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
-				res = createEditModelAndView(message, "message.commit.error");
+				res = createEditModelAndView(message,false, "message.commit.error");
 			}
 		return res;
 	}
@@ -137,19 +150,19 @@ public class MessageController extends AbstractController {
 				
 				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
-				res = createEditModelAndView(message, "message.commit.error");
+				res = createEditModelAndView(message,false, "message.commit.error");
 			}
 		return res;
 	}
 	
 	
 	//Helper methods---------------------------------------------------
-	protected ModelAndView createEditModelAndView(Message message){
+	protected ModelAndView createEditModelAndView(Message message,boolean isBroadcast){
 		ModelAndView res;
-		res = createEditModelAndView(message, null);
+		res = createEditModelAndView(message,isBroadcast, null);
 		return res;
 	}
-	protected ModelAndView createEditModelAndView(Message message, String messageCode){
+	protected ModelAndView createEditModelAndView(Message message,boolean isBroadcast, String messageCode){
 		ModelAndView res;
 		
 		//aqui habria que contemplar si el mensaje esta siendo editado o creado
@@ -160,6 +173,7 @@ public class MessageController extends AbstractController {
 		res.addObject("userMessage", message);
 		res.addObject("actors",actorService.findAll());
 		res.addObject("message", messageCode);
+		res.addObject("isBroadcast",isBroadcast);
 		
 		return res;
 	}

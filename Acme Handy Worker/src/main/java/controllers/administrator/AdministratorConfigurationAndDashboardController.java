@@ -90,7 +90,7 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		}else{
 			try {
 				configurationService.save(config);
-				res = new ModelAndView("redirect:configuration.do");
+				res = new ModelAndView("redirect:/welcome/index.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 				
