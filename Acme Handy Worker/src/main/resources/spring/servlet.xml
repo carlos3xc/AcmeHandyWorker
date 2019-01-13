@@ -127,7 +127,4 @@
 		<property name="order" value="0" />
 	</bean>
 
-<!--  Thymeleaf para A+ del D05 --> 
-  <import resource="config/thymeleaf.xml" />
-
 </beans>

@@ -22,16 +22,30 @@
 	<ul id="jMenu" class="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.system" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.administrator.configuration" /></a></li>
-					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
-			   <!-- <li><a href="actor/show.do"><spring:message code="master.page.administrator.actor.show" /></a></li> -->
-					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category.list" /></a></li>
-					<li><a href="userAccount/admin/createAdmin.do"><spring:message code="master.page.administrator.administrator.create" /></a></li>
-					<li><a href="actor/admin/list.do"><spring:message code="master.page.administrator.actor.list" /></a></li>
-					<li><a href="warranty/admin/list.do"><spring:message code="master.page.administrator.warranty.list" /></a></li>
+					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.configuration" /></a></li>
+					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>
+				</ul>
+			</li>
+			<li><a class="fNiv"><spring:message	code="master.page.category" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="category/administrator/list.do"><spring:message code="master.page.category.list" /></a></li>
+				</ul>
+			</li>		
+			<li><a class="fNiv"><spring:message	code="master.page.actor" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="userAccount/admin/createAdmin.do"><spring:message code="master.page.administrator.create" /></a></li>
+					<li><a href="actor/admin/list.do"><spring:message code="master.page.actor.list" /></a></li>
+				</ul>
+			</li>		
+			<li><a class="fNiv"><spring:message	code="master.page.warranty" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="warranty/admin/list.do"><spring:message code="master.page.warranty.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -119,15 +133,32 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('REFEREE')">
-			<li><a class="fNiv"><spring:message	code="master.page.referee" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.complaint" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="complaint/referee/list.do"><spring:message code="master.page.referee.complaint.list" /></a></li>
-					<li><a href="complaint/referee/listNoReport.do"><spring:message code="master.page.referee.complaint.listNoReport" /></a></li>
-			   <!-- <li><a href="actor/show.do"><spring:message code="master.page.referee.actor.show" /></a></li> -->		
+					<li><a href="complaint/referee/list.do"><spring:message code="master.page.complaint.list" /></a></li>
+					<li><a href="complaint/referee/listNoReport.do"><spring:message code="master.page.complaint.listNoReport" /></a></li>
+				</ul>
+			</li>
+			
+			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="tutorial/list.do"><spring:message code="master.page.tutorial.list" /></a>
 				</ul>
 			</li>
 		</security:authorize>
+		
+		<security:authorize access="hasRole('SPONSOR')">
+
+			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="tutorial/list.do"><spring:message code="master.page.tutorial.list" /></a>
+				</ul>
+			</li>
+		</security:authorize>
+		
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
@@ -141,15 +172,7 @@
 				</ul>
 			</li>
 		</security:authorize>
-		
-			<security:authorize access="permitAll">			
-			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="tutorial/list.do"><spring:message code="master.page.tutorial.list" /></a>
-				</ul>
-			</li>
-		</security:authorize>
+
 		
 		<security:authorize access="isAuthenticated()">
 			<li>
