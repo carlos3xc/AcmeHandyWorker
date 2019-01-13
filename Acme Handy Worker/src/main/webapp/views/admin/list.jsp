@@ -22,18 +22,21 @@
 	<display:column titleKey="actor.isBanned" property="isBanned" />
 
 	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
+	<jstl:if test="${row.isBanned == false }">
+	<display:column>
 			<a href="actor/admin/banActor.do?actorId=${row.id}"> <spring:message
 					code="admin.banActor" />
 			</a>
 		</display:column>
+	</jstl:if>
 		
+	<jstl:if test="${row.isBanned == true }">	
 		<display:column>
 			<a href="actor/admin/unBanActor.do?actorId=${row.id}"> <spring:message
 					code="admin.unBanActor" />
 			</a>
 		</display:column>
-
+	</jstl:if>
 	</security:authorize>
 
 </display:table>

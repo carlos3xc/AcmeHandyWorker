@@ -74,7 +74,7 @@ public class WelcomeController extends AbstractController {
 		}
 
 		if (actorIsBanned) {
-			result = new ModelAndView("redirect:/j_spring_security_logout");	
+			result = new ModelAndView("redirect:/j_spring_security_logout");
 		}else{
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
