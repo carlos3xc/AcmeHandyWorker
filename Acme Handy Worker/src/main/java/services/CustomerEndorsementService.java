@@ -98,13 +98,13 @@ public class CustomerEndorsementService {
 
 		for(Word w: wordService.findPositiveWords()) positives.add(w.getContent());
 		for(Word w: wordService.findNegativeWords()) negatives.add(w.getContent());
-
 		for(CustomerEndorsement ce: endorsements){
 			for(Customer c: customers){
 				if(ce.getCustomer().equals(c)){
 					String text = ce.getText();
-					String[] part = text.split( "[\\ \\.\\,\\. \\, ]");		
+					String[] part = text.split( "[\\ \\.\\,\\. \\, ]");	
 					for(int i=0;i<part.length;i++){
+						System.out.println(part[i]);
 						if(positives.contains(part[i])){
 							p =p + 1d;
 						}else if(negatives.contains(part[i])){
@@ -114,6 +114,8 @@ public class CustomerEndorsementService {
 					Double score = 0d;
 					if((n+p)!=0) score = (p/n+p)-(n/n+p);
 					res.put(ce.getCustomer(), score);
+					
+					break;
 				}
 			}
 		}

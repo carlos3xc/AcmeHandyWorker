@@ -17,8 +17,10 @@ import services.ApplicationService;
 import services.ComplaintService;
 import services.ConfigurationService;
 import services.CreditCardMakeService;
+import services.CustomerEndorsementService;
 import services.CustomerService;
 import services.FixUpTaskService;
+import services.HandyWorkerEndorsementService;
 import services.HandyWorkerService;
 import services.NoteService;
 import services.WordService;
@@ -62,6 +64,11 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private CustomerEndorsementService customerEndorsementService;
+	
+	@Autowired
+	private HandyWorkerEndorsementService handyWorkerEndorsementService;
 	// Constructors -----------------------------------------------------------
 
 	public AdministratorConfigurationAndDashboardController() {
@@ -202,6 +209,9 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		ModelAndView res;
 		
 		res = new ModelAndView("admin/dashboard");
+		res.addObject("customersScore", customerEndorsementService.getScoreCustomerEndorsement());
+		res.addObject("handyworkersScore", handyWorkerEndorsementService.getScoreHandyWorkerEndorsement());
+		
 		res.addObject("avgFixUpPerUser", fixUpTaskService.getAvgTasksPerCustomer());
 		res.addObject("minFixUpPerUser", fixUpTaskService.getMinTasksPerCustomer());
 		res.addObject("maxFixUpPerUser", fixUpTaskService.getMaxTasksPerCustomer());

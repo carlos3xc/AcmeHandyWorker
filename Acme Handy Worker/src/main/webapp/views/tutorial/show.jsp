@@ -62,6 +62,9 @@
 
 </security:authorize>
 
+<a href="${sponsorship.link}"><img src="${sponsorship.banner}" height="100" width="1000"/></a>
+
+
 <security:authorize access="hasRole('HANDYWORKER')">
 
 	<input type="button" name="back"
@@ -79,3 +82,4 @@
 	<br />
 	
 </security:authorize>
+

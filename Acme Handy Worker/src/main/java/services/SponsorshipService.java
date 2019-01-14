@@ -76,5 +76,11 @@ public class SponsorshipService {
 		return res;
 	}
 	
+	public Collection<Sponsorship> getSponsorshipsTutorial(int tutorialId){
+		Collection<Sponsorship> res;
+		res = sponsorshipRepository.getSponsorshipsTutorial(tutorialId);
+		return res;
+	}
+	
 	
 }

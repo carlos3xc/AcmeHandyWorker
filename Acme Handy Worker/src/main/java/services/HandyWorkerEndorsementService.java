@@ -115,6 +115,8 @@ public class HandyWorkerEndorsementService {
 					Double score = 0d;
 					if((n+p)!=0) score = (p/n+p)-(n/n+p);
 					res.put(ce.getHandyWorker(), score);
+					
+					break;
 				}
 			}
 		}

@@ -44,6 +44,137 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 -->
 
 <security:authorize access="hasRole('ADMIN')">
+
+	<fieldset>
+		<legend><spring:message code="admin.score"/></legend>
+		<spring:message code="admin.customerEndorsement.score"/>: <br/>
+		<jstl:forEach var="x" items="${customersScore}">
+			<jstl:out value="${x.key.userAccount.username}"/>: <jstl:out value="${x.value}"/><br/>
+		</jstl:forEach>
+		<spring:message code="admin.handyworkerEndorsement.score"/>: <br/>
+		<jstl:forEach var="y" items="${handyworkersScore}">
+			<jstl:out value="${y.key.userAccount.username}"/>: <jstl:out value="${y.value}"/><br/>
+		</jstl:forEach>
+	</fieldset>
+	<spring:message code="admin.datatable"/>
+	<table style="width:'100%' border='0' align='center' ">
+			<tr>
+				<th><spring:message code="admin.type"/></th>
+				<th><spring:message code="admin.fixUpPerUser"/></th>
+				<th><spring:message code="admin.applicationsPerFixUp"/></th>
+				<th><spring:message code="admin.maximumPriceFixUp"/></th>
+				<th><spring:message code="admin.pricePerApplication"/></th>
+				<th><spring:message code="admin.complaintsPerFixUp"/></th>
+				<th><spring:message code="admin.notesPerReferee"/></th>
+			</tr>
+			<tr>
+				<td><spring:message code="admin.average"/></td>
+				<td><jstl:out value="${avgFixUpPerUser}"/></td>
+				<td><jstl:out value="${avgApplicationsPerFixUp}"/></td>
+				<td><jstl:out value="${avgMaxPricePerFixUp}"/></td>
+				<td><jstl:out value="${avgPriceOfferedApplication}"/></td>
+				<td><jstl:out value="${avgComplaintsPerFixUp}"/></td>
+				<td><jstl:out value="${avgNotesPerReport}"/></td>
+			</tr>
+			<tr>
+				<td><spring:message code="admin.minimum"/></td>
+				<td><jstl:out value="${minFixUpPerUser}"/></td>
+				<td><jstl:out value="${minApplicationsPerFixUp}"/></td>
+				<td><jstl:out value="${minMaxPricePerFixUp}"/></td>
+				<td><jstl:out value="${minPriceOfferedApplication}"/></td>
+				<td><jstl:out value="${minComplaintsPerFixUp}"/></td>
+				<td><jstl:out value="${minNotesPerReport}"/></td>
+			</tr>	
+			<tr>
+				<td><spring:message code="admin.maximum"/></td>
+				<td><jstl:out value="${maxFixUpPerUser}"/></td>
+				<td><jstl:out value="${maxApplicationsPerFixUp}"/></td>
+				<td><jstl:out value="${maxMaxPricePerFixUp}"/></td>
+				<td><jstl:out value="${maxPriceOfferedApplication}"/></td>
+				<td><jstl:out value="${maxComplaintsPerFixUp}"/></td>
+				<td><jstl:out value="${maxNotesPerReport}"/></td>
+			</tr>
+			<tr>
+				<td><spring:message code="admin.stdv"/></td>
+				<td><jstl:out value="${stdvFixUpPerUser}"/></td>
+				<td><jstl:out value="${stdvApplicationsPerFixUp}"/></td>
+				<td><jstl:out value="${stdvMaxPricePerFixUp}"/></td>
+				<td><jstl:out value="${stdvPriceOfferedApplication}"/></td>
+				<td><jstl:out value="${stdvComplaintsPerFixUp}"/></td>
+				<td><jstl:out value="${stdvNotesPerReport}"/></td>
+			</tr>
+	</table>
+	
+	
+	<table style="width:'100%' border='0' align='center' ">
+		<tr>
+			<th><spring:message code="admin.type"/></th>
+			<th><spring:message code="admin.ratio"/></th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.rPendingApp"/></th>
+			<th><jstl:out value="${ratioPendingApplications}"/></th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.rAcceptedApp"/></th>
+			<th><jstl:out value="${ratioAcceptedApplications}"/></th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.rRejectedApp"/></th>
+			<th><jstl:out value="${ratioRejectedApplications}"/></th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.rOvertimedApp"/></th>
+			<th><jstl:out value="${ratioOvertimeApplications}"/></th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.rWithComplaint"/></th>
+			<th><jstl:out value="${ratioFixUpComplaint}"/></th>
+		</tr>
+		 <tr>
+			<th><spring:message code="admin.topThreeCustomerComplaint"/></th>
+			<th>
+			<jstl:forEach var="i" items="${topThreeCustomerComplaints}">
+			<jstl:out value="${i.name} "/><jstl:out value="${i.surname}"/><br>
+			</jstl:forEach>
+			</th>
+		</tr>
+		<tr>
+			<th><spring:message code="admin.topThreeHandyWorkerComplaint"/></th>
+			<th>
+			<jstl:forEach var="i" items="${topThreeHandyWorkersComplaints}">
+			<jstl:out value="${i.name} "/><jstl:out value="${i.surname} "/><br>
+			</jstl:forEach>
+			</th>
+		</tr> 
+	</table>
+	
+	<spring:message code="admin.topPublishers"/>
+	- <spring:message code="admin.customers"/>
+	<table style="width:'100%' border='0' align='center' ">
+		<tr>
+			<th><spring:message code="admin.customerWhoPublish10"/></th>		
+		</tr>
+		<jstl:forEach var="i" items="${customerPublishers10}">
+		<tr>
+			<td><jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> </td>
+		</tr>			
+		</jstl:forEach>
+	</table>
+	<br>
+	 - <spring:message code="admin.handyWorkers"/>
+	<table style="width:'100%' border='0' align='center' ">
+		<tr>
+			<th><spring:message code="admin.handyWorkersWhoPublish10"/></th>		
+		</tr>
+		<jstl:forEach var="i" items="${handyWorkerPublishers10}">
+		<tr>
+			<td><jstl:out value="${i.name}"/> <jstl:out value="${i.surname}"/> </td>
+		</tr>			
+		</jstl:forEach>
+	</table>
+
+
 	<spring:message code="admin.datatable"/>
 	<table style="width:'100%' border='0' align='center' ">
 			<tr>
