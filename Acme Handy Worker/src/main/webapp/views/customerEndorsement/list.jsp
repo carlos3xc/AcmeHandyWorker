@@ -19,20 +19,16 @@
 			<display:table name="customerEndorsements" id="row" requestURI="customerEndorsements/handyWorker/list.do" pagesize="5">
 				
 				<display:column titleKey="customerEndorsement.options">
-					<a href="customerEndorsement/show.do?customerEndorsementId=${row.id}">
+					<a href="customerEndorsement/handyWorker/show.do?customerEndorsementId=${row.id}">
 								<spring:message	code="customerEndorsement.show" />
 					</a>
 					<br/>
-					<jstl:if test="${row.handyWorker == handyWorker}"> 
-							<a href="customerEndorsement/handyWorker/edit.do?customerEndorsementId=${row.id}">
-								<spring:message	code="customerEndorsement.edit" />
-							</a>
-							<br/>	
-							<a href="customerEndorsement/handyWorker/delete.do?customerEndorsementId=${row.id}">
-								<spring:message	code="customerEndorsement.delete" />
-							</a>
-							<br/>			
-					</jstl:if>
+					<a href="customerEndorsement/handyWorker/edit.do?customerEndorsementId=${row.id}">
+						<spring:message	code="customerEndorsement.edit" />
+					</a><br/>	
+					<a href="customerEndorsement/handyWorker/delete.do?customerEndorsementId=${row.id}">
+						<spring:message	code="customerEndorsement.delete" />
+					</a><br/>			
 				</display:column>
 				
 				<spring:message code="customerEndorsement.moment.format" var="formatMoment"/>

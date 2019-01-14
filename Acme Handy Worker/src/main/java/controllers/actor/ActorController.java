@@ -160,10 +160,12 @@ public class ActorController extends AbstractController {
 			result.addObject("logged",logged);
 			
 			if(actor.getUserAccount().getAuthorities().contains(authority)){
+				System.out.println("wtf ha pasado");
 				cust=true;
 				Customer customer = customerService.findOne(actor.getId()); 
 				Map<Customer, Double> scoreC = customerEndorsementService.getScoreCustomerEndorsement();
 				 score = scoreC.get(customer);
+				 System.out.println("Controller actor score" + score);
 			}
 			if(actor.getUserAccount().getAuthorities().contains(authority2)){
 				hw=true;
@@ -198,6 +200,8 @@ public class ActorController extends AbstractController {
 			Collection<FixUpTask> fixUpTasks = customer.getFixUpTasks();
 			Map<Customer, Double> scoreC = customerEndorsementService.getScoreCustomerEndorsement();
 			 score = scoreC.get(customer);
+			 System.out.println("Controller actor score" + score);
+
 			result.addObject("fixUpTasks", fixUpTasks);
 			result.addObject("custProfileHw",custProfileHw);
 			result.addObject("actor", customer);

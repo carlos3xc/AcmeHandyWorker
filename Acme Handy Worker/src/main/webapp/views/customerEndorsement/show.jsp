@@ -14,23 +14,20 @@
 					 				 handyWorker: HandyWorker
 					 				 customer: Customer
 									 					 -->
-									 					 
-		<display:table name="customerEndorsement" id="row" requestURI="customerEndorsement/show.do">
-			<display:column>
-				<spring:message code="customerEndorsement.moment.format" var="momentFormat"/>
-				<b><spring:message code="customerEndorsement.moment"/>: </b> <fmt:formatDate value="${customerEndorsement.moment}" pattern="${momentFormat}" /> <br/>
-				<b><spring:message code="customerEndorsement.text"/>: </b> <jstl:out value="${customerEndorsement.text}"/><br/>
-				<b><spring:message code="customerEndorsement.publisher"/>: </b> <a href="actor/profile.do?actorId=${customerEndorsement.handyWorker.id}">
-				<jstl:out value="${row.handyWorker.userAccount.username}"/></a>
-				<b><spring:message code="customerEndorsement.referedTo"/>: </b> <a href="actor/profile.do?actorId=${customerEndorsement.customer.id}">
-					<jstl:out value="${row.customer.userAccount.username}"/></a>
-			</display:column>		
-		</display:table>
+	<fieldset>				 					 
+		<spring:message code="customerEndorsement.moment.format" var="momentFormat"/>
+		<b><spring:message code="customerEndorsement.moment"/>: </b> <fmt:formatDate value="${customerEndorsement.moment}" pattern="${momentFormat}" /> <br/>
+		<b><spring:message code="customerEndorsement.text"/>: </b> <jstl:out value="${customerEndorsement.text}"/><br/>
+		<b><spring:message code="customerEndorsement.publisher"/>: </b> <a href="actor/show.do?actorId=${customerEndorsement.handyWorker.id}">
+		<jstl:out value="${customerEndorsement.handyWorker.userAccount.username}"/></a><br/>
+		<b><spring:message code="customerEndorsement.referedTo"/>: </b> <a href="actor/show.do?actorId=${customerEndorsement.customer.id}">
+		<jstl:out value="${customerEndorsement.customer.userAccount.username}"/></a>
+	</fieldset>
 
 		
 	<input type="button" name="back"
 		value="<spring:message code="customerEndorsement.show.back" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/customerEndorsement/handyWorker/list.do')" />
 	<br />
 		
 				

@@ -9,28 +9,22 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 	<!-- PARAMETERS FROM CONTROLLER: handyWorkerEndorsement: HandyWorkerEndorsement,
-									 moment: Date,
-					 				 text: String,
-					 				 handyWorker: HandyWorker
-					 				 customer: Customer
-									 					 -->
+ -->
 									 					 
-		<display:table name="handyWorkerEndorsement" id="row" requestURI="handyWorkerEndorsement/show.do">
-			<display:column>
-				<spring:message code="handyWorkerEndorsement.moment.format" var="momentFormat"/>
-				<b><spring:message code="handyWorkerEndorsement.moment"/>: </b> <fmt:formatDate value="${handyWorkerEndorsement.moment}" pattern="${momentFormat}" /> <br/>
-				<b><spring:message code="handyWorkerEndorsement.text"/>: </b> <jstl:out value="${handyWorkerEndorsement.text}"/><br/>
-				<b><spring:message code="handyWorkerEndorsement.publisher"/>: </b> <a href="actor/profile.do?actorId=${handyWorkerEndorsement.customer.id}">
-				<jstl:out value="${row.customer.userAccount.username}"/></a>
-				<b><spring:message code="handyWorkerEndorsement.referedTo"/>: </b> <a href="actor/profile.do?actorId=${handyWorkerEndorsement.handyWorker.id}">
-					<jstl:out value="${row.handyWorker.userAccount.username}"/></a>
-			</display:column>		
-		</display:table>
+	<fieldset>
+		<spring:message code="handyWorkerEndorsement.moment.format" var="momentFormat"/>
+		<b><spring:message code="handyWorkerEndorsement.moment"/>: </b> <fmt:formatDate value="${handyWorkerEndorsement.moment}" pattern="${momentFormat}" /> <br/>
+		<b><spring:message code="handyWorkerEndorsement.text"/>: </b> <jstl:out value="${handyWorkerEndorsement.text}"/><br/>
+		<b><spring:message code="handyWorkerEndorsement.publisher"/>: </b> <a href="actor/show.do?actorId=${handyWorkerEndorsement.customer.id}">
+		<jstl:out value="${handyWorkerEndorsement.customer.userAccount.username}"/></a> <br/>
+		<b><spring:message code="handyWorkerEndorsement.referedTo"/>: </b> <a href="actor/show.do?actorId=${handyWorkerEndorsement.handyWorker.id}">
+		<jstl:out value="${handyWorkerEndorsement.handyWorker.userAccount.username}"/></a>
+	</fieldset>
 
 		
 	<input type="button" name="back"
 		value="<spring:message code="handyWorkerEndorsement.show.back" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/handyWorkerEndorsement/customer/list.do')" />
 	<br />
 		
 				

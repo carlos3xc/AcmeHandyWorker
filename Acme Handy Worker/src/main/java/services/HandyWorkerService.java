@@ -5,6 +5,7 @@ import java.util.Collection;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -101,6 +102,12 @@ public class HandyWorkerService {
 		Assert.notNull(userAccount);
 		hw = handyWorkerRepository.findByPrincipal(userAccount.getId());
 		return hw;
+	}
+	
+	public Collection<HandyWorker> getHandyWorkersByCustomerTasks(int customerId){
+		Collection<HandyWorker> res;
+		res = handyWorkerRepository.getHandyWorkersByCustomerTasks(customerId);
+		return res;
 	}
 	
 	public Collection<HandyWorker> getHandyWorkersWMoreApplicationsThanAvg(){

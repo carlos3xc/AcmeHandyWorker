@@ -89,8 +89,8 @@
 		<spring:message code="sponsorship.tutorial" />:
 	</form:label>
 	<form:select path="tutorial">
-		<form:options items="${tutorials}" itemLabel="title" itemValue="id" />
 		<form:option label = "-----" value="0" />
+		<form:options items="${tutorials}" itemLabel="title" itemValue="id" />
 	</form:select>
 	<form:errors cssClass="error" path="tutorial" />
 	<br />

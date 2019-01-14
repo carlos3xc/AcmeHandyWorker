@@ -23,12 +23,12 @@
 	
 	<definition name="customerEndorsement/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit Customer Endorsement" />
-		<put-attribute name="body" value="/views/handyWorkerEndorsement/edit.jsp" />
+		<put-attribute name="body" value="/views/customerEndorsement/edit.jsp" />
 	</definition>
 	
 	<definition name="customerEndorsement/show" extends="master.page">	
 		<put-attribute name="title" value="Show Customer Endorsement" />
-		<put-attribute name="body" value="/views/customerrEndorsement/show.jsp" />
+		<put-attribute name="body" value="/views/customerEndorsement/show.jsp" />
 	</definition>
 	
 </tiles-definitions>

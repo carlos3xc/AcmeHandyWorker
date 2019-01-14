@@ -109,6 +109,6 @@
 		
 	<input type="button" name="back"
 		value="<spring:message code="actor.show.back" />"
-		onclick="javascript: window.location.replace('master.page')" />
+		onclick="javascript: window.location.replace('')" />
 	<br/>
 		

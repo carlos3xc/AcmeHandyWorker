@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.FixUpTask;
 import domain.HandyWorker;
 
 @Repository
@@ -23,6 +24,10 @@ public interface HandyWorkerRepository extends JpaRepository<HandyWorker, Intege
 
 	@Query("select f.handyWorker from Finder f where f.id=?1")
 	HandyWorker findByFinderId(int finderId);
+	
+	@Query("select distinct a.handyWorker from FixUpTask fx join fx.applications a where fx.customer.id=?1")
+	Collection<HandyWorker> getHandyWorkersByCustomerTasks(int customerId);
+	
 	
 	@Query("select hw from HandyWorker hw where (select count(a1)*1.0/ (select count(subhw1) from HandyWorker subhw1) from Application a1 where a1.status='ACCEPTED')*1.1 <= (select count(a3)*1.0 from Application a3 where a3.status='ACCEPTED' and hw.id = a3.handyWorker.id)")
 	Collection<HandyWorker> getHandyWorkersWMoreApplicationsThanAvg();

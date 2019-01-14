@@ -92,17 +92,7 @@ public class CustomerService {
 		return result;
 		
 	}
-/*	
-	public void delete(Customer a){
-		//puede necesitarse comprobar que el usuario que va a guardar el objeto es el dueño
-		Assert.isTrue(true);//modificar para condiciones especificas.(data constraint)
-		
-		UserAccount userAccount = LoginService.getPrincipal();
-		// modificar para aplicarlo a la entidad correspondiente.
-		//Assert.isTrue(a.getUserAccount().equals(userAccount));
-		
-		customerRepository.delete(a);
-	}*/
+
 	
 	//Other business methods -----
 	
@@ -110,6 +100,12 @@ public class CustomerService {
 		Customer c;
 		c = customerRepository.findByUserAccountId(Id);
 		return c;
+	}
+	
+	public Collection<Customer> getCustomersByHandyWorkerTasks(int handyWorkerId){
+		Collection<Customer> res;
+		res = customerRepository.getCustomersByHandyWorkerTasks(handyWorkerId);
+		return res;
 	}
 	
 	public Collection<Customer> TopThreeInComplaints(){

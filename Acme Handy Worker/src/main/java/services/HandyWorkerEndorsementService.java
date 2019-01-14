@@ -16,6 +16,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 
+import domain.Customer;
 import domain.HandyWorker;
 import domain.HandyWorkerEndorsement;
 import domain.Word;
@@ -36,13 +37,17 @@ public class HandyWorkerEndorsementService {
 	
 	@Autowired
 	private WordService wordService;
+	
+	@Autowired
+	private CustomerService customerService;
 
 	
 	//Simple CRUD methods -----
 	public HandyWorkerEndorsement create(){
 		HandyWorkerEndorsement res = new HandyWorkerEndorsement();
-//		res.setCustomer(new Customer());
-//		res.setHandyWorker(new HandyWorker());
+		res.setCustomer(customerService.findByUserAccountId(LoginService.getPrincipal().getId()));
+		Date current = new Date(System.currentTimeMillis() - 1000);	
+		res.setMoment(current);
 		return res;
 	}
 	
@@ -55,21 +60,12 @@ public class HandyWorkerEndorsementService {
 	}
 	
 	public HandyWorkerEndorsement save(HandyWorkerEndorsement handyWorkerEndorsement){
-		
 		HandyWorkerEndorsement saved;
 		Authority e = new Authority();
-		e.setAuthority("HANDYWORKER");
+		e.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
-		//Customer c = new Customer();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
-		
-		Date current = new Date(System.currentTimeMillis() - 1000);
 
-		
-		handyWorkerEndorsement.setMoment(current);
-		handyWorkerEndorsement.setHandyWorker(hw);
-	//	handyWorkerEndorsement.setCustomer(c);
 		saved = handyWorkerEndorsementRepository.save(handyWorkerEndorsement);
 		
 		return saved;
@@ -78,7 +74,7 @@ public class HandyWorkerEndorsementService {
 	public void delete(HandyWorkerEndorsement handyWorkerEndorsement){
 		
 		Authority e = new Authority();
-		e.setAuthority("HANDYWORKER");
+		e.setAuthority("CUSTOMER");
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
@@ -86,6 +82,12 @@ public class HandyWorkerEndorsementService {
 	}
 	
 	//Other business methods -----
+	
+	public Collection<HandyWorkerEndorsement> hwEndorsementsByCustomer(int customerId){
+		Collection<HandyWorkerEndorsement> res;
+		res = handyWorkerEndorsementRepository.hwEndorsementsByCustomer(customerId);
+		return res;
+	}
 	
 	//A - RF 50.1
 	public Map<HandyWorker,Double> getScoreHandyWorkerEndorsement(){
@@ -113,14 +115,20 @@ public class HandyWorkerEndorsementService {
 						}
 					}
 					Double score = 0d;
-					if((n+p)!=0) score = (p/n+p)-(n/n+p);
-					res.put(ce.getHandyWorker(), score);
+					if((n+p)!=0) score = (p/(n+p))-(n/(n+p));
+					if(res.containsKey(ce.getHandyWorker()))
+						res.put(ce.getHandyWorker(), res.get(ce.getHandyWorker())+score);
+					else
+						res.put(ce.getHandyWorker(), score);
 					
 					break;
 				}
 			}
 		}
-		
+		for(HandyWorker c: workers){
+			if(!res.keySet().contains(c))
+				res.put(c, 0d);
+		}
 		return res;
 	}
 	

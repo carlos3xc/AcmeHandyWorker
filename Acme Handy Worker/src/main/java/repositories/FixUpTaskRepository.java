@@ -20,7 +20,7 @@ public interface FixUpTaskRepository extends JpaRepository<FixUpTask, Integer>{
 
 	@Query("select fx from FixUpTask fx join fx.applications a where a.status='ACCEPTED'")
 	Collection<FixUpTask> getTasksAccepted();
-	
+
 	@Query("select (select count(distinct c.fixUpTask)*1.0 from Complaint c) /count(f)*1.0 from FixUpTask f")
 	Double getRatioTasksWComplaints();
 	

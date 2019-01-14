@@ -17,6 +17,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Customer;
 import domain.CustomerEndorsement;
+import domain.HandyWorkerEndorsement;
 import domain.Word;
 
 
@@ -36,6 +37,9 @@ public class CustomerEndorsementService {
 	@Autowired
 	private WordService wordService;
 	
+	@Autowired
+	private HandyWorkerService handyWorkerService;
+	
 	//Constructors -----
 	public CustomerEndorsementService(){
 		super();
@@ -44,6 +48,10 @@ public class CustomerEndorsementService {
 	//Simple CRUD methods -----
 	public CustomerEndorsement create(){
 		CustomerEndorsement res = new CustomerEndorsement();
+		Date current = new Date(System.currentTimeMillis() - 1000);	
+		res.setMoment(current);
+		res.setHandyWorker(handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId()));
+
 		return res;
 	}
 	
@@ -58,17 +66,10 @@ public class CustomerEndorsementService {
 	public CustomerEndorsement save(CustomerEndorsement customerEndorsement){
 		CustomerEndorsement saved;
 		Authority e = new Authority();
-		e.setAuthority("CUSTOMER");
+		e.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
-		Customer c = customerService.findByUserAccountId(userAccount.getId());
-	//	HandyWorker hw = handyWorkerService.findByUserAccountId(userAccount.getId());
 		Assert.isTrue(userAccount.getAuthorities().contains(e));
-		
-		Date current = new Date(System.currentTimeMillis() - 1000);
-		
-		customerEndorsement.setMoment(current);
-		customerEndorsement.setCustomer(c);
-	//	customerEndorsement.setHandyWorker(hw);
+
 		saved = customerEndorsementRepository.save(customerEndorsement);
 		return saved;
 	}
@@ -77,7 +78,7 @@ public class CustomerEndorsementService {
 
 	public void delete(CustomerEndorsement customerEndorsement){
 		Authority e = new Authority();
-		e.setAuthority("CUSTOMER");
+		e.setAuthority("HANDYWORKER");
 		UserAccount userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().contains(e));	
 		
@@ -86,6 +87,12 @@ public class CustomerEndorsementService {
 	}
 	
 	//Other business methods -----
+	
+	public Collection<CustomerEndorsement> customerEndorsementsByHandyWorker(int handyWorkerId){
+		Collection<CustomerEndorsement> res;
+		res = customerEndorsementRepository.customerEndorsementsByHandyWorker(handyWorkerId);
+		return res;
+	}
 	
 	//A - RF 50.1
 	public Map<Customer,Double> getScoreCustomerEndorsement(){
@@ -104,7 +111,6 @@ public class CustomerEndorsementService {
 					String text = ce.getText();
 					String[] part = text.split( "[\\ \\.\\,\\. \\, ]");	
 					for(int i=0;i<part.length;i++){
-						System.out.println(part[i]);
 						if(positives.contains(part[i])){
 							p =p + 1d;
 						}else if(negatives.contains(part[i])){
@@ -112,12 +118,20 @@ public class CustomerEndorsementService {
 						}
 					}
 					Double score = 0d;
-					if((n+p)!=0) score = (p/n+p)-(n/n+p);
+					if((n+p)!=0) score = ((p/(n+p))-(n/(n+p)));
+					if(res.containsKey(ce.getCustomer()))
+						res.put(ce.getCustomer(), res.get(ce.getCustomer())+score);
+					else
 					res.put(ce.getCustomer(), score);
 					
 					break;
 				}
 			}
+		}
+		
+		for(Customer c: customers){
+			if(!res.keySet().contains(c))
+				res.put(c, 0d);
 		}
 		
 		return res;

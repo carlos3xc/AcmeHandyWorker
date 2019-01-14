@@ -29,8 +29,10 @@
 	<form:hidden path="version" />
 	
 	<form:hidden path="moment" />
-	<form:hidden path="customer" />		
-	<form:hidden path="handyWorker" />	
+	<form:hidden path="customer" />	
+	<jstl:if test="${handyWorkerEndorsement.id != 0}">
+		<form:hidden path="handyWorker"/>
+	</jstl:if>	
 	
 	<security:authorize access="hasRole('CUSTOMER')">
 	
@@ -40,18 +42,23 @@
 	<form:textarea path="text" />
 	<form:errors cssClass="error" path="text" />
 	<br />
+	<jstl:if test="${handyWorkerEndorsement.id == 0}">
+		<form:label path="handyWorker">
+			<spring:message code="endorsement.handyWorker" />:
+		</form:label>
+		<form:select path="handyWorker">
+			<form:option label = "-----" value="0" />
+			<form:options items="${handyWorkers}" itemLabel="userAccount.username" itemValue="id" />
+		</form:select>
+		<form:errors cssClass="error" path="handyWorker" />
+		<br />
+	</jstl:if>
 	
 	<input type="submit" name="save" value="<spring:message code="handyWorkerEndorsement.save" />" />
-	
-	<jstl:if test="${handyWorkerEndorsement.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="handyWorkerEndorsement.delete" />"
-			onclick="return confirm('<spring:message code="handyWorkerEndorsement.confirm.delete" />')" />&nbsp;
-	</jstl:if>
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="handyWorkerEndorsement.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/handyWorkerEndorsement/customer/list.do')" />
 	<br />
 	
 	</security:authorize>

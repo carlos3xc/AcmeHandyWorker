@@ -21,6 +21,7 @@ import controllers.AbstractController;
 import domain.Customer;
 import domain.CustomerEndorsement;
 import domain.HandyWorker;
+import domain.HandyWorkerEndorsement;
 
 
 @Controller
@@ -49,7 +50,7 @@ public CustomerEndorsementHandyWorkerController(){
 			Collection<CustomerEndorsement> customerEndorsements;
 			HandyWorker hw;
 			hw = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
-			customerEndorsements = customerEndorsementService.findAll();
+			customerEndorsements = customerEndorsementService.customerEndorsementsByHandyWorker(hw.getId());
 			
 			res = new ModelAndView("customerEndorsement/list");
 			res.addObject("customerEndorsements", customerEndorsements);
@@ -83,22 +84,6 @@ public CustomerEndorsementHandyWorkerController(){
 			result = this.createEditModelAndView(customerEndorsement);
 
 			return result;
-		}
-		
-	//Delete edit----------------------------------------------------------------------------------------------------------------------------------------
-		
-		@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
-		public ModelAndView delete(CustomerEndorsement customerEndorsement, BindingResult binding){
-			
-			ModelAndView res;
-			
-			try{
-				this.customerEndorsementService.delete(customerEndorsement);
-				res= new ModelAndView("redirect:list.do");
-			} catch (Throwable oops) {
-				res = createEditModelAndView(customerEndorsement,"customerEndorsement.commit.error");
-			}
-			return res;
 		}
 		
 	//Delete list ----------------------------------------------------------------------------------------------------------------------------------------
@@ -139,6 +124,19 @@ public CustomerEndorsementHandyWorkerController(){
 			return res;
 		}
 		
+	// Showing ----------------------------------------------------------------
+		
+		@RequestMapping(value="/show", method = RequestMethod.GET)
+		public ModelAndView show(@RequestParam final int customerEndorsementId){
+			ModelAndView result;
+
+			CustomerEndorsement customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+			result = new ModelAndView("customerEndorsement/show");
+
+			result.addObject("customerEndorsement", customerEndorsement);
+		return result; 
+		}
+		
 	//Ancillary Methods---------
 		
 		protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement){
@@ -150,16 +148,11 @@ public CustomerEndorsementHandyWorkerController(){
 		protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement, String messageCode){
 			ModelAndView res;
 			
-			Integer customerId = customerEndorsement.getCustomer().getId();
-			Customer customer = customerService.findOne(customerId);
 			Integer handyWorkerId = customerEndorsement.getHandyWorker().getId() ;
-			HandyWorker handyWorker = handyWorkerService.findOne(handyWorkerId);
-			
+			Collection<Customer> customers = customerService.getCustomersByHandyWorkerTasks(handyWorkerId);
 			res= new ModelAndView("customerEndorsement/edit");
 			res.addObject("customerEndorsement", customerEndorsement);
-			res.addObject("now",new Date());
-			res.addObject("customer", customer);
-			res.addObject("handyWorker", handyWorker);
+			res.addObject("customers", customers);
 			res.addObject("message", messageCode);
 			
 			return res;

@@ -1,4 +1,4 @@
-+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -19,20 +19,15 @@
 			<display:table name="handyWorkerEndorsements" id="row" requestURI="handyWorkerEndorsements/customer/list.do" pagesize="5">
 				
 				<display:column titleKey="handyWorkerEndorsements.options">
-					<a href="handyWorkerEndorsement/show.do?handyWorkerEndorsementId=${row.id}">
+					<a href="handyWorkerEndorsement/customer/show.do?handyWorkerEndorsementId=${row.id}">
 								<spring:message	code="handyWorkerEndorsement.show" />
-					</a>
-					<br/>
-					<jstl:if test="${row.customer == customer}"> 
-							<a href="handyWorkerEndorsement/customer/edit.do?handyWorkerEndorsementId=${row.id}">
-								<spring:message	code="handyWorkerEndorsement.edit" />
-							</a>
-							<br/>	
-							<a href="handyWorkerEndorsement/customer/delete.do?handyWorkerEndorsementId=${row.id}">
-								<spring:message	code="handyWorkerEndorsement.delete" />
-							</a>
-							<br/>			
-					</jstl:if>
+					</a><br/>
+					<a href="handyWorkerEndorsement/customer/edit.do?handyWorkerEndorsementId=${row.id}">
+						<spring:message	code="handyWorkerEndorsement.edit" />
+					</a><br/>	
+					<a href="handyWorkerEndorsement/customer/delete.do?handyWorkerEndorsementId=${row.id}">
+						<spring:message	code="handyWorkerEndorsement.delete" />
+					</a><br/>			
 				</display:column>
 				
 				<spring:message code="handyWorkerEndorsement.moment.format" var="formatMoment"/>
