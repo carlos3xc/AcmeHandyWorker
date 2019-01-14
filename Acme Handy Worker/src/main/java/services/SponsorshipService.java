@@ -36,7 +36,7 @@ public class SponsorshipService {
 	//Simple CRUD methods -----
 	public Sponsorship create(){
 		Sponsorship res = new Sponsorship();
-	
+		res.setSponsor(sponsorService.findSponsorByUserAccount(LoginService.getPrincipal()));
 		return res;
 	}
 	
@@ -53,10 +53,7 @@ public class SponsorshipService {
 		Authority au = new Authority();
 		au.setAuthority("SPONSOR");
 		Assert.isTrue(userAccount.getAuthorities().contains(au));
-		
-		Sponsor sponsor = sponsorService.findSponsorByUserAccount(userAccount);
-		a.setSponsor(sponsor);
-		
+
 		return sponsorshipRepository.save(a);
 	}
 	
@@ -72,6 +69,12 @@ public class SponsorshipService {
 	}
 	
 	//Other business methods -----
+	
+	public Collection<Sponsorship> getSponsorshipsSponsor(int sponsorId){
+		Collection<Sponsorship> res;
+		res = sponsorshipRepository.getSponsorshipsSponsor(sponsorId);
+		return res;
+	}
 	
 	
 }

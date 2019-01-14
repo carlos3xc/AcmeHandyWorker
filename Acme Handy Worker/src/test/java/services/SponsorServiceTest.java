@@ -12,7 +12,10 @@ import org.springframework.util.Assert;
 
 import security.Authority;
 import security.LoginService;
+import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
+import domain.SocialProfile;
 import domain.Sponsor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +28,12 @@ public class SponsorServiceTest extends AbstractTest{
 	
 	@Autowired
 	private SponsorService sponsorService;
+	
+	@Autowired
+	private SocialProfileService socialProfileService;
+	
+	@Autowired
+	private UserAccountService userAccountService;
 	
 	// Test
 	
@@ -59,6 +68,20 @@ public class SponsorServiceTest extends AbstractTest{
 		res.setPhone("673577161");
 		res.setPhoto("https://fotosperfil.com");
 		res.setSurname("Bermujo");
+		
+		SocialProfile savedpr;
+		SocialProfile socialProfile = socialProfileService.create();
+		socialProfile.setLink("http://www.twitter.com/Juan");
+		socialProfile.setNick("juaparser");
+		socialProfile.setSocialNetwork("Twitter");
+		savedpr = socialProfileService.save(socialProfile);
+		res.getSocialProfiles().add(savedpr);
+
+		UserAccount userAccount = res.getUserAccount();
+		userAccount.setUsername("sponsortest");
+		userAccount.setPassword("sponsortest");
+		UserAccount savedua = userAccountService.save(userAccount);
+		res.setUserAccount(savedua);
 		
 		Sponsor saved = sponsorService.save(res);
 		Assert.isTrue(sponsorService.findAll().contains(saved));

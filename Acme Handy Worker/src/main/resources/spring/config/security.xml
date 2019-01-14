@@ -91,6 +91,8 @@
 
 		<security:intercept-url pattern="/customerEndorsement/handyWorker/**" access="hasRole('HANDYWORKER')" />
 		
+		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('SPONSOR')" />
+		
 		<security:intercept-url pattern="/fixUpTask/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/handyWorkerEndorsement/**" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/customerEndorsement/**" access="isAuthenticated()" />

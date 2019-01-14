@@ -46,6 +46,7 @@
 		<value>/views/handyWorkerEndorsement/messages</value>
 		<value>/views/category/messages</value>
 		<value>/views/warranty/messages</value>
+		<value>/views/sponsorship/messages</value>
 		
 	</util:list>
 

@@ -151,7 +151,13 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('SPONSOR')">
-
+			<li><a class="fNiv" ><spring:message code="master.page.sponsorship" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorship.list" /></a>
+					<li><a href="sponsorship/sponsor/create.do"><spring:message code="master.page.sponsorship.create" /></a>
+				</ul>
+			</li>
 			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
 				<ul>
 					<li class="arrow"></li>
