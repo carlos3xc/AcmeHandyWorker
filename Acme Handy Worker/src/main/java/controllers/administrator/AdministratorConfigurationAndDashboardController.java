@@ -212,41 +212,41 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		res.addObject("customersScore", customerEndorsementService.getScoreCustomerEndorsement());
 		res.addObject("handyworkersScore", handyWorkerEndorsementService.getScoreHandyWorkerEndorsement());
 		
-		res.addObject("avgFixUpPerUser", fixUpTaskService.getAvgTasksPerCustomer());
+		res.addObject("avgFixUpPerUser", Math.round(fixUpTaskService.getAvgTasksPerCustomer() * 100d) / 100d);//Double
 		res.addObject("minFixUpPerUser", fixUpTaskService.getMinTasksPerCustomer());
 		res.addObject("maxFixUpPerUser", fixUpTaskService.getMaxTasksPerCustomer());
-		res.addObject("stdvFixUpPerUser", fixUpTaskService.getStdevTasksPerCustomer());
+		res.addObject("stdvFixUpPerUser", Math.round(fixUpTaskService.getStdevTasksPerCustomer() * 100d) / 100d);//Double
 		
-		res.addObject("avgApplicationsPerFixUp", applicationService.getAverageApplicationsPerFixUpTask());
+		res.addObject("avgApplicationsPerFixUp", Math.round(applicationService.getAverageApplicationsPerFixUpTask() * 100d) / 100d );//Double
 		res.addObject("minApplicationsPerFixUp", applicationService.getMinimumApplicationsPerFixUpTask());
 		res.addObject("maxApplicationsPerFixUp", applicationService.getMaximumApplicationsPerFixUpTask());
-		res.addObject("stdvApplicationsPerFixUp", applicationService.getStdevApplicationsPerFixUpTask());
+		res.addObject("stdvApplicationsPerFixUp", Math.round(applicationService.getStdevApplicationsPerFixUpTask() * 100d) / 100d );//Double
 		
-		res.addObject("avgMaxPricePerFixUp", fixUpTaskService.getAvgMaxPriceTasks());
+		res.addObject("avgMaxPricePerFixUp", Math.round(fixUpTaskService.getAvgMaxPriceTasks() * 100d) / 100d );//Double
 		res.addObject("minMaxPricePerFixUp", fixUpTaskService.getMinimumMaxPriceTasks());
 		res.addObject("maxMaxPricePerFixUp", fixUpTaskService.getMaximumMaxPriceTasks());
-		res.addObject("stdvMaxPricePerFixUp", fixUpTaskService.getStdevMaxPriceTasks());
+		res.addObject("stdvMaxPricePerFixUp", Math.round(fixUpTaskService.getStdevMaxPriceTasks() * 100d) / 100d );//Double
 		
-		res.addObject("avgPriceOfferedApplication", applicationService.getAveragePriceApplication());
+		res.addObject("avgPriceOfferedApplication", Math.round(applicationService.getAveragePriceApplication() * 100d) / 100d );//Double
 		res.addObject("minPriceOfferedApplication", applicationService.getMinimumPriceApplications());
 		res.addObject("maxPriceOfferedApplication", applicationService.getMaximumPriceApplications());
-		res.addObject("stdvPriceOfferedApplication", applicationService.getStdevPriceApplications());
+		res.addObject("stdvPriceOfferedApplication", Math.round(applicationService.getStdevPriceApplications() * 100d) / 100d );//Double
 		
-		res.addObject("avgComplaintsPerFixUp", complaintService.getAvgComplaintsPerTask());
+		res.addObject("avgComplaintsPerFixUp", Math.round(complaintService.getAvgComplaintsPerTask() * 100d) / 100d );//Double
 		res.addObject("minComplaintsPerFixUp", complaintService.getMinComplaintsPerTask());
 		res.addObject("maxComplaintsPerFixUp", complaintService.getMaxComplaintsPerTask());
-		res.addObject("stdvComplaintsPerFixUp", complaintService.getStdevComplaintsPerTask());
+		res.addObject("stdvComplaintsPerFixUp", Math.round(complaintService.getStdevComplaintsPerTask() * 100d) / 100d );//Double
 		
-		res.addObject("avgNotesPerReport", noteService.getAvgNotesPerReport());
+		res.addObject("avgNotesPerReport", Math.round(noteService.getAvgNotesPerReport() * 100d) / 100d );
 		res.addObject("minNotesPerReport", noteService.getMinNotesPerReport());
 		res.addObject("maxNotesPerReport", noteService.getMaxNotesPerReport());
-		res.addObject("stdvNotesPerReport", noteService.getStdevNotesPerReport());
+		res.addObject("stdvNotesPerReport", Math.round(noteService.getStdevNotesPerReport() * 100d) / 100d );
 		
-		res.addObject("ratioPendingApplications", applicationService.getRatioPendingApplications());
-		res.addObject("ratioAcceptedApplications", applicationService.getRatioAcceptedApplications());
-		res.addObject("ratioRejectedApplications", applicationService.getRatioRejectedApplications());
-		res.addObject("ratioOvertimeApplications", applicationService.getRatioPendingApplicationsTime());
-		res.addObject("ratioFixUpComplaint", fixUpTaskService.getRatioTasksWComplaints());
+		res.addObject("ratioPendingApplications", Math.round(applicationService.getRatioPendingApplications() * 100d) / 100d );
+		res.addObject("ratioAcceptedApplications", Math.round(applicationService.getRatioAcceptedApplications() * 100d) / 100d );
+		res.addObject("ratioRejectedApplications", Math.round(applicationService.getRatioRejectedApplications() * 100d) / 100d );
+		res.addObject("ratioOvertimeApplications", Math.round(applicationService.getRatioPendingApplicationsTime() * 100d) / 100d );
+		res.addObject("ratioFixUpComplaint", Math.round(fixUpTaskService.getRatioTasksWComplaints() * 100d) / 100d );
 		res.addObject("topThreeCustomerComplaints",customerService.TopThreeInComplaints());
 		res.addObject("topThreeHandyWorkersComplaints", handyWorkerService.TopThreeInComplaints());
 		
