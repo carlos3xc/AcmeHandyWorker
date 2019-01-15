@@ -30,7 +30,7 @@
 			<spring:message code="application.moment.format" var="formatMoment"/>
 			<display:column titleKey="application.moment" property="moment" format="{0,date,${formatMoment} }" class="${statushw}"/>
 			
-			<display:column titleKey="application.price" property="price" class="${statushw}"/>
+			<display:column titleKey="application.price" property="price" class="${statushw}"/> 
 			
 			<display:column titleKey="application.status" property="status" class="${statushw}"/>
 			

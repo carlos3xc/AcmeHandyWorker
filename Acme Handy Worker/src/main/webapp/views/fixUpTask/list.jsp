@@ -16,6 +16,8 @@
 			<display:table name="fixUpTasks" id="row" requestURI="fixUpTask/customer/list.do" pagesize="5">
 				
 				<display:column titleKey="task.options">
+					<jsp:useBean id="today" class="java.util.Date"/>
+				
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.show" />
 					</a><br/>
@@ -25,7 +27,6 @@
 								<spring:message	code="task.edit" />
 							</a><br/>	
 						</jstl:if>
-						<jsp:useBean id="today" class="java.util.Date"/>
 						<jstl:if test="${row.startMoment > today}">
 							<a href="fixUpTask/customer/delete.do?fixUpTaskId=${row.id}">
 								<spring:message	code="task.delete" />
@@ -61,17 +62,18 @@
 					<a href="fixUpTask/show.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.show" />
 					</a><br/>
-					<jstl:set var="stat" value="0"/>
+					<jstl:set var="stat" value="true"/>
 					<jstl:forEach var="x" items="${row.applications}">
-						<jstl:if test="${x.status=='PENDING'}">
-						<jstl:if test="${stat=='0' }">
-							<jstl:set var="stat" value="1"/>
+						<jstl:if test="${x.status =='ACCEPTED'}">
+							<jstl:set var="stat" value="false"/>
+						</jstl:if>
+					</jstl:forEach>	
+							<jstl:if test="${stat}">
 							<a href="handyWorker/application/apply.do?fixUpTaskId=${row.id}">
 								<spring:message code="task.apply"/>
 							</a><br/>
 						</jstl:if>
-						</jstl:if>
-					</jstl:forEach>	
+
 					
 					<a href="actor/show.do?actorId=${row.customer.id}">
 						<spring:message code="task.publisher"/>

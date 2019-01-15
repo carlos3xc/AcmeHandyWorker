@@ -1070,24 +1070,6 @@
 		<property name="CVV" value="122" />
 	</bean>
 
-	<!-- CREDIT CARDS MAKES -->
-
-	<bean id="creditCardMake1" class="domain.CreditCardMake">
-		<property name="make" value="VISA" />
-	</bean>
-
-	<bean id="creditCardMake2" class="domain.CreditCardMake">
-		<property name="make" value="MASTER" />
-	</bean>
-
-	<bean id="creditCardMake3" class="domain.CreditCardMake">
-		<property name="make" value="DINNERS" />
-	</bean>
-
-	<bean id="creditCardMake4" class="domain.CreditCardMake">
-		<property name="make" value="AMEX" />
-	</bean>
-
 	<!-- FINDERS -->
 
 	<bean id="finder1" class="domain.Finder">

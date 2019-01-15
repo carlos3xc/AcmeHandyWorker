@@ -15,7 +15,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
+<!-- j_spring_security_check -->
 <form:form action="j_spring_security_check" modelAttribute="credentials">
 
 	<form:label path="username">
@@ -35,6 +35,11 @@
 	<jstl:if test="${showError == true}">
 		<div class="error">
 			<spring:message code="security.login.failed" />
+		</div>
+	</jstl:if>
+	<jstl:if test="${banned == true}">
+		<div class="error">
+			<jstl:out value="${bannedMessage}" />
 		</div>
 	</jstl:if>
 	

@@ -111,6 +111,13 @@ public class CustomerApplicationController extends AbstractController {
 			try{
 				saved = appService.save(app);
 				if(saved.getStatus().equals("ACCEPTED")){
+					FixUpTask fx = saved.getFixUpTask();
+					for(Application a: fx.getApplications()){
+						if(!a.equals(saved) ){
+							a.setStatus("REJECTED");
+							appService.save(a);
+						}
+					}
 					messageService.sendSystemMessages(app);
 					result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
 				}else{

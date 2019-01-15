@@ -57,7 +57,6 @@ public class LoginController extends AbstractController {
 		Assert.notNull(bindingResult);
 //		boolean banned = false;
 
-		System.out.println(credentials.getUsername()+" "+credentials.getPassword());
 		ModelAndView result;
 //		String username = credentials.getUsername();
 //		for (UserAccount ua : accountService.findAll()) {
@@ -75,6 +74,43 @@ public class LoginController extends AbstractController {
 //			result = new ModelAndView("redirect:login.do?showError=true");
 //		}
 
+		return result;
+	}
+	
+	@RequestMapping("/check")
+	public ModelAndView check(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) final boolean showError) {
+		System.out.println("entra check");
+		Assert.notNull(credentials);
+		Assert.notNull(bindingResult);
+		boolean banned = false;
+		ModelAndView result;
+		String username = credentials.getUsername();
+		if(credentials.getUsername()!=null && credentials.getPassword() !=null){
+			for (UserAccount ua : accountService.findAll()) {
+				if(ua.getUsername().equals(username)){
+					if(actorService.getByUserAccountId(ua).getIsBanned()){
+						banned = true;
+						System.out.println("entra en if " + banned);
+					}
+				}
+			}
+			if(banned){
+				System.out.println("entra banned");
+				result = new ModelAndView("redirect:/security/login.do");
+				result.addObject("banned",banned);
+				result.addObject("bannedMessage","You are banned from the system");
+				result.addObject("showError", showError);
+			}else{
+				result = new ModelAndView("redirect:j_spring_security_check");
+				result.addObject("credentials", credentials);
+				result.addObject("showError", showError);
+			}
+		}else{
+			result = new ModelAndView("security/login");
+			result.addObject("credentials", credentials);
+			result.addObject("showError", showError);
+		}
+		
 		return result;
 	}
 

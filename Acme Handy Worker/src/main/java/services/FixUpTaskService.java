@@ -44,6 +44,9 @@ public class FixUpTaskService {
 	
 	@Autowired
 	private WorkPlanPhaseService workPlanPhaseService;
+	
+	@Autowired
+	private ConfigurationService configurationService;
 
 	//Simple CRUD methods -----
 	public FixUpTask create(){
@@ -74,6 +77,8 @@ public class FixUpTaskService {
 		if(fx.getId()==0){
 			Assert.isTrue(fx.getStartMoment().after(new Date()));
 			Assert.isTrue(fx.getEndMoment().after(new Date()));
+			System.out.println(fx.getMaxPrice() + (fx.getMaxPrice()*(configurationService.find().getVatPercentage()/100)));
+			fx.setMaxPrice(fx.getMaxPrice() + (fx.getMaxPrice()*(configurationService.find().getVatPercentage()/100)));
 		}
 		
 		saved = fixUpTaskRepository.save(fx);

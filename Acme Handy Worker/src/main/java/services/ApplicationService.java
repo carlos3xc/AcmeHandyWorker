@@ -28,6 +28,9 @@ public class ApplicationService {
 	
 	@Autowired
 	private HandyWorkerService actorService;
+	
+	@Autowired
+	private ConfigurationService configurationService;
 
 	// Simple CRUD methods -----
 
@@ -60,7 +63,11 @@ public class ApplicationService {
 
 		Assert.isTrue(userAccount.getAuthorities().contains(handyWorker)
 				|| userAccount.getAuthorities().contains(customer));
-		// Assert.isTrue(application.getHandyWorker().getUserAccount().equals(userAccount));
+		
+		if(application.getId()==0){
+			System.out.println(application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100)));
+			application.setPrice(application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100)));
+		}
 		
 		result = applicationRepository.save(application);
 		return result;
