@@ -16,12 +16,14 @@ import controllers.AbstractController;
 
 import domain.Complaint;
 import domain.Customer;
+import domain.FixUpTask;
 import domain.Referee;
 import domain.Report;
 
 import security.LoginService;
 import services.ComplaintService;
 import services.CustomerService;
+import services.FixUpTaskService;
 import services.RefereeService;
 import services.ReportService;
 
@@ -42,6 +44,9 @@ public class ComplaintCustomerController extends AbstractController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private FixUpTaskService fixUpTaskService;
 
 	// Constructors ------------------------------------------------------------
 
@@ -99,12 +104,16 @@ public class ComplaintCustomerController extends AbstractController {
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int fixUpTaskId) {
 
 		ModelAndView result;
 		Complaint complaint;
+		
+		FixUpTask fixUpTask = fixUpTaskService.findOne(fixUpTaskId);
 
 		complaint = complaintService.create();
+		
+		complaint.setFixUpTask(fixUpTask);
 
 		result = this.createEditModelAndView(complaint);
 
@@ -133,7 +142,7 @@ public class ComplaintCustomerController extends AbstractController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-			System.out.println(binding.getFieldErrors());
+//			System.out.println(binding.getFieldErrors());
 			result = this.createEditModelAndView(complaint);
 		} else
 			try {
