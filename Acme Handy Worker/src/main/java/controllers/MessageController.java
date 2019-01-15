@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +50,7 @@ public class MessageController extends AbstractController {
 	public ModelAndView list(@RequestParam int boxId) {
 		ModelAndView res;
 		
+		Assert.isTrue(LoginService.getPrincipal().equals(boxService.findOne(boxId).getActor().getUserAccount()));
 		Collection<Box> boxes = boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId());
 		Collection<Message> messages = new ArrayList<>();
 		for (Integer i : boxService.findOne(boxId).getMessages()) {
