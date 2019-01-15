@@ -33,7 +33,7 @@
 							</a><br/>			
 						</jstl:if>		
 					</jstl:if>	
-					<a href="complaint/customer/edit.do?fixUpTaskId=${row.id}">
+					<a href="complaint/customer/create.do?fixUpTaskId=${row.id}">
 						<spring:message	code="task.complain" />
 					</a><br/>
 				</display:column>

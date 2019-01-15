@@ -84,5 +84,8 @@ public class CategoryService {
 		return categoryRepository.listTaskByCategory(id);
 	}
 	
+	public Collection<Category> getChildCategory(Category c){
+		return categoryRepository.getChildCategory(c);
+	}
 	
 }

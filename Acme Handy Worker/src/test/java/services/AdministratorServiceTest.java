@@ -96,7 +96,10 @@ public class AdministratorServiceTest extends AbstractTest {
 
 		Actor actor = (Actor) customerService.findAll().toArray()[3];
 
-		// System.out.println("Actor" + actor);
+		actor.setIsSuspicious(true);
+		actor.setIsBanned(false);
+		
+		System.out.println("Actor:" + actor.getUserAccount().getUsername());
 
 		administratorService.ban(actor);
 

@@ -33,17 +33,7 @@ public class CategoryAdministratorController extends AbstractController {
 		ModelAndView result;
 
 		Category category = categoryService.findOne(categoryId);
-
-		Collection<Category> categories = categoryService.findAll();
-		Collection<Category> cats = new ArrayList<Category>();
-		
-		for (Category cat : categories) {
-			if (cat.getParentCategory()!= null &&
-					cat.getParentCategory().equals(category)) {
-				cats.add(cat);
-			}
-		}
-
+		Collection<Category> cats = categoryService.getChildCategory(category);
 		Collection<FixUpTask> fixUpTasks = categoryService.listTaskByCategory(categoryId);
 
 		result = new ModelAndView("category/show");

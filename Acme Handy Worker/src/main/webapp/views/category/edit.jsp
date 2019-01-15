@@ -23,23 +23,15 @@
 		<form:errors cssClass="error" path="name" />
 		<br />
 
-	<!--  	<form:label path="parentCategory">
-			<spring:message code="category.parentCategory" />:
-	</form:label>
-		<form:input path="parentCategory" />
-		<form:errors cssClass="error" path="parentCategory" />
-		<br /> -->
 
-		<jstl:if test="${category.id != 0}">
-			<form:label path="parentCategory">
-				<spring:message code="category.parentCategory" />:
-			</form:label>
-			<form:select id="categories" path="parentCategory">
-				<form:options items="${categories}" itemValue="id" itemLabel="name" />
-			</form:select>
-			<form:errors cssClass="error" path="parentCategory" />
-			<br />
-		</jstl:if>
+		<form:label path="parentCategory">
+			<spring:message code="category.parentCategory" />:
+		</form:label>
+		<form:select id="categories" path="parentCategory">
+			<form:options items="${categories}" itemValue="id" itemLabel="name" />
+		</form:select>
+		<form:errors cssClass="error" path="parentCategory" />
+		<br />
 
 		<input type="submit" name="save"
 			value="<spring:message code="category.save"/>" />
