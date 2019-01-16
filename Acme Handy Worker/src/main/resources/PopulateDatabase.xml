@@ -1534,7 +1534,7 @@
 	<!-- SPONSORSHIPS -->
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
-		<property name="banner" value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS_leCPdaepZzIzOp2L9pFHU6v99ZOMzAYx510aV9joEhOsEoOTQ" />
+		<property name="banner" value="https://www.trivantis.com/wp-content/uploads/2012/11/test-review-banner1.png" />
 		<property name="link" value="https://www.3djuegos.com/trucos-juegos/0/todos/" />
 		<property name="creditCard" ref="creditCard5" />
 		<property name="sponsor" ref="sponsor1" />
@@ -1542,7 +1542,7 @@
 	</bean>
 
 	<bean id="sponsorship2" class="domain.Sponsorship">
-		<property name="banner" value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCJ-zR5uDBnXmDJe6gg66Rxr8g8SasN3qVEl40lJR0P3LbZQaE" />
+		<property name="banner" value="https://image.jimcdn.com/app/cms/image/transf/dimension=990x10000:format=jpg/path/safeff283135903fb/image/i20a93875e12c4be9/version/1524056946/image.jpg" />
 		<property name="link" value="https://www.3djuegos.com/novedades/especiales/juegos/0f0f0f0/fecha/" />
 		<property name="creditCard" ref="creditCard6" />
 		<property name="sponsor" ref="sponsor2" />
@@ -1550,7 +1550,7 @@
 	</bean>
 
 	<bean id="sponsorship3" class="domain.Sponsorship">
-		<property name="banner" value="http://www.postalvision2020.com/wp-content/uploads/2013/07/test-banner-920-220.jpg" />
+		<property name="banner" value="http://apps.testinsane.com/mindmaps/Content/images/Mindmap%20Apps%20Website%20Banner%202.jpg" />
 		<property name="link" value="https://www.3djuegos.com/novedades/analisis/juegos/0f0f0f0/fecha/" />
 		<property name="creditCard" ref="creditCard7" />
 		<property name="sponsor" ref="sponsor3" />
@@ -1558,7 +1558,7 @@
 	</bean>
 	
 	<bean id="sponsorship4" class="domain.Sponsorship">
-		<property name="banner" value="https://previews.123rf.com/images/imagecatalogue/imagecatalogue1611/imagecatalogue161116759/66637610-test-text-rubber-seal-stamp-watermark-tag-inside-rounded-rectangular-banner-with-grunge-design-and-d.jpg" />
+		<property name="banner" value="https://2.bp.blogspot.com/-TpeezXaMnKY/WLQyc70stAI/AAAAAAAAJxM/QxRTmXrnS7o8yJglwu9c3zVNAp8JTLz1gCLcB/s1600/youtube.png" />
 		<property name="link" value="https://www.3djuegos.com/novedades/noticias/juegos/0f0f0f0/fecha/" />
 		<property name="creditCard" ref="creditCard3" />
 		<property name="sponsor" ref="sponsor1" />
