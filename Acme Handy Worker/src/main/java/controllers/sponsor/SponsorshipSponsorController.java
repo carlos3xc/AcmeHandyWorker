@@ -1,7 +1,6 @@
 package controllers.sponsor;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -73,9 +72,16 @@ public SponsorshipSponsorController(){
 		public ModelAndView edit(@RequestParam final int sponsorshipId) {
 			ModelAndView result;
 			Sponsorship sponsorship;
-
+			Sponsor logged;
+			
 			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
-			result = this.createEditModelAndView(sponsorship);
+			logged = sponsorService.findSponsorByUserAccount(LoginService.getPrincipal());
+			
+			if(sponsorship.getSponsor().equals(logged)){
+				result = this.createEditModelAndView(sponsorship);
+			}else{
+				result = new ModelAndView("error/access");
+			}
 
 			return result;
 		}
