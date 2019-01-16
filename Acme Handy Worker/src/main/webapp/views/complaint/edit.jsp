@@ -34,7 +34,8 @@
 	<br />
 
 	<input type="submit" name="save"
-		value="<spring:message code="complaint.save" />" />&nbsp; 
+		value="<spring:message code="complaint.save" />" 
+		onclick="return confirm('<spring:message code="complaint.confirm.save" />')"/>&nbsp; 
 	<jstl:if test="${complaint.id != 0}">
 		<input type="submit" name="delete"
 			value="<spring:message code="complaint.delete" />"
