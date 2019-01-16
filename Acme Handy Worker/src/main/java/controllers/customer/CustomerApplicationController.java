@@ -11,7 +11,6 @@
 package controllers.customer;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -31,6 +30,7 @@ import services.MessageService;
 import controllers.AbstractController;
 import domain.Application;
 import domain.CreditCard;
+import domain.Customer;
 import domain.FixUpTask;
 
 @Controller
@@ -93,8 +93,13 @@ public class CustomerApplicationController extends AbstractController {
 		Application app;
 		
 		app = appService.findOne(appId);
+		Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		
-		result = createEditModelAndView(app);
+		if(app.getFixUpTask().getCustomer().equals(logged)){
+			result = createEditModelAndView(app);
+		}else{
+			result = new ModelAndView("error/access");
+		}
 		
 		return result;
 	}

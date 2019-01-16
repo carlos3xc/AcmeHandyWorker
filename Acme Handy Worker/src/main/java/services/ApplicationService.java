@@ -38,10 +38,9 @@ public class ApplicationService {
 
 		Application result = new Application();
 		
-		UserAccount ua = LoginService.getPrincipal();
-		HandyWorker a = actorService.findByUserAccountId(ua.getId());
-		
+		HandyWorker a = actorService.findByPrincipal();
 		Date moment = new Date(System.currentTimeMillis() - 1000);
+		
 		result.setMoment(moment);
 		result.setStatus("PENDING");
 		result.setHandyWorker(a);
@@ -65,7 +64,6 @@ public class ApplicationService {
 				|| userAccount.getAuthorities().contains(customer));
 		
 		if(application.getId()==0){
-			System.out.println(application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100)));
 			application.setPrice(application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100)));
 		}
 		
