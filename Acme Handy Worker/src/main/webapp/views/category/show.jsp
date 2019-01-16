@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="category" id="row"
-	requestURI="category/administrator/show.do">
+	requestURI="category/admin/show.do">
 
 	<display:column>
 
@@ -27,7 +27,7 @@
 </display:table>
 
 <display:table name="category" id="row"
-	requestURI="category/administrator/show.do">
+	requestURI="category/admin/show.do">
 
 	<display:column>
 		<b><spring:message code="category.categories" />: </b> <br />
@@ -39,7 +39,7 @@
 </display:table>
 
 <display:table name="category" id="row"
-	requestURI="category/administrator/show.do">
+	requestURI="category/admin/show.do">
 
 	<display:column>
 		<b><spring:message code="category.fixUpTasks" />: </b> <br />
@@ -53,6 +53,6 @@
 <br/>
 	<input type="button" name="back"
 		value="<spring:message code="category.back" />"
-		onclick="javascript: window.location.replace('/Acme-Handy-Worker/category/administrator/list.do')" />
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/category/admin/list.do')" />
 	<br />
 

@@ -9,15 +9,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="${categories}" id="row" pagesize="5"
-	requestURI="category/administrator/list.do">
+	requestURI="category/admin/list.do">
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a href="category/administrator/edit.do?categoryId=${row.id}"> <spring:message
+			<a href="category/admin/edit.do?categoryId=${row.id}"> <spring:message
 					code="category.edit" />
 			</a> <br/>
 			
-			<a href="category/administrator/show.do?categoryId=${row.id}"> <spring:message
+			<a href="category/admin/show.do?categoryId=${row.id}"> <spring:message
 						code="category.show" />
 				</a>
 		</display:column>
@@ -30,7 +30,7 @@
 </display:table>
 
 <div>
-	<a href="category/administrator/create.do"> <spring:message
+	<a href="category/admin/create.do"> <spring:message
 			code="category.create" />
 	</a>
 </div>

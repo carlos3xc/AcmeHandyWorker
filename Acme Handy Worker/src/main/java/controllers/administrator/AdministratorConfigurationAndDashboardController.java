@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.ActorService;
 import services.ApplicationService;
 import services.ComplaintService;
@@ -139,6 +140,10 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	@RequestMapping(value="/deleteSpam", method=RequestMethod.GET)
 	public ModelAndView removeSpam(@RequestParam int wordId){
 		ModelAndView res;
+		if (!LoginService.hasRole("ADMIN")) {
+			res = new ModelAndView("error/access");
+		}else{
+		
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 			try {
 				List<Word> aux = config.getspamWords();
@@ -152,6 +157,7 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 				res = createEditModelAndView(config, "admin.commit.error");
 				
 			}
+		}
 		return res;
 	}
 	
@@ -188,7 +194,9 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	@RequestMapping(value="/deleteMake", method=RequestMethod.GET)
 	public ModelAndView removeMake(@RequestParam int makeId){
 		ModelAndView res;
-		
+		if (!LoginService.hasRole("ADMIN")) {
+			res = new ModelAndView("error/access");
+		}else{
 		Configuration config = (Configuration) configurationService.findAll().toArray()[0];
 			try {
 				
@@ -201,6 +209,7 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 			} catch (Throwable e) {
 				res = createEditModelAndView(config, "admin.commit.error");
 			}
+		}
 		return res;
 	}
 	//DASHBOARD--------------------------------------------------------

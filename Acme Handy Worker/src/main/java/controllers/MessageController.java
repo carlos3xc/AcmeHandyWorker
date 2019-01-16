@@ -50,7 +50,10 @@ public class MessageController extends AbstractController {
 	public ModelAndView list(@RequestParam int boxId) {
 		ModelAndView res;
 		
-		Assert.isTrue(LoginService.getPrincipal().equals(boxService.findOne(boxId).getActor().getUserAccount()));
+		if (!LoginService.getPrincipal().equals(boxService.findOne(boxId).getActor().getUserAccount())) {
+			res = new ModelAndView("error/access");
+		}else{
+		
 		Collection<Box> boxes = boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId());
 		Collection<Message> messages = new ArrayList<>();
 		for (Integer i : boxService.findOne(boxId).getMessages()) {
@@ -60,7 +63,7 @@ public class MessageController extends AbstractController {
 		res = new ModelAndView("message/list");
 		res.addObject("messages", messages);
 		res.addObject("boxes", boxes);
-
+		}
 		return res;
 	}
 	
@@ -79,9 +82,13 @@ public class MessageController extends AbstractController {
 	@RequestMapping(value="/createBroadcast" , method=RequestMethod.GET)
 	public ModelAndView createBroadcast(){
 		ModelAndView res;
+		if(!LoginService.hasRole("ADMIN")){
+			res = new ModelAndView("error/access");
+		}else{
 		Message message = messageService.create(actorService.getByUserAccountId(LoginService.getPrincipal()));
 		message.setRecipients(actorService.findAll());
 		res = this.createEditModelAndView(message,true);
+		}
 		return res;
 		
 	}
@@ -118,15 +125,21 @@ public class MessageController extends AbstractController {
 	public ModelAndView delete(@RequestParam int messageId){
 		ModelAndView res;
 		Message message = messageService.findOne(messageId);
-		
-
+		Collection<Box> boxes = boxService.findByActorId(actorService.getByUserAccountId(LoginService.getPrincipal()).getId());
+		boolean hasMessage = false;
+		for (Box b : boxes) {
+			if(b.getMessages().contains(messageId)){hasMessage=true;}
+		}
+		if(!hasMessage){
+			res = new ModelAndView("error/access");
+		}else{
 			try {
 				messageService.delete(message);
-			
 				res = new ModelAndView("redirect:/box/list.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(message,false, "message.commit.error");
 			}
+		}
 		return res;
 	}
 	
@@ -138,7 +151,10 @@ public class MessageController extends AbstractController {
 		Message message = messageService.findOne(messageId);
 		Box original =  boxService.findOne(boxId);
 		Box destination = boxService.findOne(newBoxId);
-		
+		if(!original.getActor().getUserAccount().equals(LoginService.getPrincipal()) 
+				|| !destination.getActor().getUserAccount().equals(LoginService.getPrincipal())){
+			res = new ModelAndView("error/access");
+		}else{
 			try {
 				Collection<Integer>originalMessages = original.getMessages();
 				originalMessages.remove(message.getId());
@@ -154,6 +170,7 @@ public class MessageController extends AbstractController {
 			} catch (Throwable e) {
 				res = createEditModelAndView(message,false, "message.commit.error");
 			}
+		}
 		return res;
 	}
 	

@@ -78,9 +78,12 @@ public class BoxController extends AbstractController {
 	public ModelAndView edit(@RequestParam int boxId){
 		ModelAndView res;
 		Box box = boxService.findOne(boxId);
-		
+		if(LoginService.getPrincipal().equals(box.getActor().getUserAccount())){
+			res = new ModelAndView("error/access");
+		}else{
 		Assert.notNull(box);
 		res = this.createEditModelAndView(box);
+		}
 		return res;
 	}
 	
@@ -111,13 +114,16 @@ public class BoxController extends AbstractController {
 	public ModelAndView delete(@RequestParam int boxId){
 		ModelAndView res;
 		Box box = boxService.findOne(boxId);
-
+		if(LoginService.getPrincipal().equals(box.getActor().getUserAccount())){
+			res = new ModelAndView("error/access");
+		}else{
 			try {
 				boxService.delete(box);
 				res = new ModelAndView("redirect:list.do");
 			} catch (Throwable e) {
 				res = createEditModelAndView(box, "message.commit.error");
 			}
+		}
 		return res;
 	}
 	

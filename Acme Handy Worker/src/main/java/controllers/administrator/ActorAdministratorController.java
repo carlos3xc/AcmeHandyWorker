@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
+import security.LoginService;
 import services.ActorService;
 import services.AdministratorService;
 
@@ -55,11 +57,15 @@ public class ActorAdministratorController extends AbstractController {
 	public ModelAndView banActor(@RequestParam int actorId) {
 		ModelAndView res;
 
+		if (!LoginService.hasRole("ADMIN")) {
+			res = new ModelAndView("error/access");
+		}else{
 		Actor actor = actorService.findOne(actorId);
 		if (!actor.getIsBanned()) {
 			administratorService.ban(actorService.findOne(actorId));
 		}
 		res = new ModelAndView("redirect:list.do");
+		}
 		return res;
 	}
 
@@ -69,11 +75,15 @@ public class ActorAdministratorController extends AbstractController {
 	public ModelAndView unBanActor(@RequestParam int actorId) {
 		ModelAndView res;
 
+		if (!LoginService.hasRole("ADMIN")) {
+			res = new ModelAndView("error/access");
+		}else{
 		Actor actor = actorService.findOne(actorId);
 		if (actor.getIsBanned()) {
 			administratorService.unBan(actorService.findOne(actorId));
 		}
 		res = new ModelAndView("redirect:list.do");
+		}
 		return res;
 	}
 

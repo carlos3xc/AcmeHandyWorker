@@ -10,7 +10,7 @@
 
 <security:authorize access="hasRole('ADMIN')">
 
-	<form:form action="category/administrator/edit.do"
+	<form:form action="category/admin/edit.do"
 		modelAttribute="category">
 
 		<form:hidden path="id" />
@@ -38,7 +38,7 @@
 
 		<input type="button" name="cancel"
 			value="<spring:message code="category.cancel" />"
-			onclick="window.location='category/administrator/list.do';" />
+			onclick="window.location='category/admin/list.do';" />
 
 		<jstl:if test="${category.id != 0}">
 			<input type="submit" name="delete"

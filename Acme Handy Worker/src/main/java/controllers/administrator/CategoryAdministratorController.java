@@ -19,7 +19,7 @@ import domain.Category;
 import domain.FixUpTask;
 
 @Controller
-@RequestMapping("/category/administrator")
+@RequestMapping("/category/admin")
 public class CategoryAdministratorController extends AbstractController {
 
 	@Autowired
@@ -40,7 +40,7 @@ public class CategoryAdministratorController extends AbstractController {
 		result.addObject("fixUpTasks", fixUpTasks);
 		result.addObject("cats", cats);
 		result.addObject("category", category);
-		result.addObject("requestURI", "category/administrator/show.do");
+		result.addObject("requestURI", "category/admin/show.do");
 
 		return result;
 	}
@@ -54,7 +54,7 @@ public class CategoryAdministratorController extends AbstractController {
 
 		result = new ModelAndView("category/list");
 		result.addObject("categories", categories);
-		result.addObject("requestURI", "category/administrator/list.do");
+		result.addObject("requestURI", "category/admin/list.do");
 		return result;
 	}
 
