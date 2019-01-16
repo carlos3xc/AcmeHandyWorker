@@ -13,7 +13,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
-import domain.Administrator;
 import domain.Referee;
 import domain.SocialProfile;
 

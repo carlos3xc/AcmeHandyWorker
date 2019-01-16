@@ -117,5 +117,8 @@ public class ReportService {
 		
 	}
 	
+	public Collection<Report> getReportsByReferee(int refereeId){
+		return reportRepository.getReportsByReferee(refereeId);
+	}
 	
 }

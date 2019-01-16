@@ -89,18 +89,28 @@ public class ComplaintRefereeController extends AbstractController {
 	public ModelAndView show(@RequestParam final int complaintId) {
 
 		ModelAndView result;
-
 		Complaint complaint = complaintService.findOne(complaintId);
-		Collection<Report> reports = reportService
-				.getReportsByComplaint(complaintId);
-
-		result = new ModelAndView("complaint/show");
-		result.addObject("complaint", complaint);
-		result.addObject("reports", reports);
-		result.addObject("referee", refereeService
-				.findByUserAccountId(LoginService.getPrincipal().getId()));
-		result.addObject("requestURI", "complaint/referee/show.do");
-
+		Collection<Report> reports = reportService.getReportsByComplaint(complaintId);
+		Referee logged = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+		boolean access = false;
+		
+		for(Report r:reportService.getReportsByReferee(logged.getId())){
+			if(r.getComplaint().equals(complaint)){
+				access = true;
+				break;
+			}
+		}
+		
+		if(access){
+			result = new ModelAndView("complaint/show");
+			result.addObject("complaint", complaint);
+			result.addObject("reports", reports);
+			result.addObject("referee", logged);
+			result.addObject("requestURI", "complaint/referee/show.do");
+		}else{
+			result = new ModelAndView("error/access");
+		}
+		
 		return result;
 	}
 }

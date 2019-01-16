@@ -1,7 +1,5 @@
 package controllers.referee;
 
-import java.util.Collection;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +14,9 @@ import security.LoginService;
 import services.ComplaintService;
 import services.RefereeService;
 import services.ReportService;
-
 import controllers.AbstractController;
 import domain.Complaint;
-import domain.Complaint;
-import domain.FixUpTask;
 import domain.Referee;
-import domain.Report;
 import domain.Report;
 
 @Controller
@@ -46,7 +40,7 @@ public class ReportRefereeController extends AbstractController {
 		super();
 	}
 
-	// Create -------------------------------------------------------
+	// Create --------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int complaintId) {
@@ -62,20 +56,27 @@ public class ReportRefereeController extends AbstractController {
 		return result;
 	}
 
-	// Edit -----------------------------------------------------------------
+	// Edit ---------------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int reportId) {
 		ModelAndView result;
 		Report report;
-
+		Referee logged;
+		
 		report = this.reportService.findOne(reportId);
-		result = this.createEditModelAndView(report);
+		logged = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+		
+		if(report.getReferee().equals(logged)){
+			result = this.createEditModelAndView(report);
+		}else{
+			result = new ModelAndView("error/access");
+		}	
 
 		return result;
 	}
 	
-//Delete edit----------------------------------------------------------------------------------------------------------------------------------------
+	//Delete edit -------------------------------------------------------------------------------------------------------------------
 	
 	@RequestMapping(value="/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Report report, BindingResult binding){
@@ -91,8 +92,8 @@ public class ReportRefereeController extends AbstractController {
 		return res;
 	}
 	
-//Delete list ----------------------------------------------------------------------------------------------------------------------------------------
-
+	//Delete list ----------------------------------------------------------------------------------------------------------------
+	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int reportId){
 		
@@ -110,7 +111,7 @@ public class ReportRefereeController extends AbstractController {
 	}
 	
 
-//Save---------------------------------------------------------------	
+	//Save ----------------------------------------------------------------------------------------------------------------------
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 	public ModelAndView save(@Valid Report report, BindingResult binding){
@@ -130,7 +131,7 @@ public class ReportRefereeController extends AbstractController {
 		return res;
 	}
 	
-	//Ancillary Methods---------
+	//Ancillary Methods ---------------------------------------------------------------------------------------------------------
 	
 	protected ModelAndView createEditModelAndView(Report report){
 		ModelAndView res;
