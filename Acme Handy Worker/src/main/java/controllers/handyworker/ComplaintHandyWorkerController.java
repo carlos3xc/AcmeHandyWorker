@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.ComplaintService;
 import services.HandyWorkerService;
-
 import controllers.AbstractController;
 import domain.Complaint;
 import domain.HandyWorker;

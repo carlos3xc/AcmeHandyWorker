@@ -16,6 +16,7 @@ import security.LoginService;
 import services.HandyWorkerService;
 import services.TutorialService;
 import controllers.AbstractController;
+import domain.HandyWorker;
 import domain.Tutorial;
 
 @Controller
@@ -74,10 +75,17 @@ public class TutorialHandyWorkerController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int tutorialId) {
 
 		ModelAndView result;
-
-		Tutorial tutorial = tutorialService.findOne(tutorialId);
-
-		result = createEditModelAndView(tutorial);
+		Tutorial tutorial;
+		HandyWorker logged;
+		
+		tutorial = tutorialService.findOne(tutorialId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(tutorial.getHandyWorker().equals(logged)){
+			result = createEditModelAndView(tutorial);
+		}else{
+			result = new ModelAndView("error/access");
+		}
 
 		return result;
 	}

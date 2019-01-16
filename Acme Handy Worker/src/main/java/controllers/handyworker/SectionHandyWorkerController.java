@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.HandyWorkerService;
 import services.SectionService;
 import services.TutorialService;
 import controllers.AbstractController;
+import domain.HandyWorker;
 import domain.Section;
 
 @Controller
@@ -25,7 +27,10 @@ public class SectionHandyWorkerController extends AbstractController {
 
 	@Autowired
 	private SectionService sectionService;
-
+	
+	@Autowired
+	private HandyWorkerService hwService;
+	
 	@Autowired
 	private TutorialService tutorialService;
 
@@ -72,10 +77,18 @@ public class SectionHandyWorkerController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int sectionId) {
 
 		ModelAndView result;
-
-		Section section = sectionService.findOne(sectionId);
-
-		result = createEditModelAndView(section);
+		Section section;
+		HandyWorker logged;
+		
+		section = sectionService.findOne(sectionId);
+		logged = hwService.findByPrincipal();
+		
+		if(section.getTutorial().getHandyWorker().equals(logged)){
+			result = createEditModelAndView(section);
+		}else{
+			result = new ModelAndView("error/access");
+		}
+		
 
 		return result;
 	}

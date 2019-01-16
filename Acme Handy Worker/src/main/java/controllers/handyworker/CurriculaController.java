@@ -64,7 +64,6 @@ public class CurriculaController extends AbstractController {
 	//Curricula----
 	//Show----------------------------------------------------------------------------
 
-
 	@RequestMapping(value="/show" , method=RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView res;
@@ -85,6 +84,7 @@ public class CurriculaController extends AbstractController {
 	}
 	
 	//Delete
+	
 	@RequestMapping(value="/deleteCurricula", method=RequestMethod.GET)
 	public ModelAndView delete(@RequestParam int curriculaId){
 		ModelAndView res;
@@ -118,6 +118,7 @@ public class CurriculaController extends AbstractController {
 		
 		
 	//Edit-----------------------------------------------------------------------------
+		
 		@RequestMapping(value="/editPersonalRecord", method=RequestMethod.GET)
 		public ModelAndView editPR(@RequestParam int personalRecordId){
 			
@@ -130,6 +131,7 @@ public class CurriculaController extends AbstractController {
 		}
 		
 	//Save-----------------------------------------------------------------------------
+		
 		@RequestMapping(value="/editPersonalRecord", method=RequestMethod.POST, params="save")
 		public ModelAndView savePersonalRecord(@Valid PersonalRecord pr, BindingResult binding){
 			// we check if the logged in actor has a curricula, if not create one and bind the PR to it (save the record first)

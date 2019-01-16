@@ -1,7 +1,6 @@
 package controllers.handyworker;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -21,16 +20,15 @@ import controllers.AbstractController;
 import domain.Customer;
 import domain.CustomerEndorsement;
 import domain.HandyWorker;
-import domain.HandyWorkerEndorsement;
 
 
 @Controller
 @RequestMapping("customerEndorsement/handyWorker/")
 public class CustomerEndorsementHandyWorkerController extends AbstractController{
 
-public CustomerEndorsementHandyWorkerController(){
-	super();
-}
+	public CustomerEndorsementHandyWorkerController(){
+		super();
+	}
 
 	@Autowired
 	CustomerEndorsementService customerEndorsementService;
@@ -42,120 +40,135 @@ public CustomerEndorsementHandyWorkerController(){
 	HandyWorkerService handyWorkerService;
 
 
-	//Listing---
-		@RequestMapping(value="/list", method = RequestMethod.GET)
-		public ModelAndView list(){
-			
-			ModelAndView res;
-			Collection<CustomerEndorsement> customerEndorsements;
-			HandyWorker hw;
-			hw = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
-			customerEndorsements = customerEndorsementService.customerEndorsementsByHandyWorker(hw.getId());
-			
-			res = new ModelAndView("customerEndorsement/list");
-			res.addObject("customerEndorsements", customerEndorsements);
-			res.addObject("handyWorker",hw);
-			res.addObject("requestURI", "customerEndorsement/handyWorker/list.do");
-			
-			return res; 
-		}
-
-		// Create -----------------------------------------------------------------
-
-		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create() {
-			ModelAndView result;
-			CustomerEndorsement customerEndorsement;
-			customerEndorsement = this.customerEndorsementService.create();
-			
-			result = this.createEditModelAndView(customerEndorsement);
-
-			return result;
-		}
-
-		// Edit -----------------------------------------------------------------
-
-		@RequestMapping(value = "/edit", method = RequestMethod.GET)
-		public ModelAndView edit(@RequestParam final int customerEndorsementId) {
-			ModelAndView result;
-			CustomerEndorsement customerEndorsement;
-
-			customerEndorsement = this.customerEndorsementService.findOne(customerEndorsementId);
-			result = this.createEditModelAndView(customerEndorsement);
-
-			return result;
-		}
+	//Listing ----------------------------------------------------------------------------------------------------
 		
-	//Delete list ----------------------------------------------------------------------------------------------------------------------------------------
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView list(){
+		
+		ModelAndView res;
+		Collection<CustomerEndorsement> customerEndorsements;
+		HandyWorker hw;
+		hw = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		customerEndorsements = customerEndorsementService.customerEndorsementsByHandyWorker(hw.getId());
+		
+		res = new ModelAndView("customerEndorsement/list");
+		res.addObject("customerEndorsements", customerEndorsements);
+		res.addObject("handyWorker",hw);
+		res.addObject("requestURI", "customerEndorsement/handyWorker/list.do");
+		
+		return res; 
+	}
+
+	// Create ---------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		CustomerEndorsement customerEndorsement;
+		customerEndorsement = this.customerEndorsementService.create();
+		
+		result = this.createEditModelAndView(customerEndorsement);
+
+		return result;
+	}
+
+	// Edit -----------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int customerEndorsementId) {
+		ModelAndView result;
+		CustomerEndorsement customerEndorsement;
+		HandyWorker logged;
+		
+		customerEndorsement = this.customerEndorsementService.findOne(customerEndorsementId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(customerEndorsement.getHandyWorker().equals(logged)){
+			result = this.createEditModelAndView(customerEndorsement);
+		}else{
+			result = new ModelAndView("error/access");
+		}	
+
+		return result;
+	}
+		
+	//Delete list --------------------------------------------------------------------------------------------------
 	
-		@RequestMapping(value="/delete", method = RequestMethod.GET)
-		public ModelAndView delete(@RequestParam final int customerEndorsementId){
-			
-			ModelAndView res;
-			CustomerEndorsement customerEndorsement;
-			customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
-			
-			try{
-				this.customerEndorsementService.delete(customerEndorsement);
-				res= new ModelAndView("redirect:list.do");
-			} catch (Throwable oops) {
-				res = createEditModelAndView(customerEndorsement,"customerEndorsement.commit.error");
-			}
-			return res;
+	@RequestMapping(value="/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int customerEndorsementId){
+		
+		ModelAndView res;
+		CustomerEndorsement customerEndorsement;
+		customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+		
+		try{
+			this.customerEndorsementService.delete(customerEndorsement);
+			res= new ModelAndView("redirect:list.do");
+		} catch (Throwable oops) {
+			res = createEditModelAndView(customerEndorsement,"customerEndorsement.commit.error");
 		}
+		return res;
+	}
 		
 	//Save---------------------------------------------------------------	
 		
-		@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
-		public ModelAndView save(@Valid CustomerEndorsement customerEndorsement, BindingResult binding){
-			ModelAndView res;
-			if(binding.hasErrors()){
-				System.out.println("Fallos en: \n" + binding.getAllErrors());
-				res = this.createEditModelAndView(customerEndorsement);
-			}else{
-				try {
-					this.customerEndorsementService.save(customerEndorsement);
-					res = new ModelAndView("redirect:list.do");
-				} catch (Throwable oops) {
-					System.out.println(oops.getCause());
-					res = this.createEditModelAndView(customerEndorsement, "customerEndorsement.commit.error");
-				}
+	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
+	public ModelAndView save(@Valid CustomerEndorsement customerEndorsement, BindingResult binding){
+		ModelAndView res;
+		if(binding.hasErrors()){
+			System.out.println("Fallos en: \n" + binding.getAllErrors());
+			res = this.createEditModelAndView(customerEndorsement);
+		}else{
+			try {
+				this.customerEndorsementService.save(customerEndorsement);
+				res = new ModelAndView("redirect:list.do");
+			} catch (Throwable oops) {
+				System.out.println(oops.getCause());
+				res = this.createEditModelAndView(customerEndorsement, "customerEndorsement.commit.error");
 			}
-			return res;
 		}
+		return res;
+	}
 		
 	// Showing ----------------------------------------------------------------
 		
-		@RequestMapping(value="/show", method = RequestMethod.GET)
-		public ModelAndView show(@RequestParam final int customerEndorsementId){
-			ModelAndView result;
-
-			CustomerEndorsement customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+	@RequestMapping(value="/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam final int customerEndorsementId){
+		ModelAndView result;
+		HandyWorker logged;
+		
+		CustomerEndorsement customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(customerEndorsement.getHandyWorker().equals(logged)){
 			result = new ModelAndView("customerEndorsement/show");
-
 			result.addObject("customerEndorsement", customerEndorsement);
+		}else{
+			result = new ModelAndView("error/access");
+		}	
+	
 		return result; 
-		}
+	}
 		
 	//Ancillary Methods---------
 		
-		protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement){
-			ModelAndView res;
-			res= this.createEditModelAndView(customerEndorsement, null);
-			return res;
-		}
+	protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement){
+		ModelAndView res;
+		res= this.createEditModelAndView(customerEndorsement, null);
+		return res;
+	}
+	
+	protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement, String messageCode){
+		ModelAndView res;
 		
-		protected ModelAndView createEditModelAndView(CustomerEndorsement customerEndorsement, String messageCode){
-			ModelAndView res;
-			
-			Integer handyWorkerId = customerEndorsement.getHandyWorker().getId() ;
-			Collection<Customer> customers = customerService.getCustomersByHandyWorkerTasks(handyWorkerId);
-			res= new ModelAndView("customerEndorsement/edit");
-			res.addObject("customerEndorsement", customerEndorsement);
-			res.addObject("customers", customers);
-			res.addObject("message", messageCode);
-			
-			return res;
-		}
+		Integer handyWorkerId = customerEndorsement.getHandyWorker().getId() ;
+		Collection<Customer> customers = customerService.getCustomersByHandyWorkerTasks(handyWorkerId);
+		res= new ModelAndView("customerEndorsement/edit");
+		res.addObject("customerEndorsement", customerEndorsement);
+		res.addObject("customers", customers);
+		res.addObject("message", messageCode);
+		
+		return res;
+	}
 
 }

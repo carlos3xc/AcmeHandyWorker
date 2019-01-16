@@ -62,9 +62,8 @@ public class FinderHandyWorkerController extends AbstractController {
 		return result;
 	}
 
-
-
 	//Helper methods---------------------------------------------------
+	
 	protected ModelAndView createEditModelAndView(Finder finder){
 		ModelAndView res;
 		res = createEditModelAndView(finder, null);
