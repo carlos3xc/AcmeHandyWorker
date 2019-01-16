@@ -37,7 +37,8 @@ public class EndorserRecord extends DomainEntity {
 	public void setEndorserName(final String endorserName) {
 		this.endorserName = endorserName;
 	}
-
+	
+	@NotBlank
 	@Email
 	public String getEmail() {
 		return this.email;

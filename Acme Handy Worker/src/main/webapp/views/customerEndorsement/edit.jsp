@@ -59,7 +59,7 @@
 			
 	<input type="button" name="cancel"
 		value="<spring:message code="customerEndorsement.cancel" />"
-		onclick="javascript: window.location.replace('/Acme-Handy-Worker/customerEndorsement/customer/list.do')" />
+		onclick="javascript: window.location.replace('/Acme-Handy-Worker/customerEndorsement/handyWorker/list.do')" />
 	<br />
 	
 	</security:authorize>

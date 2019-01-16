@@ -87,7 +87,7 @@
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="curricula.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('curricula/handyworker/show.do')" />
 	<br />
 	
 	</security:authorize>

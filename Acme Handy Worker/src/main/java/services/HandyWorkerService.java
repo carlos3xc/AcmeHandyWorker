@@ -3,9 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -14,7 +12,6 @@ import repositories.HandyWorkerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountService;
 import domain.HandyWorker;
 import domain.SocialProfile;
 
@@ -28,9 +25,6 @@ public class HandyWorkerService {
 
 	// Supporting Services -----
 
-	@Autowired
-	private UserAccountService userAccountService;
-
 	// Simple CRUD methods -----
 	public HandyWorker create() {
 		Authority authority = new Authority();
@@ -40,10 +34,12 @@ public class HandyWorkerService {
 		user.addAuthority(authority);
 
 		HandyWorker handyWorker = new HandyWorker();
+		
 		handyWorker.setUserAccount(user);
 		handyWorker.setSocialProfiles(new ArrayList<SocialProfile>());
 		handyWorker.setIsBanned(false);
 		handyWorker.setIsSuspicious(false);
+		handyWorker.setMake("");
 		
 		return handyWorker;
 	}

@@ -63,7 +63,7 @@ public abstract class Actor extends DomainEntity {
 	public void setMiddleName(final String middleName) {
 		this.middleName = middleName;
 	}
-
+	
 	@URL
 	public String getPhoto() {
 		return this.photo;
@@ -72,7 +72,8 @@ public abstract class Actor extends DomainEntity {
 	public void setPhoto(final String photo) {
 		this.photo = photo;
 	}
-
+	
+	@NotBlank
 	@Email
 	public String getEmail() {
 		return this.email;

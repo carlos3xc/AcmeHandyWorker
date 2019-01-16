@@ -56,7 +56,7 @@ public class PersonalRecord extends DomainEntity {
 		this.email = email;
 	}
 
-	@Pattern(regexp = "^([+-]\\d+\\s+)?(\\([0-9]+\\)\\s+)?([\\d\\w\\s-]+)$")
+	@Pattern(regexp = "^[6|7|9]{1}[0-9]{8}$")
 	public String getPhone() {
 		return this.phone;
 	}
