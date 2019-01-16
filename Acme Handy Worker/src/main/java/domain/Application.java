@@ -58,7 +58,7 @@ public class Application extends DomainEntity {
 	public void setStatus(final String status) {
 		this.status = status;
 	}
-
+	
 	public Double getPrice() {
 		return price;
 	}

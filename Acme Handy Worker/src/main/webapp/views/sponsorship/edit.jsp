@@ -101,7 +101,7 @@
 					
 	<input type="button" name="cancel"
 		value="<spring:message code="sponsorship.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('sponsorship/sponsor/list.do')" />
 	<br />
 	
 	</security:authorize>

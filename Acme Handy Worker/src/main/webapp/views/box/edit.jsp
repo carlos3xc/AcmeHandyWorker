@@ -48,7 +48,7 @@
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="box.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('box/list.do')" />
 	<br />
 	
 	</security:authorize>

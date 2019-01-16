@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -46,7 +47,8 @@ public class Section extends DomainEntity {
 	public void setText(final String text) {
 		this.text = text;
 	}
-
+	
+	@URL
 	@ElementCollection
 	public Collection<String> getPictures() {
 		return this.pictures;

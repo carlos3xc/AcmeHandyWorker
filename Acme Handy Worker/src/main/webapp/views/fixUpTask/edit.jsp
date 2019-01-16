@@ -117,7 +117,7 @@
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="task.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('fixUpTask/customer/list.do')" />
 	<br />
 	
 	</security:authorize>

@@ -65,7 +65,8 @@ public class Tutorial extends DomainEntity {
 	public void setSummary(final String summary) {
 		this.summary = summary;
 	}
-
+	
+	
 	@ElementCollection
 	public Collection<String> getPictures() {
 		return this.pictures;

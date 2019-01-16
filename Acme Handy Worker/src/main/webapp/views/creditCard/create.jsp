@@ -28,7 +28,7 @@
 		<spring:message code="application.creditCard.holder" />:
 		</form:label>
 		
-		<form:input path="holder" placeholder="VISA"/>
+		<form:input path="holder" placeholder="Santiago Segura"/>
 		<form:errors cssClass="error" path="holder" />
 		<br />
 		
@@ -36,7 +36,7 @@
 			<spring:message code="application.creditCard.brand" />:
 		</form:label>
 		
-		<form:input path="brand" placeholder="1234"/>
+		<form:input path="brand" placeholder="VISA"/>
 		<form:errors cssClass="error" path="brand" />
 		<br />
 		

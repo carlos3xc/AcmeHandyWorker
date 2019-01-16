@@ -87,7 +87,7 @@
 		
 	<input type="button" name="back"
 		value="<spring:message code="task.show.back" />"
-		onclick="javascript: window.location.replace('/Acme-Handy-Worker/fixUpTask/customer/list.do')" />
+		onclick="javascript: window.location.replace('fixUpTask/list.do')" />
 	<br />
 		
 				

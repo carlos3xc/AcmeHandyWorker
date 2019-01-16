@@ -293,5 +293,9 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 		</jstl:forEach>
 	</table>
 
+	<input type="button" name="cancel"
+			value="<spring:message code="application.cancel" />"
+			onclick="javascript: window.location.replace('')" />
+	<br />
 
 </security:authorize>

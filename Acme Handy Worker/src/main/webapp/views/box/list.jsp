@@ -37,5 +37,4 @@
 		</display:column>
 	</display:table>
 	
-	<a href="box/create.do"><spring:message code='box.create'/></a>
 </security:authorize>

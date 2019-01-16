@@ -91,7 +91,7 @@
 					
 		<input type="button" name="cancel"
 			value="<spring:message code="application.cancel" />"
-			onclick="javascript: window.location.replace('')" />
+			onclick="javascript: window.location.replace('customer/application/list.do')" />
 		<br />
 		
 	</form:form>
