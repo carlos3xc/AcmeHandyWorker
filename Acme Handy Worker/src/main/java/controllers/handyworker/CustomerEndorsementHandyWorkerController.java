@@ -67,7 +67,13 @@ public class CustomerEndorsementHandyWorkerController extends AbstractController
 		CustomerEndorsement customerEndorsement;
 		customerEndorsement = this.customerEndorsementService.create();
 		
-		result = this.createEditModelAndView(customerEndorsement);
+		HandyWorker logged = handyWorkerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+		if(customerEndorsement.getHandyWorker().equals(logged)){
+			result = this.createEditModelAndView(customerEndorsement);
+		}else{
+			result = new ModelAndView("error/access");
+		}
 
 		return result;
 	}

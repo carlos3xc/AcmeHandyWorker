@@ -110,12 +110,18 @@ public class ComplaintCustomerController extends AbstractController {
 		Complaint complaint;
 		
 		FixUpTask fixUpTask = fixUpTaskService.findOne(fixUpTaskId);
+		
+		Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 
 		complaint = complaintService.create();
 		
 		complaint.setFixUpTask(fixUpTask);
-
-		result = this.createEditModelAndView(complaint);
+		
+		if(fixUpTask.getCustomer().equals(logged)){
+			result = this.createEditModelAndView(complaint);
+		}else{
+			result = new ModelAndView("error/access");
+		}
 
 		return result;
 	}
@@ -126,10 +132,13 @@ public class ComplaintCustomerController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int complaintId) {
 
 		ModelAndView result;
-
+		Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Complaint complaint = complaintService.findOne(complaintId);
-
-		result = createEditModelAndView(complaint);
+		if(complaint.getFixUpTask().getCustomer().equals(logged)){
+			result = this.createEditModelAndView(complaint);
+		}else{
+			result = new ModelAndView("error/access");
+		}
 
 		return result;
 	}

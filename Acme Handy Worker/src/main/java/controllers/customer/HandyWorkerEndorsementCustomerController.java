@@ -69,7 +69,13 @@ public HandyWorkerEndorsementCustomerController(){
 			HandyWorkerEndorsement handyWorkerEndorsement;
 			handyWorkerEndorsement = this.handyWorkerEndorsementService.create();
 			
-			result = this.createEditModelAndView(handyWorkerEndorsement);
+			Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			if(handyWorkerEndorsement.getCustomer().equals(logged)){
+				result = this.createEditModelAndView(handyWorkerEndorsement);
+			}else{
+				result = new ModelAndView("error/access");
+			}
 
 			return result;
 		}
@@ -80,9 +86,15 @@ public HandyWorkerEndorsementCustomerController(){
 		public ModelAndView edit(@RequestParam final int handyWorkerEndorsementId) {
 			ModelAndView result;
 			HandyWorkerEndorsement handyWorkerEndorsement;
-
+			
 			handyWorkerEndorsement = this.handyWorkerEndorsementService.findOne(handyWorkerEndorsementId);
-			result = this.createEditModelAndView(handyWorkerEndorsement);
+			Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			if(handyWorkerEndorsement.getCustomer().equals(logged)){
+				result = this.createEditModelAndView(handyWorkerEndorsement);
+			}else{
+				result = new ModelAndView("error/access");
+			}
 
 			return result;
 		}

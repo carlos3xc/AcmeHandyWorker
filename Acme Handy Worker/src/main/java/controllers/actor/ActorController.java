@@ -266,8 +266,7 @@ public class ActorController extends AbstractController {
 
 		Actor actor = actorService.getByUserAccountId(LoginService
 				.getPrincipal());
-		
-
+				
 		result = createEditModelAndView(actor);
 
 		return result;

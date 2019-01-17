@@ -75,7 +75,13 @@ public FixUpTaskCustomerController(){
 			FixUpTask fixUpTask;
 			fixUpTask = this.fixUpTaskService.create();
 			
-			result = this.createEditModelAndView(fixUpTask);
+			Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			if(fixUpTask.getCustomer().equals(logged)){
+				result = this.createEditModelAndView(fixUpTask);
+			}else{
+				result = new ModelAndView("error/access");
+			}
 
 			return result;
 		}
@@ -88,7 +94,14 @@ public FixUpTaskCustomerController(){
 			FixUpTask fixUpTask;
 
 			fixUpTask = this.fixUpTaskService.findOne(fixUpTaskId);
-			result = this.createEditModelAndView(fixUpTask);
+			
+			Customer logged = customerService.findByUserAccountId(LoginService.getPrincipal().getId());
+
+			if(fixUpTask.getCustomer().equals(logged)){
+				result = this.createEditModelAndView(fixUpTask);
+			}else{
+				result = new ModelAndView("error/access");
+			}
 
 			return result;
 		}
