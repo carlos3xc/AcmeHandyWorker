@@ -2325,7 +2325,7 @@
 				<ref bean="endorserRecord1" />
 			</list>
 		</property>
-		<property name="handyWorker" ref="handyWorker1"></property>
+		<property name="handyWorker" ref="handyWorker1"/>
 	</bean>
 
 	<bean id="curricula2" class="domain.Curricula">
@@ -2351,7 +2351,7 @@
 				<ref bean="endorserRecord2" />
 			</list>
 		</property>
-		<property name="handyWorker" ref="handyWorker2"></property>
+		<property name="handyWorker" ref="handyWorker2"/>
 	</bean>
 
 	<bean id="curricula3" class="domain.Curricula">
@@ -2377,7 +2377,7 @@
 				<ref bean="endorserRecord3" />
 			</list>
 		</property>
-		<property name="handyWorker" ref="handyWorker3"></property>
+		<property name="handyWorker" ref="handyWorker3"/>
 	</bean>
 
 

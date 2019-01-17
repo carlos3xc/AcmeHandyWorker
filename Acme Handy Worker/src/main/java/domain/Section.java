@@ -48,7 +48,7 @@ public class Section extends DomainEntity {
 		this.text = text;
 	}
 	
-	@URL
+	//The @URL annotations does not work for collections, only for individual attributes
 	@ElementCollection
 	public Collection<String> getPictures() {
 		return this.pictures;
