@@ -89,7 +89,9 @@ public class CurriculaController extends AbstractController {
 	public ModelAndView delete(@RequestParam int curriculaId){
 		ModelAndView res;
 		Curricula c = curriculaService.findOne(curriculaId);
-
+			if(!LoginService.getPrincipal().equals(c.getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
 			try {
 				curriculaService.delete(c);
 				res = new ModelAndView("redirect:show.do");
@@ -97,6 +99,7 @@ public class CurriculaController extends AbstractController {
 				res = new ModelAndView("curricula/show");
 				res.addObject("curricula", c);
 				res.addObject("message", "message.commit.error");
+			}
 			}
 		return res;
 	}
@@ -121,12 +124,14 @@ public class CurriculaController extends AbstractController {
 		
 		@RequestMapping(value="/editPersonalRecord", method=RequestMethod.GET)
 		public ModelAndView editPR(@RequestParam int personalRecordId){
-			
-			
 			ModelAndView res;
-			PersonalRecord pr = personalRecordService.findOne(personalRecordId);
 			
+			if(!LoginService.getPrincipal().equals(curriculaService.findByPersonalRecordId(personalRecordId).getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
+			PersonalRecord pr = personalRecordService.findOne(personalRecordId);
 			res = this.createEditPersonalRecordModelAndView(pr);
+			}
 			return res;
 		}
 		
@@ -172,12 +177,14 @@ public class CurriculaController extends AbstractController {
 	//Edit-----------------------------------------------------------------------------
 		@RequestMapping(value="/editEndorserRecord", method=RequestMethod.GET)
 		public ModelAndView editEndorserRecord(@RequestParam int endorserRecordId){
-			
-			
 			ModelAndView res;
+			if(!LoginService.getPrincipal().equals(curriculaService.findByEndorserRecordId(endorserRecordId).getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
 			EndorserRecord er = endorserRecordService.findOne(endorserRecordId);
 			
 			res = this.createEditEndorserRecordModelAndView(er);
+			}
 			return res;
 		}
 		
@@ -206,9 +213,13 @@ public class CurriculaController extends AbstractController {
 		@RequestMapping(value="/deleteEndorserRecord", method=RequestMethod.GET)
 		public ModelAndView deleteEndorserRecord(@RequestParam int endorserRecordId){
 			ModelAndView res;
+			if(!LoginService.getPrincipal().equals(curriculaService.findByEndorserRecordId(endorserRecordId).getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
 			endorserRecordService.delete(endorserRecordService.findOne(endorserRecordId));
 			
 			res = new ModelAndView("redirect:show.do");
+			}
 			return res;
 		}
 		
@@ -230,9 +241,13 @@ public class CurriculaController extends AbstractController {
 	public ModelAndView editEducationRecord(@RequestParam int educationRecordId) {
 
 		ModelAndView res;
+		if(!LoginService.getPrincipal().equals(curriculaService.findByEducationRecordId(educationRecordId).getHandyWorker().getUserAccount())){
+			res = new ModelAndView("error/access");
+		}else{
 		EducationRecord er = educationRecordService.findOne(educationRecordId);
 
 		res = this.createEditEducationRecordModelAndView(er);
+		}
 		return res;
 	}
 
@@ -261,9 +276,14 @@ public class CurriculaController extends AbstractController {
 	@RequestMapping(value = "/deleteEducationRecord", method = RequestMethod.GET)
 	public ModelAndView deleteEducationRecord(@RequestParam int educationRecordId) {
 		ModelAndView res;
+		
+		if(!LoginService.getPrincipal().equals(curriculaService.findByEducationRecordId(educationRecordId).getHandyWorker().getUserAccount())){
+			res = new ModelAndView("error/access");
+		}else{
 		educationRecordService.delete(educationRecordService.findOne(educationRecordId));
 
 		res = new ModelAndView("redirect:show.do");
+		}
 		return res;
 	}
 	
@@ -285,9 +305,13 @@ public class CurriculaController extends AbstractController {
 		public ModelAndView editProfessionalRecord(@RequestParam int professionalRecordId) {
 
 			ModelAndView res;
+			if(!LoginService.getPrincipal().equals(curriculaService.findByProfessionalRecordId(professionalRecordId).getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
 			ProfessionalRecord pr = professionalRecordService.findOne(professionalRecordId);
 
 			res = this.createEditProfessionalRecordModelAndView(pr);
+			}
 			return res;
 		}
 
@@ -315,10 +339,16 @@ public class CurriculaController extends AbstractController {
 		// Delete-----------------------------------------------------------------------------
 		@RequestMapping(value = "/deleteProfessionalRecord", method = RequestMethod.GET)
 		public ModelAndView deleteProfessionalRecord(@RequestParam int professionalRecordId) {
+			System.out.println("entro aqui?");
 			ModelAndView res;
-			educationRecordService.delete(educationRecordService.findOne(professionalRecordId));
-
+			if(!LoginService.getPrincipal().equals(curriculaService.findByProfessionalRecordId(professionalRecordId).getHandyWorker().getUserAccount())){
+				res = new ModelAndView("error/access");
+			}else{
+			System.out.println("antes de borrar");
+			professionalRecordService.delete(professionalRecordService.findOne(professionalRecordId));
+			System.out.println("despues de borrar");
 			res = new ModelAndView("redirect:show.do");
+			}
 			return res;
 		}
 		//MISCELLANEOUS RECORD ----------------------------------------------------------------
@@ -328,6 +358,7 @@ public class CurriculaController extends AbstractController {
 			public ModelAndView createMiscellaneousRecord() {
 
 				ModelAndView res;
+				
 				MiscellaneousRecord mr = miscellaneousRecordService.create();
 
 				res = this.createEditMiscellaneousRecordModelAndView(mr);
@@ -339,9 +370,13 @@ public class CurriculaController extends AbstractController {
 			public ModelAndView editMiscellaneousRecord(@RequestParam int miscellaneousRecordId) {
 
 				ModelAndView res;
+				if(!LoginService.getPrincipal().equals(curriculaService.findByMiscellaneousRecordId(miscellaneousRecordId).getHandyWorker().getUserAccount())){
+					res = new ModelAndView("error/access");
+				}else{
 				MiscellaneousRecord mr = miscellaneousRecordService.findOne(miscellaneousRecordId);
 
 				res = this.createEditMiscellaneousRecordModelAndView(mr);
+				}
 				return res;
 			}
 
@@ -370,9 +405,13 @@ public class CurriculaController extends AbstractController {
 			@RequestMapping(value = "/deleteMiscellaneousRecord", method = RequestMethod.GET)
 			public ModelAndView deleteMiscellaneousRecord(@RequestParam int miscellaneousRecordId) {
 				ModelAndView res;
+				if(!LoginService.getPrincipal().equals(curriculaService.findByMiscellaneousRecordId(miscellaneousRecordId).getHandyWorker().getUserAccount())){
+					res = new ModelAndView("error/access");
+				}else{
 				miscellaneousRecordService.delete(miscellaneousRecordService.findOne(miscellaneousRecordId));
 
 				res = new ModelAndView("redirect:show.do");
+				}
 				return res;
 			}
 

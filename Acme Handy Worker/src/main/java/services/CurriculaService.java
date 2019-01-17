@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -94,6 +95,27 @@ public class CurriculaService {
 	}
 	
 	//Other business methods -----
+	
+	public Curricula findByPersonalRecordId(Integer pr){
+		return curriculaRepository.findByPersonalRecordId(pr);
+	}
+	
+	public Curricula findByEducationRecordId(Integer er){
+		return curriculaRepository.findByEducationRecordId(er);
+	}
+	
+	public Curricula findByEndorserRecordId(Integer er){
+		return curriculaRepository.findByEndorserRecordId(er);
+	}
+	
+	public Curricula findByProfessionalRecordId(Integer er){
+		return curriculaRepository.findByProfessionalRecordId(er);
+	}
+	
+	public Curricula findByMiscellaneousRecordId(Integer er){
+		return curriculaRepository.findByMiscellaneousRecordId(er);
+	}
+	
 	
 	private String generateTicker(){
 		Date date = new Date(); // your date

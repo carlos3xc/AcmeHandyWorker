@@ -66,7 +66,7 @@
 		<h4><a href="curricula/handyworker/createProfessionalRecord.do"><spring:message code="curricula.createProfessionalRecord"/></a></h4><hr>
 		<jstl:forEach var="i" items="${curricula.professionalRecords }">
 		<h4><a href="curricula/handyworker/editProfessionalRecord.do?professionalRecordId=${i.id}"><spring:message code="curricula.editProfessionalRecord"/></a></h4>
-		<h4><a href="curricula/handyworker/deleteProfessionalRecord.do?prosfessionalRecordId=${i.id}"><spring:message code="curricula.deleteProfessionalRecord"/></a></h4>
+		<h4><a href="curricula/handyworker/deleteProfessionalRecord.do?professionalRecordId=${i.id}"><spring:message code="curricula.deleteProfessionalRecord"/></a></h4>
 		<spring:message code="curricula.companyName"/>: <jstl:out value="${i.companyName}"/><br>
 		<spring:message code="curricula.startDate"/>: <jstl:out value="${i.startDate}"/><br>
 		<spring:message code="curricula.endDate"/>: <jstl:out value="${i.endDate }"/><br>
