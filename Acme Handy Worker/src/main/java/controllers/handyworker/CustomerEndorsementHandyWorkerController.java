@@ -99,14 +99,22 @@ public class CustomerEndorsementHandyWorkerController extends AbstractController
 		
 		ModelAndView res;
 		CustomerEndorsement customerEndorsement;
-		customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+		HandyWorker logged;
 		
-		try{
-			this.customerEndorsementService.delete(customerEndorsement);
-			res= new ModelAndView("redirect:list.do");
-		} catch (Throwable oops) {
-			res = createEditModelAndView(customerEndorsement,"customerEndorsement.commit.error");
+		customerEndorsement = customerEndorsementService.findOne(customerEndorsementId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(customerEndorsement.getHandyWorker().equals(logged)){
+			try{
+				this.customerEndorsementService.delete(customerEndorsement);
+				res= new ModelAndView("redirect:list.do");
+			} catch (Throwable oops) {
+				res = createEditModelAndView(customerEndorsement,"customerEndorsement.commit.error");
+			}
+		}else{
+			res= new ModelAndView("error/access");
 		}
+		
 		return res;
 	}
 		
@@ -116,7 +124,6 @@ public class CustomerEndorsementHandyWorkerController extends AbstractController
 	public ModelAndView save(@Valid CustomerEndorsement customerEndorsement, BindingResult binding){
 		ModelAndView res;
 		if(binding.hasErrors()){
-			System.out.println("Fallos en: \n" + binding.getAllErrors());
 			res = this.createEditModelAndView(customerEndorsement);
 		}else{
 			try {
