@@ -29,12 +29,6 @@
     <servlet-name>AcmeHandyWorkerServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-<!-- Thymeleaf para A+ del D05 -->
-  <servlet-mapping>
-    <servlet-name>AcmeHandyWorkerServlet</servlet-name>
-    <url-pattern>*.html</url-pattern>
-  </servlet-mapping>
-  <!-- (End) Thymeleaf para A+ del D05 -->
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

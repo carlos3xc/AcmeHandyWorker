@@ -49,6 +49,7 @@
 		<value>/views/category/messages</value>
 		<value>/views/warranty/messages</value>
 		<value>/views/sponsorship/messages</value>
+		<value>/views/note/messages</value>
 		
 	</util:list>
 

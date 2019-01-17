@@ -71,7 +71,7 @@
 				
 	<input type="button" name="cancel"
 		value="<spring:message code="report.cancel" />"
-		onclick="javascript: window.location.replace('')" />
+		onclick="javascript: window.location.replace('report/show.do?reportId=${note.report.id}')" />
 	<br />
 	
 </form:form>

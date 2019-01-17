@@ -50,6 +50,7 @@
 		<value>/views/customerEndorsement/tiles.xml</value>
 		<value>/views/warranty/tiles.xml</value>
 		<value>/views/sponsorship/tiles.xml</value>
+		<value>/views/note/tiles.xml</value>
 		
 	</util:list>
 

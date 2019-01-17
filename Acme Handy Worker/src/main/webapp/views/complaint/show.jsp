@@ -9,11 +9,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="complaint" id="row"
-	requestURI="complaint/show.do">
-
-	<display:column>
-
 		<b><spring:message code="complaint.ticker" />: </b>
 		<jstl:out value="${complaint.ticker}" /> <br/>
 
@@ -30,32 +25,27 @@
 		<b><spring:message code="complaint.fixUpTask" />: </b>
 		<jstl:out value="${complaint.fixUpTask.ticker}" />
 
-	</display:column>
 
-</display:table>
-
-<h3><spring:message code="complaint.reports"/>:</h3>
+<h3><spring:message code="complaint.reports"/></h3>
 		<display:table name="reports" id="row" requestURI="complaint/show.do" pagesize="5">
-		<jstl:if test="${referee !=null || customer !=null}">
 			<display:column titleKey="report.options">
+				<a href="report/show.do?reportId=${row.id}"><spring:message	code="complaint.report.show" /></a>
+				<br/>
 				<jstl:if test="${row.isDraft}">
-					<jstl:if test="${row.referee == referee}"> 
+					<security:authorize access="hasRole('REFEREE')">
+
 							<a href="report/referee/edit.do?reportId=${row.id}">
 								<spring:message	code="complaint.edit" />
 							</a><br/>	
 					
 							<a href="report/referee/delete.do?reportId=${row.id}">
 								<spring:message	code="complaint.delete" />
-							</a><br/>	
-						</jstl:if>		
-				</jstl:if>
-				<jstl:if test="${customer !=null}">
-					<a href="note/customer/create.do?reportId=${row.id}">
-								<spring:message	code="complaint.annotate" />
 							</a><br/>
+					</security:authorize>
 				</jstl:if>
+
 			</display:column>
-		</jstl:if>
+
 			<jstl:set var="ref" value="${row.referee}"/>
 			<display:column property="moment" titleKey="complaint.moment" />
 						
