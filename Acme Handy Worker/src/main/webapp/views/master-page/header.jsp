@@ -33,7 +33,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.category" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="category/administrator/list.do"><spring:message code="master.page.category.list" /></a></li>
+					<li><a href="category/admin/list.do"><spring:message code="master.page.category.list" /></a></li>
 				</ul>
 			</li>		
 			<li><a class="fNiv"><spring:message	code="master.page.actor" /></a>
