@@ -65,10 +65,12 @@
 					<a href="${x}"><jstl:out value="${x }"/></a><br/>
 				</jstl:forEach>
 			</display:column>
-			
+
+			<jstl:if test="${row.referee !=null}">
 			<display:column titleKey="complaint.referee">
 				<a href="actor/show.do?actorId=${row.referee.id}"><jstl:out value="${row.referee.userAccount.username}"/></a>
 			</display:column>
+			</jstl:if>
 		</display:table>
 		
 		<jstl:if test="${referee == ref}"> 
