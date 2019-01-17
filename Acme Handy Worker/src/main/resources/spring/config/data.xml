@@ -32,6 +32,11 @@
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Acme-Handy-Worker" />
 		<property name="user" value="acme-user" />
 		<property name="password" value="ACME-Us3r-P@ssw0rd" />
+	
+		<property name="minPoolSize" value="1"/>
+		<property name="maxPoolSize" value="5"/>
+
+
 	</bean>
 
 	<!-- JPA -->
@@ -47,9 +52,9 @@
 	<util:properties id="jpaProperties">
 		<prop key="hibernate.show_sql">false</prop>
 		<prop key="hibernate.format_sql">true</prop>		
-		<!-- <prop key="hibernate.hbm2ddl.auto">verify</prop> -->
 		<prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
-		<prop key="hibernate.ejb.entitymanager_factory_name">entity-manager</prop>		
+		<prop key="hibernate.ejb.entitymanager_factory_name">entity-manager</prop>	
+		<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>	
 	</util:properties>
 
 </beans>
