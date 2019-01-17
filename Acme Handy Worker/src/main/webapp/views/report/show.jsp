@@ -29,9 +29,9 @@
 
 
 <p><jstl:out value="${report.description}" /></p>
-<jstl:forEach var="attachment" items="report.attachments">
+<jstl:forEach var="attachment" items="${report.attachments}">
 	<ul>
-		<li><a href="attachment">attachment</a></li>
+		<li><a href="<jstl:out value="${attachment}" />"><jstl:out value="${attachment}" /></a></li>
 	</ul>
 </jstl:forEach>
 
@@ -39,7 +39,7 @@
 <display:table name="report.notes" id="row" requestURI="report/show.jsp"  pagesize="5">
 	<display:column titleKey="report.note.options">
 		<security:authorize access="hasRole('REFEREE')">
-			<jstl:if test="${row.refereeComment == null}">
+			<jstl:if test="${row.refereeComment == null || empty row.refereeComment}">
 				<a href="report/note/edit.do?noteId=${row.id}">
 					<spring:message	code="note.comment" />
 				</a>
@@ -47,7 +47,7 @@
 		</security:authorize>
 
 		<security:authorize access="hasRole('CUSTOMER')">
-			<jstl:if test="${row.customerComment == null}">
+			<jstl:if test="${row.customerComment == null || empty row.customerComment}">
 				<a href="report/note/edit.do?noteId=${row.id}">
 					<spring:message	code="note.comment" />
 				</a>
@@ -55,7 +55,7 @@
 		</security:authorize>
 
 		<security:authorize access="hasRole('HANDYWORKER')">
-			<jstl:if test="${row.handyWorkerComment == null}">
+			<jstl:if test="${row.handyWorkerComment == null || empty row.handyWorkerComment}">
 				<a href="report/note/edit.do?noteId=${row.id}">
 					<spring:message	code="note.comment" />
 				</a>

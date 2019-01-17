@@ -101,6 +101,10 @@ public class CustomerService {
 		c = customerRepository.findByUserAccountId(Id);
 		return c;
 	}
+
+	public Customer findByPrincipal(){
+		return findByUserAccountId(LoginService.getPrincipal().getId());
+	}
 	
 	public Collection<Customer> getCustomersByHandyWorkerTasks(int handyWorkerId){
 		Collection<Customer> res;

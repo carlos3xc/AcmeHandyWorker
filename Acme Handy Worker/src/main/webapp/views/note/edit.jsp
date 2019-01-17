@@ -21,8 +21,47 @@
 
 	<!-- PARAMETERS FROM CONTROLLER: Note
 					 				 -->
+<jstl:if test="${savedNote != null}">
+<security:authorize access="hasRole('REFEREE')">
 
+    <div>
+        <h3><spring:message code="report.note.customerComment" /></h3>
+        <p><jstl:out value="${note.customerComment}"/></p>
+    </div>
+    <div>
+        <h3><spring:message code="report.note.handyWorkerComment" /></h3>
+        <p><jstl:out value="${note.handyWorkerComment}"/></p>
+    </div>
 
+</security:authorize>
+
+<security:authorize access="hasRole('CUSTOMER')">
+    <div>
+        <h3><spring:message code="report.note.refereeComment" /></h3>
+        <p><jstl:out value="${note.refereeComment}"/></p>
+    </div>
+    <div>
+        <h3><spring:message code="report.note.handyWorkerComment" /></h3>
+        <p><jstl:out value="${note.handyWorkerComment}"/></p>
+    </div>
+
+</security:authorize>
+
+<security:authorize access="hasRole('HANDYWORKER')">
+    <div>
+        <h3><spring:message code="report.note.customerComment" /></h3>
+        <p><jstl:out value="${note.customerComment}"/></p>
+    </div>
+
+    <div>
+        <h3><spring:message code="report.note.refereeComment" /></h3>
+        <p><jstl:out value="${note.refereeComment}"/></p>
+    </div>
+
+</security:authorize>
+</jstl:if>
+
+<div>
 <form:form action="report/note/edit.do" modelAttribute="note">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -33,7 +72,7 @@
 	<security:authorize access="hasRole('REFEREE')">
 
 			<form:label path="refereeComment">
-				<spring:message code="report.note.refereeComment" />:
+				<spring:message code="report.note.refereeComment" />
 			</form:label>
         <br/>
 			<form:textarea path="refereeComment" />
@@ -43,7 +82,7 @@
 	<security:authorize access="hasRole('CUSTOMER')">
 
 			<form:label path="customerComment">
-				<spring:message code="report.note.customerComment" />:
+				<spring:message code="report.note.customerComment" />
 			</form:label>
         <br/>
 			<form:textarea path="customerComment" />
@@ -52,7 +91,7 @@
 
 	<security:authorize access="hasRole('HANDYWORKER')">
 		<form:label path="handyWorkerComment">
-			<spring:message code="report.note.handyWorkerComment" />:
+			<spring:message code="report.note.handyWorkerComment" />
 		</form:label>
         <br/>
 		<form:textarea path="handyWorkerComment" />
@@ -63,5 +102,6 @@
 
     <input type="button" name="cancel"
            value="<spring:message code="report.cancel" />"
-           onclick="javascript: window.location.replace('')" />
+           onclick="javascript: window.location.replace('report/show.do?reportId=${note.report.id}')" />
 </form:form>
+</div>

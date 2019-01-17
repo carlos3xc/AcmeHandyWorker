@@ -26,6 +26,9 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Integer>{
 	// B-RF 37.3
 	@Query("select distinct fx.complaints from Application a join a.fixUpTask fx where a.handyWorker.id = ?1")
 	Collection<Complaint> getComplaintsHandyWorker(int handyWorkerId);
+
+	@Query("select distinct com from Complaint com join com.fixUpTask fix join fix.customer cus where cus.id = ?1")
+	Collection<Complaint> getComplaintsCustomer(int customerId);
 	
 	@Query("select c from Complaint c where c.fixUpTask.id = ?1")
 	Collection<Complaint> getComplaintsFixUpTask(int fixUpTaskId);

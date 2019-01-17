@@ -80,7 +80,8 @@ public class NoteService {
 
 		}else{
 			Note savedNote = findOne(n.getId());
-			Assert.isTrue(n.getMoment().equals(savedNote.getMoment()));
+			//No funciona Assert.isTrue(n.getMoment().equals(savedNote.getMoment()));
+			n.setMoment(savedNote.getMoment());
 			if (userAccount.getAuthorities().contains(handyWorkerAuthority)){
 				n.setRefereeComment(savedNote.getRefereeComment());
 				n.setCustomerComment(savedNote.getCustomerComment());

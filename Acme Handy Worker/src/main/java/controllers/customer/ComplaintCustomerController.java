@@ -61,7 +61,7 @@ public class ComplaintCustomerController extends AbstractController {
 
 		ModelAndView result;
 
-		Collection<Complaint> complaints = complaintService.findAll();
+		Collection<Complaint> complaints = complaintService.getComplaintsCustomer(customerService.findByPrincipal());
 
 		result = new ModelAndView("complaint/list");
 		result.addObject("complaints", complaints);

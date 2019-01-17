@@ -102,6 +102,11 @@ public class ReportController extends AbstractController{
 		ModelAndView res;
 		res = new ModelAndView("note/edit");
 		res.addObject("note", note);
+		Note savedNote = null;
+		if(note.getId() != 0){
+			savedNote = noteService.findOne(note.getId());
+		}
+		res.addObject("savedNote", savedNote);
 		res.addObject("message", messageCode);
 
 		return res;

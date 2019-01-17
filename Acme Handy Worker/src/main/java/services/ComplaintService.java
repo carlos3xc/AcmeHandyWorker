@@ -160,6 +160,10 @@ public class ComplaintService {
 		return res;
 	}
 
+	public Collection<Complaint> getComplaintsCustomer(Customer customer){
+		return complaintRepository.getComplaintsCustomer(customer.getId());
+	}
+
 	// B-RF 37.3
 	public Collection<Complaint> getComplaintsHandyWorker(int handyWorkerId) {
 		Collection<Complaint> res;
