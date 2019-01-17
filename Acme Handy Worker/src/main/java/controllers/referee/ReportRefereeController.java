@@ -99,13 +99,20 @@ public class ReportRefereeController extends AbstractController {
 		
 		ModelAndView res;
 		Report report;
-		report = reportService.findOne(reportId);
+		Referee logged;
 		
-		try{
-			this.reportService.delete(report);
-			res= new ModelAndView("redirect:/complaint/show.do?complaintId=" + report.getComplaint().getId());
-		} catch (Throwable oops) {
-			res = createEditModelAndView(report,"report.commit.error");
+		report = this.reportService.findOne(reportId);
+		logged = refereeService.findByUserAccountId(LoginService.getPrincipal().getId());
+		
+		if(report.getReferee().equals(logged)){
+			try{
+				this.reportService.delete(report);
+				res= new ModelAndView("redirect:/complaint/show.do?complaintId=" + report.getComplaint().getId());
+			} catch (Throwable oops) {
+				res = createEditModelAndView(report,"report.commit.error");
+			}
+		}else{
+			res = new ModelAndView("error/access");
 		}
 		return res;
 	}
