@@ -265,6 +265,19 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 		return res;
 	}
 	
+	// SCORE
+	
+	//DASHBOARD--------------------------------------------------------
+	@RequestMapping(value="/score", method=RequestMethod.GET)
+	public ModelAndView score(){
+		ModelAndView res;
+		
+		res = new ModelAndView("admin/score");
+		res.addObject("customersScore", customerEndorsementService.getScoreCustomerEndorsement());
+		res.addObject("handyworkersScore", handyWorkerEndorsementService.getScoreHandyWorkerEndorsement());
+		return res;
+	}
+	
 	
 	
 	//Helper methods---------------------------------------------------

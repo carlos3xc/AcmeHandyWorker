@@ -27,7 +27,8 @@
 					<li class="arrow"></li>
 					<li><a href="admin/admin/configuration.do"><spring:message code="master.page.configuration" /></a></li>
 					<li><a href="admin/admin/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>
-					<li><a href="message/createBroadcast.do">Broadcast message to system users</a></li>
+					<li><a href="message/createBroadcast.do"><spring:message code="master.page.broadcast" /></a></li>
+					<li><a href="admin/admin/score.do"><spring:message code="master.page.score" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.category" /></a>

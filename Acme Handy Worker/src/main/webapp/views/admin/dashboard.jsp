@@ -45,17 +45,6 @@ List<HandyWorker> handyWorkersPublishers10 - The listing of handy workers who ha
 
 <security:authorize access="hasRole('ADMIN')">
 
-	<fieldset>
-		<legend><spring:message code="admin.score"/></legend>
-		<spring:message code="admin.customerEndorsement.score"/>: <br/>
-		<jstl:forEach var="x" items="${customersScore}">
-			<jstl:out value="${x.key.userAccount.username}"/>: <jstl:out value="${x.value}"/><br/>
-		</jstl:forEach>
-		<spring:message code="admin.handyworkerEndorsement.score"/>: <br/>
-		<jstl:forEach var="y" items="${handyworkersScore}">
-			<jstl:out value="${y.key.userAccount.username}"/>: <jstl:out value="${y.value}"/><br/>
-		</jstl:forEach>
-	</fieldset>
 	<spring:message code="admin.datatable"/>
 	<table style="width:'100%' border='0' align='center' ">
 			<tr>

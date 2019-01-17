@@ -29,5 +29,10 @@
 		<put-attribute name="title" value="List of suspicious actors" />
 		<put-attribute name="body" value="/views/admin/list.jsp" />
 	</definition>
+	
+	<definition name="admin/score" extends="master.page">
+		<put-attribute name="title" value="Score endorsements" />
+		<put-attribute name="body" value="/views/admin/score.jsp" />
+	</definition>
 
 </tiles-definitions>

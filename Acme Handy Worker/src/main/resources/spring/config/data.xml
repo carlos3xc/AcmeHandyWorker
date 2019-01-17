@@ -32,7 +32,7 @@
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Acme-Handy-Worker" />
 		<property name="user" value="acme-user" />
 		<property name="password" value="ACME-Us3r-P@ssw0rd" />
-	
+
 		<property name="minPoolSize" value="1"/>
 		<property name="maxPoolSize" value="5"/>
 

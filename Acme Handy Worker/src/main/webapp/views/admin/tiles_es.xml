@@ -29,5 +29,10 @@
 		<put-attribute name="title" value="Lista de actores sospechosos" />
 		<put-attribute name="body" value="/views/admin/list.jsp" />
 	</definition>
+	
+	<definition name="admin/score" extends="master.page">
+		<put-attribute name="title" value="Puntuación de evaluaciones" />
+		<put-attribute name="body" value="/views/admin/score.jsp" />
+	</definition>
 
 </tiles-definitions>
