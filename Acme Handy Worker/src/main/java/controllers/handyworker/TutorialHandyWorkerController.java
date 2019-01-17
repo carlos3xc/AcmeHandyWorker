@@ -116,13 +116,20 @@ public class TutorialHandyWorkerController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int tutorialId) {
 		ModelAndView result;
 		Tutorial tut;
-		tut = tutorialService.findOne(tutorialId);
+		HandyWorker logged;
 		
-		try {
-			this.tutorialService.delete(tut);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(tut,"tutorial.commit.error");
+		tut = tutorialService.findOne(tutorialId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(tut.getHandyWorker().equals(logged)){
+			try {
+				this.tutorialService.delete(tut);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(tut,"tutorial.commit.error");
+			}
+		}else{
+			result = new ModelAndView("error/access");
 		}
 
 		return result;

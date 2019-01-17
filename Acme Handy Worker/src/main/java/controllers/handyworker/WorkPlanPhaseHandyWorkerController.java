@@ -94,13 +94,20 @@ public WorkPlanPhaseHandyWorkerController(){
 		
 		ModelAndView res;
 		WorkPlanPhase workPlanPhase;
-		workPlanPhase = workPlanPhaseService.findOne(workPlanPhaseId);
+		HandyWorker logged;
 		
-		try{
-			this.workPlanPhaseService.delete(workPlanPhase);
-			res= new ModelAndView("redirect:/fixUpTask/show.do?fixUpTaskId=" + workPlanPhase.getFixUpTask().getId());
-		} catch (Throwable oops) {
-			res = createEditModelAndView(workPlanPhase,"workplan.commit.error");
+		workPlanPhase = this.workPlanPhaseService.findOne(workPlanPhaseId);
+		logged = handyWorkerService.findByPrincipal();
+		
+		if(workPlanPhase.getHandyWorker().equals(logged)){
+			try{
+				this.workPlanPhaseService.delete(workPlanPhase);
+				res= new ModelAndView("redirect:/fixUpTask/show.do?fixUpTaskId=" + workPlanPhase.getFixUpTask().getId());
+			} catch (Throwable oops) {
+				res = createEditModelAndView(workPlanPhase,"workplan.commit.error");
+			}
+		}else{
+			res = new ModelAndView("error/access");
 		}
 		return res;
 	}

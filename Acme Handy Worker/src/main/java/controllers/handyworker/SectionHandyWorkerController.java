@@ -119,15 +119,22 @@ public class SectionHandyWorkerController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int sectionId) {
 		ModelAndView result;
 		Section section;
-		section = sectionService.findOne(sectionId);
+		HandyWorker logged;
 		
-		try {
-			this.sectionService.delete(section);
-			result = new ModelAndView("redirect:/tutorial/show.do?tutorialId=" + section.getTutorial().getId());
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(section,"section.commit.error");
+		section = sectionService.findOne(sectionId);
+		logged = hwService.findByPrincipal();
+		
+		if(section.getTutorial().getHandyWorker().equals(logged)){
+			try {
+				this.sectionService.delete(section);
+				result = new ModelAndView("redirect:/tutorial/show.do?tutorialId=" + section.getTutorial().getId());
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(section,"section.commit.error");
+			}
+		}else{
+			result = new ModelAndView("error/access");
 		}
-
+		
 		return result;
 	}
 	
