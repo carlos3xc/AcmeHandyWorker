@@ -109,14 +109,22 @@ public SponsorshipSponsorController(){
 			
 			ModelAndView res;
 			Sponsorship sponsorship;
-			sponsorship = sponsorshipService.findOne(sponsorshipId);
+			Sponsor logged;
 			
-			try{
-				this.sponsorshipService.delete(sponsorship);
-				res= new ModelAndView("redirect:list.do");
-			} catch (Throwable oops) {
-				res = createEditModelAndView(sponsorship,"sponsorship.commit.error");
+			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
+			logged = sponsorService.findSponsorByUserAccount(LoginService.getPrincipal());
+			
+			if(sponsorship.getSponsor().equals(logged)){
+				try{
+					this.sponsorshipService.delete(sponsorship);
+					res= new ModelAndView("redirect:list.do");
+				} catch (Throwable oops) {
+					res = createEditModelAndView(sponsorship,"sponsorship.commit.error");
+				}
+			}else{
+				res = new ModelAndView("error/access");
 			}
+			
 			return res;
 		}
 		
