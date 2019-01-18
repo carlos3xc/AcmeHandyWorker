@@ -12,10 +12,10 @@ package utilities;
 
 import utilities.internal.DatabasePopulator;
 
-
 public class PopulateDatabase {
 
 	public static void main(final String[] args) {
 		DatabasePopulator.run("PopulateDatabase 1.18.1", "classpath:PopulateDatabase.xml");
 	}
+
 }
