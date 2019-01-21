@@ -77,13 +77,15 @@ public class FixUpTaskService {
 		if(fx.getId()==0){
 			Assert.isTrue(fx.getStartMoment().after(new Date()));
 			Assert.isTrue(fx.getEndMoment().after(new Date()));
-			System.out.println(fx.getMaxPrice() + (fx.getMaxPrice()*(configurationService.find().getVatPercentage()/100)));
-			fx.setMaxPrice(fx.getMaxPrice() + (fx.getMaxPrice()*(configurationService.find().getVatPercentage()/100)));
+			Double maxPrice = fx.getMaxPrice() + (fx.getMaxPrice()*(configurationService.find().getVatPercentage()/100));
+			maxPrice = Math.round(maxPrice * 100d) / 100d ;
+			System.out.println(maxPrice);
+			fx.setMaxPrice(maxPrice);
 		}
 		
 		saved = fixUpTaskRepository.save(fx);
-		fixUpTasks = fixUpTaskRepository.findAll();
-		Assert.isTrue(fixUpTasks.contains(saved));
+//		fixUpTasks = fixUpTaskRepository.findAll();
+//		Assert.isTrue(fixUpTasks.contains(saved));
 		return saved;
 	}
 	
