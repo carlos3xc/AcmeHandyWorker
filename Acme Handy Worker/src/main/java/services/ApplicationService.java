@@ -64,7 +64,10 @@ public class ApplicationService {
 				|| userAccount.getAuthorities().contains(customer));
 		
 		if(application.getId()==0){
-			application.setPrice(application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100)));
+			Double maxPrice = application.getPrice() + (application.getPrice()*(configurationService.find().getVatPercentage()/100));
+			maxPrice = Math.round(maxPrice * 100d) / 100d ;
+			System.out.println(maxPrice);
+			application.setPrice(maxPrice);
 		}
 		
 		result = applicationRepository.save(application);
