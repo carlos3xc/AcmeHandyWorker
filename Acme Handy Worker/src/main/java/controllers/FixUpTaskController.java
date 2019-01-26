@@ -70,15 +70,13 @@ public FixUpTaskController(){
 			Collection<Complaint> complaints;
 			Collection<WorkPlanPhase> workPlanPhases;
 			Collection<Application> applications;
-			Boolean app = false, haw=false;
-			Authority n = new Authority();
-			n.setAuthority("HANDYWORKER");
+			Boolean app = false, haw=false, cust=false;
 			HandyWorker hw = handyWorkerService.findByPrincipal();
-			System.out.println(hw);
+
 			complaints = complaintService.getComplaintsFixUpTask(fixUpTaskId);
 			fixUpTask = fixUpTaskService.findOne(fixUpTaskId);
 			workPlanPhases = workPlanPhaseService.findByFixUpTaskId(fixUpTaskId);
-			if(LoginService.getPrincipal().getAuthorities().contains(n)){
+			if(LoginService.hasRole("HANDYWORKER")){
 				app = true;
 				applications = applicationService.findApplicationsAccepted(hw.getId(), fixUpTaskId);
 				if(applications.isEmpty()) app=false; // Si no hay aplicaciones aceptadas, quiere decir que no se podrán añadir fases hasta que haya una  por el hw
@@ -92,6 +90,9 @@ public FixUpTaskController(){
 					}
 				}
 			}
+			if(LoginService.hasRole("CUSTOMER")){
+				cust = true;
+			}
 
 			String fullName = fixUpTask.getCustomer().getName()+" " + fixUpTask.getCustomer().getMiddleName() + " "+ fixUpTask.getCustomer().getSurname();
 			
@@ -102,6 +103,7 @@ public FixUpTaskController(){
 			res.addObject("fullName",fullName);
 			res.addObject("app",app);
 			res.addObject("hw",haw);
+			res.addObject("cust",cust);
 			res.addObject("requestURI", "fixUpTask/show.do");
 			return res; 
 		}

@@ -61,9 +61,6 @@ public class AdministratorConfigurationAndDashboardController extends AbstractCo
 	
 	@Autowired
 	private WordService	wordService;
-	
-	@Autowired
-	private ActorService actorService;
 
 	@Autowired
 	private CustomerEndorsementService customerEndorsementService;

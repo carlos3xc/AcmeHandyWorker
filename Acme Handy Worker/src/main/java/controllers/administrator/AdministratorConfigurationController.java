@@ -7,35 +7,24 @@ import domain.WelcomeMessage;
 import domain.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import services.*;
 
-import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 @RequestMapping("/administrator/configuration")
 public class AdministratorConfigurationController extends AbstractController {
 
 	//Services
-
-	@Autowired
-	private ConfigurationService configurationService;
-
 	@Autowired
 	private WordService wordService;
 
 	@Autowired
 	private CreditCardMakeService creditCardMakeService;
-
-	@Autowired
-	private ActorService actorService;
-
+	
 	@Autowired
 	private WelcomeMessageService welcomeMessageService;
 

@@ -83,11 +83,18 @@
 			<display:column titleKey="task.complaint.customer">
 				<a href="actor/actor.do?actorId=${row.customer.id}"><jstl:out value="${row.customer.userAccount.username}"/></a>
 			</display:column>
-		</display:table>
-		
+		</display:table><br />
+
+	<jstl:if test="${cust}">
 	<input type="button" name="back"
 		value="<spring:message code="task.show.back" />"
-		onclick="javascript: window.location.replace('fixUpTask/list.do')" />
+		onclick="javascript: window.location.replace('fixUpTask/customer/list.do')" />	
+	</jstl:if>
+	<jstl:if test="${cust==false}">
+	<input type="button" name="back"
+		value="<spring:message code="task.show.back" />"
+		onclick="javascript: window.location.replace('fixUpTask/list.do')" />	
+	</jstl:if>
 	<br />
 		
 				

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ApplicationService;
+import services.MessageService;
 import domain.Application;
 import domain.CreditCard;
 
@@ -21,6 +22,9 @@ public class CreditCardController extends AbstractController{
 	
 	@Autowired
 	private ApplicationService appService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	public CreditCardController(){
 		super();
@@ -44,14 +48,15 @@ public class CreditCardController extends AbstractController{
 	@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
 	public ModelAndView save(@Valid CreditCard cc, BindingResult binding) {
 		ModelAndView result;
-		Application app = appService.findOne(this.appId);
+		Application app = appService.findOne(this.appId), saved;
 		app.setCreditCard(cc);
 		
 		if(binding.hasErrors()){
 			result = createEditModelAndView(cc);
 		}else{
 			try{
-				appService.save(app);
+				saved = appService.save(app);
+				messageService.sendSystemMessages(saved);
 				result = new ModelAndView("redirect:/customer/application/list.do");
 			}catch(Throwable oops){
 				result = createEditModelAndView(cc,"creditCard.commit.error");

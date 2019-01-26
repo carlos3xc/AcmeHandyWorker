@@ -26,6 +26,9 @@ public class AdministratorService {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private BoxService boxService;
 
 	// Simple CRUD methods -----
 
@@ -72,6 +75,8 @@ public class AdministratorService {
 		Assert.isTrue(LoginService.hasRole("ADMIN"));
 
 		result = administratorRepository.saveAndFlush(administrator);
+		boxService.createSystemBoxes(result);
+
 		return result;
 	}
 

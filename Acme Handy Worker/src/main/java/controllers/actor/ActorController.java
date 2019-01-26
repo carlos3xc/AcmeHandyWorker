@@ -1,6 +1,5 @@
 package controllers.actor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,10 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import security.LoginService;
-import security.UserAccount;
 import services.ActorService;
 import services.AdministratorService;
-import services.ApplicationService;
 import services.CustomerEndorsementService;
 import services.CustomerService;
 import services.HandyWorkerEndorsementService;
@@ -32,7 +29,6 @@ import services.TutorialService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Administrator;
-import domain.Application;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.HandyWorker;

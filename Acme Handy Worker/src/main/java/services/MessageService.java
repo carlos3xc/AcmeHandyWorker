@@ -160,19 +160,17 @@ public class MessageService {
 	// Other business methods -----
 
 	public void sendSystemMessages(Application application) {
-
 		Administrator sender = (Administrator) adminService.findAll().toArray()[0];
 
 		Actor handyWorker = application.getHandyWorker();
 		Actor customer = application.getFixUpTask().getCustomer();
-		
 		List<Actor> recipients = new ArrayList<>();
 		recipients.add(handyWorker);
 		recipients.add(customer);
 
 		Message message = this.create(sender);
 		message.setRecipients(recipients);
-		
+
 		message.setSubject("The status of application: "+ application.getFixUpTask().getDescription()+ " has changed \n"+
 		"El estado de la peticion: "+ application.getFixUpTask().getDescription()+" ha cambiado.");
 
@@ -183,17 +181,14 @@ public class MessageService {
 				"El estado de la tarea de arreglo descrita como:\n"
 				+ application.getFixUpTask().getDescription()+ "\n"+
 				 "ha cambiado deberia revisar los cambios en el sistema.");
-
 		Message saved = this.save(message);
-
 		Box boxhw = boxService.findByActorAndName(handyWorker, "In Box");
 		Box boxcust = boxService.findByActorAndName(customer, "In Box");
 		Box boxadmin = boxService.findByActorAndName(sender, "Out Box");
-		
+
 		boxService.addMessageToBox(boxhw, saved);
 		boxService.addMessageToBox(boxcust, saved);
 		boxService.addMessageToBox(boxadmin, saved);
-
 	}
 
 	public void addMesageToBoxes(Message message){

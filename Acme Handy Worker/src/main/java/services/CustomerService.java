@@ -28,7 +28,7 @@ public class CustomerService {
 	private CustomerRepository customerRepository;
 	
 	@Autowired
-	private ComplaintService complaintService;
+	private BoxService boxService;
 	
 	@Autowired
 	private UserAccountService userAccountService;
@@ -63,32 +63,11 @@ public class CustomerService {
 	}
 	
 	public Customer save(Customer c){
-//		Collection<Customer> customers;
-//		System.out.println("entramos a save customer");
-//		if(c.getId()!=0){
-//			System.out.println("entra aqui?");
-//			UserAccount userAccount = LoginService.getPrincipal();
-//			Assert.isTrue(userAccount.equals(c.getUserAccount()));
-//		}
-//		Customer saved;
-//		System.out.println("por aqui sigue");
-//		if(c.getId()==0){
-//			UserAccount ua = LoginService.getPrincipal();
-//			UserAccount uasaved = userAccountService.save(ua);
-//			System.out.println("UserAccount Guardada: "+uasaved + " " +uasaved.getUsername());
-//			System.out.println("Existe en todas: "+ userAccountService.findAll().contains(uasaved));
-//			c.setUserAccount(uasaved);
-//		}
-//		System.out.println("no entiendo nada");
-//		saved = customerRepository.saveAndFlush(c);
-//		customers = customerRepository.findAll();
-//		Assert.isTrue(customers.contains(saved));
-		
 		Customer result;
-
-//		Assert.isTrue(LoginService.hasRole("ADMIN"));
-
+		
 		result = customerRepository.saveAndFlush(c);
+		boxService.createSystemBoxes(result);
+		
 		return result;
 		
 	}

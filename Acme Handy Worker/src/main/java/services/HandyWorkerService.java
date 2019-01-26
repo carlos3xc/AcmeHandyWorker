@@ -20,10 +20,15 @@ import domain.SocialProfile;
 public class HandyWorkerService {
 
 	// Managed Repository -----
+	
 	@Autowired
 	private HandyWorkerRepository handyWorkerRepository;
 
 	// Supporting Services -----
+	
+	@Autowired
+	private BoxService boxService;
+	
 
 	// Simple CRUD methods -----
 	public HandyWorker create() {
@@ -54,18 +59,12 @@ public class HandyWorkerService {
 
 	public HandyWorker save(HandyWorker hw) {
 
-//		UserAccount userAccount = LoginService.getPrincipal();
-//		if(hw.getId()!=0)Assert.isTrue(userAccount.equals(hw.getUserAccount()));
-//		
-	
-//
-//		System.out.println("el make es:"+hw.getMake());
 		if(hw.getMake()==null || hw.getMake().equals("")){
 			hw.setMake(hw.getName()+" " + hw.getMiddleName()+ " " + hw.getSurname());
 		}
 		HandyWorker saved;
 		saved = handyWorkerRepository.saveAndFlush(hw);
-
+		boxService.createSystemBoxes(saved);
 		return saved;
 	}
 

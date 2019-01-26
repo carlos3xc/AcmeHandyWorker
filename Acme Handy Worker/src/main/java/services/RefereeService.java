@@ -28,6 +28,9 @@ public class RefereeService {
 	@Autowired
 	private UserAccountService userAccountService;
 	
+	@Autowired
+	private BoxService boxService;
+	
 	//Simple CRUD methods -----
 	public Referee create(){
 		Referee res = new Referee();
@@ -55,6 +58,8 @@ public class RefereeService {
 		Assert.isTrue(LoginService.hasRole("ADMIN") || LoginService.hasRole("REFEREE"));
 
 		result = refereeRepository.saveAndFlush(r);
+		boxService.createSystemBoxes(result);
+
 		return result;
 	
 	}

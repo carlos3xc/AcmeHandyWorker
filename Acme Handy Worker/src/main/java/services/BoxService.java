@@ -83,19 +83,29 @@ public class BoxService {
 
 		return box;
 	}
+	
+	public void createSystemBoxes(Actor actor) {
+
+		Box inbox = new Box(),outbox = new Box(),thrashbox = new Box(),spambox = new Box();
+		inbox.setActor(actor); inbox.setName("In Box"); inbox.setSystemBox(true); inbox.setMessages(new ArrayList<Integer>());
+		outbox.setActor(actor); outbox.setName("Out Box"); outbox.setSystemBox(true); outbox.setMessages(new ArrayList<Integer>());
+		thrashbox.setActor(actor); thrashbox.setName("Thrash Box"); thrashbox.setSystemBox(true); thrashbox.setMessages(new ArrayList<Integer>());
+		spambox.setActor(actor); spambox.setName("Spam Box"); spambox.setSystemBox(true); spambox.setMessages(new ArrayList<Integer>());
+
+
+		this.save(inbox);
+		this.save(outbox);
+		this.save(thrashbox);
+		this.save(spambox);
+	}
 
 	public void addMessageToBox(Box box, Message message) {
-
 		List<Integer> aux = new ArrayList<>(box.getMessages());
-		System.out.println(box.getMessages());
 		
 		aux.add(0, message.getId()); // los mensajes nuevos siempre se ponen primero.
 		box.setMessages(aux);
-		
 		this.save(box);
 		
-		System.out.println(box.getMessages());
-
 	}
 	
 	public Box findByActorAndName(Actor actor, String boxName){

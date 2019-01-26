@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.SponsorRepository;
 import security.Authority;
 import security.UserAccount;
-import security.UserAccountService;
-import domain.Customer;
 import domain.SocialProfile;
 import domain.Sponsor;
 
@@ -24,13 +22,11 @@ public class SponsorService {
 	
 	@Autowired
 	private SponsorRepository sponsorRepository;
-		
-	@Autowired
-	private UserAccountService userAccountService;
+
 	//Supporting Services -----
 	
 	@Autowired
-	private UserAccountService uaService;
+	private BoxService boxService;
 	
 	//Simple CRUD methods -----
 	public Sponsor create(){
@@ -59,9 +55,11 @@ public class SponsorService {
 	}
 	
 	public Sponsor save(Sponsor a){
-	/*	UserAccount saved = userAccountService.save(a.getUserAccount());
-		a.setUserAccount(saved);*/
-		return sponsorRepository.saveAndFlush(a);
+		Sponsor saved;
+		saved = sponsorRepository.saveAndFlush(a);
+		boxService.createSystemBoxes(saved);
+		return saved;
+
 	}
 	
 	public void delete(Sponsor a){
