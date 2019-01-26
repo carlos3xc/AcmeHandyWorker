@@ -288,49 +288,6 @@
 		<property name="name" value="Reparación de ventanas" />
 	</bean>
 	
-	<!-- FINDERS -->
-
-	<bean id="finder1" class="domain.Finder">
-		<property name="handyWorker" ref="handyWorker1" />
-		<property name="fixUpTasks">
-			<list>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="finder2" class="domain.Finder">
-		<property name="handyWorker" ref="handyWorker2" />
-		<property name="fixUpTasks">
-			<list>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="finder3" class="domain.Finder">
-		<property name="handyWorker" ref="handyWorker3" />
-		<property name="fixUpTasks">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="finder4" class="domain.Finder">
-		<property name="handyWorker" ref="handyWorker4" />
-		<property name="fixUpTasks">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="finder5" class="domain.Finder">
-		<property name="handyWorker" ref="handyWorker5" />
-		<property name="fixUpTasks">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-
 	<!-- WORD -->
 
 	<!-- POSITIVES -->
