@@ -47,6 +47,8 @@ public class CustomerApplicationController extends AbstractController {
 	@Autowired
 	private MessageService messageService;
 	
+	private int appId;
+	
 	// Constructors -----------------------------------------------------------
 
 	public CustomerApplicationController() {
@@ -63,7 +65,14 @@ public class CustomerApplicationController extends AbstractController {
 		int id = customerService.findByUserAccountId(LoginService.getPrincipal().getId()).getId();
 		
 		applications = appService.applicationByCustomer(id);
-
+		
+		for(Application a:applications){
+			if(a.getCreditCard()==null && (a.getStatus().equals("ACCEPTED") || a.getStatus().equals("REJECTED"))){
+				a.setStatus("PENDING");
+				appService.save(a);
+			}
+		}
+		
 		result = new ModelAndView("application/list");
 		result.addObject("applications",applications);
 		result.addObject("requestURI","customer/application/list.do");
@@ -103,13 +112,13 @@ public class CustomerApplicationController extends AbstractController {
 				saved = appService.save(app);
 
 				if(saved.getStatus().equals("ACCEPTED")){
-					FixUpTask fx = saved.getFixUpTask();
-					for(Application a: fx.getApplications()){
-						if(!a.equals(saved) ){
-							a.setStatus("REJECTED");
-							appService.save(a);
-						}
-					}
+//					FixUpTask fx = saved.getFixUpTask();
+//					for(Application a: fx.getApplications()){
+//						if(!a.equals(saved) ){
+//							a.setStatus("REJECTED");
+//							appService.save(a);
+//						}
+//					}
 					result = new ModelAndView("redirect:/creditCard/create.do?appId=" + app.getId());
 				}else{
 					result = new ModelAndView("redirect:/customer/application/edit.do?appId=" + app.getId());
@@ -156,6 +165,74 @@ public class CustomerApplicationController extends AbstractController {
 		
 		return result;
 	}
+	
+//	// Createcc ------------------------------------------------------------------------------------------	
+//
+//		@RequestMapping(value="/creditCard/create", method=RequestMethod.GET)
+//		public ModelAndView create(int appId) {
+//			ModelAndView result;
+//			CreditCard cc = new CreditCard();
+//			this.appId = appId;
+//			
+//			result = createEditModelAndView(cc);
+//
+//			return result;
+//		}
+//		
+//		// Savecc --------------------------------------------------------------------------------------------
+//		
+//		@RequestMapping(value="/edit", method=RequestMethod.POST, params="save")
+//		public ModelAndView save(@Valid CreditCard cc, BindingResult binding) {
+//			ModelAndView result;
+//			Application app = appService.findOne(this.appId), saved;
+//			app.setCreditCard(cc);
+//			
+//			if(binding.hasErrors()){
+//				result = createEditModelAndView(cc);
+//			}else{
+//				try{
+//					saved = appService.save(app);
+//					messageService.sendSystemMessages(saved);
+//					result = new ModelAndView("redirect:/customer/application/list.do");
+//				}catch(Throwable oops){
+//					result = createEditModelAndView(cc,"creditCard.commit.error");
+//				}
+//			}
+//			
+//			return result;
+//		}
+//		
+//		// Cancelcc -------------------------------------------------------------------------------------------
+//		
+//		@RequestMapping(value="/edit", method=RequestMethod.POST, params="cancel")
+//		public ModelAndView cancel() {
+//			ModelAndView result;
+//			Application app = appService.findOne(this.appId);
+//			app.setStatus("PENDING");
+//			
+//			appService.save(app);
+//			result = new ModelAndView("redirect:/customer/application/list.do");
+//			
+//			return result;
+//		}
+//
+//		//Ancillary Methodscc ---------------------------------------------------------------------------------
+//			
+//			protected ModelAndView createEditModelAndView(CreditCard cc){
+//				ModelAndView res;
+//				res= this.createEditModelAndView(cc,null);
+//				return res;
+//			}
+//			
+//			protected ModelAndView createEditModelAndView(CreditCard cc, String messageCode){
+//				ModelAndView res;
+//				
+//				res= new ModelAndView("creditCard/create");
+//				res.addObject("creditCard",cc);
+//				res.addObject("message", messageCode);	
+//				
+//				return res;
+//			}	
 	
 	// Ancillary methods ------------------------------------------------------
 	
