@@ -175,6 +175,18 @@ public class FixUpTask extends DomainEntity {
 	public void setComplaints(Collection<Complaint> complaints) {
 		this.complaints = complaints;
 	}
-	
 
+	// Control Check ----------------------------------------------------------
+	//TODO Control Check FixUpTask 1 -> 0..* Remark
+
+	private Collection<Remark> remarks;
+
+	@OneToMany(mappedBy = "fixUpTask")
+	public Collection<Remark> getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(Collection<Remark> remarks) {
+		this.remarks = remarks;
+	}
 }

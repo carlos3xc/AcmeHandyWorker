@@ -3097,7 +3097,13 @@
 		</property>
 	</bean>
 
+	<!-- Control Check -->
 
-
+	<bean id="remark1" class="domain.Remark">
+		<property name="ticker" value="Sara Antelo" />
+		<property name="publicationMoment" value="sarantelo@gmail.com" />
+		<property name="body" value="This is a " />
+		<property name="picture" value="953121444" />
+	</bean>
 
 </beans>

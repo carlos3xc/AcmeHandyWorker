@@ -26,4 +26,17 @@ public class Customer extends Actor {
 		this.fixUpTasks = fixUpTasks;
 	}
 
+	// Control Check ----------------------------------------------------------
+	//TODO Control Check Customer 1 -> 0..* Remark
+
+	private Collection<Remark> remarks;
+
+	@OneToMany(mappedBy = "customer")
+	public Collection<Remark> getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(Collection<Remark> remarks) {
+		this.remarks = remarks;
+	}
 }
