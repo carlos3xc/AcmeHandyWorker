@@ -26,7 +26,7 @@
 	<form:hidden path="socialProfiles" />
 	<form:hidden path="isBanned" />
 	<form:hidden path="isSuspicious" />
-	<form:hidden path="publishedQuolets" />
+	<form:hidden path="publishedVastes" />
 	<form:hidden path="userAccount.authorities" />
 
 	<spring:message code="customer.userAccount.username.example"

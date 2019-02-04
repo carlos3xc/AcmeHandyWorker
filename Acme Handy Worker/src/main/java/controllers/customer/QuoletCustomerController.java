@@ -2,7 +2,7 @@ package controllers.customer;
 
 import controllers.AbstractController;
 import domain.FixUpTask;
-import domain.Quolet;
+import domain.Vaste;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -11,14 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import security.LoginService;
 import services.CustomerService;
-import services.QuoletService;
+import services.VasteService;
 
-import javax.jws.WebParam;
-import javax.naming.Binding;
 import javax.validation.Valid;
-import java.util.BitSet;
 import java.util.Collection;
 
 @Controller
@@ -26,7 +22,7 @@ import java.util.Collection;
 public class QuoletCustomerController extends AbstractController {
 
     @Autowired
-    private QuoletService quoletService;
+    private VasteService vasteService;
 
     @Autowired
     private CustomerService customerService;
@@ -35,12 +31,12 @@ public class QuoletCustomerController extends AbstractController {
     public ModelAndView list(){
         ModelAndView result;
 
-        Collection<Quolet> quolets =
-                quoletService.findQuoletsByCustomer(customerService.findByPrincipal());
+        Collection<Vaste> vastes =
+                vasteService.findQuoletsByCustomer(customerService.findByPrincipal());
 
-        result = new ModelAndView("quolet/list");
-        result.addObject("quolets", quolets);
-        result.addObject("requestURI", "quolet/customer/list.do");
+        result = new ModelAndView("vaste/list");
+        result.addObject("quolets", vastes);
+        result.addObject("requestURI", "vaste/customer/list.do");
 
         return result;
     }
@@ -49,8 +45,8 @@ public class QuoletCustomerController extends AbstractController {
     public ModelAndView create(){
         ModelAndView result;
 
-        Quolet quolet = quoletService.create();
-        result = createEditModelAndView(quolet);
+        Vaste vaste = vasteService.create();
+        result = createEditModelAndView(vaste);
 
         return result;
     }
@@ -58,72 +54,72 @@ public class QuoletCustomerController extends AbstractController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam int quoletId){
         ModelAndView result;
-        Quolet quolet;
+        Vaste vaste;
 
-        quolet = quoletService.findOne(quoletId);
-        Assert.notNull(quolet);
-        result = createEditModelAndView(quolet);
+        vaste = vasteService.findOne(quoletId);
+        Assert.notNull(vaste);
+        result = createEditModelAndView(vaste);
 
         return result;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-    public ModelAndView save(@Valid Quolet quolet, BindingResult binding){
+    public ModelAndView save(@Valid Vaste vaste, BindingResult binding){
         ModelAndView result;
 
         if (binding.hasErrors()){
-            result = createEditModelAndView(quolet);
+            result = createEditModelAndView(vaste);
         }else{
             try{
-                quoletService.save(quolet);
+                vasteService.save(vaste);
                 result = new ModelAndView("redirect: list.do");
             }catch (Throwable oops){
-                result = createEditModelAndView(quolet, "quolet.commit.error");
+                result = createEditModelAndView(vaste, "vaste.commit.error");
             }
         }
 
-        result = createEditModelAndView(quolet);
+        result = createEditModelAndView(vaste);
 
         return result;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "publish")
-    public ModelAndView publish(@Valid Quolet quolet, BindingResult binding){
+    public ModelAndView publish(@Valid Vaste vaste, BindingResult binding){
         ModelAndView result;
 
         if (binding.hasErrors()){
-            result = createEditModelAndView(quolet);
+            result = createEditModelAndView(vaste);
         }else{
             try{
-                quoletService.publish(quolet);
+                vasteService.publish(vaste);
                 result = new ModelAndView("redirect: list.do");
             }catch (Throwable oops){
-                result = createEditModelAndView(quolet, "quolet.commit.error");
+                result = createEditModelAndView(vaste, "vaste.commit.error");
             }
         }
 
-        result = createEditModelAndView(quolet);
+        result = createEditModelAndView(vaste);
 
         return result;
     }
 
 
-    protected ModelAndView createEditModelAndView(Quolet quolet){
+    protected ModelAndView createEditModelAndView(Vaste vaste){
         ModelAndView result;
 
-        result = createEditModelAndView(quolet, null);
+        result = createEditModelAndView(vaste, null);
          return result;
     }
 
     // Ancillary methods ----------------------------------------------------------
 
-    protected ModelAndView createEditModelAndView(Quolet quolet, String messageCode){
+    protected ModelAndView createEditModelAndView(Vaste vaste, String messageCode){
         ModelAndView result;
 
         /*Dropdown collections*/
         Collection<FixUpTask> fixUpTasks = customerService.findByPrincipal().getFixUpTasks();
 
-        result = new ModelAndView("quolet/edit");
+        result = new ModelAndView("vaste/edit");
         result.addObject("fixUpTasks", fixUpTasks);
 
         return result;

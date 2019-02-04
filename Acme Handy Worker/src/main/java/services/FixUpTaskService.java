@@ -41,7 +41,7 @@ public class FixUpTaskService {
 	private WorkPlanPhaseService workPlanPhaseService;
 
 	@Autowired
-	private QuoletService quoletService;
+	private VasteService vasteService;
 	
 	@Autowired
 	private ConfigurationService configurationService;
@@ -57,7 +57,7 @@ public class FixUpTaskService {
 		res.setTicker(generateTicker());
 
 		/*Control Check*/
-		res.setPublishedQuolets(new ArrayList<Quolet>());
+		res.setPublishedVastes(new ArrayList<Vaste>());
 
 		return res;
 	}
@@ -95,8 +95,8 @@ public class FixUpTaskService {
 	private void checkPublishedQuolets(FixUpTask fixUpTask){
 		/*Checking that all published vastes are correct and there is no bad data.*/
 
-		Assert.isTrue(quoletService.findPublishedByFixUpTask(fixUpTask)
-				.containsAll(fixUpTask.getPublishedQuolets()));
+		Assert.isTrue(vasteService.findPublishedByFixUpTask(fixUpTask)
+				.containsAll(fixUpTask.getPublishedVastes()));
 	}
 
 	

@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Quolet extends DomainEntity{
+public class Vaste extends DomainEntity{
 
     // Attributes -------------------------------------------------------------
 
@@ -86,7 +86,7 @@ public class Quolet extends DomainEntity{
 
 
     // Relationships ---------------------------------------------------
-    //TODO Control Check Quolet 0..* -> 1 FixUpTask & Quolet 0 .. * -> 1 Customer
+    //TODO Control Check Vaste 0..* -> 1 FixUpTask & Vaste 0 .. * -> 1 Customer
 
     private Customer customer;
     private FixUpTask fixUpTask;

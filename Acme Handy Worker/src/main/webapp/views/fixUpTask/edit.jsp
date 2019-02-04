@@ -35,7 +35,7 @@
 	<form:hidden path="customer" />		
 	<form:hidden path="applications" />	
 	<form:hidden path="complaints" />
-	<form:hidden path="publishedQuolets" />
+	<form:hidden path="publishedVastes" />
 
 	<jstl:if test="${fixUpTask.warranty != null }">
 		<form:hidden path="warranty"/>

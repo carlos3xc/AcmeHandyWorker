@@ -176,17 +176,17 @@ public class FixUpTask extends DomainEntity {
 	}
 
 	// Control Check ----------------------------------------------------------
-	//TODO Control Check FixUpTask 1 -> 0..* Quolet
+	//TODO Control Check FixUpTask 1 -> 0..* Vaste
 
-	private Collection<Quolet> publishedQuolets;
+	private Collection<Vaste> publishedVastes;
 
 	@OneToMany
 	@NotNull
-	public Collection<Quolet> getPublishedQuolets() {
-		return publishedQuolets;
+	public Collection<Vaste> getPublishedVastes() {
+		return publishedVastes;
 	}
 
-	public void setPublishedQuolets(Collection<Quolet> publishedQuolets) {
-		this.publishedQuolets = publishedQuolets;
+	public void setPublishedVastes(Collection<Vaste> publishedVastes) {
+		this.publishedVastes = publishedVastes;
 	}
 }

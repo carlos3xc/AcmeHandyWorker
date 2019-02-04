@@ -1228,10 +1228,10 @@
 				<ref bean="complaint1"/>
 			</list>
 		</property>
-		<property name="publishedQuolets">
+		<property name="publishedVastes">
 			<list>
-				<ref bean="quolet1"/>
-				<ref bean="quolet2"/>
+				<ref bean="vaste1"/>
+				<ref bean="vaste2"/>
 			</list>
 		</property>
 	</bean>
@@ -1257,9 +1257,9 @@
 				<ref bean="complaint2"/>
 			</list>
 		</property>
-		<property name="publishedQuolets">
+		<property name="publishedVastes">
 			<list>
-				<ref bean="quolet3"/>
+				<ref bean="vaste3"/>
 			</list>
 		</property>
 	</bean>
@@ -1283,14 +1283,14 @@
 			<list>
 			</list>
 		</property>
-		<property name="publishedQuolets">
+		<property name="publishedVastes">
 			<list>
-				<ref bean="quolet4"/>
+				<ref bean="vaste4"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="quolet1" class="domain.Quolet">
+	<bean id="vaste1" class="domain.Vaste">
 		<property name="ticker" value="19-k3P8-0203" />
 		<property name="publicationMoment" value="2019/02/03 11:30" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
@@ -1299,7 +1299,7 @@
 		<property name="fixUpTask" ref="fixUpTask1"/>
 	</bean>
 
-	<bean id="quolet2" class="domain.Quolet">
+	<bean id="vaste2" class="domain.Vaste">
 		<property name="ticker" value="19-A49l-0103" />
 		<property name="publicationMoment" value="2019/01/03 09:00" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
@@ -1308,7 +1308,7 @@
 		<property name="fixUpTask" ref="fixUpTask1"/>
 	</bean>
 
-	<bean id="quolet3" class="domain.Quolet">
+	<bean id="vaste3" class="domain.Vaste">
 		<property name="ticker" value="18-PBaY-1013" />
 		<property name="publicationMoment" value="2018/10/13 16:45" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
@@ -1317,7 +1317,7 @@
 		<property name="fixUpTask" ref="fixUpTask2"/>
 	</bean>
 
-	<bean id="quolet4" class="domain.Quolet">
+	<bean id="vaste4" class="domain.Vaste">
 		<property name="ticker" value="18-679l-1123" />
 		<property name="publicationMoment" value="2018/11/23 20:30" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
@@ -1326,7 +1326,7 @@
 		<property name="fixUpTask" ref="fixUpTask3"/>
 	</bean>
 
-	<bean id="quolet5" class="domain.Quolet">
+	<bean id="vaste5" class="domain.Vaste">
 		<property name="ticker" value="19-v5ls-0202" />
 		<!-- <property name="publicationMoment" value="null" /> -->
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
