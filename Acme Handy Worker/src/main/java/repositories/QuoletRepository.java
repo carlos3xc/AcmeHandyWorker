@@ -12,6 +12,7 @@ public interface QuoletRepository extends JpaRepository<Quolet, Integer> {
     /*a1. Quolets per Customer: AVG and STDDEV*/
 
     @Query("select coalesce(avg(cus.quolets.size),0) from Quolet quot, Customer cus where quot.publicationMoment is not null")
+    //@Query(" select (select count(quot) from Quolet quot where quot.publicationMoment is not null)*1.0 / count(cus) from Customer cus)")
     Double getAvgQuoletsPerCustomer();
 
     @Query("select sqrt(sum(cus.quolets.size*cus.quolets.size)/coalesce(count(cus.quolets.size),0)-(avg(cus.quolets.size)*avg(cus.quolets.size))) from Customer cus")
