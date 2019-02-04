@@ -1228,7 +1228,7 @@
 				<ref bean="complaint1"/>
 			</list>
 		</property>
-		<property name="quolets">
+		<property name="publishedQuolets">
 			<list>
 				<ref bean="quolet1"/>
 				<ref bean="quolet2"/>
@@ -1257,7 +1257,7 @@
 				<ref bean="complaint2"/>
 			</list>
 		</property>
-		<property name="quolets">
+		<property name="publishedQuolets">
 			<list>
 				<ref bean="quolet3"/>
 			</list>
@@ -1283,7 +1283,7 @@
 			<list>
 			</list>
 		</property>
-		<property name="quolets">
+		<property name="publishedQuolets">
 			<list>
 				<ref bean="quolet4"/>
 			</list>
@@ -1291,7 +1291,7 @@
 	</bean>
 
 	<bean id="quolet1" class="domain.Quolet">
-		<property name="ticker" value="19-02-03" />
+		<property name="ticker" value="19-k3P8-0203" />
 		<property name="publicationMoment" value="2019/02/03 11:30" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 		<property name="picture" value="https://www.aladdinplumbingcorp.com/wp-content/uploads/diy-plumbing-repairs-589x409.jpg" />
@@ -1300,7 +1300,7 @@
 	</bean>
 
 	<bean id="quolet2" class="domain.Quolet">
-		<property name="ticker" value="19-01-03" />
+		<property name="ticker" value="19-A49l-0103" />
 		<property name="publicationMoment" value="2019/01/03 09:00" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 		<property name="picture" value="https://rebuildingmichigan.com/wp-content/uploads/2016/05/diy-home-repairs.jpg" />
@@ -1309,7 +1309,7 @@
 	</bean>
 
 	<bean id="quolet3" class="domain.Quolet">
-		<property name="ticker" value="18-10-13" />
+		<property name="ticker" value="18-PBaY-1013" />
 		<property name="publicationMoment" value="2018/10/13 16:45" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 		<property name="picture" value="https://www.todayshomeowner.com/wp-content/uploads/2015/03/844-tackling-common-diy-exterior-house-repairs.jpg" />
@@ -1318,7 +1318,7 @@
 	</bean>
 
 	<bean id="quolet4" class="domain.Quolet">
-		<property name="ticker" value="18-11-23" />
+		<property name="ticker" value="18-679l-1123" />
 		<property name="publicationMoment" value="2018/11/23 20:30" />
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 		<property name="picture" value="https://jokideo.com/wp-content/uploads/2012/06/600193_365238020209034_1958480540_n1.jpg" />
@@ -1327,8 +1327,8 @@
 	</bean>
 
 	<bean id="quolet5" class="domain.Quolet">
-		<property name="ticker" value="19-02-02" />
-		<!-- <property name="publicationMoment" value="" /> -->
+		<property name="ticker" value="19-v5ls-0202" />
+		<!-- <property name="publicationMoment" value="null" /> -->
 		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 		<property name="picture" value="https://jokideo.com/wp-content/uploads/2012/06/600193_365238020209034_1958480540_n1.jpg" />
 		<property name="customer" ref="customer2"/>

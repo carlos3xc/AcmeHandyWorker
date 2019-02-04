@@ -178,14 +178,15 @@ public class FixUpTask extends DomainEntity {
 	// Control Check ----------------------------------------------------------
 	//TODO Control Check FixUpTask 1 -> 0..* Quolet
 
-	private Collection<Quolet> quolets;
+	private Collection<Quolet> publishedQuolets;
 
-	@OneToMany(mappedBy = "fixUpTask")
-	public Collection<Quolet> getQuolets() {
-		return quolets;
+	@OneToMany
+	@NotNull
+	public Collection<Quolet> getPublishedQuolets() {
+		return publishedQuolets;
 	}
 
-	public void setQuolets(Collection<Quolet> quolets) {
-		this.quolets = quolets;
+	public void setPublishedQuolets(Collection<Quolet> publishedQuolets) {
+		this.publishedQuolets = publishedQuolets;
 	}
 }

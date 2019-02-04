@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import security.LoginService;
 import services.CustomerService;
 import services.QuoletService;
 
@@ -34,7 +35,8 @@ public class QuoletCustomerController extends AbstractController {
     public ModelAndView list(){
         ModelAndView result;
 
-        Collection<Quolet> quolets = customerService.findByPrincipal().getQuolets();
+        Collection<Quolet> quolets =
+                quoletService.findQuoletsByCustomer(customerService.findByPrincipal());
 
         result = new ModelAndView("quolet/list");
         result.addObject("quolets", quolets);

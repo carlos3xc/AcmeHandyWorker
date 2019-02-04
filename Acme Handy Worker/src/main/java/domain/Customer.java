@@ -27,16 +27,4 @@ public class Customer extends Actor {
 	}
 
 	// Control Check ----------------------------------------------------------
-	//TODO Control Check Customer 1 -> 0..* Quolet
-
-	private Collection<Quolet> quolets;
-
-	@OneToMany(mappedBy = "customer")
-	public Collection<Quolet> getQuolets() {
-		return quolets;
-	}
-
-	public void setQuolets(Collection<Quolet> quolets) {
-		this.quolets = quolets;
-	}
 }

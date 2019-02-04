@@ -41,4 +41,7 @@ public interface QuoletRepository extends JpaRepository<Quolet, Integer> {
     @Query("select quot from Quolet quot where quot.fixUpTask.id = ?1 and quot.publicationMoment is not null")
     Collection<Quolet> findPublishedByFixUpTaskId(int fixUpTaskId);
 
+    @Query("select quot from Quolet quot where quot.customer.id = ?1")
+    Collection<Quolet> findQuoletByCustomerId(int customerId);
+
 }

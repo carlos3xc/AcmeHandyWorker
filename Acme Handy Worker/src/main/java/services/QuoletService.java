@@ -1,6 +1,5 @@
 package services;
 
-import com.sun.org.apache.xpath.internal.operations.Quo;
 import domain.Customer;
 import domain.FixUpTask;
 import domain.Quolet;
@@ -13,6 +12,7 @@ import repositories.QuoletRepository;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -51,12 +51,11 @@ public class QuoletService {
         Assert.notNull(customer);
         Assert.notNull(fixUpTask);
 
-        /*Quolet is added to the fixUpTask of the same Customer*/
         Assert.isTrue(fixUpTask.getCustomer().equals(customer));
-        //TODO Control Check: Quolet can be edited by another Actor?
+        //Quolet cannot be edited by another Actor? No
         Assert.isTrue(customer.equals(customerService.findByPrincipal()));
 
-        if (quolet.getId() == 0 && isTickerCorrect(quolet)){
+        if (quolet.getId() == 0 && !isTickerCorrect(quolet)){
             quolet.setTicker(generateTicker());
         }else{
             /*Some Quolet attributes cannot change*/
@@ -69,40 +68,38 @@ public class QuoletService {
                         || quolet.getPublicationMoment() != null && saved.getPublicationMoment() == null
                         || quolet.getPublicationMoment().equals(saved.getPublicationMoment()));
 
-            //TODO Control Check: Quolet cannot be updated when is in final mode
-            Assert.isTrue(quolet.getPublicationMoment() == null);
+            //Quolet cannot be updated when is in final mode
+            Assert.isTrue(saved.getPublicationMoment() != null);
         }
 
+        Boolean isGoingToBePublished =
+				saved.getPublicationMoment() == null && quolet.getPublicationMoment() != null;
+
         result = quoletRepository.save(quolet);
-        /* -- Bidirecctional Relationships -- */
-            Collection<Quolet> customerQuolets = customer.getQuolets(),
-                    fixUpTaskQuolets = fixUpTask.getQuolets();
 
-            customerQuolets.add(quolet);
-            fixUpTaskQuolets.add(quolet);
+        if(isGoingToBePublished){
+			/* -- Fix-Up Task Relationship -- */
+			Collection<Quolet> fixUpTaskPublishedQuolets = fixUpTask.getPublishedQuolets();
 
-            customer.setQuolets(customerQuolets);
-            fixUpTask.setQuolets(fixUpTaskQuolets);
-            //TODO Control Check: Is it necessary to save customer and fixUpTask?
-        /* -- */
+			Assert.isTrue(quolet.getPublicationMoment()== null);
+			fixUpTaskPublishedQuolets.add(quolet);
+
+			fixUpTask.setPublishedQuolets(fixUpTaskPublishedQuolets);
+			//TODO Control Check: Is it necessary to save fixUpTask?
+			fixUpTaskService.save(fixUpTask);
+			/* -- */
+		}
+
         return result;
     }
 
     public void delete(Quolet quolet){
         Assert.isNull(quolet.getPublicationMoment());
-        Customer customer = customerService.findOne(quolet.getId());
-        FixUpTask fixUpTask = fixUpTaskService.findOne((quolet.getId()));
 
-        /* -- Bidirecctional Relationships -- */
-            Collection<Quolet> customerQuolets = customer.getQuolets(),
-                    fixUpTaskQuolets = fixUpTask.getQuolets();
+        FixUpTask fixUpTask = fixUpTaskService.findOne((quolet.getFixUpTask().getId()));
+        Assert.notNull(fixUpTask);
 
-            customerQuolets.remove(quolet);
-            fixUpTaskQuolets.remove(quolet);
-
-            customer.setQuolets(customerQuolets);
-            fixUpTask.setQuolets(fixUpTaskQuolets);
-            //TODO Control Check: Is it necessary to save customer and fixUpTask?
+        /* -- Fix-Up Task Relationship -- */
         /* -- */
 
         quoletRepository.delete(quolet);
@@ -125,23 +122,15 @@ public class QuoletService {
         if (quolet.getId() == 0){
             quolet.setPublicationMoment(new Date(millis));
         }else{
-            Assert.isTrue(quolet.getPublicationMoment() == null);
+            Assert.isTrue(savedQuolet.getPublicationMoment() == null);
             quolet.setPublicationMoment(new Date(millis));
         }
 
         return save(quolet);
     }
 
-    public Double  getAvgQuoletsPerCustomer(){
-        return quoletRepository.getAvgQuoletsPerCustomer();
-    }
-
-    public Double getStddevQuoletsPerCustomer(){
-        return  quoletRepository.getStddevQuoletsPerCustomer();
-    }
-
     public Double getRatioPublishedQuoletsPerFixUpTask(){
-        return getRatioPublishedQuoletsPerFixUpTask();
+        return quoletRepository.getRatioPublishedQuoletsPerFixUpTask();
     }
 
     public Double getRatioUnOublishedQuoletsPerFixUpTask(){
@@ -151,22 +140,44 @@ public class QuoletService {
     public Collection<Quolet> findPublishedByFixUpTask(FixUpTask fixUpTask){
         return quoletRepository.findPublishedByFixUpTaskId(fixUpTask.getId());
     }
+
+    public Collection<Quolet> findQuoletsByCustomer(Customer customer){
+    	return quoletRepository.findQuoletByCustomerId(customer.getId());
+	}
     private String generateTicker(){
         String result;
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+        SimpleDateFormat dateFormatYear = new SimpleDateFormat("yy");
+		SimpleDateFormat dateFormatMonthAndDay = new SimpleDateFormat("MMdd");
 
-        result = dateFormat.format(date);
+        result = dateFormatYear.format(date)
+				+ '-' + randomString()
+				+ '-' + dateFormatMonthAndDay.format(date);
+
         return result;
     }
 
+	private String randomString(){
+		String DICTIONARY = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz1234567890";
+		StringBuilder stringBuilder = new StringBuilder();
+		Random random = new Random();
+		String result;
+		while(stringBuilder.length() < 4){
+			int indexDictionary = random.nextInt()% DICTIONARY.length();
+			stringBuilder.append(DICTIONARY.charAt(indexDictionary));
+		}
+		result = stringBuilder.toString();
+		return result;
+	}
+
     private Boolean isTickerCorrect(Quolet quolet){
         Boolean result;
-        String currentTicker = quolet.getTicker(), newTicker;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
-        newTicker = dateFormat.format(new Date());
 
-        result = currentTicker.equals(newTicker);
+        String currentTicker = quolet.getTicker();
+        String newTicker = generateTicker();
+
+        result = currentTicker.substring(0,3).equals(newTicker.substring(0,3))
+				&& currentTicker.substring(8,12).equals(newTicker.substring(0,3));
 
         return result;
     }

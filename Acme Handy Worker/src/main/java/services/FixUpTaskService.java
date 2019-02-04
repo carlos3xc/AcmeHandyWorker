@@ -39,6 +39,9 @@ public class FixUpTaskService {
 	
 	@Autowired
 	private WorkPlanPhaseService workPlanPhaseService;
+
+	@Autowired
+	private QuoletService quoletService;
 	
 	@Autowired
 	private ConfigurationService configurationService;
@@ -54,7 +57,7 @@ public class FixUpTaskService {
 		res.setTicker(generateTicker());
 
 		/*Control Check*/
-		res.setQuolets(new ArrayList<Quolet>());
+		res.setPublishedQuolets(new ArrayList<Quolet>());
 
 		return res;
 	}
@@ -80,12 +83,22 @@ public class FixUpTaskService {
 			System.out.println(maxPrice);
 			fx.setMaxPrice(maxPrice);
 		}
+		checkPublishedQuolets(fx);
 		
 		saved = fixUpTaskRepository.save(fx);
 //		fixUpTasks = fixUpTaskRepository.findAll();
 //		Assert.isTrue(fixUpTasks.contains(saved));
+
 		return saved;
 	}
+
+	private void checkPublishedQuolets(FixUpTask fixUpTask){
+		/*Checking that all published vastes are correct and there is no bad data.*/
+
+		Assert.isTrue(quoletService.findPublishedByFixUpTask(fixUpTask)
+				.containsAll(fixUpTask.getPublishedQuolets()));
+	}
+
 	
 	public void delete(FixUpTask fx){
 		Assert.isTrue(fx.getCustomer().getUserAccount().equals(LoginService.getPrincipal()));	

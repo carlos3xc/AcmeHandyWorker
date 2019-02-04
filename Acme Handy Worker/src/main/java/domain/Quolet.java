@@ -29,10 +29,8 @@ public class Quolet extends DomainEntity{
     @NotBlank
     @Column(unique = true)
     //TODO Control Check
-    /*Ticker: yy-mm-dd
-        [A-Z0-9]{6} capital alfanumeric sequence
-        [a-zA-Z0-9]{6} alfanumeric sequence*/
-    @Pattern(regexp ="^[0-9]{2}-[0-9]{2}-[0-9]{2}$")
+    /*Ticker: yy-\w{4}-mmdd*/
+    @Pattern(regexp ="^[0-9]{2}-[a-zA-Z0-9_]{4}-[0-9]{4}$")
     public String getTicker() {
         return ticker;
     }

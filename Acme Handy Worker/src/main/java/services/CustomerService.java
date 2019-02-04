@@ -49,7 +49,6 @@ public class CustomerService {
 		customer.setIsSuspicious(false);
 
 		/*Control Check*/
-		customer.setQuolets(new ArrayList<Quolet>());
 
 		return customer;
 	}
