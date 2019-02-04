@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +14,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
-import domain.Administrator;
-import domain.Customer;
-import domain.FixUpTask;
-import domain.SocialProfile;
 
 
 @Service
@@ -50,7 +47,10 @@ public class CustomerService {
 		customer.setFixUpTasks(new ArrayList<FixUpTask>());
 		customer.setIsBanned(false);
 		customer.setIsSuspicious(false);
-		
+
+		/*Control Check*/
+		customer.setQuolets(new ArrayList<Quolet>());
+
 		return customer;
 	}
 	
@@ -108,8 +108,6 @@ public class CustomerService {
 //			
 //		}
 		Collection<Customer> top = customerRepository.topThreeInComplaints();
-		
-		
 
 		return top;
 	}

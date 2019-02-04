@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +16,6 @@ import repositories.FixUpTaskRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Application;
-import domain.Complaint;
-import domain.Customer;
-import domain.FixUpTask;
-import domain.Warranty;
-import domain.WorkPlanPhase;
 
 
 @Service
@@ -57,6 +52,9 @@ public class FixUpTaskService {
 		Date current = new Date(System.currentTimeMillis() - 1000);
 		res.setMoment(current);
 		res.setTicker(generateTicker());
+
+		/*Control Check*/
+		res.setQuolets(new ArrayList<Quolet>());
 
 		return res;
 	}
