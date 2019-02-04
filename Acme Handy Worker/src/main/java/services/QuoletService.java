@@ -62,6 +62,12 @@ public class QuoletService {
             /*Some Quolet attributes cannot change*/
             Assert.isTrue(saved.getTicker().equals(quolet));
             Assert.isTrue(saved.equals(customer));
+                /* 1. Quolet is not going to be published
+                *  2. Quolet is going to be published, it previously was not
+                *  3. Quolet is already published so publicationMoments must match*/
+                Assert.isTrue(quolet.getPublicationMoment() == null
+                        || quolet.getPublicationMoment() != null && saved.getPublicationMoment() == null
+                        || quolet.getPublicationMoment().equals(saved.getPublicationMoment()));
 
             //TODO Control Check: Quolet cannot be updated when is in final mode
             Assert.isTrue(quolet.getPublicationMoment() == null);
@@ -111,6 +117,20 @@ public class QuoletService {
     }
 
     //Other business methods -----
+
+    public Quolet publish(Quolet quolet){
+        Quolet savedQuolet = findOne(quolet.getId());
+        Long millis = System.currentTimeMillis() - 1000;
+
+        if (quolet.getId() == 0){
+            quolet.setPublicationMoment(new Date(millis));
+        }else{
+            Assert.isTrue(quolet.getPublicationMoment() == null);
+            quolet.setPublicationMoment(new Date(millis));
+        }
+
+        return save(quolet);
+    }
 
     public Double  getAvgQuoletsPerCustomer(){
         return quoletRepository.getAvgQuoletsPerCustomer();
