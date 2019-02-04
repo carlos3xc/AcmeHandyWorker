@@ -19,7 +19,6 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -177,16 +176,16 @@ public class FixUpTask extends DomainEntity {
 	}
 
 	// Control Check ----------------------------------------------------------
-	//TODO Control Check FixUpTask 1 -> 0..* Remark
+	//TODO Control Check FixUpTask 1 -> 0..* Quolet
 
-	private Collection<Remark> remarks;
+	private Collection<Quolet> quolets;
 
 	@OneToMany(mappedBy = "fixUpTask")
-	public Collection<Remark> getRemarks() {
-		return remarks;
+	public Collection<Quolet> getQuolets() {
+		return quolets;
 	}
 
-	public void setRemarks(Collection<Remark> remarks) {
-		this.remarks = remarks;
+	public void setQuolets(Collection<Quolet> quolets) {
+		this.quolets = quolets;
 	}
 }

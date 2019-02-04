@@ -2,6 +2,7 @@ package domain;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Remark {
+public class Quolet extends DomainEntity{
 
     // Attributes -------------------------------------------------------------
 
@@ -42,6 +43,8 @@ public class Remark {
 
     /*publicationMoment == NULL -> isDraft = TRUE */
     @Past
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     public Date getPublicationMoment() {
         return publicationMoment;
     }
@@ -85,7 +88,7 @@ public class Remark {
 
 
     // Relationships ---------------------------------------------------
-    //TODO Control Check Remark 0..* -> 1 FixUpTask & Remark 0 .. * -> 1 Customer
+    //TODO Control Check Quolet 0..* -> 1 FixUpTask & Quolet 0 .. * -> 1 Customer
 
     private Customer customer;
     private FixUpTask fixUpTask;
