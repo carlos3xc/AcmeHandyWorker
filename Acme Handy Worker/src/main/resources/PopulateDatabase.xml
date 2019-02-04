@@ -1326,4 +1326,13 @@
 		<property name="fixUpTask" ref="fixUpTask3"/>
 	</bean>
 
+	<bean id="quolet5" class="domain.Quolet">
+		<property name="ticker" value="19-02-02" />
+		<!-- <property name="publicationMoment" value="" /> -->
+		<property name="body" value="TEST Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
+		<property name="picture" value="https://jokideo.com/wp-content/uploads/2012/06/600193_365238020209034_1958480540_n1.jpg" />
+		<property name="customer" ref="customer2"/>
+		<property name="fixUpTask" ref="fixUpTask3"/>
+	</bean>
+
 </beans>
