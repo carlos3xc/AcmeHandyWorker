@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 @Controller
-@RequestMapping("/quolet/customer")
-public class QuoletCustomerController extends AbstractController {
+@RequestMapping("/vaste/customer")
+public class VasteCustomerController extends AbstractController {
 
     @Autowired
     private VasteService vasteService;
@@ -35,7 +35,7 @@ public class QuoletCustomerController extends AbstractController {
                 vasteService.findQuoletsByCustomer(customerService.findByPrincipal());
 
         result = new ModelAndView("vaste/list");
-        result.addObject("quolets", vastes);
+        result.addObject("vastes", vastes);
         result.addObject("requestURI", "vaste/customer/list.do");
 
         return result;
@@ -52,11 +52,11 @@ public class QuoletCustomerController extends AbstractController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView edit(@RequestParam int quoletId){
+    public ModelAndView edit(@RequestParam int vasteId){
         ModelAndView result;
         Vaste vaste;
 
-        vaste = vasteService.findOne(quoletId);
+        vaste = vasteService.findOne(vasteId);
         Assert.notNull(vaste);
         result = createEditModelAndView(vaste);
 

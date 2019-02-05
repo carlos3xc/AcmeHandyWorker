@@ -85,6 +85,19 @@
 			</display:column>
 		</display:table><br />
 
+		<spring:message code="vaste.moment.format" var="vasteMomentFormat"/>
+		<h3><spring:message code="vaste.vastes"/>:</h3>
+		<display:table name="fixUpTask.publishedVastes" decorator="decorators.VasteDecorator" id="row" requestURI="fixUpTask/show.do" pagesize="5">
+
+			<display:column property="ticker" titleKey="vaste.ticker"/>
+            <display:column titleKey="vaste.publicationMoment">
+                <fmt:formatDate value="${fixUpTask.startMoment}" pattern="${vasteMomentFormat}" />
+            </display:column>
+			<display:column property="body" titleKey="vaste.body" />
+			<display:column property="picture" titleKey="vaste.picture" />
+
+		</display:table><br />
+
 	<jstl:if test="${cust}">
 	<input type="button" name="back"
 		value="<spring:message code="task.show.back" />"

@@ -28,3 +28,15 @@ div.page-header{
 .banner {
 	max-height: 260px;
 }
+
+tr.one-month{
+	background-color: burlywood !important;
+}
+
+tr.two-months{
+	background-color: slategray !important;
+}
+
+tr.three-months{
+	 background-color: darkviolet !important;
+ }

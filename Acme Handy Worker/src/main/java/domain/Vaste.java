@@ -53,7 +53,7 @@ public class Vaste extends DomainEntity{
 
     @NotBlank
     //TODO Control Check
-    @Size(max=100)
+    @Size(max=251)
     public String getBody() {
         return body;
     }

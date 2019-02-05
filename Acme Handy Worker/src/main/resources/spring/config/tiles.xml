@@ -51,6 +51,8 @@
 		<value>/views/warranty/tiles.xml</value>
 		<value>/views/sponsorship/tiles.xml</value>
 		<value>/views/note/tiles.xml</value>
+
+		<value>/views/vaste/tiles.xml</value>
 		
 	</util:list>
 

@@ -50,6 +50,8 @@
 		<value>/views/warranty/messages</value>
 		<value>/views/sponsorship/messages</value>
 		<value>/views/note/messages</value>
+
+		<value>/views/vaste/messages</value>
 		
 	</util:list>
 

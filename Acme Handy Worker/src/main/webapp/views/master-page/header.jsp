@@ -53,6 +53,13 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CUSTOMER')">
+			<li><a class="fNiv"><spring:message	code="master.page.vaste" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="vaste/customer/list.do"><spring:message code="master.page.vaste.list" /></a></li>
+					<li><a href="vaste/customer/create.do"><spring:message code="master.page.vaste.create" /></a></li>
+				</ul>
+			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.fixuptask" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -169,15 +176,14 @@
 		
 		
 		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-			
+
 			<li><a class="fNiv" ><spring:message code="master.page.tutorial" /></a>
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="tutorial/list.do"><spring:message code="master.page.tutorial.list" /></a>
 				</ul>
 			</li>
-			
+
 			<li><a class="fNiv"> <spring:message code="master.page.actor.register" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -186,6 +192,7 @@
 					<li><a href="actor/createHandyWorker.do"><spring:message code="master.page.actor.handyWorker" /></a></li>
 				</ul>
 			</li>
+			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 		</security:authorize>
 
 		
